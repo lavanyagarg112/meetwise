@@ -1,0 +1,17 @@
+.main {
+    margin: 2rem;
+    /* width: 90%; */
+    /* max-width: 40rem; */
+  }
+
+  .navigation {
+    display: flex;
+    flex-direction: column;
+    background-color: aqua;
+    height: 100vh;
+    padding: 4rem;
+  }
+
+  .container {
+    display: flex;
+  }
