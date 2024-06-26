@@ -32,7 +32,7 @@ const SignUp = () => {
           Log In
         </div>
       </div>
-      <div className={classes.content}>
+      <div>
         {isLogIn ? (
           <LogInForm />
         ) : (
