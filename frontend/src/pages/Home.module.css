@@ -1,0 +1,110 @@
+/* src/pages/LandingPage.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+
+.landingcontainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+  color: black;;
+  text-align: center;
+  padding: 20px;
+  background: none; /* Makes the container transparent */
+}
+
+.landingtitle {
+  font-weight: 700;
+  font-size: 6rem; /* Larger font size for the title */
+  margin: 0;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.landingsubtitle {
+  font-weight: 300; /* Lighter weight for a more elegant look */
+  font-size: 2rem; /* Larger font size for readability */
+  margin-top: 20px; /* Spacing between title and subtitle */
+  animation: fadeIn 1s ease-out forwards;
+  animation-delay: 0.5s; /* Delays the fade in effect for subtitle */
+}
+
+/* Animation keyframes for fading in the elements */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+  .landingtitle {
+    font-size: 3.5rem; /* Slightly smaller font size on mobile */
+  }
+
+  .landingsubtitle {
+    font-size: 1.5rem; /* Adjust subtitle font size for mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .landingtitle {
+    font-size: 2.5rem;
+  }
+  .landingsubtitle {
+    font-size: 1.2rem;
+  }
+}
+
+
+/* Features Guide Section CSS */
+
+.featuresguide {
+  background-color: #fff; /* Light background for the content */
+  color: #333; /* Darker text for contrast */
+  max-width: 800px; /* Maximum width of the content */
+  min-width: 50%;
+  margin: 2rem auto; /* Centers the section with a margin from the top and bottom */
+  padding: 2rem; /* Padding inside the section */
+  border-radius: 8px; /* Slightly rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  font-family: 'Open Sans', sans-serif; /* Consistent font family */
+}
+
+.featuresguide h2 {
+  font-size: 2.5rem; /* Large font size for the section title */
+  margin-bottom: 1rem; /* Space below the section title */
+  text-align: center; /* Center-align the title */
+  color: black; /* Color theme for the titles */
+}
+
+.featuresguide ul {
+  list-style: none; /* Removes default list styling */
+  padding: 0; /* Removes default padding */
+}
+
+.featuresguide li {
+  text-align: center;
+  margin-bottom: 1rem; /* Space between list items */
+  font-size: 1rem; /* Font size for list content */
+}
+
+
+/* Add responsive design for smaller screens */
+@media (max-width: 768px) {
+  .featuresguide {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  .featuresguide h2 {
+    font-size: 2rem;
+  }
+
+
+}

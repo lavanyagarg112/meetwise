@@ -1,5 +1,6 @@
 .main {
     margin: 2rem;
+    flex-grow: 1;
     /* width: 90%; */
     /* max-width: 40rem; */
   }
@@ -71,7 +72,8 @@
     display: flex;
     flex-direction: column;
     background-color: lightgray;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
     padding: 2rem;
     gap: 1rem;
   }

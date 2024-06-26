@@ -9,11 +9,9 @@ return (
         <div>
             <Navigation />
         </div>
-        <div>
-            <main className={classes.main}>
-                {props.children} 
-            </main>
-        </div>
+        <main className={classes.main}>
+            {props.children} 
+        </main>
     
     </div>
 )
