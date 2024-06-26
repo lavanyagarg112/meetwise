@@ -4,14 +4,125 @@
     /* max-width: 40rem; */
   }
 
-  .navigation {
+  /* .navigation {
     display: flex;
     flex-direction: column;
-    background-color: aqua;
+    background-color: lightgray;
     height: 100vh;
     padding: 4rem;
+    gap: 1rem;
   }
+
+  .navigation.menuopen {
+    display: flex;
+  }
+
+  .logo {
+    font-size: 2rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+  } */
 
   .container {
     display: flex;
+  }
+
+  /* .navItem {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+  }
+  
+  .navItem:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .icon {
+    margin-right: 1rem;
+    font-size: 1.5rem;
+  }
+  
+  .text {
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: black;
+  }
+
+  .hamburger {
+    display: block;
+    position: absolute;
+    align-items: center;
+    top: 20px;
+  }
+  
+  .hamburger span {
+    display: block;
+    width: 30px;
+    height: 3px;
+    margin: 5px;
+    background-color: black;
+  } */
+
+  .navigation {
+    display: flex;
+    flex-direction: column;
+    background-color: lightgray;
+    height: 100vh;
+    padding: 2rem;
+    gap: 1rem;
+  }
+  
+  .hamburger {
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 2;
+  }
+  
+  .hamburger span {
+    display: block;
+    width: 30px;
+    height: 3px;
+    margin: 5px;
+    background-color: black;
+  }
+  
+  .logo {
+    font-size: 2rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+    padding: 5rem 0;
+  }
+  
+  .navItems {
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .navItems.show {
+    display: flex;
+  }
+  
+  .navItem {
+    padding: 1rem;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+  }
+  
+  .navItem:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .text {
+    text-decoration: none;
+    color: black;
+    font-size: 1.2rem;
   }
