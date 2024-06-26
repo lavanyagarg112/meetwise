@@ -1,28 +1,17 @@
-import classes from './Home.module.css'
+import HomeNew from '../components/Home/HomeNew';
+import HomeUser from '../components/Home/HomeUser';
 
-import { Link } from 'react-router-dom';
+import { useAuth } from '../store/auth-context';
 
 const Home = () => {
-  return (
-    <div className={classes.landingcontainer}>
-      <div className={classes.landingcontainer}>
-        <h1 className={classes.landingtitle}>Meet Space</h1>
-        <p className={classes.landingsubtitle}>Make meetings more productive</p>
-        <div className={classes.register}><Link to='/sign-up'>Register Now</Link></div>
-      </div>
-      <div className={classes.featuresguide}>
-          <h2>Tagline</h2>
-          <ul>
-              <li>Feature 1</li>
-              <li>Feature 1</li>
-              <li>Feature 1</li>
-              <li>Feature 1</li>
-              <li>Feature 1</li>
-              <li>Feature 1</li>
-              <li>Feature 1</li>
-          </ul>
-      </div>
 
+  const { user } = useAuth();
+
+  return (
+    <div>
+      {!user ? (
+        <HomeNew />
+      ) : <HomeUser user={user} />}
     </div>
   );
 };

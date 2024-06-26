@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../store/auth-context'
 
 import Card from '../ui/Card'
 
 import classes from './SignUpForm.module.css'
+
+const DUMMY_DATA = {
+  id: 0,
+  email: 'email@email.com',
+  username: 'user1'
+}
 
 const SignUpForm = () => {
 
@@ -12,6 +19,8 @@ const SignUpForm = () => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [signUpError, setSignUpError] = useState('')
+
+  const { setIsLoggedIn, setUser } = useAuth()
 
   const navigate = useNavigate();
 
@@ -44,7 +53,10 @@ const SignUpForm = () => {
   //     throw new Error(errorText)
   //   }
 
-  //   const data = await response.json()
+    // const data = await response.json()
+    // setIsLoggedIn(true)
+    // setUser(data.user)
+
   //   navigate('/')
   // } catch (error) {
   //   if (error instanceof Error) {
@@ -56,6 +68,8 @@ const SignUpForm = () => {
   //   }
   // }
 
+  setIsLoggedIn(true)
+  setUser(DUMMY_DATA)
   navigate('/')
 
 }
