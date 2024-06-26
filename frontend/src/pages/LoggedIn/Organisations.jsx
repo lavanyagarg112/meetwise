@@ -1,9 +1,14 @@
 import React from 'react'
+import { useAuth } from '../../store/auth-context'
 
 const Organisations = () => {
+
+    const {user} = useAuth()
+
   return (
     <div>
-      ORGANISATIONS
+      {user && <div>Organisations</div>}
+      {!user && <div>Log in</div>}
     </div>
   )
 }
