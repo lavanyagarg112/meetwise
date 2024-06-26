@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const Navigation = () => {
 
-  const [menuIsOpen, setIsMenuOpen] = useState(false)
+  const [menuIsOpen, setIsMenuOpen] = useState(true)
 
   const toggleMenuHandler = () => {
     setIsMenuOpen(prevState => !prevState)
@@ -13,6 +13,8 @@ const Navigation = () => {
   return (
     <header className={classes.navigation}>
       <div className={classes.hamburger} onClick={toggleMenuHandler}>
+        {/* {menuIsOpen && <div>Close Menu</div>}
+        {!menuIsOpen && <div>Menu</div>} */}
         <span></span>
         <span></span>
         <span></span>

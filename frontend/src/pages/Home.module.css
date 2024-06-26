@@ -29,6 +29,25 @@
   animation-delay: 0.5s; /* Delays the fade in effect for subtitle */
 }
 
+.register {
+    margin-top: 20px; /* Space above the button */
+  }
+  
+.register a {
+display: inline-block;
+padding: 10px 20px; /* Padding inside the button */
+background-color: lightgray; /* Light gray background */
+color: black; /* Black text */
+text-decoration: none; /* Remove underline */
+border-radius: 5px; /* Rounded corners */
+font-weight: bold; /* Bold text */
+transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.register a:hover {
+background-color: darkgray; /* Darker gray background on hover */
+}
+
 /* Animation keyframes for fading in the elements */
 @keyframes fadeIn {
   from {
