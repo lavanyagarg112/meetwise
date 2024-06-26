@@ -23,38 +23,40 @@ const SignUpForm = () => {
     return;
   }
 
-  try {
-    const response = await fetch(`${process.env.BACKEND_URL}/sign-up`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        user: {
-          username,
-          email,
-          password
-        }
-      })
-    })
+  // try {
+  //   const response = await fetch(`${process.env.BACKEND_URL}/sign-up`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({
+  //       user: {
+  //         username,
+  //         email,
+  //         password
+  //       }
+  //     })
+  //   })
 
-    if (!response.ok) {
-      const errorResponse = await response.json()
-      const errorText = errorResponse?.errors?.email ? errorResponse.errors.email[0] : 'An error occurred during sign up.'
-      throw new Error(errorText)
-    }
+  //   if (!response.ok) {
+  //     const errorResponse = await response.json()
+  //     const errorText = errorResponse?.errors?.email ? errorResponse.errors.email[0] : 'An error occurred during sign up.'
+  //     throw new Error(errorText)
+  //   }
 
-    const data = await response.json()
-    navigate('/')
-  } catch (error) {
-    if (error instanceof Error) {
-      // Now we know it's an Error instance
-      setSignUpError(error.message);
-    } else {
-      // If we're not sure what the error is, handle accordingly
-      setSignUpError("An unexpected error occurred.");
-    }
-  }
+  //   const data = await response.json()
+  //   navigate('/')
+  // } catch (error) {
+  //   if (error instanceof Error) {
+  //     // Now we know it's an Error instance
+  //     setSignUpError(error.message);
+  //   } else {
+  //     // If we're not sure what the error is, handle accordingly
+  //     setSignUpError("An unexpected error occurred.");
+  //   }
+  // }
+
+  navigate('/')
 
 }
 
