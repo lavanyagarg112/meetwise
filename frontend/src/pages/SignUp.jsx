@@ -14,18 +14,19 @@ const SignUp = () => {
 
   return (
     <div className={classes.signupContainer}>
+      <h1>Sign Up</h1>
       <div className={classes.tabs}>
         <div
           className={`${classes.tab} ${!isOrganisation ? classes.active : ''}`}
           onClick={setUser}
         >
-          User
+          User Account
         </div>
         <div
           className={`${classes.tab} ${isOrganisation ? classes.active : ''}`}
           onClick={setOrganisation}
         >
-          Organisation
+          Organisation Account
         </div>
       </div>
       <div className={classes.content}>
