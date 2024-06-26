@@ -60,6 +60,7 @@ const SignUpForm = () => {
 
   return (
     <section>
+        <h1>Sign Up</h1>
         <Card>
             <div className={classes.content}>
               <form onSubmit={handleSubmit} className={classes.form}>
