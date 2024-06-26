@@ -1,39 +1,42 @@
 import React, { useState } from 'react';
 import classes from './SignUp.module.css';
 
-const SignUp = () => {
-  const [isOrganisation, setIsOrganisation] = useState(false);
+import SignUpForm from '../components/Authentication/SignUpForm';
+import LogInForm from '../components/Authentication/LogInForm';
 
-  const setOrganisation = () => {
-    setIsOrganisation(true);
+const SignUp = () => {
+  const [isLogIn, setIsLogIn] = useState(false);
+
+  const setLogIn = () => {
+    setIsLogIn(true);
   };
 
-  const setUser = () => {
-    setIsOrganisation(false);
+  const setSignUp = () => {
+    setIsLogIn(false);
   };
 
   return (
     <div className={classes.signupContainer}>
-      <h1>Sign Up</h1>
+      <h1>Welcome!</h1>
       <div className={classes.tabs}>
         <div
-          className={`${classes.tab} ${!isOrganisation ? classes.active : ''}`}
-          onClick={setUser}
+          className={`${classes.tab} ${!isLogIn ? classes.active : ''}`}
+          onClick={setSignUp}
         >
-          User Account
+          Sign Up
         </div>
         <div
-          className={`${classes.tab} ${isOrganisation ? classes.active : ''}`}
-          onClick={setOrganisation}
+          className={`${classes.tab} ${isLogIn ? classes.active : ''}`}
+          onClick={setLogIn}
         >
-          Organisation Account
+          Log In
         </div>
       </div>
       <div className={classes.content}>
-        {isOrganisation ? (
-          <div>Is organisation</div>
+        {isLogIn ? (
+          <LogInForm />
         ) : (
-          <div>Is not organisation</div>
+          <SignUpForm />
         )}
       </div>
     </div>
