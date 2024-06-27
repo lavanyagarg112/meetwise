@@ -25,9 +25,20 @@
   /* Section styling */
   .section {
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 10px;
     margin-bottom: 20px;
-    background-color: rgb(241, 238, 238);
+    background: linear-gradient(135deg, #f6f8fc, #eef2f6);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e5eb;
+  }
+
+  .teamssection {
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    /* background: linear-gradient(135deg, #f6f8fc, #eef2f6); */
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+    /* border: 1px solid #e0e5eb; */
   }
   
   /* Section title styling */
@@ -36,6 +47,9 @@
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    /* background-color: #f4f4f4; */
   }
   
   .sectionTitle h3 {
@@ -71,6 +85,11 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+  }
+
+  .teamsHeader h3 {
+    font-size: 1.5rem;
+    margin-left: 1rem;
   }
   
   .createTeamButton {

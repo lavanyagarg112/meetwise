@@ -19,7 +19,7 @@ const OrganisationPage = () => {
   const [role, setUserRole] = useState('user')
   const [permitted, setIsPermitted] = useState(false)
 
-  const [isOwnersCollapsed, setIsOwnersCollapsed] = useState(false)
+  const [isOwnersCollapsed, setIsOwnersCollapsed] = useState(true)
   const [isAdminsCollapsed, setIsAdminsCollapsed] = useState(true)
   const [isUsersCollapsed, setIsUsersCollapsed] = useState(true)
 
@@ -78,6 +78,19 @@ const OrganisationPage = () => {
           <div className={classes.header}>
             <h1>{organisationName}</h1>
           </div>
+          <div className={classes.teamssection}>
+            <div className={classes.teamsHeader}>
+              <h3>Teams</h3>
+              {role !== 'user' && <button className={classes.createTeamButton}>Create New Team</button>}
+            </div>
+            <div className={classes.organisationContainer}>
+              {!teams || teams.length === 0 ? <div className={classes.noOrganisations}>No teams yet</div> : (
+                teams.map((team) =>
+                  <TeamBlock key={team.id} team={team} />
+                )
+              )}
+            </div>
+          </div>
           <div className={classes.section}>
             <div className={classes.sectionTitle} onClick={toggleOwners}>
               <h3>Organisation Owners</h3>
@@ -98,19 +111,6 @@ const OrganisationPage = () => {
               <span className={classes.toggleIcon}>{isUsersCollapsed ? 'View Users' : 'Close Section'}</span>
             </div>
             {!isUsersCollapsed && <PeopleList people={users} currentUser={user} role={role} />}
-          </div>
-          <div className={classes.section}>
-            <h3>Teams</h3>
-            <div>
-              {role !== 'user' && <button className={classes.createTeamButton}>Create New Team</button>}
-            </div>
-            <div className={classes.organisationContainer}>
-              {!teams || teams.length === 0 ? <div className={classes.noOrganisations}>No teams yet</div> : (
-                teams.map((team) =>
-                  <TeamBlock key={team.id} team={team} />
-                )
-              )}
-            </div>
           </div>
           {role !== 'user' && (
             <div className={classes.section}>
