@@ -16,6 +16,7 @@ const OrganisationPage = () => {
   const [admins, setAdmins] = useState([])
   const [users, setUsers] = useState([])
   const [teams, setTeams] = useState([])
+  const [role, setUserRole] = useState('user')
 
   const [permitted, setIsPermitted] = useState(false)
 
@@ -41,10 +42,11 @@ const OrganisationPage = () => {
       const data = await response.json()
       setIsPermitted(data.isPermitted)
       setOrganisationName(data.organisation.name)
-      setOwners(data.owners)
-      setAdmins(data.admins)
-      setUsers(data.users)
-      setTeams(data.teams)
+      setOwners(data.organisation.owners)
+      setAdmins(data.organisation.admins)
+      setUsers(data.organisation.users)
+      setTeams(data.organisation.teams)
+      setUserRole(data.userRole)
   
     } catch (error) {
       console.log('ERROR')
@@ -81,7 +83,7 @@ const OrganisationPage = () => {
             </div>
             <div>
               <h3>Teams</h3>
-              <div>Create New Team</div>
+              {role !== 'user' && <div>Create New Team</div>}
               {teams.length > 0 && teams.map((team) =>
                 <TeamBlock team={team} />
               )}
@@ -91,9 +93,9 @@ const OrganisationPage = () => {
           {/* under each of the above, we have a manage permissions on the side, as well as view profile */}
           {/* if the current user is one of them then it says my profile */}
           {/* for teams should they only see the ones they are part of? */}
-          <div>
+          {role !== 'user' && <div>
             <h3>Invite Users</h3>
-          </div>
+          </div>}
         </div>
       )}
     </div>
