@@ -4,11 +4,14 @@ import { useParams } from 'react-router-dom'
 import PeopleList from '../../components/LoggedIn/Organisations/PeopleList'
 import TeamBlock from '../../components/LoggedIn/Organisations/TeamBlock'
 
+import classes from './OrganisationPage.module.css'
+
 import { useAuth } from '../../store/auth-context'
 
 const OrganisationPage = () => {
 
   const {user} = useAuth()
+  // for current user need to actually get user display data
 
   const {name} = useParams()
   const [organisationName, setOrganisationName] = useState(name)
@@ -53,15 +56,16 @@ const OrganisationPage = () => {
     }
 
     setIsPermitted(true)
+    setOwners([{id:0, username: 'user1'}, {id:1, username: 'user2'}])
+    setAdmins([{id:2, username: 'admin1'}, {id:3, username: 'admin2'}])
+    setUsers([{id:4, username: 'user3'}, {id:5, username: 'user4'}])
+    setTeams([{id:0, name: 'team1'}, {id:1, name: 'team2'}])
+    setUserRole('owner')
   }
 
   useEffect(() => {
     getOrganisationInfo(name)
   }, [name])
-
-  // get organisation name based on id, useeffect to get it on load
-
-  // this page should only be accessed if the user has permissions
 
   return (
     <div>
@@ -83,16 +87,18 @@ const OrganisationPage = () => {
             </div>
             <div>
               <h3>Teams</h3>
-              {role !== 'user' && <div>Create New Team</div>}
-              {teams.length > 0 && teams.map((team) =>
-                <TeamBlock team={team} />
-              )}
-              {teams.length === 0 && <div>No teams yet</div>}
+              <div>
+                {role !== 'user' && <button className={classes.createTeamButton}>Create New Team</button>}
+              </div>
+              <div className={classes.organisationContainer}>
+                {!teams || teams.length === 0 ? <div className={classes.noOrganisations}>No teams yet</div> : (
+                  teams.map((team) => 
+                    <TeamBlock key={team.id} team={team} />
+                  )
+                )}
+              </div>
             </div>
           </div>
-          {/* under each of the above, we have a manage permissions on the side, as well as view profile */}
-          {/* if the current user is one of them then it says my profile */}
-          {/* for teams should they only see the ones they are part of? */}
           {role !== 'user' && <div>
             <h3>Invite Users</h3>
           </div>}
