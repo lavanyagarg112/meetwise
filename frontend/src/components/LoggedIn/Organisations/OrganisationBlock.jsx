@@ -1,12 +1,18 @@
 import React from 'react';
 import classes from './OrganisationBlock.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const OrganisationBlock = ({ org }) => {
+
+    const navigate = useNavigate()
+
+    const handleClick = () => {
+        navigate(`/organisation/${org.id}`)
+    }
+
   return (
-    <div className={classes.organisationBlock}>
+    <div onClick={handleClick} className={classes.organisationBlock}>
       <div className={classes.orgName}>{org.name}</div>
-      {/* on click can navigate to organisation page for settings etc? */}
-      {/* need to include id params for this */}
     </div>
   );
 };
