@@ -19,6 +19,14 @@ const OrganisationPage = () => {
   const [role, setUserRole] = useState('user')
   const [permitted, setIsPermitted] = useState(false)
 
+  const [isOwnersCollapsed, setIsOwnersCollapsed] = useState(false)
+  const [isAdminsCollapsed, setIsAdminsCollapsed] = useState(true)
+  const [isUsersCollapsed, setIsUsersCollapsed] = useState(true)
+
+  const toggleOwners = () => setIsOwnersCollapsed(!isOwnersCollapsed)
+  const toggleAdmins = () => setIsAdminsCollapsed(!isAdminsCollapsed)
+  const toggleUsers = () => setIsUsersCollapsed(!isUsersCollapsed)
+
   const getOrganisationInfo = async (name) => {
     try {
       const response = await fetch(`${process.env.BACKEND_URL}/organisationpage`, {
@@ -71,19 +79,28 @@ const OrganisationPage = () => {
             <h1>{organisationName}</h1>
           </div>
           <div className={classes.section}>
-            <h3>Organisation Owner</h3>
-            <PeopleList people={owners} currentUser={user} role={role} />
+            <div className={classes.sectionTitle} onClick={toggleOwners}>
+              <h3>Organisation Owners</h3>
+              <span className={classes.toggleIcon}>{isOwnersCollapsed ? 'View Owners' : 'Close Section'}</span>
+            </div>
+            {!isOwnersCollapsed && <PeopleList people={owners} currentUser={user} role={role} />}
           </div>
           <div className={classes.section}>
-            <h3>Organisation Admins</h3>
-            <PeopleList people={admins} currentUser={user} role={role} />
+            <div className={classes.sectionTitle} onClick={toggleAdmins}>
+              <h3>Organisation Admins</h3>
+              <span className={classes.toggleIcon}>{isAdminsCollapsed ? 'View Admins' : 'Close Section'}</span>
+            </div>
+            {!isAdminsCollapsed && <PeopleList people={admins} currentUser={user} role={role} />}
           </div>
           <div className={classes.section}>
-            <h3>Organisation Users</h3>
-            <PeopleList people={users} currentUser={user} role={role} />
+            <div className={classes.sectionTitle} onClick={toggleUsers}>
+              <h3>Organisation Users</h3>
+              <span className={classes.toggleIcon}>{isUsersCollapsed ? 'View Users' : 'Close Section'}</span>
+            </div>
+            {!isUsersCollapsed && <PeopleList people={users} currentUser={user} role={role} />}
           </div>
           <div className={classes.section}>
-          <h3>Teams</h3>
+            <h3>Teams</h3>
             <div>
               {role !== 'user' && <button className={classes.createTeamButton}>Create New Team</button>}
             </div>
