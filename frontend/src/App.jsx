@@ -9,6 +9,12 @@ import SignUp from './pages/SignUp';
 import AboutUs from './pages/AboutUs';
 import { AuthProvider } from './store/auth-context';
 
+import Meetings from './pages/LoggedIn/Meetings';
+import Organisations from './pages/LoggedIn/Organisations';
+import Settings from './pages/LoggedIn/Settings';
+
+import OrganisationPage from './pages/LoggedIn/OrganisationPage';
+
 function App() {
   return (
     <AuthProvider>
@@ -17,6 +23,10 @@ function App() {
               <Route path='/' element={<Home />} />
               <Route path='/sign-up' element={<SignUp />} />
               <Route path='/about' element={<AboutUs />} />
+              <Route path='/meetings' element={<Meetings />} />
+              <Route path='/organisations' element={<Organisations />} />
+              <Route path='/settings' element={<Settings />} />
+              <Route path='/organisation/:id' element={<OrganisationPage />} />
           </Routes>
       </Layout>
       </AuthProvider>
