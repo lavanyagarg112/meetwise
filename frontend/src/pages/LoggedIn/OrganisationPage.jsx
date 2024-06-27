@@ -10,7 +10,7 @@ const OrganisationPage = () => {
 
   const {user} = useAuth()
 
-  const {id} = useParams()
+  const {name} = useParams()
   const [organisationName, setOrganisationName] = useState('Organisation Name')
   const [owners, setOwners] = useState([])
   const [admins, setAdmins] = useState([])
@@ -19,7 +19,7 @@ const OrganisationPage = () => {
 
   const [permitted, setIsPermitted] = useState(false)
 
-  const getOrganisationInfo = async (id) => {
+  const getOrganisationInfo = async (name) => {
     try {
       const response = await fetch(`${process.env.BACKEND_URL}/organisationpage`, {
         method:'POST',
@@ -27,7 +27,7 @@ const OrganisationPage = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id: id
+          name: name
         }),
         credentials: 'include'
       })
@@ -54,8 +54,8 @@ const OrganisationPage = () => {
   }
 
   useEffect(() => {
-    getOrganisationInfo(id)
-  }, [id])
+    getOrganisationInfo(name)
+  }, [name])
 
   // get organisation name based on id, useeffect to get it on load
 
@@ -65,7 +65,7 @@ const OrganisationPage = () => {
     <div>
       {!user? <div>Log in</div> : !permitted ? <div>Not permitted</div> : (
         <div>
-          <h1>{organisationName}</h1>
+          <h1>{name}</h1>
           <div>
             <div>
               <h3>Organisation Owner</h3>

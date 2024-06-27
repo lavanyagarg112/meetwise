@@ -7,7 +7,7 @@ const OrganisationBlock = ({ org }) => {
     const navigate = useNavigate()
 
     const handleClick = () => {
-        navigate(`/organisation/${org.id}`)
+        navigate(`/organisation/${org.name}`)
     }
 
   return (
