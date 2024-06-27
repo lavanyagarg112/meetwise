@@ -12,7 +12,7 @@ const Organisations = () => {
       {!user && <div>Log in</div>}
 
       {user && (
-        <OrganisationComponent />
+        <OrganisationComponent user={user} />
     )}
       
     </div>
