@@ -1,0 +1,146 @@
+/sign-up
+POST
+
+What I want:
+data : {
+    user: {
+        id: number,
+        email: user email,
+        username: user username
+    }
+}
+
+What I will send:
+user: {
+    username,
+    email,
+    password
+}
+
+/sign-in
+POST
+
+What I want:
+data : {
+    user: {
+        id: number,
+        email: user email,
+        username: user username
+    }
+}
+
+What I will send:
+user: {
+    email,
+    password
+}
+
+/logged-in
+GET
+
+What I want:
+data : {
+    logged_in: boolean,
+    user: {
+        id: number,
+        email: user email,
+        username: user username
+    }
+}
+
+
+/get-organisations
+GET
+
+(for that user)
+
+what i want:
+data: {
+    organisations: [
+        {
+            id: number,
+            name: string,
+        },
+        {
+            id: number,
+            name: string,
+        }
+    ]
+}
+
+/new-organisation
+POST
+
+(for that user)
+
+what i want:
+
+data: {
+    id: number,
+    name: organisation name
+}
+
+what i will send: {
+    name: organisation name
+}
+
+/organisationpage
+POST
+
+(for that user)
+
+what i want:
+
+data: {
+    isPermitted: boolean,
+    userRole: owner/admin/user,
+    organisation: {
+        id: number,
+        name: organisation name,
+        owners: [
+            {
+                id: number,
+                username: string
+            },
+            {
+                id: number,
+                username: string
+            },
+        ],
+        admins: [
+            {
+                id: number,
+                username: string
+            },
+            {
+                id: number,
+                username: string
+            }
+        ],
+        users: [
+            {
+                id: number,
+                username: string
+            },
+            {
+                id: number,
+                username: string
+            }
+        ],
+        teams: [
+            {
+                id: number,
+                name: team name
+            },
+            {
+                id: number,
+                name: team name
+            }
+        ]
+    }
+}
+
+what i will send
+{
+    name: organisation name
+}

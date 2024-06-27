@@ -53,3 +53,8 @@
     align-items: center;
     margin-bottom: 20px;
   }
+
+  .buttonContainer {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+  }

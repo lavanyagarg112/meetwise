@@ -15,6 +15,8 @@ import Settings from './pages/LoggedIn/Settings';
 
 import OrganisationPage from './pages/LoggedIn/OrganisationPage';
 
+import NotFoundPage from './pages/NotFoundPage';
+
 function App() {
   return (
     <AuthProvider>
@@ -26,7 +28,8 @@ function App() {
               <Route path='/meetings' element={<Meetings />} />
               <Route path='/organisations' element={<Organisations />} />
               <Route path='/settings' element={<Settings />} />
-              <Route path='/organisation/:id' element={<OrganisationPage />} />
+              <Route path='/organisation/:name' element={<OrganisationPage />} />
+              <Route path='*' element={<NotFoundPage />} /> 
           </Routes>
       </Layout>
       </AuthProvider>
