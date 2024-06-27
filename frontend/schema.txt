@@ -141,5 +141,5 @@ data: {
 
 what i will send
 {
-    id: organisation id
+    name: organisation name
 }
