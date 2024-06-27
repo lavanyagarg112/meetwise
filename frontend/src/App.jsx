@@ -26,7 +26,7 @@ function App() {
               <Route path='/meetings' element={<Meetings />} />
               <Route path='/organisations' element={<Organisations />} />
               <Route path='/settings' element={<Settings />} />
-              <Route path='/organisation/:id' element={<OrganisationPage />} />
+              <Route path='/organisation/:name' element={<OrganisationPage />} />
           </Routes>
       </Layout>
       </AuthProvider>

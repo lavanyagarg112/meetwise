@@ -25,10 +25,32 @@ const OrganisationComponent = ({user}) => {
   const [organisations, setOrganisations] =useState([])
   const [isFormVisible, setIsFormVisible] = useState(false)
 
-  const newOrganisation = (organisationName) => {
+  const newOrganisation = async (organisationName) => {
 
-    // post reqest for organisation name
-    // get back id and organsation name
+    try {
+      const response = await fetch(`${process.env.BACKEND_URL}/new-organisation`, {
+        method:'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: organisationName
+        }),
+        credentials: 'include'
+      })
+  
+      if (!response.ok) {
+        const errorResponse = await response.json()
+        const errorText = 'An error occurred creating your organisations.'
+        throw new Error(errorText)
+      }
+  
+      const data = await response.json()
+      setOrganisations([...organisations, data])
+  
+    } catch (error) {
+      console.log('ERROR')
+    }
 
     const data = {
       id: id,
@@ -42,8 +64,28 @@ const OrganisationComponent = ({user}) => {
     setIsFormVisible(true)
   }
 
-  const getOrganisations = () => {
-    // get request for get user organisations
+  const JoinOrg = () => {
+    alert('Join organisation')
+  }
+
+  const getOrganisations = async () => {
+    try {
+      const response = await fetch(`${process.env.BACKEND_URL}/get-organisations`, {
+        credentials: 'include'
+      })
+  
+      if (!response.ok) {
+        const errorResponse = await response.json()
+        const errorText = 'An error occurred fetching your organisations.'
+        throw new Error(errorText)
+      }
+  
+      const data = await response.json()
+      setOrganisations(data.organisations)
+  
+    } catch (error) {
+      console.log('ERROR')
+    }
     setOrganisations([])
   }
 
@@ -55,13 +97,16 @@ const OrganisationComponent = ({user}) => {
     <div className={classes.organisationComponent}>
       <div className={classes.headerContainer}>
         <div className={classes.organisationsHeader}>My Organisations</div>
-        <button className={classes.createButton} onClick={createOrg}>Create New Organisation</button>
+        <div className={classes.buttonContainer}>
+          <button className={classes.createButton} onClick={createOrg}>Create New Organisation</button>
+          <button className={classes.createButton} onClick={JoinOrg}>Join Organisation</button>
+        </div>
       </div>
       <div className={classes.organisationContainer}>
         {organisations.length > 0 && organisations.map((org) => 
           <OrganisationBlock key={org.id} org={org} />
         )}
-        {organisations.length === 0 && <p className={classes.noOrganisations}>No organisations created / No organisations added to</p>}
+        {organisations.length === 0 && <p className={classes.noOrganisations}>No organisations created / No organisations joined</p>}
         {isFormVisible && <CreateOrganisationForm onClose={() => setIsFormVisible(false)} onCreate={newOrganisation} />}
       </div>
     </div>

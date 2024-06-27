@@ -1,0 +1,63 @@
+/* General container styling */
+.peopleListContainer {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Individual person container styling */
+  .personContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .personContainer:last-child {
+    border-bottom: none;
+  }
+  
+  /* Person's name styling */
+  .personName {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  /* Right section containing modify role and profile link */
+  .rightSection {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Modify role styling */
+  .modifyRole {
+    color: darkgray;
+    cursor: pointer;
+    margin-right: 20px;
+  }
+  
+  .modifyRole:hover {
+    text-decoration: underline;
+    color: black;
+  }
+  
+  /* Profile link styling */
+  .profileLink {
+    color: #007bff;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .profileLink:hover {
+    text-decoration: underline;
+  }
+  
+  /* No people message styling */
+  .noPeopleMessage {
+    font-size: 1rem;
+    color: #777;
+    text-align: center;
+  }
+  
