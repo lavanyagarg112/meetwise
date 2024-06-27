@@ -61,7 +61,7 @@ const OrganisationComponent = ({user}) => {
         {organisations.length > 0 && organisations.map((org) => 
           <OrganisationBlock key={org.id} org={org} />
         )}
-        {organisations.length === 0 && <p className={classes.noOrganisations}>No organisations created</p>}
+        {organisations.length === 0 && <p className={classes.noOrganisations}>No organisations created / No organisations added to</p>}
         {isFormVisible && <CreateOrganisationForm onClose={() => setIsFormVisible(false)} onCreate={newOrganisation} />}
       </div>
     </div>
