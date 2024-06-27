@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import classes from './OrganisationComponent.module.css'
 
 import OrganisationBlock from './Organisations/OrganisationBlock'
+import CreateOrganisationForm from './Organisations/CreateOrganisationForm'
 
 const DUMMY_DATA = [
   {
@@ -22,6 +23,7 @@ let id = 2
 const OrganisationComponent = ({user}) => {
 
   const [organisations, setOrganisations] =useState([])
+  const [isFormVisible, setIsFormVisible] = useState(false)
 
   const newOrganisation = (organisationName) => {
 
@@ -37,9 +39,7 @@ const OrganisationComponent = ({user}) => {
   }
 
   const createOrg = () => {
-    // create organisation form needs to be shown
-    alert('create new organisations')
-    newOrganisation('neworganisation')
+    setIsFormVisible(true)
   }
 
   const getOrganisations = () => {
@@ -62,6 +62,7 @@ const OrganisationComponent = ({user}) => {
           <OrganisationBlock key={org.id} org={org} />
         )}
         {organisations.length === 0 && <p className={classes.noOrganisations}>No organisations created</p>}
+        {isFormVisible && <CreateOrganisationForm onClose={() => setIsFormVisible(false)} onCreate={newOrganisation} />}
       </div>
     </div>
   )
