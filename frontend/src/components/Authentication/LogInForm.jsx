@@ -25,7 +25,7 @@ const LogInForm = () => {
     event.preventDefault()
 
     // try {
-    //   const response = await fetch(`${process.env.BACKEND_URL}/users/sign_in`, {
+    //   const response = await fetch(`${process.env.BACKEND_URL}/sign-in`, {
     //     method:'POST',
     //     headers: {
     //       'Content-Type': 'application/json',
