@@ -24,32 +24,33 @@ const LogInForm = () => {
   const handleSubmit = async(event) => {
     event.preventDefault()
 
-    // try {
-    //   const response = await fetch(`${process.env.BACKEND_URL}/sign-in`, {
-    //     method:'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //       user: {
-    //         email,
-    //         password,
-    //       }
-    //     }),
-    //   })
+    try {
+      const response = await fetch(`${process.env.BACKEND_URL}/sign-in`, {
+        method:'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user: {
+            email,
+            password,
+          }
+        }),
+        credentials: 'include'
+      })
 
-    //   const data = await response.json()
+      const data = await response.json()
 
-    //   if (response.ok) {
-    //     setIsLoggedIn(true)
-    //     setUser(data.user)
-    //     navigate('/')
-    //   } else {
-    //     setLoginError(data.error || 'Invalid Credentials')
-    //   }
-    // } catch (error) {
-    //   setLoginError('Login Failed')
-    // }
+      if (response.ok) {
+        setIsLoggedIn(true)
+        setUser(data.user)
+        navigate('/')
+      } else {
+        setLoginError(data.error || 'Invalid Credentials')
+      }
+    } catch (error) {
+      setLoginError('Login Failed')
+    }
     
     setIsLoggedIn(true)
     setUser(DUMMY_DATA)

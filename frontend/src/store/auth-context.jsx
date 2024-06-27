@@ -25,6 +25,7 @@ export const AuthProvider = ({ children }) => {
         //   headers: {
         //     'Authorization': `Bearer ${localStorage.getItem('token')}`,
         //   }
+            credentials: 'include'
         });
         const data = await response.json();
         setIsLoggedIn(data.logged_in);
