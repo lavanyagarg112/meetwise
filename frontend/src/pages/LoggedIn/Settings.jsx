@@ -10,7 +10,7 @@ const Settings = () => {
   return (
     <div>
       {!user && <div>Log in</div>}
-      {user && <SettingsComponent />}
+      {user && <SettingsComponent user={user} />}
     </div>
   )
 }
