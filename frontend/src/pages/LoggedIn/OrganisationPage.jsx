@@ -72,15 +72,15 @@ const OrganisationPage = () => {
           </div>
           <div className={classes.section}>
             <h3>Organisation Owner</h3>
-            <PeopleList people={owners} currentUser={user} />
+            <PeopleList people={owners} currentUser={user} role={role} />
           </div>
           <div className={classes.section}>
             <h3>Organisation Admins</h3>
-            <PeopleList people={admins} currentUser={user} />
+            <PeopleList people={admins} currentUser={user} role={role} />
           </div>
           <div className={classes.section}>
             <h3>Organisation Users</h3>
-            <PeopleList people={users} currentUser={user} />
+            <PeopleList people={users} currentUser={user} role={role} />
           </div>
           <div className={classes.section}>
           <h3>Teams</h3>
