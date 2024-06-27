@@ -37,6 +37,7 @@ const OrganisationComponent = ({user}) => {
   }
 
   const createOrg = () => {
+    // create organisation form needs to be shown
     alert('create new organisations')
     newOrganisation('neworganisation')
   }
