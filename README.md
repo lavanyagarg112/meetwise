@@ -1,5 +1,7 @@
 # meetwise
 
+Status: In Progress
+
 ### Issue:
 - **Unproductive Meetings:** Meetings often lack focus and structure, leading to inefficient use of time and resources.
 - **Ineffective Meeting Notes:** Traditional meeting notes provide only a summary of the current meeting, missing critical insights and connections to previous discussions.
