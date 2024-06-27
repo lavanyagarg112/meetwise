@@ -94,12 +94,6 @@ const OrganisationPage = () => {
           <div>
             <h3>Invite Users</h3>
           </div>
-          <div>
-            {/* this should be only if owner? */}
-            <h3>Manage Organisation</h3>
-            <div>Organisation Name</div>
-            <div>Set Organisation Remarks</div>
-          </div>
         </div>
       )}
     </div>
