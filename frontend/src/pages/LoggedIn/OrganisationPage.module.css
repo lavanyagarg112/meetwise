@@ -1,19 +1,57 @@
-.organisationContainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px; /* Space between blocks */
-    padding: 16px;
-    /* background-color: #f9f9f9; */
-    /* border-radius: 5px; */
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+/* General styling for the component */
+.organisationPage {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    /* background-color: #f4f4f4; Light background color for the page */
+    min-height: 100vh; /* Ensure the page takes the full viewport height */
   }
   
-  /* Styling for the no organisations message */
-  .noOrganisations {
-    font-size: 1rem;
-    color: #777;
+  /* Header styling */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: #4CAF50; Primary color for the header */
+    color: black;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
   }
-
+  
+  /* Title styling */
+  .header h1 {
+    margin: 0;
+    font-size: 2rem;
+  }
+  
+  /* Section styling */
+  .section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  /* Section title styling */
+  .section h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+  }
+  
+  /* People list styling */
+  .peopleList {
+    margin-bottom: 10px;
+  }
+  
+  /* Team section styling */
+  .teamsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
   .createTeamButton {
     background-color: lightgray;
     color: black;
@@ -23,10 +61,22 @@
     cursor: pointer;
     font-size: 1rem;
     transition: background-color 0.3s ease;
-    margin-top: 10px;
   }
   
   .createTeamButton:hover {
     background-color: darkgray;
     color: white;
   }
+  
+  .organisationContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* Space between blocks */
+    padding: 16px;
+  }
+  
+  .noOrganisations {
+    font-size: 1rem;
+    color: #777;
+  }
+  
