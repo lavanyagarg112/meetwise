@@ -14,6 +14,7 @@ const DUMMY_DATA = {
 
 const LogInForm = () => {
 
+  const [username, setUserName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loginError, setLoginError] = useState('')
@@ -31,7 +32,8 @@ const LogInForm = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          user: {
+          user: { // send only one of username or email
+            username,
             email,
             password,
           }
@@ -56,6 +58,8 @@ const LogInForm = () => {
     setUser(DUMMY_DATA)
     navigate('/')
   }
+
+  // can give option for username or email
 
   return (
     <section>
