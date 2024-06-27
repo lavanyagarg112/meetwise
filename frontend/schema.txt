@@ -93,6 +93,7 @@ what i want:
 
 data: {
     isPermitted: boolean,
+    userRole: owner/admin/user,
     organisation: {
         id: number,
         name: organisation name,
