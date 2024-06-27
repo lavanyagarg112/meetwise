@@ -27,7 +27,7 @@ const Navigation = () => {
         <span></span>
       </div>
       <nav className={`${classes.navItems} ${menuIsOpen ? classes.show : ''}`}>
-        <div className={classes.logo}><Link to="/" className={classes.text}>Meet Space</Link></div>
+        <div className={classes.logo}><Link to="/" className={classes.text}>MeetWise</Link></div>
         <div className={`${classes.navItem} ${isActive('/') ? classes.active : ''}`}>
           <Link to="/" className={classes.text}>Home</Link>
         </div>
