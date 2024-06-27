@@ -7,7 +7,7 @@ const HomeNew = () => {
     return (
         <div className={classes.landingcontainer}>
           <div className={classes.landingcontainer}>
-            <h1 className={classes.landingtitle}>Meet Space</h1>
+            <h1 className={classes.landingtitle}>MeetWise</h1>
             <p className={classes.landingsubtitle}>Make meetings more productive</p>
             <div className={classes.register}><Link to='/sign-up'>Register Now</Link></div>
           </div>
