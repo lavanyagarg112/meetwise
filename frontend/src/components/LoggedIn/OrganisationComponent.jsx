@@ -18,7 +18,7 @@ const DUMMY_DATA = [
   
 ]
 
-let id = 2
+let id = 0
 
 const OrganisationComponent = ({user}) => {
 
@@ -44,7 +44,7 @@ const OrganisationComponent = ({user}) => {
 
   const getOrganisations = () => {
     // get request for get user organisations
-    setOrganisations(DUMMY_DATA)
+    setOrganisations([])
   }
 
   useEffect(() => {
