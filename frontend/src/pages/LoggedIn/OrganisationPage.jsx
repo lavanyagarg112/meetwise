@@ -11,7 +11,7 @@ const OrganisationPage = () => {
   const {user} = useAuth()
 
   const {name} = useParams()
-  const [organisationName, setOrganisationName] = useState('Organisation Name')
+  const [organisationName, setOrganisationName] = useState(name)
   const [owners, setOwners] = useState([])
   const [admins, setAdmins] = useState([])
   const [users, setUsers] = useState([])
@@ -65,7 +65,7 @@ const OrganisationPage = () => {
     <div>
       {!user? <div>Log in</div> : !permitted ? <div>Not permitted</div> : (
         <div>
-          <h1>{name}</h1>
+          <h1>{organisationName}</h1>
           <div>
             <div>
               <h3>Organisation Owner</h3>
@@ -95,7 +95,10 @@ const OrganisationPage = () => {
             <h3>Invite Users</h3>
           </div>
           <div>
+            {/* this should be only if owner? */}
             <h3>Manage Organisation</h3>
+            <div>Organisation Name</div>
+            <div>Set Organisation Remarks</div>
           </div>
         </div>
       )}
