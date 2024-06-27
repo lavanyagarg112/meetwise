@@ -10,9 +10,11 @@ const PeopleList = ({ people, currentUser, role }) => {
         people.map((person) => (
           <div key={person.id} className={classes.personContainer}>
             <div className={classes.personName}>{person.username}</div>
-            {role !== 'user' && <div className={classes.modifyRole}>Modify Role</div>}
-            <div className={classes.profileLink}>
-              {person.id === currentUser.id ? 'My Profile' : 'View Profile'}
+            <div className={classes.rightSection}>
+              {role !== 'user' && <div className={classes.modifyRole}>Modify Role</div>}
+              <div className={classes.profileLink}>
+                {person.id === currentUser.id ? 'My Profile' : 'View Profile'}
+              </div>
             </div>
           </div>
         ))
