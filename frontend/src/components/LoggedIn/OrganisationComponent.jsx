@@ -25,10 +25,32 @@ const OrganisationComponent = ({user}) => {
   const [organisations, setOrganisations] =useState([])
   const [isFormVisible, setIsFormVisible] = useState(false)
 
-  const newOrganisation = (organisationName) => {
+  const newOrganisation = async (organisationName) => {
 
-    // post reqest for organisation name
-    // get back id and organsation name
+    try {
+      const response = await fetch(`${process.env.BACKEND_URL}/new-organisation`, {
+        method:'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: organisationName
+        }),
+        credentials: 'include'
+      })
+  
+      if (!response.ok) {
+        const errorResponse = await response.json()
+        const errorText = 'An error occurred creating your organisations.'
+        throw new Error(errorText)
+      }
+  
+      const data = await response.json()
+      setOrganisations([...organisations, data])
+  
+    } catch (error) {
+      console.log('ERROR')
+    }
 
     const data = {
       id: id,
@@ -42,8 +64,24 @@ const OrganisationComponent = ({user}) => {
     setIsFormVisible(true)
   }
 
-  const getOrganisations = () => {
-    // get request for get user organisations
+  const getOrganisations = async () => {
+    try {
+      const response = await fetch(`${process.env.BACKEND_URL}/get-organisations`, {
+        credentials: 'include'
+      })
+  
+      if (!response.ok) {
+        const errorResponse = await response.json()
+        const errorText = 'An error occurred fetching your organisations.'
+        throw new Error(errorText)
+      }
+  
+      const data = await response.json()
+      setOrganisations(data.organisations)
+  
+    } catch (error) {
+      console.log('ERROR')
+    }
     setOrganisations([])
   }
 
