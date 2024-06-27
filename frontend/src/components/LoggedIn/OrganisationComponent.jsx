@@ -64,6 +64,10 @@ const OrganisationComponent = ({user}) => {
     setIsFormVisible(true)
   }
 
+  const JoinOrg = () => {
+    alert('Join organisation')
+  }
+
   const getOrganisations = async () => {
     try {
       const response = await fetch(`${process.env.BACKEND_URL}/get-organisations`, {
@@ -93,13 +97,16 @@ const OrganisationComponent = ({user}) => {
     <div className={classes.organisationComponent}>
       <div className={classes.headerContainer}>
         <div className={classes.organisationsHeader}>My Organisations</div>
-        <button className={classes.createButton} onClick={createOrg}>Create New Organisation</button>
+        <div className={classes.buttonContainer}>
+          <button className={classes.createButton} onClick={createOrg}>Create New Organisation</button>
+          <button className={classes.createButton} onClick={JoinOrg}>Join Organisation</button>
+        </div>
       </div>
       <div className={classes.organisationContainer}>
         {organisations.length > 0 && organisations.map((org) => 
           <OrganisationBlock key={org.id} org={org} />
         )}
-        {organisations.length === 0 && <p className={classes.noOrganisations}>No organisations created / No organisations added to</p>}
+        {organisations.length === 0 && <p className={classes.noOrganisations}>No organisations created / No organisations joined</p>}
         {isFormVisible && <CreateOrganisationForm onClose={() => setIsFormVisible(false)} onCreate={newOrganisation} />}
       </div>
     </div>
