@@ -16,6 +16,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [activeOrganisation, setActiveOrganisation] = useState(null)
 
   // Check user's login status on component mount
   useEffect(() => {
@@ -35,6 +36,11 @@ export const AuthProvider = ({ children }) => {
         } else {
             setUser(null);
         }
+        if (data.activeOrganisation) {
+          setActiveOrganisation(data.activeOrganisation)
+        } else {
+          setActiveOrganisation(null)
+        }
       } catch (error) {
         console.error("Failed to check login status:", error);
       }
@@ -44,7 +50,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // Create the context value
-  const value = { isLoggedIn, setIsLoggedIn, user, setUser };
+  const value = { isLoggedIn, setIsLoggedIn, user, setUser, activeOrganisation, setActiveOrganisation };
   console.log(isLoggedIn)
   return (
     <AuthContext.Provider value={value}>

@@ -48,3 +48,28 @@
   .content {
     padding: 1rem;
   }
+
+
+  .radioGroup {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .radioLabel {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .radioLabel input {
+    margin-right: 10px;
+    accent-color: darkgray;
+  }
+
+  .nameArea {
+    display: flex;
+    justify-content: space-between;
+  }
