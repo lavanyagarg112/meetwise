@@ -1,5 +1,4 @@
 import React from 'react'
-import OrganisationComponent from './OrganisationComponent'
 import { useNavigate } from 'react-router-dom'
 
 const SettingsComponent = ({user}) => {
