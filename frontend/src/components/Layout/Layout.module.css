@@ -129,3 +129,18 @@
     color: black;
     font-size: 1.2rem;
   }
+
+
+  .smallNavItem {
+    padding: 1rem;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+  }
+  
+  .smallText {
+    text-decoration: none;
+    color: darkblue;
+    font-size: 1rem;
+    font-style: italic;
+  }
