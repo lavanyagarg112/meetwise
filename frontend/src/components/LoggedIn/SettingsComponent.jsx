@@ -1,4 +1,5 @@
 import React from 'react'
+import OrganisationComponent from './OrganisationComponent'
 
 const SettingsComponent = ({user}) => {
   return (
@@ -18,7 +19,7 @@ const SettingsComponent = ({user}) => {
         <div>organisation 1</div>
         <div>organisation 2</div>
       </div>
-      
+      <OrganisationComponent />
     </div>
   )
 }

@@ -48,8 +48,8 @@ const Navigation = () => {
         }
 
         {user && (
-          <div className={`${classes.navItem} ${isActive('/organisations') ? classes.active : ''}`}>
-            <Link to="/organisations" className={classes.text}>Organisations</Link>
+          <div className={`${classes.navItem} ${isActive('/myorganisation') ? classes.active : ''}`}>
+            <Link to="/myorganisation" className={classes.text}>Organisations</Link>
           </div>
         )
         }

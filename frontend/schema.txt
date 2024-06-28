@@ -31,6 +31,7 @@ data : {
         username: user username
         firstName: user first name
     }
+    activeOrganisation: name of active organisation
 }
 
 What I will send:
@@ -51,6 +52,7 @@ data : {
         username: user username
         firstName: user first name
     }
+    activeOrganisation: name of active organisation
 }
 
 

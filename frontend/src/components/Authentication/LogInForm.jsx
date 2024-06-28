@@ -19,7 +19,7 @@ const LogInForm = () => {
   const [useEmail, setUseEmail] = useState(true); // Track whether to use email or username
   const navigate = useNavigate();
 
-  const { setIsLoggedIn, setUser } = useAuth();
+  const { setIsLoggedIn, setUser, setActiveOrganisation } = useAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -45,6 +45,7 @@ const LogInForm = () => {
       if (response.ok) {
         setIsLoggedIn(true);
         setUser(data.user);
+        setActiveOrganisation(data.activeOrganisation)
         navigate('/');
       } else {
         setLoginError(data.error || 'Invalid Credentials');
@@ -55,6 +56,8 @@ const LogInForm = () => {
 
     setIsLoggedIn(true);
     setUser(DUMMY_DATA);
+    setActiveOrganisation('org1');
+    
     navigate('/');
   };
 
