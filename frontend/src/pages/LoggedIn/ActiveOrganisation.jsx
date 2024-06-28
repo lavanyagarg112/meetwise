@@ -3,14 +3,24 @@ import { useAuth } from '../../store/auth-context'
 import { useNavigate } from 'react-router-dom'
 
 const ActiveOrganisation = () => {
+  const { activeOrganisation, user } = useAuth()
+  const navigate = useNavigate()
 
-  const { user } = useAuth()
+  useEffect(() => {
+    if (user && activeOrganisation) {
+      navigate(`/organisation/${activeOrganisation}`)
+    }
+  }, [user, activeOrganisation, navigate])
 
   if (!user) {
     return <div>Log in</div>
   }
 
-  return <div>No active organisation found. Go to settings to set active organisation / create new organisation</div>
+  if (!activeOrganisation) {
+    return <div>No active organisation found. Go to settings to set active organisation / create new organisation</div>
+  }
+
+  return null
 }
 
 export default ActiveOrganisation
