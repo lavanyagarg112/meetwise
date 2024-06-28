@@ -52,6 +52,8 @@ const OrganisationComponent = ({user}) => {
       console.log('ERROR')
     }
 
+    // to be removed after end point works
+
     const data = {
       id: id,
       name: organisationName
@@ -86,7 +88,8 @@ const OrganisationComponent = ({user}) => {
     } catch (error) {
       console.log('ERROR')
     }
-    setOrganisations([])
+    // to be removed after end point works
+    setOrganisations(DUMMY_DATA)
   }
 
   useEffect(() => {

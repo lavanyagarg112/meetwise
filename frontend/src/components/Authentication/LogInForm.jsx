@@ -53,7 +53,7 @@ const LogInForm = () => {
     } catch (error) {
       setLoginError('Login Failed');
     }
-
+    // to be removed after end point works
     setIsLoggedIn(true);
     setUser(DUMMY_DATA);
     setActiveOrganisation('org1');

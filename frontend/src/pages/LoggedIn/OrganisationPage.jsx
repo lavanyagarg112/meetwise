@@ -9,7 +9,7 @@ import classes from './OrganisationPage.module.css'
 import { useAuth } from '../../store/auth-context'
 
 const OrganisationPage = () => {
-  const { user } = useAuth()
+  const { user, activeOrganisation, setActiveOrganisation } = useAuth()
   const { name } = useParams()
   const [organisationName, setOrganisationName] = useState(name)
   const [owners, setOwners] = useState([])
@@ -59,6 +59,7 @@ const OrganisationPage = () => {
       console.log('ERROR')
     }
 
+    // to be removed after end point works
     setIsPermitted(true)
     setOwners([{ id: 0, username: 'user1' }, { id: 1, username: 'user2' }])
     setAdmins([{ id: 2, username: 'admin1' }, { id: 3, username: 'admin2' }])
@@ -67,6 +68,36 @@ const OrganisationPage = () => {
     setUserRole('owner')
   }
 
+
+  const handleToggleActive = async () => {
+    const newActiveOrganisation = activeOrganisation === organisationName ? null : organisationName;
+    try {
+      const response = await fetch(`${process.env.BACKEND_URL}/set-active-organisation`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          organisationName: newActiveOrganisation,
+          currentActive: activeOrganisation,
+        }),
+        credentials: 'include'
+      })
+
+      if (!response.ok) {
+        const errorResponse = await response.json()
+        const errorText = 'An error occurred setting the active organisation.'
+        throw new Error(errorText)
+      }
+
+      setActiveOrganisation(newActiveOrganisation)
+    } catch (error) {
+      console.log('ERROR', error)
+    }
+    // to remove after endpoint works
+    setActiveOrganisation(newActiveOrganisation)
+
+  }
   useEffect(() => {
     getOrganisationInfo(name)
   }, [name])
@@ -77,6 +108,9 @@ const OrganisationPage = () => {
         <div>
           <div className={classes.header}>
             <h1>{organisationName}</h1>
+            <button onClick={handleToggleActive}>
+              {activeOrganisation === organisationName ? 'Active Organisation' : 'Set as Active'}
+            </button>
           </div>
           <div className={classes.teamssection}>
             <div className={classes.teamsHeader}>
