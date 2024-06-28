@@ -109,7 +109,7 @@ const OrganisationPage = () => {
           <div className={classes.header}>
             <h1>{organisationName}</h1>
             <button onClick={handleToggleActive}>
-              {activeOrganisation === organisationName ? 'Active Organisation' : 'Set as Active'}
+              {activeOrganisation === organisationName ? 'Current Active Organisation' : 'Set as Active'}
             </button>
           </div>
           <div className={classes.teamssection}>
