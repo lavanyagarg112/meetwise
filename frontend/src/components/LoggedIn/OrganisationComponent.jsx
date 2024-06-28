@@ -28,7 +28,7 @@ const OrganisationComponent = ({user}) => {
   const newOrganisation = async (organisationName) => {
 
     try {
-      const response = await fetch(`${process.env.BACKEND_URL}/new-organisation`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/new-organisation`, {
         method:'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ const OrganisationComponent = ({user}) => {
 
   const getOrganisations = async () => {
     try {
-      const response = await fetch(`${process.env.BACKEND_URL}/get-organisations`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-organisations`, {
         credentials: 'include'
       })
   

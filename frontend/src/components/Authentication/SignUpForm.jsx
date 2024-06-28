@@ -37,7 +37,7 @@ const SignUpForm = () => {
   }
 
   try {
-    const response = await fetch(`${process.env.BACKEND_URL}/sign-up`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/sign-up`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

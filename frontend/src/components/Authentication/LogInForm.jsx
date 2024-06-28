@@ -26,7 +26,7 @@ const LogInForm = () => {
 
     try {
       const userPayload = useEmail ? { email } : { username };
-      const response = await fetch(`${process.env.BACKEND_URL}/sign-in`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/sign-in`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
