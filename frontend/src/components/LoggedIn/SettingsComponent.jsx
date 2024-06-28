@@ -1,7 +1,15 @@
 import React from 'react'
 import OrganisationComponent from './OrganisationComponent'
+import { useNavigate } from 'react-router-dom'
 
 const SettingsComponent = ({user}) => {
+
+  const navigate = useNavigate()
+
+  const handleOrganisations = () => {
+    navigate('/organisations')
+  }
+
   return (
     <div>
       <h1>Settings</h1>
@@ -19,7 +27,8 @@ const SettingsComponent = ({user}) => {
         <div>organisation 1</div>
         <div>organisation 2</div>
       </div>
-      <OrganisationComponent />
+      
+      <button onClick={handleOrganisations}>See all my organisations</button>
     </div>
   )
 }
