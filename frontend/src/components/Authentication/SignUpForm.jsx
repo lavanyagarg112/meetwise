@@ -75,6 +75,8 @@ const SignUpForm = () => {
 
 }
 
+// add first name and last name
+
   return (
     <section>
         <h1>Sign Up</h1>
