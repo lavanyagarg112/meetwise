@@ -7,11 +7,14 @@ data : {
         id: number,
         email: user email,
         username: user username
+        firstName: user first name
     }
 }
 
 What I will send:
 user: {
+    firstName,
+    lastName,
     username,
     email,
     password
@@ -26,6 +29,7 @@ data : {
         id: number,
         email: user email,
         username: user username
+        firstName: user first name
     }
 }
 
@@ -45,6 +49,7 @@ data : {
         id: number,
         email: user email,
         username: user username
+        firstName: user first name
     }
 }
 

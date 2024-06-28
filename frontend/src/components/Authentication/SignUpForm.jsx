@@ -9,10 +9,14 @@ import classes from './SignUpForm.module.css'
 const DUMMY_DATA = {
   id: 0,
   email: 'email@email.com',
-  username: 'user1'
+  username: 'user1',
+  firstName: 'Lavanya'
 }
 
 const SignUpForm = () => {
+
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
 
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
@@ -40,6 +44,8 @@ const SignUpForm = () => {
       },
       body: JSON.stringify({
         user: {
+          firstName,
+          lastName,
           username,
           email,
           password
@@ -83,6 +89,28 @@ const SignUpForm = () => {
         <Card>
             <div className={classes.content}>
               <form onSubmit={handleSubmit} className={classes.form}>
+                <div className={classes.nameArea}>
+                  <div className={classes.control}>
+                      <label>First Name</label>
+                        <input
+                          type="text"
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                          placeholder="First Name"
+                          required
+                        />
+                    </div>
+                    <div className={classes.control}>
+                      <label>Last Name</label>
+                        <input
+                          type="text"
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                          placeholder="Last Name"
+                          required
+                        />
+                    </div>
+                  </div>
                 <div className={classes.control}>
                   <label>Username</label>
                     <input
@@ -103,25 +131,27 @@ const SignUpForm = () => {
                       required
                     />
                 </div>
-                <div className={classes.control}>
-                  <label>Password</label>
-                    <input
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Password"
-                      required
-                    />
-                </div>
-                <div className={classes.control}>
-                <label>Confirm Password</label>
-                  <input
-                      type="password"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      placeholder="Confirm Password"
-                      required
+                <div className={classes.nameArea}>
+                  <div className={classes.control}>
+                    <label>Password</label>
+                      <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Password"
+                        required
                       />
+                  </div>
+                  <div className={classes.control}>
+                  <label>Confirm Password</label>
+                    <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        placeholder="Confirm Password"
+                        required
+                        />
+                  </div>
                 </div>
                 <div className={classes.actions}><button type="submit">Sign Up</button></div>
                 {signUpError && <div style={{ color: 'red' }}>{signUpError}</div>}
