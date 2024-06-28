@@ -15,7 +15,7 @@ const Navigation = () => {
 
   const isActive = (path) => location.pathname === path;
 
-  const {user} = useAuth() // is it better to use auth && auth.isLoggedIn?
+  const {activeOrganisation, user} = useAuth() // is it better to use auth && auth.isLoggedIn?
 
   return (
     <header className={classes.navigation}>
@@ -47,9 +47,16 @@ const Navigation = () => {
         )
         }
 
-        {user && (
+        {user && activeOrganisation && (
           <div className={`${classes.navItem} ${isActive('/myorganisation') ? classes.active : ''}`}>
-            <Link to="/myorganisation" className={classes.text}>Organisations</Link>
+            <Link to="/myorganisation" className={classes.text}>{activeOrganisation}</Link>
+          </div>
+        )
+        }
+
+        {user && !activeOrganisation && (
+          <div className={`${classes.navItem} ${isActive('/myorganisation') ? classes.active : ''}`}>
+            <Link to="/myorganisation" className={classes.text}>My Organisation</Link>
           </div>
         )
         }
