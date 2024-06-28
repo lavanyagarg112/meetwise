@@ -14,9 +14,8 @@ const OrganisationBlock = ({ org }) => {
     }
 
   return (
-    <div onClick={handleClick} className={classes.organisationBlock}>
+    <div onClick={handleClick} className={`${classes.organisationBlock} ${activeOrganisation === org.name ? classes.activeOrg : ''}`}>
       <div className={classes.orgName}>{org.name}</div>
-      {/* if activeOrganisation == org.name: do some form of highlight */}
     </div>
   );
 };
