@@ -31,9 +31,9 @@ const Navigation = () => {
         <div className={`${classes.navItem} ${isActive('/') ? classes.active : ''}`}>
           <Link to="/" className={classes.text}>Home</Link>
         </div>
-        <div className={`${classes.navItem} ${isActive('/about') ? classes.active : ''}`}>
-          <Link to="/about" className={classes.text}>About Us</Link>
-        </div>
+        { !user &&  (<div className={`${classes.navItem} ${isActive('/about') ? classes.active : ''}`}>
+            <Link to="/about" className={classes.text}>About Us</Link>
+          </div>)}
         {!user && (
           <div className={`${classes.navItem} ${isActive('/sign-up') ? classes.active : ''}`}>
             <Link to="/sign-up" className={classes.text}>Sign Up</Link>
@@ -48,8 +48,8 @@ const Navigation = () => {
         }
 
         {user && (
-          <div className={`${classes.navItem} ${isActive('/organisations') ? classes.active : ''}`}>
-            <Link to="/organisations" className={classes.text}>Organisations</Link>
+          <div className={`${classes.navItem} ${isActive('/myorganisation') ? classes.active : ''}`}>
+            <Link to="/myorganisation" className={classes.text}>Organisations</Link>
           </div>
         )
         }
@@ -60,6 +60,9 @@ const Navigation = () => {
           </div>
         )
         }
+        { user &&  (<div className={`${classes.smallNavItem}`}>
+          <Link to="/about" className={classes.smallText}>About Us</Link>
+        </div>)}
 
       </nav>
     </header>

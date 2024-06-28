@@ -7,11 +7,14 @@ data : {
         id: number,
         email: user email,
         username: user username
+        firstName: user first name
     }
 }
 
 What I will send:
 user: {
+    firstName,
+    lastName,
     username,
     email,
     password
@@ -26,7 +29,9 @@ data : {
         id: number,
         email: user email,
         username: user username
+        firstName: user first name
     }
+    activeOrganisation: name of active organisation
 }
 
 What I will send:
@@ -45,7 +50,9 @@ data : {
         id: number,
         email: user email,
         username: user username
+        firstName: user first name
     }
+    activeOrganisation: name of active organisation
 }
 
 
@@ -144,3 +151,16 @@ what i will send
 {
     name: organisation name
 }
+
+/set-active-organisation
+POST
+
+what i will send:
+{
+    organisationName: name of organisation which should be set active
+    currentActive: current organisation which is active (will have to be made unactive)
+}
+
+important: if organisationName is null that means that the currentActive has to become set as unactive. so none of the organisation
+are actually active at this point.
+otherwise the organisationName is the new active organisation for the user
