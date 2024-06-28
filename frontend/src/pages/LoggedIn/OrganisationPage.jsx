@@ -5,6 +5,8 @@ import { Switch, FormControlLabel } from '@mui/material';
 import PeopleList from '../../components/LoggedIn/Organisations/PeopleList';
 import TeamBlock from '../../components/LoggedIn/Organisations/TeamBlock';
 
+import NotFoundPage from '../NotFoundPage'
+
 import classes from './OrganisationPage.module.css';
 import { useAuth } from '../../store/auth-context';
 
@@ -23,13 +25,15 @@ const OrganisationPage = () => {
   const [isAdminsCollapsed, setIsAdminsCollapsed] = useState(true);
   const [isUsersCollapsed, setIsUsersCollapsed] = useState(true);
 
+  const [showerror, setShowError] = useState(false)
+
   const toggleOwners = () => setIsOwnersCollapsed(!isOwnersCollapsed);
   const toggleAdmins = () => setIsAdminsCollapsed(!isAdminsCollapsed);
   const toggleUsers = () => setIsUsersCollapsed(!isUsersCollapsed);
 
   const getOrganisationInfo = async (name) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/organisationpage`, {
+      const response = await fetch(`${process.env.BACKEND_URL}/organisationpage`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,6 +45,7 @@ const OrganisationPage = () => {
       if (!response.ok) {
         const errorResponse = await response.json();
         const errorText = 'An error occurred creating your organisations.';
+        setShowError(true)
         throw new Error(errorText);
       }
 
@@ -68,7 +73,7 @@ const OrganisationPage = () => {
   const handleToggleActive = async () => {
     const newActiveOrganisation = activeOrganisation === organisationName ? null : organisationName;
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/set-active-organisation`, {
+      const response = await fetch(`${process.env.BACKEND_URL}/set-active-organisation`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -97,6 +102,10 @@ const OrganisationPage = () => {
   useEffect(() => {
     getOrganisationInfo(name);
   }, [name]);
+
+  if (showerror) {
+    return <NotFoundPage />
+  }
 
   return (
     <div className={classes.organisationPage}>
