@@ -1,13 +1,20 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../store/auth-context';
 
-const SettingsComponent = ({user}) => {
-
-  const navigate = useNavigate()
+const SettingsComponent = ({ user }) => {
+  const { setIsLoggedIn, setUser } = useAuth();
+  const navigate = useNavigate();
 
   const handleOrganisations = () => {
-    navigate('/organisations')
-  }
+    navigate('/organisations');
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUser(null); // Clear user state
+    navigate('/'); // Redirect to home
+  };
 
   return (
     <div>
@@ -26,10 +33,11 @@ const SettingsComponent = ({user}) => {
         <div>organisation 1</div>
         <div>organisation 2</div>
       </div>
-      
-      <button onClick={handleOrganisations}>See all my organisations</button>
-    </div>
-  )
-}
 
-export default SettingsComponent
+      <button onClick={handleOrganisations}>See all my organisations</button>
+      <button onClick={handleLogout}>Logout</button>
+    </div>
+  );
+};
+
+export default SettingsComponent;
