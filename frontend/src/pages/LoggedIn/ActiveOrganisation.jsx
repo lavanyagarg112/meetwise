@@ -3,8 +3,7 @@ import { useAuth } from '../../store/auth-context'
 import { useNavigate } from 'react-router-dom'
 
 const ActiveOrganisation = () => {
-  const { activeOrganisation } = useAuth()
-  const { user } = useAuth()
+  const { activeOrganisation, user } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
