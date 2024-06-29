@@ -1,7 +1,8 @@
 from fastapi import FastAPI, HTTPException, Response, Request, Cookie
 from typing import Annotated
 from IOSchema import UserSignUp, UserDetails, UserLogIn, Organisation, OrganisationPersonalReport
-from UserAccounts import createUser, getUserDetails, userCredentials, getUserByID, validateCookie, getOrganisationsByID,setOrganisationActive
+from UserAccounts import createUser, getUserDetails, userCredentials, getUserByID, validateCookie, getOrganisationsByID, \
+    setOrganisationActive
 from Organisations import createOrganisation, getOrganisationReport
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -18,6 +19,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 #TODO : add return types
 @app.post("/sign-up")
@@ -43,12 +45,18 @@ async def signin(user: UserLogIn, response: Response):
             return {"error": error}, 401
     except:
         raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
-    response.set_cookie("credentials", userCredentials(userDetails.id))
+    response.set_cookie("credentials", str(userCredentials(userDetails.id)))
     return {"user": userDetails, "activeOrganisation": activeOrganisation}
 
 
 @app.get("/logged-in")
-async def logged_in(credentials: Annotated[int, Cookie()]):
+async def logged_in(credentials: Annotated[str, Cookie()] = None):
+    if credentials is None:
+        return {"error": "No credentials provided"}, 401
+    try:
+        credentials = int(credentials)
+    except TypeError:
+        return {"error": "Invalid credentials provided"}, 401
     id, error = validateCookie(credentials)
     if error is not None:
         return {"error": error}, 401
@@ -57,37 +65,64 @@ async def logged_in(credentials: Annotated[int, Cookie()]):
 
 
 @app.get("/get-organisations")
-async def getOrganisations( credentials: Annotated[int, Cookie()]):
+async def getOrganisations(credentials: Annotated[str, Cookie()] = None):
+    if credentials is None:
+        return {"error": "No credentials provided"}, 401
+    try:
+        credentials = int(credentials)
+    except TypeError:
+        return {"error": "Invalid credentials provided"}, 401
     id, error = validateCookie(credentials)
     if error is not None:
         return {"error": error}, 401
     organisations = getOrganisationsByID(id)
     return {"organisations": organisations}
 
+
 @app.post("/new-organisation")
-async def newOrganisation(name:str, credentials: Annotated[int, Cookie()]):
+async def newOrganisation(name: str, credentials: Annotated[str, Cookie()]=None):
+    if credentials is None:
+        return {"error": "No credentials provided"}, 401
+    try:
+        credentials = int(credentials)
+    except TypeError:
+        return {"error": "Invalid credentials provided"}, 401
     id, error = validateCookie(credentials)
     if error is not None:
         return {"error": error}, 401
     # TODO: Implement new organisation logic
-    organisation: Organisation = createOrganisation(name,id)
+    organisation: Organisation = createOrganisation(name, id)
     return organisation
 
+
 @app.post("/organisationpage")
-async def organisationPage(organisationName: str, credentials: Annotated[int, Cookie()]):
+async def organisationPage(organisationName: str, credentials: Annotated[str, Cookie()] = None):
+    if credentials is None:
+        return {"error": "No credentials provided"}, 401
+    try:
+        credentials = int(credentials)
+    except TypeError:
+        return {"error": "Invalid credentials provided"}, 401
     id, error = validateCookie(credentials)
     if error is not None:
         return {"error": error}, 401
     # TODO: Implement organisation page logic
-    orgReport : OrganisationPersonalReport = getOrganisationReport(id,organisationName)
+    orgReport: OrganisationPersonalReport = getOrganisationReport(id, organisationName)
     return orgReport
 
+
 @app.post("/set-active-organisation")
-async def setActiveOrganisation(name: str, credentials: Annotated[int, Cookie()]):
+async def setActiveOrganisation(name: str, credentials: Annotated[str, Cookie()] = None):
+    if credentials is None:
+        return {"error": "No credentials provided"}, 401
+    try:
+        credentials = int(credentials)
+    except TypeError:
+        return {"error": "Invalid credentials provided"}, 401
     id, error = validateCookie(credentials)
     if error is not None:
-      return {"error": error}, 401
-    setOrganisationActive(id,name)
+        return {"error": error}, 401
+    setOrganisationActive(id, name)
 
 
 # TODO: remove after hosting

@@ -57,5 +57,5 @@ def validateCookie(user) -> [int, str]:
     return id, None
 
 
-def setOrganisationActive(userId: int,name: str):
-    setActiveOrganisation(userId,name)
+def setOrganisationActive(userId: int, name: str):
+    setActiveOrganisation(userId, name)
