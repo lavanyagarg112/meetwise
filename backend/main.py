@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, Response, Request, Cookie
 from typing import Annotated
 from IOSchema import UserSignUp, UserDetails, UserLogIn, Organisation, OrganisationPersonalReport
 from UserAccounts import createUser, getUserDetails, userCredentials, getUserByID, validateCookie, getOrganisationsByID,setOrganisationActive
-from backend.Organisations import createOrganisation, getOrganisationReport
+from Organisations import createOrganisation, getOrganisationReport
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()

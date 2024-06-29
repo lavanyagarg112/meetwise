@@ -3,7 +3,7 @@ from typing import List
 
 from pydantic import BaseModel
 
-from backend.Enums import Roles
+from Enums import Roles
 
 
 class Organisation(BaseModel):

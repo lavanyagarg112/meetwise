@@ -1,5 +1,5 @@
-from backend.Enums import Roles
-from backend.IOSchema import Organisation, OrganisationReport, OrganisationPersonalReport, Person, Team
+from Enums import Roles
+from IOSchema import Organisation, OrganisationReport, OrganisationPersonalReport, Person, Team
 
 
 def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:
