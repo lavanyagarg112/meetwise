@@ -8,15 +8,15 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-
 origins = "http://localhost:.*"
 
 app.add_middleware(
     CORSMiddleware,
+    allow_origins=["null"],
     allow_origin_regex=origins,
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["*"]
 )
 
 
@@ -32,7 +32,7 @@ async def signup(user: UserSignUp, response: Response):
     except:
         raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
     userDetails, error, activeOrg = getUserDetails(userCred, False)
-    response.set_cookie("credentials", userCredentials(userDetails.id), samesite='lax', httponly=True)
+    response.set_cookie("credentials", userCredentials(userDetails.id), samesite='none', httponly=True,secure=True)
     return {"user": userDetails}
 
 
@@ -44,12 +44,13 @@ async def signin(user: UserLogIn, response: Response):
             return {"error": error}, 401
     except:
         raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
-    response.set_cookie("credentials", userCredentials(userDetails.id), samesite='lax', httponly=True)
+    response.set_cookie("credentials", userCredentials(userDetails.id), samesite='none', httponly=True,secure=True)
     return {"user": userDetails, "activeOrganisation": activeOrganisation}
 
 
 @app.get("/logged-in")
-async def logged_in(credentials: Annotated[str, Cookie()] = None):
+async def logged_in(request: Request, credentials: Annotated[str, Cookie()] = None):
+    print(request.cookies.get("credentials"))
     print(f"Received credentials: {credentials}")
     if credentials is None:
         raise HTTPException(status_code=401, detail="No credentials provided")
@@ -87,7 +88,6 @@ async def newOrganisation(name: OrganisationName, credentials: Annotated[str, Co
 
 @app.post("/organisationpage")
 async def organisationPage(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
-
     if credentials is None:
         raise HTTPException(status_code=401, detail="No credentials provided")
     id, error = validateCookie(credentials)
@@ -114,4 +114,4 @@ async def setActiveOrganisation(name: OrganisationName, credentials: Annotated[s
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("main:app", host="127.0.0.1", port=8000)
+    uvicorn.run("main:app", host="localhost", port=8000)
