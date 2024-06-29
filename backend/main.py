@@ -26,12 +26,12 @@ async def signup(user: UserSignUp, response: Response):
         userCred, error = createUser(user)
         if error is not None:
             return {"error": error}, 400
-        # The calls are separated to ensure data is actually written to DB successfully,
-        #  after DB testing can merge them into 1 like current implementation
-        userDetails, error = getUserDetails(userCred, False)
+            # The calls are separated to ensure data is actually written to DB successfully,
+            #  after DB testing can merge them into 1 like current implementation
     except:
-        raise HTTPException(status_code=500, detail="Internal Server Error. User could not be created.")
-    response.set_cookie("credentials", userCredentials(userDetails.id))
+        raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
+    userDetails, error, activeOrg = getUserDetails(userCred, False)
+    response.set_cookie("credentials", userCredentials(userDetails.id),httponly=True)
     return {"user": userDetails}
 
 
@@ -43,7 +43,7 @@ async def signin(user: UserLogIn, response: Response):
             return {"error": error}, 401
     except:
         raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
-    response.set_cookie("credentials", str(userCredentials(userDetails.id)))
+    response.set_cookie("credentials", str(userCredentials(userDetails.id)),httponly=True)
     return {"user": userDetails, "activeOrganisation": activeOrganisation}
 
 
