@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, Response, Request, Cookie
 from typing import Annotated
 from IOSchema import UserSignUp, UserDetails, UserLogIn, Organisation, OrganisationPersonalReport
 from UserAccounts import createUser, getUserDetails, userCredentials, getUserByID, validateCookie, getOrganisationsByID,setOrganisationActive
-from backend.Organisations import createOrganisation, getOrganisationReport
+from Organisations import createOrganisation, getOrganisationReport
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -95,4 +95,4 @@ async def setActiveOrganisation(name: str, credentials: Annotated[int, Cookie()]
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("main:app", host="0.0.0.0", port=8000)
+    uvicorn.run("main:app", host="127.0.0.1", port=8000)
