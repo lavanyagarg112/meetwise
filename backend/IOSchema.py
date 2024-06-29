@@ -20,6 +20,8 @@ class Person(BaseModel):
     id: int
     username: str
 
+class OrganisationName(BaseModel):
+    name: str
 
 class UserLogIn(BaseModel):
     email: str
