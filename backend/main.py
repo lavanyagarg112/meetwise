@@ -22,17 +22,14 @@ app.add_middleware(
 #TODO : add return types
 @app.post("/sign-up")
 async def signup(user: UserSignUp, response: Response):
-    try:
         userCred, error = createUser(user)
         if error is not None:
             return {"error": error}, 400
         # The calls are separated to ensure data is actually written to DB successfully,
         #  after DB testing can merge them into 1 like current implementation
-        userDetails, error = getUserDetails(userCred, False)
-    except:
-        raise HTTPException(status_code=500, detail="Internal Server Error. User could not be created.")
-    response.set_cookie("credentials", userCredentials(userDetails.id))
-    return {"user": userDetails}
+        userDetails, error,activeOrg = getUserDetails(userCred, False)
+        response.set_cookie("credentials", userCredentials(userDetails.id))
+        return {"user": userDetails}
 
 
 @app.post("/sign-in")
@@ -95,4 +92,4 @@ async def setActiveOrganisation(name: str, credentials: Annotated[int, Cookie()]
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("main:app", host="0.0.0.0", port=8000)
+    uvicorn.run("main:app", host="127.0.0.1", port=8000)
