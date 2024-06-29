@@ -32,10 +32,8 @@ const LogInForm = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          user: {
-            ...userPayload,
-            password,
-          }
+          ...userPayload,
+          password,
         }),
         credentials: 'include'
       });
