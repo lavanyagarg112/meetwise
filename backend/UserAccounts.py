@@ -17,12 +17,11 @@ EXPIRY_TIME = datetime.timedelta(minutes=10)
 
 #TODO: Query DB and return UserDetails
 def getUserDetails(user: UserLogIn, activeOrgNeeded: bool) -> [UserDetails, AuthError, str]:
-    user = UserDetails(id=1, email=user.email, username="DummyUser", firstName="Dummy"), None, None
-    return user
-    # if activeOrgNeeded:
-    #     return user, str
-    # else:
-    #     return user, None
+    user = UserDetails(id=1, email=user.email, username="DummyUser", firstName="Dummy")
+    if activeOrgNeeded:
+        return user, None, "organisation"
+    else:
+        return user, None, None
 
 
 def getUserByID(user: int) -> UserInfo:
