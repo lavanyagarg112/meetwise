@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 
-origins = "http://localhost:3000"
+origins = "http://localhost:.*"
 
 app.add_middleware(
     CORSMiddleware,
@@ -50,6 +50,7 @@ async def signin(user: UserLogIn, response: Response):
 
 @app.get("/logged-in")
 async def logged_in(credentials: Annotated[str, Cookie()] = None):
+    print(f"Received credentials: {credentials}")
     if credentials is None:
         raise HTTPException(status_code=401, detail="No credentials provided")
     id, error = validateCookie(credentials)
@@ -61,6 +62,7 @@ async def logged_in(credentials: Annotated[str, Cookie()] = None):
 
 @app.get("/get-organisations")
 async def getOrganisations(credentials: Annotated[str, Cookie()] = None):
+    print(f"Received credentials: {credentials}")
     if credentials is None:
         raise HTTPException(status_code=401, detail="No credentials provided")
     id, error = validateCookie(credentials)
@@ -72,6 +74,7 @@ async def getOrganisations(credentials: Annotated[str, Cookie()] = None):
 
 @app.post("/new-organisation")
 async def newOrganisation(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
+    print(f"Received credentials: {credentials}")
     if credentials is None:
         raise HTTPException(status_code=401, detail="No credentials provided")
     id, error = validateCookie(credentials)
@@ -84,6 +87,7 @@ async def newOrganisation(name: OrganisationName, credentials: Annotated[str, Co
 
 @app.post("/organisationpage")
 async def organisationPage(name : OrganisationName, credentials: Annotated[str, Cookie()] = None):
+    print(f"Received credentials: {credentials}")
     if credentials is None:
         raise HTTPException(status_code=401, detail="No credentials provided")
     id, error = validateCookie(credentials)
@@ -96,6 +100,7 @@ async def organisationPage(name : OrganisationName, credentials: Annotated[str, 
 
 @app.post("/set-active-organisation")
 async def setActiveOrganisation(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
+    print(f"Received credentials: {credentials}")
     if credentials is None:
         raise HTTPException(status_code=401, detail="No credentials provided")
     id, error = validateCookie(credentials)

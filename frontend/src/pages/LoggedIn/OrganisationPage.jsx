@@ -33,7 +33,7 @@ const OrganisationPage = () => {
 
   const getOrganisationInfo = async (name) => {
     try {
-      console.log(`fetching ${process.env.BACKEND_URL}/organisationpage`)
+      console.log(`fetching ${process.env.REACT_APP_BACKEND_URL}/organisationpage`)
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/organisationpage`, {
         method: 'POST',
         headers: {
