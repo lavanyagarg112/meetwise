@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 
-origins = "localhost:.*"
+origins = "http://localhost:3000"
 
 app.add_middleware(
     CORSMiddleware,
@@ -109,4 +109,4 @@ async def setActiveOrganisation(name: OrganisationName, credentials: Annotated[s
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("main:app", host="127.0.0.1", port=3000)
+    uvicorn.run("main:app", host="127.0.0.1", port=8000)
