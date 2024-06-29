@@ -3,9 +3,21 @@ from typing import Annotated
 from IOSchema import UserSignUp, UserDetails, UserLogIn, Organisation, OrganisationPersonalReport
 from UserAccounts import createUser, getUserDetails, userCredentials, getUserByID, validateCookie, getOrganisationsByID,setOrganisationActive
 from Organisations import createOrganisation, getOrganisationReport
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+origins = [
+    "*"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 #TODO : add return types
 @app.post("/sign-up")
