@@ -32,10 +32,8 @@ const LogInForm = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          user: {
-            ...userPayload,
-            password,
-          }
+          ...userPayload,
+          password,
         }),
         credentials: 'include'
       });
@@ -53,12 +51,6 @@ const LogInForm = () => {
     } catch (error) {
       setLoginError('Login Failed');
     }
-    // to be removed after end point works
-    setIsLoggedIn(true);
-    setUser(DUMMY_DATA);
-    setActiveOrganisation('org1');
-    
-    navigate('/');
   };
 
   return (

@@ -43,13 +43,11 @@ const SignUpForm = () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        user: {
-          firstName,
-          lastName,
-          username,
-          email,
-          password
-        }
+        firstName,
+        lastName,
+        username,
+        email,
+        password
       }),
       credentials: 'include'
     })
@@ -74,10 +72,6 @@ const SignUpForm = () => {
       setSignUpError("An unexpected error occurred.");
     }
   }
-  // to be removed after end point works
-  setIsLoggedIn(true)
-  setUser(DUMMY_DATA)
-  navigate('/')
 
 }
 

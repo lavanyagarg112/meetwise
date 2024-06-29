@@ -12,7 +12,7 @@ data : {
 }
 
 What I will send:
-user: {
+{
     firstName,
     lastName,
     username,
@@ -35,8 +35,8 @@ data : {
 }
 
 What I will send:
-user: {
-    email,
+{
+    username or email,
     password
 }
 
