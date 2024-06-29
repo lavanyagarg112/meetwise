@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkLoggedIn = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/logged_in`, {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/logged-in`, {
         //   headers: {
         //     'Authorization': `Bearer ${localStorage.getItem('token')}`,
         //   }
