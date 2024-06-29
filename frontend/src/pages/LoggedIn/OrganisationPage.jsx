@@ -60,14 +60,6 @@ const OrganisationPage = () => {
     } catch (error) {
       console.log('ERROR');
     }
-
-    // To be removed after endpoint works
-    setIsPermitted(true);
-    setOwners([{ id: 0, username: 'user1' }, { id: 1, username: 'user2' }]);
-    setAdmins([{ id: 2, username: 'admin1' }, { id: 3, username: 'admin2' }]);
-    setUsers([{ id: 4, username: 'user3' }, { id: 5, username: 'user4' }]);
-    setTeams([{ id: 0, name: 'team1' }, { id: 1, name: 'team2' }]);
-    setUserRole('owner');
   };
 
   const handleToggleActive = async () => {
@@ -95,8 +87,6 @@ const OrganisationPage = () => {
     } catch (error) {
       console.log('ERROR', error);
     }
-    // To remove after endpoint works
-    setActiveOrganisation(newActiveOrganisation);
   };
 
   useEffect(() => {
