@@ -32,7 +32,7 @@ async def signup(user: UserSignUp, response: Response):
     except:
         raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
     userDetails, error, activeOrg = getUserDetails(userCred, False)
-    response.set_cookie("credentials", userCredentials(userDetails.id), httponly=True)
+    response.set_cookie("credentials", userCredentials(userDetails.id), samesite='none', httponly=True)
     return {"user": userDetails}
 
 
@@ -44,7 +44,7 @@ async def signin(user: UserLogIn, response: Response):
             return {"error": error}, 401
     except:
         raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
-    response.set_cookie("credentials", userCredentials(userDetails.id), httponly=True)
+    response.set_cookie("credentials", userCredentials(userDetails.id), samesite='none', httponly=True)
     return {"user": userDetails, "activeOrganisation": activeOrganisation}
 
 
