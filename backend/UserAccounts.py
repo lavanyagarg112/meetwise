@@ -47,12 +47,13 @@ def getOrganisationsByID(userId: int) -> List[Organisation]:
 
 def validateCookie(user) -> [int, str]:
     try:
-        id: int = jwt.decode(user, secret, algorithm="HS512")
+        id: int = jwt.decode(user, secret, algorithms="HS512")['userId']
     except ExpiredSignatureError:
         return None, "Token Expired"
     except jwt.InvalidIssuerError:
         return None, "Forged JWT"
-    except jwt.InvalidTokenError:
+    except jwt.InvalidTokenError as e:
+        print(e)
         return None, "Invalid JWT"
     return id, None
 

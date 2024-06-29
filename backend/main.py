@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Response, Request, Cookie
 from typing import Annotated
-from IOSchema import UserSignUp, UserDetails, UserLogIn, Organisation, OrganisationPersonalReport
+from IOSchema import UserSignUp, UserDetails, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName
 from UserAccounts import createUser, getUserDetails, userCredentials, getUserByID, validateCookie, getOrganisationsByID, \
     setOrganisationActive
 from Organisations import createOrganisation, getOrganisationReport
@@ -8,13 +8,12 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:3000"
-]
+
+origins = "localhost:.*"
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origin_regex=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -33,7 +32,7 @@ async def signup(user: UserSignUp, response: Response):
     except:
         raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
     userDetails, error, activeOrg = getUserDetails(userCred, False)
-    response.set_cookie("credentials", userCredentials(userDetails.id),httponly=True)
+    response.set_cookie("credentials", userCredentials(userDetails.id), httponly=True)
     return {"user": userDetails}
 
 
@@ -45,54 +44,64 @@ async def signin(user: UserLogIn, response: Response):
             return {"error": error}, 401
     except:
         raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
-    response.set_cookie("credentials", userCredentials(userDetails.id),httponly=True)
+    response.set_cookie("credentials", userCredentials(userDetails.id), httponly=True)
     return {"user": userDetails, "activeOrganisation": activeOrganisation}
 
 
 @app.get("/logged-in")
-async def logged_in(credentials: Annotated[int, Cookie()]):
+async def logged_in(credentials: Annotated[str, Cookie()] = None):
+    if credentials is None:
+        raise HTTPException(status_code=401, detail="No credentials provided")
     id, error = validateCookie(credentials)
     if error is not None:
-        return {"error": error}, 401
+        raise HTTPException(status_code=401, detail=error)
     userDetails = getUserByID(id)
     return userDetails
 
 
 @app.get("/get-organisations")
-async def getOrganisations(credentials: Annotated[int, Cookie()]):
+async def getOrganisations(credentials: Annotated[str, Cookie()] = None):
+    if credentials is None:
+        raise HTTPException(status_code=401, detail="No credentials provided")
     id, error = validateCookie(credentials)
     if error is not None:
-        return {"error": error}, 401
+        raise HTTPException(status_code=401, detail=error)
     organisations = getOrganisationsByID(id)
     return {"organisations": organisations}
 
 
 @app.post("/new-organisation")
-async def newOrganisation(name: str, credentials: Annotated[int, Cookie()]):
+async def newOrganisation(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
+    if credentials is None:
+        raise HTTPException(status_code=401, detail="No credentials provided")
     id, error = validateCookie(credentials)
     if error is not None:
-        return {"error": error}, 401
+        raise HTTPException(status_code=401, detail=error)
     # TODO: Implement new organisation logic
-    organisation: Organisation = createOrganisation(name, id)
+    organisation: Organisation = createOrganisation(name.name, id)
     return organisation
 
 
 @app.post("/organisationpage")
-async def organisationPage(organisationName: str, credentials: Annotated[int, Cookie()]):
+async def organisationPage(name : OrganisationName, credentials: Annotated[str, Cookie()] = None):
+    if credentials is None:
+        raise HTTPException(status_code=401, detail="No credentials provided")
     id, error = validateCookie(credentials)
     if error is not None:
-        return {"error": error}, 401
+        raise HTTPException(status_code=401, detail=error)
     # TODO: Implement organisation page logic
-    orgReport: OrganisationPersonalReport = getOrganisationReport(id, organisationName)
+    orgReport: OrganisationPersonalReport = getOrganisationReport(id, name.name)
     return orgReport
 
 
 @app.post("/set-active-organisation")
-async def setActiveOrganisation(name: str, credentials: Annotated[int, Cookie()]):
+async def setActiveOrganisation(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
+    if credentials is None:
+        raise HTTPException(status_code=401, detail="No credentials provided")
     id, error = validateCookie(credentials)
     if error is not None:
-        return {"error": error}, 401
-    setOrganisationActive(id, name)
+        raise HTTPException(status_code=401, detail=error)
+    setOrganisationActive(id, name.name)
 
 
 # TODO: remove after hosting
@@ -100,4 +109,4 @@ async def setActiveOrganisation(name: str, credentials: Annotated[int, Cookie()]
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("main:app", host="127.0.0.1", port=8000)
+    uvicorn.run("main:app", host="127.0.0.1", port=3000)
