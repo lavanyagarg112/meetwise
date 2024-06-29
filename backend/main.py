@@ -86,8 +86,8 @@ async def newOrganisation(name: OrganisationName, credentials: Annotated[str, Co
 
 
 @app.post("/organisationpage")
-async def organisationPage(name : OrganisationName, credentials: Annotated[str, Cookie()] = None):
-    print(f"Received credentials: {credentials}")
+async def organisationPage(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
+
     if credentials is None:
         raise HTTPException(status_code=401, detail="No credentials provided")
     id, error = validateCookie(credentials)
