@@ -20,6 +20,11 @@ class Person(BaseModel):
     id: int
     username: str
 
+class OrganisationName(BaseModel):
+    name: str
+
+class OrganisationNameOptional(BaseModel):
+    name: str = None
 
 class UserLogIn(BaseModel):
     email: str

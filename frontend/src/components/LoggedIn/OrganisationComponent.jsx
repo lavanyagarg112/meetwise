@@ -51,15 +51,6 @@ const OrganisationComponent = ({user}) => {
     } catch (error) {
       console.log('ERROR')
     }
-
-    // to be removed after end point works
-
-    const data = {
-      id: id,
-      name: organisationName
-    }
-    id += 1
-    setOrganisations([...organisations, data])
   }
 
   const createOrg = () => {
@@ -88,8 +79,6 @@ const OrganisationComponent = ({user}) => {
     } catch (error) {
       console.log('ERROR')
     }
-    // to be removed after end point works
-    setOrganisations(DUMMY_DATA)
   }
 
   useEffect(() => {

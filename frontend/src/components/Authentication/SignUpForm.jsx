@@ -72,10 +72,6 @@ const SignUpForm = () => {
       setSignUpError("An unexpected error occurred.");
     }
   }
-  // to be removed after end point works
-  setIsLoggedIn(true)
-  setUser(DUMMY_DATA)
-  navigate('/')
 
 }
 

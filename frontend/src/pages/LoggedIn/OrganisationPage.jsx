@@ -33,7 +33,7 @@ const OrganisationPage = () => {
 
   const getOrganisationInfo = async (name) => {
     try {
-      const response = await fetch(`${process.env.BACKEND_URL}/organisationpage`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/organisationpage`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -60,27 +60,18 @@ const OrganisationPage = () => {
     } catch (error) {
       console.log('ERROR');
     }
-
-    // To be removed after endpoint works
-    setIsPermitted(true);
-    setOwners([{ id: 0, username: 'user1' }, { id: 1, username: 'user2' }]);
-    setAdmins([{ id: 2, username: 'admin1' }, { id: 3, username: 'admin2' }]);
-    setUsers([{ id: 4, username: 'user3' }, { id: 5, username: 'user4' }]);
-    setTeams([{ id: 0, name: 'team1' }, { id: 1, name: 'team2' }]);
-    setUserRole('owner');
   };
 
   const handleToggleActive = async () => {
-    const newActiveOrganisation = activeOrganisation === organisationName ? null : organisationName;
+    const newActiveOrganisation = activeOrganisation === organisationName ? '' : organisationName;
     try {
-      const response = await fetch(`${process.env.BACKEND_URL}/set-active-organisation`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/set-active-organisation`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          organisationName: newActiveOrganisation,
-          currentActive: activeOrganisation,
+          name: newActiveOrganisation,
         }),
         credentials: 'include',
       });
@@ -95,8 +86,6 @@ const OrganisationPage = () => {
     } catch (error) {
       console.log('ERROR', error);
     }
-    // To remove after endpoint works
-    setActiveOrganisation(newActiveOrganisation);
   };
 
   useEffect(() => {

@@ -22,18 +22,20 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkLoggedIn = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/logged_in`, {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/logged-in`, {
         //   headers: {
         //     'Authorization': `Bearer ${localStorage.getItem('token')}`,
         //   }
             credentials: 'include'
         });
         const data = await response.json();
-        setIsLoggedIn(data.logged_in);
-        if (data.logged_in) {
+
+        if (data.user) {
             // Set user details if logged in
+            setIsLoggedIn(true)
             setUser(data.user);
         } else {
+            setIsLoggedIn(false)
             setUser(null);
         }
         if (data.activeOrganisation) {
