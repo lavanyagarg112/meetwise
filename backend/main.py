@@ -51,7 +51,7 @@ async def signin(user: UserLogIn, response: Response):
 
 
 @app.get("/logged-in")
-async def logged_in(request: Request, credentials: Annotated[str, Cookie()] = None):
+async def logged_in(credentials: Annotated[str, Cookie()] = None):
     if credentials is None:
         raise HTTPException(status_code=401, detail="No credentials provided")
     id, error = validateCookie(credentials)
