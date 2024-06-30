@@ -11,7 +11,7 @@ const MeetingsComponent = () => {
       <div className={styles.searchContainer}>
         <input
           type="text"
-          placeholder="Search meetings..."
+          placeholder="Search in meetings..."
           className={styles.searchInput}
         />
       </div>
