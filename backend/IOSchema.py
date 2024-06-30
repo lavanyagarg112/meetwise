@@ -23,6 +23,9 @@ class Person(BaseModel):
 class OrganisationName(BaseModel):
     name: str
 
+class OrganisationNameOptional(BaseModel):
+    name: str = None
+
 class UserLogIn(BaseModel):
     email: str
     password: str

@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, Response, Request, Cookie
 from typing import Annotated
-from IOSchema import UserSignUp, UserDetails, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName
+from IOSchema import UserSignUp, UserDetails, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
+    OrganisationNameOptional
 from UserAccounts import createUser, getUserDetails, userCredentials, getUserByID, validateCookie, getOrganisationsByID, \
     setOrganisationActive
 from Organisations import createOrganisation, getOrganisationReport
@@ -99,7 +100,7 @@ async def organisationPage(name: OrganisationName, credentials: Annotated[str, C
 
 
 @app.post("/set-active-organisation")
-async def setActiveOrganisation(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
+async def setActiveOrganisation(name: OrganisationNameOptional, credentials: Annotated[str, Cookie()] = None):
     print(f"Received credentials: {credentials}")
     if credentials is None:
         raise HTTPException(status_code=401, detail="No credentials provided")
