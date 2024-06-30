@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "meetwise"
+version = "0.1.0"
+description = ""
+authors = ["Nikhil-Sultania <48746822+Timenikhil@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.111.0"
+pyjwt = "^2.8.0"
+python-dotenv = "^1.0.1"
+requests = "^2.32.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
