@@ -160,4 +160,4 @@ what i will send:
 }
 
 important: if organisationName is null that means that the currentActive has to become set as unactive. so none of the organisation
-are actually active at this point.
+are actually active at this point
