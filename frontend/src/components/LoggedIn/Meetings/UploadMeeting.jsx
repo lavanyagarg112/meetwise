@@ -36,12 +36,12 @@ const UploadMeeting = () => {
       setFileUrl(url);
 
       // Optionally download the file for testing
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'output.mp3';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      // const a = document.createElement('a');
+      // a.href = url;
+      // a.download = 'output.mp3';
+      // document.body.appendChild(a);
+      // a.click();
+      // document.body.removeChild(a);
 
       // Send the MP3 file to the backend
       const formData = new FormData();
