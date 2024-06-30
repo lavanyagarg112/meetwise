@@ -22,7 +22,7 @@ const SettingsComponent = ({ user }) => {
       <div>
         <div>Username: {user.username}</div>
         <div>Email: {user.email}</div>
-        <div>Display Name</div>
+        <div>Display Name: {user.firstName}</div>
         <div>Bio</div>
       </div>
       <div>
