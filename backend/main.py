@@ -52,8 +52,6 @@ async def signin(user: UserLogIn, response: Response):
 
 @app.get("/logged-in")
 async def logged_in(request: Request, credentials: Annotated[str, Cookie()] = None):
-    print(request.cookies.get("credentials"))
-    print(f"Received credentials: {credentials}")
     if credentials is None:
         raise HTTPException(status_code=401, detail="No credentials provided")
     id, error = validateCookie(credentials)
@@ -65,7 +63,6 @@ async def logged_in(request: Request, credentials: Annotated[str, Cookie()] = No
 
 @app.get("/get-organisations")
 async def getOrganisations(credentials: Annotated[str, Cookie()] = None):
-    print(f"Received credentials: {credentials}")
     if credentials is None:
         raise HTTPException(status_code=401, detail="No credentials provided")
     id, error = validateCookie(credentials)
@@ -77,7 +74,6 @@ async def getOrganisations(credentials: Annotated[str, Cookie()] = None):
 
 @app.post("/new-organisation")
 async def newOrganisation(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
-    print(f"Received credentials: {credentials}")
     if credentials is None:
         raise HTTPException(status_code=401, detail="No credentials provided")
     id, error = validateCookie(credentials)
@@ -90,7 +86,6 @@ async def newOrganisation(name: OrganisationName, credentials: Annotated[str, Co
 
 @app.post("/organisationpage")
 async def organisationPage(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
-    print(f"Received credentials: {credentials}")
     if credentials is None:
         raise HTTPException(status_code=401, detail="No credentials provided")
     id, error = validateCookie(credentials)
@@ -103,7 +98,6 @@ async def organisationPage(name: OrganisationName, credentials: Annotated[str, C
 
 @app.post("/set-active-organisation")
 async def setActiveOrganisation(name: OrganisationNameOptional, credentials: Annotated[str, Cookie()] = None):
-    print(f"Received credentials: {credentials}")
     if credentials is None:
         raise HTTPException(status_code=401, detail="No credentials provided")
     id, error = validateCookie(credentials)

@@ -3,7 +3,7 @@ import React from 'react'
 const HomeUser = ({user}) => {
   return (
     <div>
-        {user.username}
+        {user.firstName}
     </div>
   )
 }
