@@ -13,7 +13,7 @@ import { useAuth } from '../../store/auth-context';
 const OrganisationPage = () => {
   const { user, activeOrganisation, setActiveOrganisation } = useAuth();
   const { name } = useParams();
-  const [organisationName, setOrganisationName] = useState(name);
+  const [organisationName, setOrganisationName] = useState('');
   const [owners, setOwners] = useState([]);
   const [admins, setAdmins] = useState([]);
   const [users, setUsers] = useState([]);
