@@ -1,66 +1,80 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 
 const UploadMeeting = () => {
-  const [file, setFile] = useState(null);
-  const [converting, setConverting] = useState(false);
-  const [ffmpeg] = useState(new FFmpeg({ log: true }));
+  const [ffmpeg, setFFmpeg] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [fileUrl, setFileUrl] = useState(null);
 
-  const loadFFmpeg = async () => {
-    if (!ffmpeg.isLoaded()) {
-      await ffmpeg.load();
-    }
-  };
+  useEffect(() => {
+    const initFFmpeg = async () => {
+      const ffmpegInstance = new FFmpeg();
+      await ffmpegInstance.load();
+      setFFmpeg(ffmpegInstance);
+    };
 
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
-  };
+    initFFmpeg();
+  }, []);
 
-  const sendUploadAudio = async () => {
-    if (!file) return;
+  const sendUploadAudio = async (event) => {
+    const file = event.target.files[0];
+    if (!file || !ffmpeg) return;
 
-    setConverting(true);
+    setLoading(true);
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const arrayBuffer = e.target.result;
+      const uint8Array = new Uint8Array(arrayBuffer);
 
-    await loadFFmpeg();
+      await ffmpeg.writeFile('input.mp4', uint8Array);
+      await ffmpeg.exec(['-i', 'input.mp4', 'output.mp3']);
+      const data = await ffmpeg.readFile('output.mp3');
 
-    const inputFile = file.name;
-    const outputFile = 'output.mp3';
+      // Create a blob URL for the converted file
+      const blob = new Blob([data], { type: 'audio/mpeg' });
+      const url = URL.createObjectURL(blob);
+      setFileUrl(url);
 
-    ffmpeg.FS('writeFile', inputFile, await file.arrayBuffer());
-    await ffmpeg.run('-i', inputFile, outputFile);
+      // Optionally download the file for testing
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'output.mp3';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
 
-    const data = ffmpeg.FS('readFile', outputFile);
+      // Send the MP3 file to the backend
+      const formData = new FormData();
+      formData.append('file', blob, 'output.mp3');
 
-    const mp3Blob = new Blob([data.buffer], { type: 'audio/mpeg' });
-    const mp3File = new File([mp3Blob], 'output.mp3', { type: 'audio/mpeg' });
-
-    const formData = new FormData();
-    formData.append('file', mp3File);
-
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/upload-meeting`, {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error('Upload failed');
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/upload-meeting`, {
+          method: 'POST',
+          body: formData,
+        });
+        if (response.ok) {
+          console.log('File successfully uploaded to the backend');
+        } else {
+          console.error('Failed to upload file to the backend');
+        }
+      } catch (error) {
+        console.error('Error uploading file:', error);
       }
 
-      alert('Upload successful');
-    } catch (error) {
-      console.error('Error uploading file:', error);
-    } finally {
-      setConverting(false);
-    }
+      setLoading(false);
+    };
+    reader.readAsArrayBuffer(file);
   };
 
   return (
     <div>
-      <input type="file" accept="video/*" onChange={handleFileChange} />
-      <div onClick={sendUploadAudio} style={{ cursor: 'pointer', color: converting ? 'gray' : 'blue' }}>
-        {converting ? 'Converting...' : 'Upload Meeting'}
-      </div>
+      <input type="file" onChange={sendUploadAudio} accept="video/*" />
+      {loading && <p>Loading...</p>}
+      {fileUrl && (
+        <div>
+          <a href={fileUrl} download="output.mp3">Download MP3</a>
+        </div>
+      )}
     </div>
   );
 };

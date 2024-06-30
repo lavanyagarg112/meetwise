@@ -204,3 +204,15 @@ what i will send
     name: team name
     organisation: organisation name
 }
+
+/upload-meeting
+POST
+
+What I will send:
+FormData {
+  "file": File {
+    name: "output.mp3",
+    type: "audio/mpeg",
+    size: 123456
+  }
+}

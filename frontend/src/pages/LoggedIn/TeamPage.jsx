@@ -41,7 +41,7 @@ const TeamPage = ({organisation}) => {
       if (!response.ok) {
         const errorResponse = await response.json();
         const errorText = 'An error occurred creating your organisations.';
-        // setShowError(true)
+        setShowError(true)
         throw new Error(errorText);
       }
 
@@ -58,6 +58,7 @@ const TeamPage = ({organisation}) => {
     // to be removed after endpoint is created
 
     setIsPermitted(true);
+    setShowError(false)
     setTeamName(name);
     setAdmins([]);
     setUsers([]);
