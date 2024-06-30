@@ -71,7 +71,7 @@ const OrganisationPage = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          organisationName: newActiveOrganisation,
+          name: newActiveOrganisation,
         }),
         credentials: 'include',
       });
