@@ -161,3 +161,58 @@ what i will send:
 
 important: if organisationName is null that means that the currentActive has to become set as unactive. so none of the organisation
 are actually active at this point
+
+
+/teampage
+POST
+
+(for that user)
+
+what i want:
+
+data: {
+    isPermitted: boolean,
+    userRole: admin/user,
+    team: {
+        id: number,
+        name: team name,
+        admins: [
+            {
+                id: number,
+                username: string
+            },
+            {
+                id: number,
+                username: string
+            }
+        ],
+        users: [
+            {
+                id: number,
+                username: string
+            },
+            {
+                id: number,
+                username: string
+            }
+        ],
+    }
+}
+
+what i will send
+{
+    name: team name
+    organisation: organisation name
+}
+
+/upload-meeting
+POST
+
+What I will send:
+FormData {
+  "file": File {
+    name: "output.mp3",
+    type: "audio/mpeg",
+    size: 123456
+  }
+}

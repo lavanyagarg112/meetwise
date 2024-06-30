@@ -13,7 +13,7 @@ import { useAuth } from '../../store/auth-context';
 const OrganisationPage = () => {
   const { user, activeOrganisation, setActiveOrganisation } = useAuth();
   const { name } = useParams();
-  const [organisationName, setOrganisationName] = useState(name);
+  const [organisationName, setOrganisationName] = useState('');
   const [owners, setOwners] = useState([]);
   const [admins, setAdmins] = useState([]);
   const [users, setUsers] = useState([]);
@@ -129,7 +129,7 @@ const OrganisationPage = () => {
               {!teams || teams.length === 0 ? (
                 <div className={classes.noOrganisations}>No teams yet</div>
               ) : (
-                teams.map((team) => <TeamBlock key={team.id} team={team} />)
+                teams.map((team) => <TeamBlock key={team.id} team={team} organisationname={organisationName} />)
               )}
             </div>
           </div>
