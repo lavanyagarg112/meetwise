@@ -63,7 +63,7 @@ const OrganisationPage = () => {
   };
 
   const handleToggleActive = async () => {
-    const newActiveOrganisation = activeOrganisation === organisationName ? null : organisationName;
+    const newActiveOrganisation = activeOrganisation === organisationName ? '' : organisationName;
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/set-active-organisation`, {
         method: 'POST',
