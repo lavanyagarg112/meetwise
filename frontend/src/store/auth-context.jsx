@@ -29,11 +29,13 @@ export const AuthProvider = ({ children }) => {
             credentials: 'include'
         });
         const data = await response.json();
-        setIsLoggedIn(data.logged_in);
-        if (data.logged_in) {
+
+        if (data.user) {
             // Set user details if logged in
+            setIsLoggedIn(true)
             setUser(data.user);
         } else {
+            setIsLoggedIn(false)
             setUser(null);
         }
         if (data.activeOrganisation) {
