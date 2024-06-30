@@ -45,7 +45,6 @@ GET
 
 What I want:
 data : {
-    logged_in: boolean,
     user: {
         id: number,
         email: user email,
