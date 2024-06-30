@@ -36,6 +36,7 @@ const SettingsComponent = ({ user }) => {
 
       <button onClick={handleOrganisations}>See all my organisations</button>
       <button onClick={handleLogout}>Logout</button>
+      {/* dummy logout. to actually logout need to send request to backend cause need to remove credentials */}
     </div>
   );
 };
