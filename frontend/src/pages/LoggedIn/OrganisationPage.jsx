@@ -33,7 +33,7 @@ const OrganisationPage = () => {
 
   const getOrganisationInfo = async (name) => {
     try {
-      const response = await fetch(`${process.env.BACKEND_URL}/organisationpage`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/organisationpage`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,16 +63,15 @@ const OrganisationPage = () => {
   };
 
   const handleToggleActive = async () => {
-    const newActiveOrganisation = activeOrganisation === organisationName ? null : organisationName;
+    const newActiveOrganisation = activeOrganisation === organisationName ? '' : organisationName;
     try {
-      const response = await fetch(`${process.env.BACKEND_URL}/set-active-organisation`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/set-active-organisation`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          organisationName: newActiveOrganisation,
-          currentActive: activeOrganisation,
+          name: newActiveOrganisation,
         }),
         credentials: 'include',
       });

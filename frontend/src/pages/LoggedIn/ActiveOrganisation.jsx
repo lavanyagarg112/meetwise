@@ -8,6 +8,7 @@ const ActiveOrganisation = () => {
 
   useEffect(() => {
     if (user && activeOrganisation) {
+      console.log('activeOrganisation: ', activeOrganisation)
       navigate(`/organisation/${activeOrganisation}`)
     }
   }, [user, activeOrganisation, navigate])
