@@ -107,6 +107,10 @@ const TeamPage = ({organisation}) => {
               {/* Add your invite user functionality here */}
             </div>
           )}
+          <div className={classes.section}>
+              <h3>View Team meetings</h3>
+              {/* Meeting list compoenent for this meeting, can create endpoint */}
+          </div>
         </div>
       )}
     </div>

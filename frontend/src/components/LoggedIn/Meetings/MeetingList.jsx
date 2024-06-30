@@ -3,7 +3,7 @@ import React from 'react'
 const MeetingList = () => {
   return (
     <div>
-      Meeting List
+      Meeting List for specific team or specific organisation
     </div>
   )
 }
