@@ -84,6 +84,10 @@ const TeamPage = ({organisation}) => {
             <h1>{teamName}</h1>
           </div>
           <div className={classes.section}>
+              <h3>View Team meetings</h3>
+              {/* Meeting list compoenent for this meeting, can create endpoint */}
+          </div>
+          <div className={classes.section}>
             <div className={classes.sectionTitle} onClick={toggleAdmins}>
               <h3>Team Admins</h3>
               <span className={classes.toggleIcon}>
@@ -107,10 +111,6 @@ const TeamPage = ({organisation}) => {
               {/* Add your invite user functionality here */}
             </div>
           )}
-          <div className={classes.section}>
-              <h3>View Team meetings</h3>
-              {/* Meeting list compoenent for this meeting, can create endpoint */}
-          </div>
         </div>
       )}
     </div>
