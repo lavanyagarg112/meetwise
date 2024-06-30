@@ -157,10 +157,8 @@ POST
 
 what i will send:
 {
-    organisationName: name of organisation which should be set active
-    currentActive: current organisation which is active (will have to be made unactive)
+    name: name of organisation which should be set active
 }
 
 important: if organisationName is null that means that the currentActive has to become set as unactive. so none of the organisation
 are actually active at this point.
-otherwise the organisationName is the new active organisation for the user
