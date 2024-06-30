@@ -18,6 +18,9 @@ frontend/.env.development.local
 frontend/.env.test.local
 frontend/.env.production.local
 frontend/.env
+frontend/server.crt
+frontend/server.der.crt
+frontend/server.key
 
 frontend/npm-debug.log*
 frontend/yarn-debug.log*
