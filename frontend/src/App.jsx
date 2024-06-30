@@ -32,8 +32,8 @@ function App() {
               <Route path='/myorganisation' element={<ActiveOrganisation />} />
               <Route path='/organisations' element={<Organisations />} />
               <Route path='/settings' element={<Settings />} />
-              <Route path='/organisation/:name' element={<OrganisationPage />} />
-              <Route path='/team/:name' element={<TeamPage />} />
+              <Route path='/organisations/:name' element={<OrganisationPage />} />
+              <Route path='/organisations/:organisationname/:name' element={<TeamPage />} />
               <Route path='*' element={<NotFoundPage />} /> 
           </Routes>
       </Layout>
