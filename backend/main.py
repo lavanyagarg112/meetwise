@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 
-origins = "http://localhost:.*"
+origins = "https://localhost:.*"
 
 app.add_middleware(
     CORSMiddleware,
@@ -32,7 +32,7 @@ async def signup(user: UserSignUp, response: Response):
     except:
         raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
     userDetails, error, activeOrg = getUserDetails(userCred, False)
-    response.set_cookie("credentials", userCredentials(userDetails.id), samesite='none', httponly=True)
+    response.set_cookie("credentials", userCredentials(userDetails.id), samesite='none', secure=True, httponly=True)
     return {"user": userDetails}
 
 
@@ -44,7 +44,7 @@ async def signin(user: UserLogIn, response: Response):
             return {"error": error}, 401
     except:
         raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
-    response.set_cookie("credentials", userCredentials(userDetails.id), samesite='none', httponly=True)
+    response.set_cookie("credentials", userCredentials(userDetails.id), samesite='none', secure=True, httponly=True)
     return {"user": userDetails, "activeOrganisation": activeOrganisation}
 
 
@@ -87,7 +87,7 @@ async def newOrganisation(name: OrganisationName, credentials: Annotated[str, Co
 
 @app.post("/organisationpage")
 async def organisationPage(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
-
+    print(f"Received credentials: {credentials}")
     if credentials is None:
         raise HTTPException(status_code=401, detail="No credentials provided")
     id, error = validateCookie(credentials)

@@ -33,7 +33,6 @@ const OrganisationPage = () => {
 
   const getOrganisationInfo = async (name) => {
     try {
-      console.log(`fetching ${process.env.REACT_APP_BACKEND_URL}/organisationpage`)
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/organisationpage`, {
         method: 'POST',
         headers: {
@@ -73,7 +72,6 @@ const OrganisationPage = () => {
         },
         body: JSON.stringify({
           organisationName: newActiveOrganisation,
-          currentActive: activeOrganisation,
         }),
         credentials: 'include',
       });
