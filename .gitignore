@@ -20,6 +20,7 @@ frontend/.env.production.local
 frontend/.env
 frontend/server.crt
 frontend/server.key
+frontend/server.der.crt
 
 frontend/npm-debug.log*
 frontend/yarn-debug.log*
