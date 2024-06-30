@@ -13,10 +13,11 @@ origins = "https://localhost:.*"
 
 app.add_middleware(
     CORSMiddleware,
+    allow_origins=["null"],
     allow_origin_regex=origins,
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["*"]
 )
 
 
@@ -49,7 +50,8 @@ async def signin(user: UserLogIn, response: Response):
 
 
 @app.get("/logged-in")
-async def logged_in(credentials: Annotated[str, Cookie()] = None):
+async def logged_in(request: Request, credentials: Annotated[str, Cookie()] = None):
+    print(request.cookies.get("credentials"))
     print(f"Received credentials: {credentials}")
     if credentials is None:
         raise HTTPException(status_code=401, detail="No credentials provided")
@@ -114,4 +116,4 @@ async def setActiveOrganisation(name: OrganisationName, credentials: Annotated[s
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("main:app", host="127.0.0.1", port=8000)
+    uvicorn.run("main:app", host="localhost", port=8000)
