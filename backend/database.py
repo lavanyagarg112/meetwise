@@ -6,6 +6,9 @@ from dotenv import load_dotenv
 
 conn = None
 
+#Store procedures
+
+
 
 # noinspection SpellCheckingInspection
 def initialise():
@@ -27,7 +30,7 @@ def setActiveOrganisation(id: int, name: str):
 def main():
     initialise()
     with closing(conn.cursor()) as cursor:
-        cursor.execute("CREATE TABLE IF NOT EXISTS users2 (id INTEGER);")
+        cursor.execute()
         conn.commit()
         conn.sync()
 
