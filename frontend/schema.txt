@@ -163,6 +163,18 @@ data: {
                 id: number,
                 name: team name
             }
+        ],
+        pendingInvites: [
+            {
+                id: user id,
+                email: user email,
+                role: user role
+            },
+            {
+                id: user id,
+                email: user email,
+                role: user role
+            },
         ]
     }
 }
@@ -387,3 +399,25 @@ what i will send:
 
 this is basically to add a user to the team. this user will already belong to the organisation
 
+/invite-user
+POST
+
+what i want:
+data: {
+    id: user id,
+    email: user email,
+    role: user role
+}
+
+what i will send: 
+{
+    email: user email,
+    role: user role,
+    organisation: organisation name
+
+}
+
+Note: in the backend there should ideally be a table for pending invites
+if user exists already in the system (but not in that organisation): add to the organisation
+if does not exist in system, add to pending invites
+when a user signs up we should check if any email matches anyone in the pending invites section, and add to organisation with the appropriate role accordingly
