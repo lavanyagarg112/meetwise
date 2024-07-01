@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import Select from 'react-select';
 import PeopleList from '../../components/LoggedIn/Organisations/PeopleList';
 import TeamMeetingsList from '../../components/LoggedIn/Meetings/TeamMeetingsList';
 import NotFoundPage from '../NotFoundPage';
@@ -19,7 +20,7 @@ const TeamPage = ({ organisation }) => {
   const [isUsersCollapsed, setIsUsersCollapsed] = useState(true);
   const [isMeetingsCollapsed, setIsMeetingsCollapsed] = useState(true);
   const [showerror, setShowError] = useState(false);
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUser, setSelectedUser] = useState(null);
   const [selectedRole, setSelectedRole] = useState('');
   const [showPopup, setShowPopup] = useState(false);
 
@@ -96,7 +97,7 @@ const TeamPage = ({ organisation }) => {
         body: JSON.stringify({
           teamName,
           organisation,
-          userId: selectedUser,
+          userId: selectedUser.value,
           role: selectedRole,
         }),
         credentials: 'include',
@@ -122,8 +123,8 @@ const TeamPage = ({ organisation }) => {
 
     // to be removed after end point is deleted
     const userInfo = {
-      id: selectedUser,
-      username: `user: ${selectedUser}`
+      id: selectedUser.value,
+      username: selectedUser.label
     }
     if (selectedRole === 'admin') {
       setAdmins([...admins, userInfo]);
@@ -186,18 +187,13 @@ const TeamPage = ({ organisation }) => {
             <div className={classes.section}>
               <h3>Add Users from Organisation</h3>
               <form onSubmit={handleAddUser} className={classes.addUserForm}>
-                <select
+                <Select
                   value={selectedUser}
-                  onChange={(e) => setSelectedUser(e.target.value)}
+                  onChange={setSelectedUser}
+                  options={otherUsers.map(user => ({ value: user.id, label: `${user.name} (${user.email})` }))}
+                  placeholder="Select User"
                   required
-                >
-                  <option value="">Select User</option>
-                  {otherUsers.map((user) => (
-                    <option key={user.id} value={user.id}>
-                      {user.name} ({user.email})
-                    </option>
-                  ))}
-                </select>
+                />
                 <select
                   value={selectedRole}
                   onChange={(e) => setSelectedRole(e.target.value)}
