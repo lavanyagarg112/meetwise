@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Switch, FormControlLabel } from '@mui/material';
 
 import PeopleList from '../../components/LoggedIn/Organisations/PeopleList';
 import TeamBlock from '../../components/LoggedIn/Organisations/TeamBlock';
 
 import TeamMeetingsList from '../../components/LoggedIn/Meetings/TeamMeetingsList';
 
-import NotFoundPage from '../NotFoundPage'
+import NotFoundPage from '../NotFoundPage';
 
 import classes from './OrganisationPage.module.css';
 import { useAuth } from '../../store/auth-context';
 
-const TeamPage = ({organisation}) => {
+const TeamPage = ({ organisation }) => {
   const { user } = useAuth();
   const { name } = useParams();
   const [teamName, setTeamName] = useState(name);
@@ -23,13 +22,15 @@ const TeamPage = ({organisation}) => {
 
   const [isAdminsCollapsed, setIsAdminsCollapsed] = useState(true);
   const [isUsersCollapsed, setIsUsersCollapsed] = useState(true);
+  const [isMeetingsCollapsed, setIsMeetingsCollapsed] = useState(true);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const [showerror, setShowError] = useState(false)
+  const [showerror, setShowError] = useState(false);
 
   const toggleAdmins = () => setIsAdminsCollapsed(!isAdminsCollapsed);
   const toggleUsers = () => setIsUsersCollapsed(!isUsersCollapsed);
+  const toggleMeetings = () => setIsMeetingsCollapsed(!isMeetingsCollapsed);
 
   const getTeamInfo = async (name) => {
     try {
@@ -45,7 +46,7 @@ const TeamPage = ({organisation}) => {
       if (!response.ok) {
         const errorResponse = await response.json();
         const errorText = 'An error occurred creating your organisations.';
-        setShowError(true)
+        setShowError(true);
         throw new Error(errorText);
       }
 
@@ -60,9 +61,8 @@ const TeamPage = ({organisation}) => {
     }
 
     // to be removed after endpoint is created
-
     setIsPermitted(true);
-    setShowError(false)
+    setShowError(false);
     setTeamName(name);
     setAdmins([]);
     setUsers([]);
@@ -78,7 +78,7 @@ const TeamPage = ({organisation}) => {
   }, [name]);
 
   if (showerror) {
-    return <NotFoundPage />
+    return <NotFoundPage />;
   }
 
   return (
@@ -93,8 +93,15 @@ const TeamPage = ({organisation}) => {
             <h1>{teamName}</h1>
           </div>
           <div className={classes.section}>
+            <div className={classes.sectionTitle} onClick={toggleMeetings}>
               <h3>View Team meetings</h3>
+              <span className={classes.toggleIcon}>
+                {isMeetingsCollapsed ? 'View Meetings' : 'Close Section'}
+              </span>
+            </div>
+            {!isMeetingsCollapsed && (
               <TeamMeetingsList teamName={teamName} organisationName={organisation} goToMeeting={goToMeeting} />
+            )}
           </div>
           <div className={classes.section}>
             <div className={classes.sectionTitle} onClick={toggleAdmins}>
