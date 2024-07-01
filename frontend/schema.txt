@@ -7,7 +7,8 @@ data : {
         id: number,
         email: user email,
         username: user username
-        firstName: user first name
+        firstName: user first name,
+        lastName: user last name
     }
 }
 
@@ -30,6 +31,7 @@ data : {
         email: user email,
         username: user username
         firstName: user first name
+        lastName: user last name
     }
     activeOrganisation: name of active organisation
 }
@@ -50,6 +52,7 @@ data : {
         email: user email,
         username: user username
         firstName: user first name
+        lastName: user last name
     }
     activeOrganisation: name of active organisation
 }
@@ -106,32 +109,50 @@ data: {
         owners: [
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
             },
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
             },
         ],
         admins: [
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
             },
             {
                 id: number,
-                username: string
-            }
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
         ],
         users: [
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
             },
             {
                 id: number,
-                username: string
-            }
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
         ],
         teams: [
             {
@@ -161,3 +182,207 @@ what i will send:
 
 important: if organisationName is null that means that the currentActive has to become set as unactive. so none of the organisation
 are actually active at this point
+
+
+/teampage
+POST
+
+(for that user)
+
+what i want:
+
+data: {
+    isPermitted: boolean,
+    userRole: admin/user,
+    team: {
+        id: number,
+        name: team name,
+        admins: [
+            {
+                id: number,
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
+            {
+                id: number,
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
+        ],
+        users: [
+            {
+                id: number,
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
+            {
+                id: number,
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
+        ],
+        otherUsers: [
+            {
+                id: number,
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
+            {
+                id: number,
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
+        ],
+    }
+}
+
+note: otherUsers are users in organisations but not in team
+
+what i will send
+{
+    name: team name
+    organisation: organisation name
+}
+
+/upload-meeting
+POST
+
+What I will send:
+FormData {
+  "file": File {
+    name: "output.mp3",
+    type: "audio/mpeg",
+    size: 123456
+  }
+}
+
+/new-team
+POST
+
+(for that user)
+
+what i want:
+
+data: {
+    id: number,
+    name: team name
+}
+
+what i will send: {
+    name: team name,
+    organisation: organisation name
+}
+
+/get-team-meetings
+POST
+
+(for that user)
+
+what i want:
+data: {
+    teams: [
+        {
+            id: number
+            title: meeting name to display on list
+            date: meeting date
+        },
+        {
+            id: number
+            title: meeting name to display on list
+            date: meeting date
+        }
+    ]
+}
+
+what i will send:
+{
+    name: team name
+    organisation: organisation name
+}
+
+/get-organisation-meetings
+POST
+
+(for that user)
+
+what i want:
+data: {
+    organisations: [
+        {
+            id: number
+            title: meeting name to display on list
+            date: meeting date
+        },
+        {
+            id: number
+            title: meeting name to display on list
+            date: meeting date
+        }
+    ]
+}
+
+what i will send:
+{
+    name: organisation name
+}
+
+/get-organisation-teams
+POST
+
+(the teams that user belongs to)
+
+what i want:
+data: {
+    teams: [
+        {
+            id: number
+            name: team name
+        },
+        {
+            id: number
+            name: team name
+        }
+    ]
+}
+
+what i will send:
+{
+    name: organisation name
+}
+
+
+/add-team-user
+POST
+
+what i want:
+data: {
+    user: {
+        id: number,
+        email: user email,
+        username: user username
+        firstName: user first name
+        lastName: user last name
+    }
+}
+
+what i will send:
+{
+    teamName: team name,
+    organisation: organisation name,
+    userId: id of the user to be added,
+    role: role of the user,
+}
+
+this is basically to add a user to the team. this user will already belong to the organisation
