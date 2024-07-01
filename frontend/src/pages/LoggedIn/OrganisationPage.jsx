@@ -5,6 +5,8 @@ import { Switch, FormControlLabel } from '@mui/material';
 import PeopleList from '../../components/LoggedIn/Organisations/PeopleList';
 import TeamBlock from '../../components/LoggedIn/Organisations/TeamBlock';
 
+import CreateTeamForm from '../../components/LoggedIn/Organisations/CreateTeamForm';
+
 import NotFoundPage from '../NotFoundPage'
 
 import classes from './OrganisationPage.module.css';
@@ -26,10 +28,51 @@ const OrganisationPage = () => {
   const [isUsersCollapsed, setIsUsersCollapsed] = useState(true);
 
   const [showerror, setShowError] = useState(false)
+  const [isFormVisible, setIsFormVisible] = useState(false)
 
   const toggleOwners = () => setIsOwnersCollapsed(!isOwnersCollapsed);
   const toggleAdmins = () => setIsAdminsCollapsed(!isAdminsCollapsed);
   const toggleUsers = () => setIsUsersCollapsed(!isUsersCollapsed);
+
+  const newTeam = async (teamName) => {
+
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/new-team`, {
+        method:'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: teamName,
+          organisation: organisationName,
+        }),
+        credentials: 'include'
+      })
+  
+      if (!response.ok) {
+        const errorResponse = await response.json()
+        const errorText = 'An error occurred creating your organisations.'
+        throw new Error(errorText)
+      }
+  
+      const data = await response.json()
+      setTeams([...teams, data])
+  
+    } catch (error) {
+      console.log('ERROR')
+    }
+
+    // to be removed after endpoint
+    const data = {
+      id: 3,
+      name: teamName
+    }
+    setTeams([...teams, data])
+  }
+
+  const createTeam = () => {
+    setIsFormVisible(true)
+  }
 
   const getOrganisationInfo = async (name) => {
     try {
@@ -59,6 +102,7 @@ const OrganisationPage = () => {
       setUserRole(data.userRole);
     } catch (error) {
       console.log('ERROR');
+      setShowError(true)
     }
   };
 
@@ -122,8 +166,9 @@ const OrganisationPage = () => {
             <div className={classes.teamsHeader}>
               <h3>My Teams</h3>
               {role !== 'user' && (
-                <button className={classes.createTeamButton}>Create New Team</button>
+                <button className={classes.createTeamButton} onClick={createTeam}>Create New Team</button>
               )}
+              {isFormVisible && <CreateTeamForm onClose={() => setIsFormVisible(false)} onCreate={newTeam} />}
             </div>
             <div className={classes.organisationContainer}>
               {!teams || teams.length === 0 ? (
