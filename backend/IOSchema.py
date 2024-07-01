@@ -18,7 +18,10 @@ class Team(BaseModel):
 
 class Person(BaseModel):
     id: int
+    email: str
     username: str
+    firstName: str
+    lastName: str
 
 class OrganisationName(BaseModel):
     name: str
@@ -27,7 +30,8 @@ class OrganisationNameOptional(BaseModel):
     name: str = None
 
 class UserLogIn(BaseModel):
-    email: str
+    username: str = None
+    email: str = None
     password: str
 
 
@@ -39,15 +43,8 @@ class UserSignUp(UserLogIn):
     password: str
 
 
-class UserDetails(Person):
-    id: int
-    email: str
-    username: str
-    firstName: str
-
-
 class UserInfo(BaseModel):
-    user: UserDetails
+    user: Person
     activeOrganisation: str
 
 

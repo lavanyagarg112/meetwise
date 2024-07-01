@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Response, Request, Cookie
 from typing import Annotated
-from IOSchema import UserSignUp, UserDetails, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
+from IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
     OrganisationNameOptional
 from UserAccounts import createUser, getUserDetails, userCredentials, getUserByID, validateCookie, getOrganisationsByID, \
     setOrganisationActive
@@ -40,6 +40,8 @@ async def signup(user: UserSignUp, response: Response):
 
 @app.post("/sign-in")
 async def signin(user: UserLogIn, response: Response):
+    if user.email is None and user.username is None:
+        raise HTTPException(status_code=400, detail="Invalid credentials. Please supply username or email.")
     try:
         userDetails, error, activeOrganisation = getUserDetails(user, True)
         if error is not None:

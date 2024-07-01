@@ -4,7 +4,7 @@ from typing import List
 import jwt
 from jwt import ExpiredSignatureError
 from dotenv import load_dotenv
-from IOSchema import UserDetails, UserSignUp, UserLogIn, UserInfo, Organisation
+from IOSchema import Person, UserSignUp, UserLogIn, UserInfo, Organisation
 import os
 
 from Errors import CreateUserError, AuthError
@@ -15,9 +15,9 @@ secret = os.environ["JWT_SIGNING_KEY"]
 EXPIRY_TIME = datetime.timedelta(minutes=10)
 
 
-#TODO: Query DB and return UserDetails
-def getUserDetails(user: UserLogIn, activeOrgNeeded: bool) -> [UserDetails, AuthError, str]:
-    user = UserDetails(id=1, email=user.email, username="DummyUser", firstName="Dummy")
+#TODO: Query DB and return Person
+def getPerson(user: UserLogIn, activeOrgNeeded: bool) -> [Person, AuthError, str]:
+    user = Person(id=1, email=user.email, username="DummyUser", firstName="Dummy")
     if activeOrgNeeded:
         return user, None, "organisation"
     else:
@@ -25,7 +25,7 @@ def getUserDetails(user: UserLogIn, activeOrgNeeded: bool) -> [UserDetails, Auth
 
 
 def getUserByID(user: int) -> UserInfo:
-    return UserInfo(user=UserDetails(id=user, email="dummyEmail", username="DummyUser", firstName="Dummy"),
+    return UserInfo(user=Person(id=user, email="dummyEmail", username="DummyUser", firstName="Dummy"),
                     activeOrganisation="Dummy")
 
 
