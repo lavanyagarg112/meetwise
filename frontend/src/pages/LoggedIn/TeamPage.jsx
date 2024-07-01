@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Switch, FormControlLabel } from '@mui/material';
 
 import PeopleList from '../../components/LoggedIn/Organisations/PeopleList';
 import TeamBlock from '../../components/LoggedIn/Organisations/TeamBlock';
+
+import TeamMeetingsList from '../../components/LoggedIn/Meetings/TeamMeetingsList';
 
 import NotFoundPage from '../NotFoundPage'
 
@@ -21,6 +23,8 @@ const TeamPage = ({organisation}) => {
 
   const [isAdminsCollapsed, setIsAdminsCollapsed] = useState(true);
   const [isUsersCollapsed, setIsUsersCollapsed] = useState(true);
+
+  const navigate = useNavigate()
 
   const [showerror, setShowError] = useState(false)
 
@@ -65,6 +69,10 @@ const TeamPage = ({organisation}) => {
     setUserRole('admin');
   };
 
+  const goToMeeting = (id) => {
+    navigate(`/meetings/${id}`);
+  };
+
   useEffect(() => {
     getTeamInfo(name);
   }, [name]);
@@ -86,7 +94,7 @@ const TeamPage = ({organisation}) => {
           </div>
           <div className={classes.section}>
               <h3>View Team meetings</h3>
-              {/* Meeting list compoenent for this meeting, can create endpoint */}
+              <TeamMeetingsList teamName={teamName} organisationName={organisation} goToMeeting={goToMeeting} />
           </div>
           <div className={classes.section}>
             <div className={classes.sectionTitle} onClick={toggleAdmins}>
@@ -109,7 +117,7 @@ const TeamPage = ({organisation}) => {
           {role !== 'user' && (
             <div className={classes.section}>
               <h3>Add Users</h3>
-              {/* Add your invite user functionality here */}
+              {/* add way to add users from organisation */}
             </div>
           )}
         </div>

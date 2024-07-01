@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Switch, FormControlLabel } from '@mui/material';
 
 import PeopleList from '../../components/LoggedIn/Organisations/PeopleList';
 import TeamBlock from '../../components/LoggedIn/Organisations/TeamBlock';
 
 import CreateTeamForm from '../../components/LoggedIn/Organisations/CreateTeamForm';
+import OrganisationMeetingsList from '../../components/LoggedIn/Meetings/OrganisationMeetingsList';
 
 import NotFoundPage from '../NotFoundPage'
 
@@ -33,6 +34,8 @@ const OrganisationPage = () => {
   const toggleOwners = () => setIsOwnersCollapsed(!isOwnersCollapsed);
   const toggleAdmins = () => setIsAdminsCollapsed(!isAdminsCollapsed);
   const toggleUsers = () => setIsUsersCollapsed(!isUsersCollapsed);
+
+  const navigate = useNavigate()
 
   const newTeam = async (teamName) => {
 
@@ -132,6 +135,10 @@ const OrganisationPage = () => {
     }
   };
 
+  const goToMeeting = (id) => {
+    navigate(`/meetings/${id}`);
+  };
+
   useEffect(() => {
     getOrganisationInfo(name);
   }, [name]);
@@ -180,7 +187,7 @@ const OrganisationPage = () => {
           </div>
           <div className={classes.section}>
               <h3>View Organisation meetings</h3>
-              {/* Meeting list compoenent for this meeting, can create endpoint */}
+              <OrganisationMeetingsList organisationName={organisationName} goToMeeting={goToMeeting} />
           </div>
           <div className={classes.section}>
             <div className={classes.sectionTitle} onClick={toggleOwners}>
