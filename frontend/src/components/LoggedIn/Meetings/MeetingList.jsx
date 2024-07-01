@@ -4,24 +4,6 @@ import TeamMeetingsList from './TeamMeetingsList';
 import styles from './MeetingList.module.css';
 import { useNavigate } from 'react-router-dom';
 
-const DUMMY_DATA = [
-  {
-    id: 0,
-    title: 'meeting 1',
-    date: '10-06-2024'
-  },
-  {
-    id: 1,
-    title: 'meeting 2',
-    date: '10-06-2024'
-  },
-  {
-    id: 3,
-    title: 'meeting 3',
-    date: '10-06-2024'
-  }
-];
-
 const DUMMY_TEAMS = [
   {
     id: 0,
@@ -38,8 +20,6 @@ const DUMMY_TEAMS = [
 ];
 
 const MeetingList = ({ organisationName }) => {
-  const [organisationMeetings, setOrganisationMeetings] = useState([]);
-  const [teamMeetings, setTeamMeetings] = useState([]);
   const [isOrgMeetingsCollapsed, setIsOrgMeetingsCollapsed] = useState(true);
   const [isTeamMeetingsCollapsed, setIsTeamMeetingsCollapsed] = useState(true);
   const [teamName, setTeamName] = useState('');
@@ -49,35 +29,6 @@ const MeetingList = ({ organisationName }) => {
 
   const toggleOrgMeetings = () => setIsOrgMeetingsCollapsed(!isOrgMeetingsCollapsed);
   const toggleTeamMeetings = () => setIsTeamMeetingsCollapsed(!isTeamMeetingsCollapsed);
-
-  const getOrganisationMeetings = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-organisation-meetings`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: organisationName
-        }),
-        credentials: 'include'
-      });
-
-      if (!response.ok) {
-        const errorResponse = await response.json();
-        const errorText = 'An error occurred fetching your organisations.';
-        throw new Error(errorText);
-      }
-
-      const data = await response.json();
-      setOrganisationMeetings(data.organisations);
-    } catch (error) {
-      console.log('ERROR');
-    }
-
-    // to be removed after endpoint works
-    setOrganisationMeetings(DUMMY_DATA)
-  };
 
   const getOrganisationTeams = async () => {
     try {
@@ -105,37 +56,7 @@ const MeetingList = ({ organisationName }) => {
     }
 
     // to be removed after end point works
-    setTeams(DUMMY_TEAMS)
-  };
-
-  const getTeamMeetings = async (team) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-team-meetings`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: team,
-          organisation: organisationName
-        }),
-        credentials: 'include'
-      });
-
-      if (!response.ok) {
-        const errorResponse = await response.json();
-        const errorText = 'An error occurred fetching your organisations.';
-        throw new Error(errorText);
-      }
-
-      const data = await response.json();
-      setTeamMeetings(data.meetings); // Assuming the response structure is data.meetings
-    } catch (error) {
-      console.log('ERROR');
-    }
-
-    // to be removed after endpoint works
-    setTeamMeetings(DUMMY_DATA)
+    setTeams(DUMMY_TEAMS);
   };
 
   const goToMeeting = (id) => {
@@ -145,14 +66,9 @@ const MeetingList = ({ organisationName }) => {
   const handleTeamChange = (event) => {
     const selectedTeam = event.target.value;
     setTeamName(selectedTeam);
-    if (selectedTeam) {
-      getTeamMeetings(selectedTeam);
-    }
-    setTeamMeetings([])
   };
 
   useEffect(() => {
-    getOrganisationMeetings();
     getOrganisationTeams();
   }, [organisationName]);
 
@@ -163,7 +79,7 @@ const MeetingList = ({ organisationName }) => {
         <span>{isOrgMeetingsCollapsed ? '▼' : '▲'}</span>
       </div>
       {!isOrgMeetingsCollapsed && (
-        <OrganisationMeetingsList meetings={organisationMeetings} goToMeeting={goToMeeting} />
+        <OrganisationMeetingsList organisationName={organisationName} goToMeeting={goToMeeting} />
       )}
       <div onClick={toggleTeamMeetings} className={styles.sectionTitle}>
         <span>See Team Specific Meetings</span>
@@ -181,7 +97,7 @@ const MeetingList = ({ organisationName }) => {
               ))}
             </select>
           )}
-          <TeamMeetingsList meetings={teamMeetings} goToMeeting={goToMeeting} />
+          <TeamMeetingsList teamName={teamName} organisationName={organisationName} goToMeeting={goToMeeting} />
         </div>
       )}
     </div>
