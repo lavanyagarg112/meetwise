@@ -216,3 +216,99 @@ FormData {
     size: 123456
   }
 }
+
+/new-team
+POST
+
+(for that user)
+
+what i want:
+
+data: {
+    id: number,
+    name: team name
+}
+
+what i will send: {
+    name: team name,
+    organisation: organisation name
+}
+
+/get-team-meetings
+POST
+
+(for that user)
+
+what i want:
+data: {
+    teams: [
+        {
+            id: number
+            title: meeting name to display on list
+            date: meeting date
+        },
+        {
+            id: number
+            title: meeting name to display on list
+            date: meeting date
+        }
+    ]
+}
+
+what i will send:
+{
+    name: team name
+    organisation: organisation name
+}
+
+/get-organisation-meetings
+POST
+
+(for that user)
+
+what i want:
+data: {
+    organisations: [
+        {
+            id: number
+            title: meeting name to display on list
+            date: meeting date
+        },
+        {
+            id: number
+            title: meeting name to display on list
+            date: meeting date
+        }
+    ]
+}
+
+what i will send:
+{
+    name: organisation name
+}
+
+/get-organisation-teams
+POST
+
+(for that user)
+
+what i want:
+data: {
+    teams: [
+        {
+            id: number
+            name: team name
+        },
+        {
+            id: number
+            name: team name
+        }
+    ]
+}
+
+what i will send:
+{
+    name: organisation name
+}
+
+
