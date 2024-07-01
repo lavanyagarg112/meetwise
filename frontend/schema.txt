@@ -106,32 +106,44 @@ data: {
         owners: [
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
             },
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
             },
         ],
         admins: [
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
             },
             {
                 id: number,
-                username: string
-            }
+                email: user email,
+                username: user username
+                firstName: user first name
+            },
         ],
         users: [
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
             },
             {
                 id: number,
-                username: string
-            }
+                email: user email,
+                username: user username
+                firstName: user first name
+            },
         ],
         teams: [
             {
@@ -179,34 +191,44 @@ data: {
         admins: [
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
             },
             {
                 id: number,
-                username: string
-            }
+                email: user email,
+                username: user username
+                firstName: user first name
+            },
         ],
         users: [
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
             },
             {
                 id: number,
-                username: string
-            }
+                email: user email,
+                username: user username
+                firstName: user first name
+            },
         ],
         otherUsers: [
             {
                 id: number,
-                username: string,
-                email: user email
+                email: user email,
+                username: user username
+                firstName: user first name
             },
             {
                 id: number,
-                username: string,
-                email: user email
-            }
+                email: user email,
+                username: user username
+                firstName: user first name
+            },
         ],
     }
 }
@@ -332,8 +354,10 @@ POST
 what i want:
 data: {
     user: {
-        id: user id
-        username: username
+        id: number,
+        email: user email,
+        username: user username
+        firstName: user first name
     }
 }
 
