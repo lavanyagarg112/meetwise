@@ -272,18 +272,19 @@ what i will send
 POST
 
 What I will send:
-{
-    type: 'organisation' or 'team'
-    name: meeting name
-    date: date in format dd-mm-yyyy
-    filedata: FormData {
-        "file": File {
-            name: "output.mp3",
-            type: "audio/mpeg",
-            size: 123456
-        }
-    }
 
+note: idk how to send you the
+type: 'organisation' or 'team'
+meeting name
+meeting date as dd-mm-yyyy
+
+as FormData:
+{
+    "file": File {
+        name: "output.mp3",
+        type: "audio/mpeg",
+        size: 123456
+    }
 }
 
 
