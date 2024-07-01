@@ -2,6 +2,9 @@ import React from 'react'
 import classes from './PeopleList.module.css'
 
 const PeopleList = ({ people, currentUser, role }) => {
+
+  console.log("people: ", people)
+
   return (
     <div className={classes.peopleListContainer}>
       {!people || people.length === 0 ? (

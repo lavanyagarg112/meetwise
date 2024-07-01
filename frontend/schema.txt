@@ -196,8 +196,22 @@ data: {
                 username: string
             }
         ],
+        otherUsers: [
+            {
+                id: number,
+                username: string,
+                email: user email
+            },
+            {
+                id: number,
+                username: string,
+                email: user email
+            }
+        ],
     }
 }
+
+note: otherUsers are users in organisations but not in team
 
 what i will send
 {
@@ -311,4 +325,23 @@ what i will send:
     name: organisation name
 }
 
+
+/add-team-user
+POST
+
+what i want:
+data: {
+    user: {
+        id: user id
+        username: username
+    }
+}
+
+what i will send:
+{
+    teamName: team name,
+    organisation: organisation name,
+    userId: id of the user to be added,
+    role: role of the user,
+}
 
