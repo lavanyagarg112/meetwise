@@ -36,12 +36,12 @@ const DUMMY_TEAMS = [
 ];
 
 const MeetingList = ({ organisationName }) => {
-  const [organisationMeetings, setOrganisationMeetings] = useState(DUMMY_DATA);
+  const [organisationMeetings, setOrganisationMeetings] = useState([]);
   const [teamMeetings, setTeamMeetings] = useState([]);
   const [isOrgMeetingsCollapsed, setIsOrgMeetingsCollapsed] = useState(true);
   const [isTeamMeetingsCollapsed, setIsTeamMeetingsCollapsed] = useState(true);
   const [teamName, setTeamName] = useState('');
-  const [teams, setTeams] = useState(DUMMY_TEAMS);
+  const [teams, setTeams] = useState([]);
 
   const navigate = useNavigate();
 
@@ -72,6 +72,9 @@ const MeetingList = ({ organisationName }) => {
     } catch (error) {
       console.log('ERROR');
     }
+
+    // to be removed after endpoint works
+    setOrganisationMeetings(DUMMY_DATA)
   };
 
   const getOrganisationTeams = async () => {
@@ -98,6 +101,9 @@ const MeetingList = ({ organisationName }) => {
     } catch (error) {
       console.log('ERROR');
     }
+
+    // to be removed after end point works
+    setTeams(DUMMY_TEAMS)
   };
 
   const getTeamMeetings = async (team) => {
