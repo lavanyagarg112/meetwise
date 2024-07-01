@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
+import styles from './UploadMeeting.module.css';
 
 const UploadMeeting = () => {
   const [ffmpeg, setFFmpeg] = useState(null);
@@ -22,6 +23,11 @@ const UploadMeeting = () => {
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
+  };
+
+  const formatDate = (dateStr) => {
+    const [dd, mm, yyyy] = dateStr.split('-');
+    return `${yyyy}-${mm}-${dd}`;
   };
 
   const sendUploadAudio = async () => {
@@ -50,7 +56,7 @@ const UploadMeeting = () => {
       formData.append('file', blob, 'output.mp3');
       formData.append('type', type);
       formData.append('meetingName', meetingName);
-      formData.append('meetingDate', meetingDate);
+      formData.append('meetingDate', formatDate(meetingDate));
 
       try {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/upload-meeting`, {
@@ -72,17 +78,18 @@ const UploadMeeting = () => {
   };
 
   return (
-    <div>
-      <div>
+    <div className={styles.uploadMeeting}>
+      <h2>Upload Meeting</h2>
+      <div className={styles.formGroup}>
         <label>
           Meeting Type:
-          <select value={type} onChange={(e) => setType(e.target.value)}>
+          <select value={type} onChange={(e) => setType(e.target.value)} className={styles.selectInput}>
             <option value="organisation">Organisation</option>
             <option value="team">Team</option>
           </select>
         </label>
       </div>
-      <div>
+      <div className={styles.formGroup}>
         <label>
           Meeting Name:
           <input
@@ -90,10 +97,11 @@ const UploadMeeting = () => {
             value={meetingName}
             onChange={(e) => setMeetingName(e.target.value)}
             required
+            className={styles.textInput}
           />
         </label>
       </div>
-      <div>
+      <div className={styles.formGroup}>
         <label>
           Meeting Date:
           <input
@@ -102,17 +110,18 @@ const UploadMeeting = () => {
             value={meetingDate}
             onChange={(e) => setMeetingDate(e.target.value)}
             required
+            className={styles.textInput}
           />
         </label>
       </div>
-      <div>
-        <input type="file" onChange={handleFileChange} accept="video/*" />
+      <div className={styles.formGroup}>
+        <input type="file" onChange={handleFileChange} accept="video/*" className={styles.fileInput} />
       </div>
-      <button onClick={sendUploadAudio} disabled={loading}>
+      <button onClick={sendUploadAudio} disabled={loading} className={styles.uploadButton}>
         {loading ? 'Uploading...' : 'Send Upload'}
       </button>
       {fileUrl && (
-        <div>
+        <div className={styles.downloadLink}>
           <a href={fileUrl} download="output.mp3">Download test MP3</a>
         </div>
       )}

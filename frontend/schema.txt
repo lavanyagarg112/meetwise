@@ -102,7 +102,7 @@ what i want:
 
 data: {
     isPermitted: boolean,
-    userRole: owner/admin/user,
+    userRole: owner/admin/user, FOR ORGANISATION
     organisation: {
         id: number,
         name: organisation name,
@@ -168,12 +168,12 @@ data: {
             {
                 id: user id,
                 email: user email,
-                role: user role
+                role: user role for organisation
             },
             {
                 id: user id,
                 email: user email,
-                role: user role
+                role: user role for organisation
             },
         ]
     }
@@ -205,7 +205,7 @@ what i want:
 
 data: {
     isPermitted: boolean,
-    userRole: admin/user,
+    userRole: admin/user FOR TEAM
     team: {
         id: number,
         name: team name,
@@ -407,7 +407,7 @@ what i will send:
     teamName: team name,
     organisation: organisation name,
     userId: id of the user to be added,
-    role: role of the user,
+    role: role of the user IN THE TEAM
 }
 
 this is basically to add a user to the team. this user will already belong to the organisation
@@ -425,7 +425,7 @@ data: {
 what i will send: 
 {
     email: user email,
-    role: user role,
+    role: user role in the ORGANISATION
     organisation: organisation name
 
 }
