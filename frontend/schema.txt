@@ -290,7 +290,7 @@ what i will send:
 /get-organisation-teams
 POST
 
-(for that user)
+(the teams that user belongs to)
 
 what i want:
 data: {
