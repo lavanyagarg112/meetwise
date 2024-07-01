@@ -58,6 +58,7 @@ const TeamPage = ({ organisation }) => {
       setUserRole(data.userRole);
     } catch (error) {
       console.log('ERROR');
+      setShowError(true);
     }
 
     // to be removed after endpoint is created
