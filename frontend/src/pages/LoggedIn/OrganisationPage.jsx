@@ -23,19 +23,25 @@ const OrganisationPage = () => {
   const [teams, setTeams] = useState([]);
   const [role, setUserRole] = useState('user');
   const [permitted, setIsPermitted] = useState(false);
+  const [pendingInvites, setPendingInvites] = useState([]);
+  const [inviteEmail, setInviteEmail] = useState('');
+  const [inviteRole, setInviteRole] = useState('');
 
   const [isOwnersCollapsed, setIsOwnersCollapsed] = useState(true);
   const [isAdminsCollapsed, setIsAdminsCollapsed] = useState(true);
   const [isUsersCollapsed, setIsUsersCollapsed] = useState(true);
   const [isMeetingsCollapsed, setIsMeetingsCollapsed] = useState(true);
+  const [isInvitesCollapsed, setIsInvitesCollapsed] = useState(true);
 
   const [showerror, setShowError] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [showInvitePopup, setShowInvitePopup] = useState(false);
 
   const toggleOwners = () => setIsOwnersCollapsed(!isOwnersCollapsed);
   const toggleAdmins = () => setIsAdminsCollapsed(!isAdminsCollapsed);
   const toggleUsers = () => setIsUsersCollapsed(!isUsersCollapsed);
   const toggleMeetings = () => setIsMeetingsCollapsed(!isMeetingsCollapsed);
+  const toggleInvites = () => setIsInvitesCollapsed(!isInvitesCollapsed);
 
   const navigate = useNavigate();
 
@@ -102,6 +108,7 @@ const OrganisationPage = () => {
       setAdmins(data.organisation.admins);
       setUsers(data.organisation.users);
       setTeams(data.organisation.teams);
+      // setPendingInvites(data.organisation.pendingInvites);
       setUserRole(data.userRole);
     } catch (error) {
       console.log('ERROR');
@@ -137,6 +144,42 @@ const OrganisationPage = () => {
 
   const goToMeeting = (id) => {
     navigate(`/meetings/${id}`);
+  };
+
+  const handleInviteUser = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/invite-user`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: inviteEmail,
+          role: inviteRole,
+          organisation: organisationName,
+        }),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        const errorText = 'An error occurred inviting the user.';
+        throw new Error(errorText);
+      }
+
+      const data = await response.json();
+      setPendingInvites([...pendingInvites, data]);
+      setShowInvitePopup(true);
+      setTimeout(() => setShowInvitePopup(false), 3000);
+    } catch (error) {
+      console.log('ERROR', error);
+    }
+
+    // to be removed after endpoint works
+    setPendingInvites([...pendingInvites, {id:0, email: inviteEmail, role: inviteRole}])
+    setShowInvitePopup(true);
+    setTimeout(() => setShowInvitePopup(false), 3000);
   };
 
   useEffect(() => {
@@ -227,8 +270,52 @@ const OrganisationPage = () => {
           </div>
           {role !== 'user' && (
             <div className={classes.section}>
-              <h3>Invite Users</h3>
-              {/* Add your invite user functionality here */}
+              <div className={classes.sectionTitle} onClick={toggleInvites}>
+                <h3>Invite Users</h3>
+                <span className={classes.toggleIcon}>
+                  {isInvitesCollapsed ? 'View Invites' : 'Close Section'}
+                </span>
+              </div>
+              {!isInvitesCollapsed && (
+                <div>
+                  <form onSubmit={handleInviteUser} className={classes.inviteUserForm}>
+                    <input
+                      type="email"
+                      value={inviteEmail}
+                      onChange={(e) => setInviteEmail(e.target.value)}
+                      placeholder="User Email"
+                      required
+                    />
+                    <select
+                      value={inviteRole}
+                      onChange={(e) => setInviteRole(e.target.value)}
+                      required
+                    >
+                      <option value="">Select Role</option>
+                      <option value="admin">Organisation Admin</option>
+                      <option value="user">Organisation User</option>
+                    </select>
+                    <button type="submit">Invite User</button>
+                  </form>
+                  <div className={classes.pendingInvites}>
+                    <h4>Pending Invites</h4>
+                    {!pendingInvites || pendingInvites.length === 0 ? (
+                      <p>No pending invites.</p>
+                    ) : (
+                      pendingInvites.map((invite) => (
+                        <div key={invite.id} className={classes.inviteItem}>
+                          <span>{invite.email} - {invite.role}</span>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          {showInvitePopup && (
+            <div className={classes.popup}>
+              User invited successfully!
             </div>
           )}
         </div>
