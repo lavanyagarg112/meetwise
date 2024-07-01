@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styles from './MeetingList.module.css'
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const DUMMY_DATA = [
   {
@@ -20,11 +21,13 @@ const DUMMY_DATA = [
   }
 ]
 
-const MeetingList = () => {
+const MeetingList = ({organisationName}) => {
   const [organisationMeetings, setOrganisationMeetings] = useState(DUMMY_DATA)
   const [teamMeetings, setTeamMeetings] = useState([])
   const [isOrgMeetingsCollapsed, setIsOrgMeetingsCollapsed] = useState(true)
   const [isTeamMeetingsCollapsed, setIsTeamMeetingsCollapsed] = useState(true)
+
+  const [teamName, setTeamName] = useState('')
 
   const toggleOrgMeetings = () => setIsOrgMeetingsCollapsed(!isOrgMeetingsCollapsed)
   const toggleTeamMeetings = () => setIsTeamMeetingsCollapsed(!isTeamMeetingsCollapsed)
@@ -32,18 +35,71 @@ const MeetingList = () => {
   const navigate = useNavigate()
 
   const getOrganisationMeetings = async () => {
-    // Fetch organisation meetings from backend
-    // Set the state with the fetched meetings
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-organisation-meetings`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: organisationName
+        }),
+        credentials: 'include'
+      })
+  
+      if (!response.ok) {
+        const errorResponse = await response.json()
+        const errorText = 'An error occurred fetching your organisations.'
+        throw new Error(errorText)
+      }
+  
+      const data = await response.json()
+      setOrganisationMeetings(data.organisations)
+  
+    } catch (error) {
+      console.log('ERROR')
+    }
   }
 
   const getTeamMeetings = async () => {
-    // Fetch team meetings from backend
-    // Set the state with the fetched meetings
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-team-meetings`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: teamName,
+          organisation: organisationName
+        }),
+        credentials: 'include'
+      })
+  
+      if (!response.ok) {
+        const errorResponse = await response.json()
+        const errorText = 'An error occurred fetching your organisations.'
+        throw new Error(errorText)
+      }
+  
+      const data = await response.json()
+      setTeamMeetings(data.teams)
+  
+    } catch (error) {
+      console.log('ERROR')
+    }
   }
 
   const goToMeeting = (id) => {
     navigate(`/meetings/${id}`)
   }
+
+  useEffect(() => {
+    getOrganisationMeetings()
+  }, [])
+
+  useEffect(() => {
+    getTeamMeetings()
+  }, [])
 
   return (
     <div className={styles.meetingList}>

@@ -233,3 +233,31 @@ what i will send: {
     name: team name,
     organisation: organisation name
 }
+
+/get-team-meetings
+POST
+
+(for that user)
+
+what i want:
+data: {
+    teams: [
+        {
+            id: number
+            title: meeting name to display on list
+            date: meeting date
+        },
+        {
+            id: number
+            title: meeting name to display on list
+            date: meeting date
+        }
+    ]
+}
+
+what i will send:
+{
+    name: team name
+    organisation: organisation name
+}
+
