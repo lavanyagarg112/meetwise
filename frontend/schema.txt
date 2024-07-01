@@ -272,13 +272,26 @@ what i will send
 POST
 
 What I will send:
-FormData {
-  "file": File {
-    name: "output.mp3",
-    type: "audio/mpeg",
-    size: 123456
-  }
+
+in human readable form this is not it will be:
+
+{
+  "file": "binary data of the file",
+  "type": "organisation" or "team"
+  "meetingName": "Your Meeting Name",
+  "meetingDate": "dd-mm-yyyy"
 }
+
+in terms of types for backend:
+
+fastapi can import File, UploadFile, Form
+
+file: UploadFile = File(...),
+type: str = Form(...),
+meetingName: str = Form(...),
+meetingDate: str = Form(...)
+
+
 
 /new-team
 POST
