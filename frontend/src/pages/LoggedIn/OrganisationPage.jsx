@@ -177,6 +177,7 @@ const OrganisationPage = () => {
     }
 
     // to be removed after endpoint works
+    // include pending invites in get organisation info
     setPendingInvites([...pendingInvites, {id:0, email: inviteEmail, role: inviteRole}])
     setShowInvitePopup(true);
     setTimeout(() => setShowInvitePopup(false), 3000);
