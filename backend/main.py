@@ -35,7 +35,7 @@ async def signup(user: UserSignUp, response: Response):
             #  after DB testing can merge them into 1 like current implementation
     except:
         raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
-    userDetails, error, activeOrg = getUserDetails(userCred, False)
+    userDetails, error, activeOrg = getUserDetails(userCred)
     bakeCookie(userDetails.id, response)
     return {"user": userDetails}
 
@@ -45,7 +45,7 @@ async def signin(user: UserLogIn, response: Response):
     if user.email is None and user.username is None:
         raise HTTPException(status_code=400, detail="Invalid credentials. Please supply username or email.")
     try:
-        userDetails, error, activeOrganisation = getUserDetails(user, True)
+        userDetails, error, activeOrganisation = getUserDetails(user)
         if error is not None:
             return {"error": error}, 401
     except:

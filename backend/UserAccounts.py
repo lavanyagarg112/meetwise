@@ -9,7 +9,7 @@ from IOSchema import Person, UserSignUp, UserLogIn, UserInfo, Organisation
 import os
 
 from Errors import CreateUserError, AuthError
-from database import setActiveOrganisation
+from database import setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail
 
 load_dotenv('.env')
 secret = os.environ["JWT_SIGNING_KEY"]
@@ -17,12 +17,18 @@ EXPIRY_TIME = datetime.timedelta(minutes=10)
 
 
 #TODO: Query DB and return Person
-def getUserDetails(user: UserLogIn, activeOrgNeeded: bool) -> [Person, AuthError, str]:
-    user = Person(id=1, email=user.email, username="DummyUser", firstName="Dummy")
-    if activeOrgNeeded:
-        return user, None, "organisation"
-    else:
-        return user, None, None
+def getUserDetails(user: UserLogIn) -> [Person, AuthError, str]:
+    details =[]
+    if user.username is not None:
+     details = getUserDetailsByName(user.username)
+    else :
+     details = getUserDetailsByEmail(user.email)
+    if details is None:
+        return None, AuthError.USER_DOES_NOT_EXIST, None
+    if details[5] != user.password:
+        return None, AuthError.WRONG_PASSWORD, None
+    user = Person(id=details[0], email=details[1], username=details[2], firstName=details[3], lastName=details[4])
+    return user, None, details[6]
 
 
 def getUserByID(user: int) -> UserInfo:

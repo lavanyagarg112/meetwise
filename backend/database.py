@@ -27,12 +27,20 @@ def setActiveOrganisation(id: int, name: str):
     pass
 
 
-def main():
+def getUserDetailsByName(name: str):
     initialise()
     with closing(conn.cursor()) as cursor:
-        cursor.execute()
-        conn.commit()
-        conn.sync()
+        cursor.execute('''
+        SELECT ID , EMAIL,USERNAME,FIRSTNAME,LASTNAME ,PASSWORD,ACTIVEORG
+        FROM USERS WHERE USERNAME = ?''',(name,))
+        return cursor.fetchone()
 
-if __name__ == '__main__':
-    main()
+
+def getUserDetailsByEmail(email:str):
+    initialise()
+    with closing(conn.cursor()) as cursor:
+        cursor.execute('''
+        SELECT ID , EMAIL,USERNAME,FIRSTNAME,LASTNAME ,PASSWORD,ACTIVEORG
+        FROM USERS WHERE EMAIL = ?''',(email,))
+        return cursor.fetchone()
+
