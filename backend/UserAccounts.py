@@ -10,7 +10,7 @@ import os
 from Errors import CreateUserError, AuthError
 from database import setActiveOrganisation
 
-load_dotenv()
+load_dotenv('.env')
 secret = os.environ["JWT_SIGNING_KEY"]
 EXPIRY_TIME = datetime.timedelta(minutes=10)
 
