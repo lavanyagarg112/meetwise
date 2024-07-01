@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import OrganisationMeetingsList from './OrganisationMeetingsList';
+import TeamMeetingsList from './TeamMeetingsList';
 import styles from './MeetingList.module.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -161,21 +163,7 @@ const MeetingList = ({ organisationName }) => {
         <span>{isOrgMeetingsCollapsed ? '▼' : '▲'}</span>
       </div>
       {!isOrgMeetingsCollapsed && (
-        <div>
-          {organisationMeetings.length === 0 ? (
-            <p>No meetings available for the organisation.</p>
-          ) : (
-            organisationMeetings.map((meeting) => (
-              <div key={meeting.id} className={styles.meetingItem}>
-                <span>{meeting.title}</span>
-                <div>
-                  <span className={styles.meetingDate}>{meeting.date}</span>
-                  <span className={styles.viewDetails} onClick={() => goToMeeting(meeting.id)}>View Details</span>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
+        <OrganisationMeetingsList meetings={organisationMeetings} goToMeeting={goToMeeting} />
       )}
       <div onClick={toggleTeamMeetings} className={styles.sectionTitle}>
         <span>See Team Specific Meetings</span>
@@ -193,19 +181,7 @@ const MeetingList = ({ organisationName }) => {
               ))}
             </select>
           )}
-          {teamMeetings.length === 0 ? (
-            <p>No meetings available for the team.</p>
-          ) : (
-            teamMeetings.map((meeting) => (
-              <div key={meeting.id} className={styles.meetingItem}>
-                <span>{meeting.title}</span>
-                <div>
-                  <span className={styles.meetingDate}>{meeting.date}</span>
-                  <span className={styles.viewDetails} onClick={() => goToMeeting(meeting.id)}>View Details</span>
-                </div>
-              </div>
-            ))
-          )}
+          <TeamMeetingsList meetings={teamMeetings} goToMeeting={goToMeeting} />
         </div>
       )}
     </div>
