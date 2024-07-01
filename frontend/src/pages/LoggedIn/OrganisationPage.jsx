@@ -120,7 +120,7 @@ const OrganisationPage = () => {
           </div>
           <div className={classes.teamssection}>
             <div className={classes.teamsHeader}>
-              <h3>Teams</h3>
+              <h3>My Teams</h3>
               {role !== 'user' && (
                 <button className={classes.createTeamButton}>Create New Team</button>
               )}
