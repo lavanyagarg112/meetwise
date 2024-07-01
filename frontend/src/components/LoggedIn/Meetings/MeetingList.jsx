@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
-import styles from './MeetingList.module.css'
-import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import styles from './MeetingList.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const DUMMY_DATA = [
   {
@@ -19,87 +18,135 @@ const DUMMY_DATA = [
     title: 'meeting 3',
     date: '10-06-2024'
   }
-]
+];
 
-const MeetingList = ({organisationName}) => {
-  const [organisationMeetings, setOrganisationMeetings] = useState(DUMMY_DATA)
-  const [teamMeetings, setTeamMeetings] = useState([])
-  const [isOrgMeetingsCollapsed, setIsOrgMeetingsCollapsed] = useState(true)
-  const [isTeamMeetingsCollapsed, setIsTeamMeetingsCollapsed] = useState(true)
+const DUMMY_TEAMS = [
+  {
+    id: 0,
+    name: 'team 1',
+  },
+  {
+    id: 1,
+    name: 'team 2',
+  },
+  {
+    id: 2,
+    name: 'team 3',
+  }
+];
 
-  const [teamName, setTeamName] = useState('')
+const MeetingList = ({ organisationName }) => {
+  const [organisationMeetings, setOrganisationMeetings] = useState(DUMMY_DATA);
+  const [teamMeetings, setTeamMeetings] = useState([]);
+  const [isOrgMeetingsCollapsed, setIsOrgMeetingsCollapsed] = useState(true);
+  const [isTeamMeetingsCollapsed, setIsTeamMeetingsCollapsed] = useState(true);
+  const [teamName, setTeamName] = useState('');
+  const [teams, setTeams] = useState(DUMMY_TEAMS);
 
-  const toggleOrgMeetings = () => setIsOrgMeetingsCollapsed(!isOrgMeetingsCollapsed)
-  const toggleTeamMeetings = () => setIsTeamMeetingsCollapsed(!isTeamMeetingsCollapsed)
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
+  const toggleOrgMeetings = () => setIsOrgMeetingsCollapsed(!isOrgMeetingsCollapsed);
+  const toggleTeamMeetings = () => setIsTeamMeetingsCollapsed(!isTeamMeetingsCollapsed);
 
   const getOrganisationMeetings = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-organisation-meetings`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           name: organisationName
         }),
         credentials: 'include'
-      })
-  
-      if (!response.ok) {
-        const errorResponse = await response.json()
-        const errorText = 'An error occurred fetching your organisations.'
-        throw new Error(errorText)
-      }
-  
-      const data = await response.json()
-      setOrganisationMeetings(data.organisations)
-  
-    } catch (error) {
-      console.log('ERROR')
-    }
-  }
+      });
 
-  const getTeamMeetings = async () => {
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        const errorText = 'An error occurred fetching your organisations.';
+        throw new Error(errorText);
+      }
+
+      const data = await response.json();
+      setOrganisationMeetings(data.organisations);
+    } catch (error) {
+      console.log('ERROR');
+    }
+  };
+
+  const getOrganisationTeams = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-organisation-teams`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: organisationName
+        }),
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        const errorText = 'An error occurred fetching your organisations.';
+        throw new Error(errorText);
+      }
+
+      const data = await response.json();
+      setTeams(data.teams);
+    } catch (error) {
+      console.log('ERROR');
+    }
+  };
+
+  const getTeamMeetings = async (team) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-team-meetings`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name: teamName,
+          name: team,
           organisation: organisationName
         }),
         credentials: 'include'
-      })
-  
+      });
+
       if (!response.ok) {
-        const errorResponse = await response.json()
-        const errorText = 'An error occurred fetching your organisations.'
-        throw new Error(errorText)
+        const errorResponse = await response.json();
+        const errorText = 'An error occurred fetching your organisations.';
+        throw new Error(errorText);
       }
-  
-      const data = await response.json()
-      setTeamMeetings(data.teams)
-  
+
+      const data = await response.json();
+      setTeamMeetings(data.meetings); // Assuming the response structure is data.meetings
     } catch (error) {
-      console.log('ERROR')
+      console.log('ERROR');
     }
-  }
+
+    // to be removed after endpoint works
+    setTeamMeetings(DUMMY_DATA)
+  };
 
   const goToMeeting = (id) => {
-    navigate(`/meetings/${id}`)
-  }
+    navigate(`/meetings/${id}`);
+  };
+
+  const handleTeamChange = (event) => {
+    const selectedTeam = event.target.value;
+    setTeamName(selectedTeam);
+    if (selectedTeam) {
+      getTeamMeetings(selectedTeam);
+    }
+    setTeamMeetings([])
+  };
 
   useEffect(() => {
-    getOrganisationMeetings()
-  }, [])
-
-  useEffect(() => {
-    getTeamMeetings()
-  }, [])
+    getOrganisationMeetings();
+    getOrganisationTeams();
+  }, [organisationName]);
 
   return (
     <div className={styles.meetingList}>
@@ -130,8 +177,18 @@ const MeetingList = ({organisationName}) => {
       </div>
       {!isTeamMeetingsCollapsed && (
         <div>
+          {teams.length > 0 && (
+            <select className={styles.selectMenu} onChange={handleTeamChange} value={teamName}>
+              <option value="">Select a team</option>
+              {teams.map((team) => (
+                <option key={team.id} value={team.name}>
+                  {team.name}
+                </option>
+              ))}
+            </select>
+          )}
           {teamMeetings.length === 0 ? (
-            <p>Coming soon/ No meetings available for the team.</p>
+            <p>No meetings available for the team.</p>
           ) : (
             teamMeetings.map((meeting) => (
               <div key={meeting.id} className={styles.meetingItem}>
@@ -146,7 +203,7 @@ const MeetingList = ({organisationName}) => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default MeetingList
+export default MeetingList;

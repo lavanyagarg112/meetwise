@@ -1,5 +1,4 @@
 /* MeetingList.module.css */
-
 .meetingList {
     margin: 20px 0;
   }
@@ -32,5 +31,14 @@
     color: #007bff;
     cursor: pointer;
     margin-left: 10px;
+  }
+  
+  .selectMenu {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    min-width: 10px;
+    box-sizing: border-box;
   }
   
