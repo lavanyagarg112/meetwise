@@ -369,3 +369,5 @@ what i will send:
     role: role of the user,
 }
 
+this is basically to add a user to the team. this user will already belong to the organisation
+
