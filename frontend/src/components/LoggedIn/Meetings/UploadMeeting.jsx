@@ -8,6 +8,7 @@ const UploadMeeting = () => {
   const [type, setType] = useState('organisation');
   const [meetingName, setMeetingName] = useState('');
   const [meetingDate, setMeetingDate] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     const initFFmpeg = async () => {
@@ -19,9 +20,15 @@ const UploadMeeting = () => {
     initFFmpeg();
   }, []);
 
-  const sendUploadAudio = async (event) => {
-    const file = event.target.files[0];
-    if (!file || !ffmpeg) return;
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const sendUploadAudio = async () => {
+    if (!selectedFile || !ffmpeg || !meetingName || !meetingDate) {
+      alert('Please fill all the fields and select a file.');
+      return;
+    }
 
     setLoading(true);
     const reader = new FileReader();
@@ -37,14 +44,6 @@ const UploadMeeting = () => {
       const blob = new Blob([data], { type: 'audio/mpeg' });
       const url = URL.createObjectURL(blob);
       setFileUrl(url);
-
-      // Optionally download the file for testing
-      // const a = document.createElement('a');
-      // a.href = url;
-      // a.download = 'output.mp3';
-      // document.body.appendChild(a);
-      // a.click();
-      // document.body.removeChild(a);
 
       // Send the MP3 file to the backend
       const formData = new FormData();
@@ -69,7 +68,7 @@ const UploadMeeting = () => {
 
       setLoading(false);
     };
-    reader.readAsArrayBuffer(file);
+    reader.readAsArrayBuffer(selectedFile);
   };
 
   return (
@@ -107,9 +106,11 @@ const UploadMeeting = () => {
         </label>
       </div>
       <div>
-        <input type="file" onChange={sendUploadAudio} accept="video/*" />
+        <input type="file" onChange={handleFileChange} accept="video/*" />
       </div>
-      {loading && <p>Loading...</p>}
+      <button onClick={sendUploadAudio} disabled={loading}>
+        {loading ? 'Uploading...' : 'Send Upload'}
+      </button>
       {fileUrl && (
         <div>
           <a href={fileUrl} download="output.mp3">Download test MP3</a>
