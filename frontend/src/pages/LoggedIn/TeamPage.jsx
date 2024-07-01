@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import Select from 'react-select';
 import PeopleList from '../../components/LoggedIn/Organisations/PeopleList';
-import TeamBlock from '../../components/LoggedIn/Organisations/TeamBlock';
-
 import TeamMeetingsList from '../../components/LoggedIn/Meetings/TeamMeetingsList';
-
 import NotFoundPage from '../NotFoundPage';
-
 import classes from './OrganisationPage.module.css';
 import { useAuth } from '../../store/auth-context';
 
@@ -19,14 +15,16 @@ const TeamPage = ({ organisation }) => {
   const [users, setUsers] = useState([]);
   const [role, setUserRole] = useState('user');
   const [permitted, setIsPermitted] = useState(false);
-
+  const [otherUsers, setOtherUsers] = useState([]);
   const [isAdminsCollapsed, setIsAdminsCollapsed] = useState(true);
   const [isUsersCollapsed, setIsUsersCollapsed] = useState(true);
   const [isMeetingsCollapsed, setIsMeetingsCollapsed] = useState(true);
+  const [showerror, setShowError] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedRole, setSelectedRole] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
 
   const navigate = useNavigate();
-
-  const [showerror, setShowError] = useState(false);
 
   const toggleAdmins = () => setIsAdminsCollapsed(!isAdminsCollapsed);
   const toggleUsers = () => setIsUsersCollapsed(!isUsersCollapsed);
@@ -56,21 +54,85 @@ const TeamPage = ({ organisation }) => {
       setAdmins(data.team.admins);
       setUsers(data.team.users);
       setUserRole(data.userRole);
+      setOtherUsers(data.team.otherUsers);
     } catch (error) {
       console.log('ERROR');
+      setShowError(true);
     }
 
     // to be removed after endpoint is created
+    const otherUsers = [
+      {
+        id: 0,
+        name: 'user10',
+        email: 'user10@email.com'
+      },
+      {
+        id: 1,
+        name: 'user11',
+        email: 'user11@email.com'
+      }
+    ]
     setIsPermitted(true);
     setShowError(false);
     setTeamName(name);
     setAdmins([]);
     setUsers([]);
+    setOtherUsers(otherUsers)
     setUserRole('admin');
   };
 
   const goToMeeting = (id) => {
     navigate(`/meetings/${id}`);
+  };
+
+  const handleAddUser = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/add-team-user`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          teamName,
+          organisation,
+          userId: selectedUser.value,
+          role: selectedRole,
+        }),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        const errorText = 'An error occurred adding the user.';
+        throw new Error(errorText);
+      }
+
+      const data = await response.json();
+      if (selectedRole === 'admin') {
+        setAdmins([...admins, data.user]);
+      } else {
+        setUsers([...users, data.user]);
+      }
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 3000);
+    } catch (error) {
+      console.log('ERROR', error);
+    }
+
+    // to be removed after end point is deleted
+    const userInfo = {
+      id: selectedUser.value,
+      username: selectedUser.label
+    }
+    if (selectedRole === 'admin') {
+      setAdmins([...admins, userInfo]);
+    } else {
+      setUsers([...users, userInfo]);
+    }
+    setShowPopup(true);
+    setTimeout(() => setShowPopup(false), 3000);
   };
 
   useEffect(() => {
@@ -123,8 +185,31 @@ const TeamPage = ({ organisation }) => {
           </div>
           {role !== 'user' && (
             <div className={classes.section}>
-              <h3>Add Users</h3>
-              {/* add way to add users from organisation */}
+              <h3>Add Users from Organisation</h3>
+              <form onSubmit={handleAddUser} className={classes.addUserForm}>
+                <Select
+                  value={selectedUser}
+                  onChange={setSelectedUser}
+                  options={otherUsers.map(user => ({ value: user.id, label: `${user.name} (${user.email})` }))}
+                  placeholder="Select User"
+                  required
+                />
+                <select
+                  value={selectedRole}
+                  onChange={(e) => setSelectedRole(e.target.value)}
+                  required
+                >
+                  <option value="">Select Role</option>
+                  <option value="admin">Team Admin</option>
+                  <option value="user">Team User</option>
+                </select>
+                <button type="submit">Add User</button>
+              </form>
+            </div>
+          )}
+          {showPopup && (
+            <div className={classes.popup}>
+              User added successfully!
             </div>
           )}
         </div>

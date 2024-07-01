@@ -7,7 +7,8 @@ data : {
         id: number,
         email: user email,
         username: user username
-        firstName: user first name
+        firstName: user first name,
+        lastName: user last name
     }
 }
 
@@ -30,6 +31,7 @@ data : {
         email: user email,
         username: user username
         firstName: user first name
+        lastName: user last name
     }
     activeOrganisation: name of active organisation
 }
@@ -50,6 +52,7 @@ data : {
         email: user email,
         username: user username
         firstName: user first name
+        lastName: user last name
     }
     activeOrganisation: name of active organisation
 }
@@ -106,32 +109,50 @@ data: {
         owners: [
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
             },
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
             },
         ],
         admins: [
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
             },
             {
                 id: number,
-                username: string
-            }
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
         ],
         users: [
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
             },
             {
                 id: number,
-                username: string
-            }
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
         ],
         teams: [
             {
@@ -142,6 +163,18 @@ data: {
                 id: number,
                 name: team name
             }
+        ],
+        pendingInvites: [
+            {
+                id: user id,
+                email: user email,
+                role: user role
+            },
+            {
+                id: user id,
+                email: user email,
+                role: user role
+            },
         ]
     }
 }
@@ -179,25 +212,55 @@ data: {
         admins: [
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
             },
             {
                 id: number,
-                username: string
-            }
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
         ],
         users: [
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
             },
             {
                 id: number,
-                username: string
-            }
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
+        ],
+        otherUsers: [
+            {
+                id: number,
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
+            {
+                id: number,
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
         ],
     }
 }
+
+note: otherUsers are users in organisations but not in team
 
 what i will send
 {
@@ -312,3 +375,49 @@ what i will send:
 }
 
 
+/add-team-user
+POST
+
+what i want:
+data: {
+    user: {
+        id: number,
+        email: user email,
+        username: user username
+        firstName: user first name
+        lastName: user last name
+    }
+}
+
+what i will send:
+{
+    teamName: team name,
+    organisation: organisation name,
+    userId: id of the user to be added,
+    role: role of the user,
+}
+
+this is basically to add a user to the team. this user will already belong to the organisation
+
+/invite-user
+POST
+
+what i want:
+data: {
+    id: user id,
+    email: user email,
+    role: user role
+}
+
+what i will send: 
+{
+    email: user email,
+    role: user role,
+    organisation: organisation name
+
+}
+
+Note: in the backend there should ideally be a table for pending invites
+if user exists already in the system (but not in that organisation): add to the organisation
+if does not exist in system, add to pending invites
+when a user signs up we should check if any email matches anyone in the pending invites section, and add to organisation with the appropriate role accordingly
