@@ -143,6 +143,8 @@ const TeamPage = ({ organisation }) => {
     return <NotFoundPage />;
   }
 
+  // should add something for go back to organisation
+
   return (
     <div className={classes.organisationPage}>
       {!user ? (
