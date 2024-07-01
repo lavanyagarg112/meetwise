@@ -169,6 +169,7 @@ const OrganisationPage = () => {
       }
 
       const data = await response.json();
+      // should probably add validation for type of data sent
       setPendingInvites([...pendingInvites, data]);
       setShowInvitePopup(true);
       setTimeout(() => setShowInvitePopup(false), 3000);
