@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styles from './MeetingList.module.css'
+import { useNavigate } from 'react-router-dom'
 
 const DUMMY_DATA = [
   {
@@ -28,6 +29,8 @@ const MeetingList = () => {
   const toggleOrgMeetings = () => setIsOrgMeetingsCollapsed(!isOrgMeetingsCollapsed)
   const toggleTeamMeetings = () => setIsTeamMeetingsCollapsed(!isTeamMeetingsCollapsed)
 
+  const navigate = useNavigate()
+
   const getOrganisationMeetings = async () => {
     // Fetch organisation meetings from backend
     // Set the state with the fetched meetings
@@ -36,6 +39,10 @@ const MeetingList = () => {
   const getTeamMeetings = async () => {
     // Fetch team meetings from backend
     // Set the state with the fetched meetings
+  }
+
+  const goToMeeting = (id) => {
+    navigate(`/meetings/${id}`)
   }
 
   return (
@@ -54,7 +61,7 @@ const MeetingList = () => {
                 <span>{meeting.title}</span>
                 <div>
                   <span className={styles.meetingDate}>{meeting.date}</span>
-                  <span className={styles.viewDetails}>View Details</span>
+                  <span className={styles.viewDetails} onClick={() => goToMeeting(meeting.id)}>View Details</span>
                 </div>
               </div>
             ))
@@ -75,7 +82,7 @@ const MeetingList = () => {
                 <span>{meeting.title}</span>
                 <div>
                   <span className={styles.meetingDate}>{meeting.date}</span>
-                  <span className={styles.viewDetails}>View Details</span>
+                  <span className={styles.viewDetails} onClick={() => goToMeeting(meeting.id)}>View Details</span>
                 </div>
               </div>
             ))

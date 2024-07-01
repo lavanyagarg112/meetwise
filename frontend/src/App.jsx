@@ -15,6 +15,7 @@ import Settings from './pages/LoggedIn/Settings';
 
 import OrganisationPage from './pages/LoggedIn/OrganisationPage';
 import ActiveOrganisation from './pages/LoggedIn/ActiveOrganisation';
+import MeetingPage from './components/LoggedIn/Meetings/MeetingPage';
 
 import TeamPage from './pages/LoggedIn/TeamPage';
 
@@ -34,6 +35,7 @@ function App() {
               <Route path='/settings' element={<Settings />} />
               <Route path='/organisations/:name' element={<OrganisationPage />} />
               <Route path='/organisations/:organisationname/:name' element={<TeamPage />} />
+              <Route path='/meetings/:id' element={<MeetingPage />} />
               <Route path='*' element={<NotFoundPage />} /> 
           </Routes>
       </Layout>
