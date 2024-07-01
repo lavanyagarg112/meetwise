@@ -179,6 +179,10 @@ const OrganisationPage = () => {
             </div>
           </div>
           <div className={classes.section}>
+              <h3>View Organisation meetings</h3>
+              {/* Meeting list compoenent for this meeting, can create endpoint */}
+          </div>
+          <div className={classes.section}>
             <div className={classes.sectionTitle} onClick={toggleOwners}>
               <h3>Organisation Owners</h3>
               <span className={classes.toggleIcon}>
