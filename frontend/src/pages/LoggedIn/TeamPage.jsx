@@ -184,7 +184,7 @@ const TeamPage = ({ organisation }) => {
           </div>
           {role !== 'user' && (
             <div className={classes.section}>
-              <h3>Add Users</h3>
+              <h3>Add Users from Organisation</h3>
               <form onSubmit={handleAddUser} className={classes.addUserForm}>
                 <select
                   value={selectedUser}
