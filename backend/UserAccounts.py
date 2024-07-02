@@ -10,8 +10,8 @@ from IOSchema import Person, UserSignUp, UserLogIn, UserInfo, Organisation
 import os
 
 from Errors import CreateUserError, AuthError, AuthenticationError
-from database import setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, getUserDetailsByID, \
-    mapOrgIDToName, mapOrgNameToID
+from Organisations import getOrganisationByID, getOrganisationByName,getOrgs
+from database import setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, getUserDetailsByID
 
 load_dotenv('.env')
 secret = os.environ["JWT_SIGNING_KEY"]
@@ -30,14 +30,14 @@ def getUserDetails(user: UserLogIn) -> [Person, AuthError, str | None]:
     if not bcrypt.checkpw(encode, details[5]):
         return None, AuthError.WRONG_PASSWORD, None
     user = Person(id=details[0], email=details[1], username=details[2], firstName=details[3], lastName=details[4])
-    return user, None, getOrganisationName([details[6]])
+    return user, None, getOrganisationByID(details[6])
 
 
 def getUserByID(user: int) -> UserInfo:
     details = getUserDetailsByID(user)
     return UserInfo(
         user=Person(id=user, email=details[0], username=details[1], firstName=details[2], lastName=details[3]),
-        activeOrganisation=getOrganisationName([details[4]]))
+        activeOrganisation=getOrganisationByID(details[4]))
 
 
 #TODO:Database operations to create a new user
@@ -46,27 +46,12 @@ def createUser(user: UserSignUp) -> [UserLogIn, CreateUserError]:
     return UserLogIn(email=user.email, password=user.password), None
 
 
-#TODO
 def getOrganisationsByID(userId: int) -> List[Organisation]:
-    return [Organisation(id=0, name="Hi"), Organisation(id=1, name="How are you")]
+    return getOrgs(userId)
 
 
 def setOrganisationActive(userId: int, name: str):
-    setActiveOrganisation(userId, getOrganisationID(name))
-
-
-def getOrganisationName(orgIds: [int] = None) -> [str]:
-    if orgIds is None:
-        return None
-    else:
-        return mapOrgIDToName(orgIds)
-
-
-def getOrganisationID(orgIds: [str] = None) -> [int]:
-    if orgIds is None:
-        return None
-    else:
-        return mapOrgNameToID(orgIds)
+    setActiveOrganisation(userId, getOrganisationByName(name))
 
 
 '''
@@ -100,9 +85,3 @@ def eatCookie(credentials: Annotated[str, Cookie()] = None) -> int:
     except jwt.InvalidTokenError:
         AuthenticationError("Invalid JWT")
     return id
-
-
-
-
-
-

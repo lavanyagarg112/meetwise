@@ -59,8 +59,31 @@ def getUserDetailsByID(id: int):
         return cursor.fetchone()
 
 
-def mapOrgIDToName(orgIDs: [int]):
-    pass
+def getUserOrgs(user: int):
+    with closing(conn.cursor()) as cursor:
+        cursor.execute('''
+        SELECT ORGANISATION
+        FROM UserOrg WHERE ID = ?''', (id,))
+    return cursor.fetchall()
 
-def mapOrgNameToID(orgName: [str]):
-    pass
+
+def mapOrgIDToName(orgIDs: [int]):
+    initialise()
+    placeHolders = ','.join('?' * len(orgIDs))
+    sqlCommand = f'''
+          SELECT ID,NAME
+          FROM Organisations WHERE ID IN ({placeHolders})'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, tuple(orgIDs))
+        return cursor.fetchall()
+
+
+def mapOrgNameToID(orgNames: [str]):
+    initialise()
+    placeHolders = ','.join('?' * len(orgNames))
+    sqlCommand = f'''
+          SELECT ID,NAME
+          FROM Organisations WHERE ID IN ({placeHolders})'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, tuple(orgNames))
+        return cursor.fetchall()
