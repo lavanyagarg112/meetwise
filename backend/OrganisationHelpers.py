@@ -39,9 +39,10 @@ def getOrganisationByName(orgIds: str = None) -> int | None:
         return None
     else:
         details = getOrganisationsByName(orgIds)
-        if details is None:
+        if not details:
             return None
         return details[0].id
+
 
 def getOrgs(userId: int) -> List[Organisation]:
     details = getUserOrgs(userId)
@@ -49,6 +50,7 @@ def getOrgs(userId: int) -> List[Organisation]:
     details = list(map(mapper, details))
     orgs = getOrganisationsByID(details)
     return orgs
+
 
 def getTeamByName(orgId: int, teamName: str = None) -> int | None:
     if teamName is None:
