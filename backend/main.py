@@ -75,7 +75,6 @@ async def getOrganisations(credentials: Annotated[str, Cookie()] = None):
     return {"organisations": organisations}
 
 
-#TODO:
 @app.post("/new-organisation")
 async def newOrganisation(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
@@ -103,7 +102,7 @@ async def setActiveOrganisation(name: OrganisationNameOptional, credentials: Ann
 #TODO:
 @app.post("/teampage")
 async def teamPage(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = None) -> TeamPersonalReport:
-    id = eatCookie(credentials)
+    id :int = eatCookie(credentials)
     # TODO: Implement organisation page logic
     teamReport: TeamPersonalReport = getTeamReport(id, orgteam.name, orgteam.organisation)
     return teamReport
