@@ -7,7 +7,7 @@ import os
 from groq import Groq
 
 client = Groq(
-    api_key="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" #os.environ.get("GROQ_API_KEY"),
+    api_key = os.environ.get("GROQ_API_KEY"),
     )
 
 class Task:
@@ -71,13 +71,5 @@ class Meeting:
         return self.todo
 
 
-file = open('backend\\testFiles\\sample2.txt', 'r')
-content = file.read()
-
-meeting = Meeting(content)
-
-print(meeting.generate_summary)
-
-print(meeting.generate_todo)
 
 
