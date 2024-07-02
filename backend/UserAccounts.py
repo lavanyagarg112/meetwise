@@ -3,7 +3,7 @@ from typing import List, Annotated
 
 import bcrypt
 import jwt
-from fastapi import Cookie, Response
+from fastapi import Cookie, HTTPException, Response
 from jwt import ExpiredSignatureError
 from dotenv import load_dotenv
 from IOSchema import Person, UserSignUp, UserLogIn, UserInfo, Organisation
@@ -48,7 +48,7 @@ def createUser(user: UserSignUp) -> [UserLogIn, CreateUserError]:
     if checkUserUsername(user.username) is not None:
         return None, CreateUserError.USER_ALREADY_EXISTS
     encode = user.password.encode('utf-8')
-    hashed_password = bcrypt.hashpw(encode, bcrypt.gensalt())
+    hashed_password = bcrypt.hashpw(encode, bcrypt.gensalt()).decode('utf-8')
     createNewUser(user.username, user.email, hashed_password, user.firstName, user.lastName)
     return UserLogIn(email=user.email, password=user.password), None
 
