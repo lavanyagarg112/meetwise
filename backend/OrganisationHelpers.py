@@ -1,5 +1,7 @@
+from typing import List
+
 from backend.IOSchema import Organisation, Meeting
-from backend.database import mapOrgNameToID, mapOrgIDToName, mapTeamNameToId
+from backend.database import mapOrgNameToID, mapOrgIDToName, mapTeamNameToId, getUserOrgs
 
 
 def getOrganisationsByID(orgIds: [int] = None) -> [Organisation]:
@@ -41,6 +43,12 @@ def getOrganisationByName(orgIds: str = None) -> int | None:
             return None
         return details[0].id
 
+def getOrgs(userId: int) -> List[Organisation]:
+    details = getUserOrgs(userId)
+    mapper = lambda row: row[0]
+    details = list(map(mapper, details))
+    orgs = getOrganisationsByID(details)
+    return orgs
 
 def getTeamByName(orgId: int, teamName: str = None) -> int | None:
     if teamName is None:

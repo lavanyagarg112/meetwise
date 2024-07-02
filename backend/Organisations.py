@@ -9,7 +9,7 @@ from backend.OrganisationHelpers import getOrganisationsByID, getOrganisationByN
     meetify
 from backend.UserAccounts import getUserByID
 from database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, getMeetingsByOrg, \
-    makeTeam, teamExists, addUserToTeam
+    makeTeam, teamExists, addUserToTeam, existsOrganisation, makeOrganisation
 
 
 def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:
@@ -17,7 +17,7 @@ def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:
     # Database operations to create a new organisation
     if existsOrganisation(OrganisationName):
         raise HTTPException(status_code=400, detail="Organisation already exists")
-    id = makeOrganisation(OwnerID,OrganisationName)
+    id = makeOrganisation(OwnerID, OrganisationName)
     return Organisation(name=OrganisationName, id=id)
 
 
@@ -63,15 +63,16 @@ def getAllMeetings(orgName: str) -> [Meeting]:
     return meetify(meetings)
 
 
-def getTeamsById(id:int) :
+def getTeamsById(id: int):
     teams = getTeamsByOrg(id)
     teammer = lambda row: Team(id=row[0], name=row[1])
     teams = list(map(teammer, teams))
     return teams
+
+
 def getTeams(name: str):
     id = getOrganisationByName(name)
     return getTeamsById(id)
-
 
 
 '''
@@ -87,12 +88,7 @@ def addUser(organisation: str, userId: int, role: str, teamName: str = None) -> 
     return Person(id=userId, username=user.username, email=user.email, firstName=user.firstName, lastName=user.lastName)
 
 
-def getOrgs(userId: int) -> List[Organisation]:
-    details = getUserOrgs(userId)
-    mapper = lambda row: row[0]
-    details = list(map(mapper, details))
-    orgs = getOrganisationsByID(details)
-    return orgs
+
 
 
 def createTeam(orgteam: OrgTeam):
