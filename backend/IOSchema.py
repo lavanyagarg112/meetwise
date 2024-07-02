@@ -1,4 +1,5 @@
 import enum
+from datetime import datetime
 from typing import List
 
 from pydantic import BaseModel
@@ -16,44 +17,44 @@ class Team(BaseModel):
     name: str
 
 
+class OrgTeam(BaseModel):
+    name: str
+    organisation: str
+
+
 class Person(BaseModel):
     id: int
+    email: str
     username: str
+    firstName: str
+    lastName: str
+
 
 class OrganisationName(BaseModel):
     name: str
 
+
 class OrganisationNameOptional(BaseModel):
     name: str = None
 
+
 class UserLogIn(BaseModel):
-    email: str
+    username: str = None
+    email: str = None
     password: str
 
 
 class UserSignUp(UserLogIn):
     firstName: str
     lastName: str
-    username: str
-    email: str
-    password: str
-
-
-class UserDetails(Person):
-    id: int
-    email: str
-    username: str
-    firstName: str
 
 
 class UserInfo(BaseModel):
-    user: UserDetails
-    activeOrganisation: str
+    user: Person
+    activeOrganisation: str | None = None
 
 
-class OrganisationReport(BaseModel):
-    id: int
-    name: str
+class OrganisationReport(Organisation):
     owners: List[Person]
     admins: List[Person] = None
     users: List[Person] = None
@@ -64,3 +65,21 @@ class OrganisationPersonalReport(BaseModel):
     isPermitted: bool
     userRole: Roles
     organisation: OrganisationReport
+
+
+class TeamReport(Team):
+    admins: List[Person] = None
+    users: List[Person] = None
+    otherUsers: List[Person] = None
+
+
+class TeamPersonalReport(BaseModel):
+    isPermitted: bool
+    userRole: str
+    team: TeamReport
+
+
+class Meeting(BaseModel):
+    id: int
+    title: str
+    date: datetime
