@@ -7,6 +7,8 @@ import NotFoundPage from '../NotFoundPage';
 import classes from './OrganisationPage.module.css';
 import { useAuth } from '../../store/auth-context';
 
+import UploadMeeting from '../../components/LoggedIn/Meetings/UploadMeeting';
+
 const TeamPage = ({ organisation }) => {
   const { user } = useAuth();
   const { name } = useParams();
@@ -164,7 +166,12 @@ const TeamPage = ({ organisation }) => {
               </span>
             </div>
             {!isMeetingsCollapsed && (
-              <TeamMeetingsList teamName={teamName} organisationName={organisation} goToMeeting={goToMeeting} />
+              <div>
+                {role !== 'user' && <div className={classes.blankSection}>
+                  <UploadMeeting organisationName={organisation} team={teamName} />
+                </div>}
+                <TeamMeetingsList teamName={teamName} organisationName={organisation} goToMeeting={goToMeeting} />
+              </div>
             )}
           </div>
           <div className={classes.section}>
