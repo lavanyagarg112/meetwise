@@ -235,9 +235,9 @@ const OrganisationPage = () => {
               )}
             </div>
           </div>
-          {role != 'user' && <div className={classes.blankSection}>
+          {/* {role != 'user' && <div className={classes.blankSection}>
             <UploadMeeting organisationName={organisationName} allTeams={teams} />
-          </div>}
+          </div>} */}
           <div className={classes.section}>
             <div className={classes.sectionTitle} onClick={toggleMeetings}>
               <h3>View Organisation meetings</h3>
@@ -246,7 +246,12 @@ const OrganisationPage = () => {
               </span>
             </div>
             {!isMeetingsCollapsed && (
-              <OrganisationMeetingsList organisationName={organisationName} goToMeeting={goToMeeting} />
+              <div>
+                {role != 'user' && <div className={classes.blankSection}>
+                  <UploadMeeting organisationName={organisationName} allTeams={teams} />
+                </div>}
+                <OrganisationMeetingsList organisationName={organisationName} goToMeeting={goToMeeting} />
+              </div>
             )}
           </div>
           <div className={classes.section}>

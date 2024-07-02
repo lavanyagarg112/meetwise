@@ -158,9 +158,6 @@ const TeamPage = ({ organisation }) => {
           <div className={classes.header}>
             <h1>{teamName}</h1>
           </div>
-          {role !== 'user' && <div className={classes.blankSection}>
-            <UploadMeeting organisationName={organisation} team={teamName} />
-          </div>}
           <div className={classes.section}>
             <div className={classes.sectionTitle} onClick={toggleMeetings}>
               <h3>View Team meetings</h3>
@@ -169,7 +166,12 @@ const TeamPage = ({ organisation }) => {
               </span>
             </div>
             {!isMeetingsCollapsed && (
-              <TeamMeetingsList teamName={teamName} organisationName={organisation} goToMeeting={goToMeeting} />
+              <div>
+                {role !== 'user' && <div className={classes.blankSection}>
+                  <UploadMeeting organisationName={organisation} team={teamName} />
+                </div>}
+                <TeamMeetingsList teamName={teamName} organisationName={organisation} goToMeeting={goToMeeting} />
+              </div>
             )}
           </div>
           <div className={classes.section}>

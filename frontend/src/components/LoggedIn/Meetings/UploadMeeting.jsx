@@ -93,7 +93,7 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
     }
 
     // to be removed after endpoint works
-    setTeams(teams);
+    setTeams(DUMMY_TEAMS);
   };
 
   const formatDate = (date) => {
