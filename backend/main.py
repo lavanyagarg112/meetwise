@@ -74,6 +74,7 @@ async def getOrganisations(credentials: Annotated[str, Cookie()] = None):
     return {"organisations": organisations}
 
 
+#TODO:
 @app.post("/new-organisation")
 async def newOrganisation(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
@@ -81,7 +82,7 @@ async def newOrganisation(name: OrganisationName, credentials: Annotated[str, Co
     organisation: Organisation = createOrganisation(name.name, id)
     return organisation
 
-
+#TODO:
 @app.post("/organisationpage")
 async def organisationPage(name: OrganisationName,
                            credentials: Annotated[str, Cookie()] = None) -> OrganisationPersonalReport:
@@ -97,6 +98,7 @@ async def setActiveOrganisation(name: OrganisationNameOptional, credentials: Ann
     setOrganisationActive(id, name.name)
 
 
+#TODO:
 @app.post("/teampage")
 async def teamPage(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = None) -> TeamPersonalReport:
     id = eatCookie(credentials)
@@ -105,6 +107,7 @@ async def teamPage(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = Non
     return teamReport
 
 
+#TODO:
 @app.post("/upload-meeting")
 async def uploadMeeting(file: UploadFile, type: str, meetingName: str, meetingDate: str,
                         credentials: Annotated[str, Cookie()] = None):
@@ -113,6 +116,7 @@ async def uploadMeeting(file: UploadFile, type: str, meetingName: str, meetingDa
     pass
 
 
+#TODO:
 @app.post("/new-team")
 async def newTeam(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = None) -> Team:
     id = eatCookie(credentials)
@@ -120,6 +124,7 @@ async def newTeam(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = None
     return Team(id=1, name="no")
 
 
+#TODO:
 @app.post("/get-team-meetings")
 async def getTeamMeetings(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
@@ -128,6 +133,7 @@ async def getTeamMeetings(orgteam: OrgTeam, credentials: Annotated[str, Cookie()
     return {"teams": meetings}
 
 
+#TODO:
 @app.post("/get-organisation-meetings")
 async def getOrganisationMeetings(name: str, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
@@ -136,6 +142,7 @@ async def getOrganisationMeetings(name: str, credentials: Annotated[str, Cookie(
     return {"organisations": meetings}
 
 
+#TODO:
 @app.post("/get-organisation-teams")
 async def getOrganisationTeams(name: str, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
@@ -144,6 +151,7 @@ async def getOrganisationTeams(name: str, credentials: Annotated[str, Cookie()] 
     return {"teams": teams}
 
 
+#TODO:
 @app.post('/add-team-user')
 async def addTeamUser(teamName: str, organisation: str, userId: int, role: str,
                       credentials: Annotated[str, Cookie()] = None) -> Person:
@@ -153,6 +161,7 @@ async def addTeamUser(teamName: str, organisation: str, userId: int, role: str,
     return user
 
 
+#TODO:
 @app.post('/invite-user')
 async def getTeamUsers(teamName: str, organisation: str, credentials: Annotated[str, Cookie()] = None) :
     pass

@@ -23,6 +23,7 @@ def initialise():
 
 
 def setActiveOrganisation(id: int, name: int):
+    conn.sync()
     with closing(conn.cursor()) as cursor:
         cursor.execute('''
         UPDATE USERS
@@ -34,6 +35,7 @@ def setActiveOrganisation(id: int, name: int):
 
 def getUserDetailsByName(name: str):
     initialise()
+    conn.sync()
     with closing(conn.cursor()) as cursor:
         cursor.execute('''
         SELECT ID , EMAIL,USERNAME,FIRSTNAME,LASTNAME ,PASSWORD,ACTIVEORG
@@ -43,6 +45,7 @@ def getUserDetailsByName(name: str):
 
 def getUserDetailsByEmail(email: str):
     initialise()
+    conn.sync()
     with closing(conn.cursor()) as cursor:
         cursor.execute('''
         SELECT ID , EMAIL,USERNAME,FIRSTNAME,LASTNAME ,PASSWORD,ACTIVEORG
@@ -52,6 +55,7 @@ def getUserDetailsByEmail(email: str):
 
 def getUserDetailsByID(id: int):
     initialise()
+    conn.sync()
     with closing(conn.cursor()) as cursor:
         cursor.execute('''
         SELECT EMAIL,USERNAME,FIRSTNAME,LASTNAME,ACTIVEORG
@@ -60,6 +64,7 @@ def getUserDetailsByID(id: int):
 
 
 def getUserOrgs(user: int):
+    conn.sync()
     with closing(conn.cursor()) as cursor:
         cursor.execute('''
         SELECT ORGANISATION
@@ -67,8 +72,58 @@ def getUserOrgs(user: int):
     return cursor.fetchall()
 
 
+def getTeamsByOrg(org: int):
+    conn.sync()
+    sqlCommand = f'''
+    SELECT * FROM ORG{org}TEAM
+    '''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand)
+    return cursor.fetchall()
+
+
+def checkUserEmail(email: str):
+    initialise()
+    conn.sync()
+    with closing(conn.cursor()) as cursor:
+        cursor.execute('''
+        SELECT 1
+        FROM USERS WHERE EMAIL =?''', (email,))
+        return cursor.fetchone()
+
+def checkUserUsername(name: str):
+    initialise()
+    conn.sync()
+    with closing(conn.cursor()) as cursor:
+        cursor.execute('''
+        SELECT 1
+        FROM USERS WHERE USERNAME =?''', (name,))
+        return cursor.fetchone()
+
+def createNewUser(username : str,email : str,hashed_password : str ,firstName : str,lastName : str):
+    initialise()
+    conn.sync()
+    with closing(conn.cursor()) as cursor:
+        cursor.execute('''
+        INSERT INTO USERS (USERNAME,EMAIL,PASSWORD,FIRSTNAME,LASTNAME) 
+        VALUES (?,?,?,?,?)''', (username,email,hashed_password,firstName,lastName))
+        conn.commit()
+        conn.sync()
+
+
+def checkUserUserName(email: str):
+    initialise()
+    conn.sync()
+    with closing(conn.cursor()) as cursor:
+        cursor.execute('''
+        SELECT 1
+        FROM USERS WHERE USERNAME =?''', (email,))
+        return cursor.fetchone()
+
+
 def mapOrgIDToName(orgIDs: [int]):
     initialise()
+    conn.sync()
     placeHolders = ','.join('?' * len(orgIDs))
     sqlCommand = f'''
           SELECT ID,NAME
@@ -80,6 +135,7 @@ def mapOrgIDToName(orgIDs: [int]):
 
 def mapOrgNameToID(orgNames: [str]):
     initialise()
+    conn.sync()
     placeHolders = ','.join('?' * len(orgNames))
     sqlCommand = f'''
           SELECT ID,NAME

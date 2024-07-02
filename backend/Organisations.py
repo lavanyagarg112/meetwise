@@ -3,7 +3,8 @@ from typing import List
 from Enums import Roles
 from IOSchema import Organisation, OrganisationReport, OrganisationPersonalReport, Person, Team, TeamPersonalReport, \
     TeamReport, OrgTeam, Meeting
-from database import mapOrgIDToName, mapOrgNameToID, getUserOrgs
+from backend.OrganisationHelpers import getOrganisationsByID, getOrganisationByName
+from database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg
 
 
 def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:
@@ -50,53 +51,15 @@ def getAllMeetings(orgName: str):
 
 
 def getTeams(name=str):
-    # TODO: Implement team logic
-    return [Team(id=1, name="SampleTeam")]
+    teams = getTeamsByOrg(getOrganisationByName(name))
+    teammer = lambda row: Team(id=row[0], name=row[1])
+    teams = list(map(teammer, teams))
+    return teams
 
 
 def addUser(teamName: str, organisation: str, userId: int, role: str) -> Person:
     # TODO: Implement user logic
     return Person(id=userId, username="userGuy", email="admin@user.com", firstName="user", lastName="Guy")
-
-
-def getOrganisationsByID(orgIds: [int] = None) -> [Organisation]:
-    if orgIds is None:
-        return None
-    else:
-        mapper = lambda row: Organisation(id=row[0], name=row[1])
-        details = mapOrgIDToName(orgIds)
-        orgs = list(map(mapper, details))
-        return orgs
-
-
-def getOrganisationsByName(orgIds: [str] = None) -> [Organisation]:
-    if orgIds is None:
-        return None
-    else:
-        mapper = lambda row: Organisation(id=row[0], name=row[1])
-        details = mapOrgNameToID(orgIds)
-        orgs = list(map(mapper, details))
-        return orgs
-
-
-def getOrganisationByID(orgIds: int = None) -> str | None:
-    if orgIds is None:
-        return None
-    else:
-        details = getOrganisationsByID([orgIds])
-        if details is None:
-            return None
-        return details[0].name
-
-
-def getOrganisationByName(orgIds: str = None) -> int | None:
-    if orgIds is None:
-        return None
-    else:
-        details = getOrganisationsByName(orgIds)
-        if details is None:
-            return None
-        return details[0].id
 
 
 def getOrgs(userId: int) -> List[Organisation]:

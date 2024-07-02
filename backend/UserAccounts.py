@@ -10,8 +10,10 @@ from IOSchema import Person, UserSignUp, UserLogIn, UserInfo, Organisation
 import os
 
 from Errors import CreateUserError, AuthError, AuthenticationError
-from Organisations import getOrganisationByID, getOrganisationByName,getOrgs
-from database import setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, getUserDetailsByID
+from Organisations import getOrgs
+from OrganisationHelpers import getOrganisationByID, getOrganisationByName
+from database import setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, getUserDetailsByID, \
+    checkUserEmail, createNewUser, checkUserUsername
 
 load_dotenv('.env')
 secret = os.environ["JWT_SIGNING_KEY"]
@@ -40,9 +42,14 @@ def getUserByID(user: int) -> UserInfo:
         activeOrganisation=getOrganisationByID(details[4]))
 
 
-#TODO:Database operations to create a new user
 def createUser(user: UserSignUp) -> [UserLogIn, CreateUserError]:
-    # Database operations to create a new user
+    if checkUserEmail(user.email) is not None:
+        return None, CreateUserError.EMAIL_ALREADY_EXISTS
+    if checkUserUsername(user.username) is not None:
+        return None, CreateUserError.USER_ALREADY_EXISTS
+    encode = user.password.encode('utf-8')
+    hashed_password = bcrypt.hashpw(encode, bcrypt.gensalt())
+    createNewUser(user.username, user.email, hashed_password, user.firstName, user.lastName)
     return UserLogIn(email=user.email, password=user.password), None
 
 
