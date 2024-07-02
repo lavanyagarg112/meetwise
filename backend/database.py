@@ -201,7 +201,7 @@ def makeOrganisation(owner:int,org : str):
         DATE DATETIME NOT NULL,
         SUMMARY TEXT NOT NULL,
         SIZE INTEGER NOT NULL,
-        CONFIDENTIALITY TEXT NOT NULL DEFAULT 'PUBLIC'
+        CONFIDENTIALITY TEXT NOT NULL DEFAULT 'PUBLIC',
         FOREIGN KEY(TEAM) REFERENCES Org{id}Team(ID)
         )
         '''

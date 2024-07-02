@@ -51,7 +51,7 @@ class UserSignUp(UserLogIn):
 
 class UserInfo(BaseModel):
     user: Person
-    activeOrganisation: Optional[str]
+    activeOrganisation: str | None = None
 
 
 class OrganisationReport(Organisation):
