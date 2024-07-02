@@ -75,7 +75,7 @@ def getUserOrgs(user: int):
 def getTeamsByOrg(org: int):
     conn.sync()
     sqlCommand = f'''
-    SELECT * FROM ORG{org}TEAM
+    SELECT * FROM Org{org}Team
     '''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand)
@@ -144,7 +144,8 @@ def getMeetingsByTeam(orgId: int, teamId: int):
         cursor.execute(sqlCommand, (teamId,))
         return cursor.fetchall()
 
-def teamExists(orgId:int,team: str):
+
+def teamExists(orgId: int, team: str):
     initialise()
     conn.sync()
     sqlCommand = f'''
@@ -154,7 +155,8 @@ def teamExists(orgId:int,team: str):
         cursor.execute(sqlCommand, (team,))
         return cursor.fetchone()
 
-def existsOrganisation(org : str):
+
+def existsOrganisation(org: str):
     initialise()
     conn.sync()
     sqlCommand = f'''
@@ -164,7 +166,8 @@ def existsOrganisation(org : str):
         cursor.execute(sqlCommand, (org,))
         return cursor.fetchone()
 
-def makeOrganisation(owner:int,org : str):
+
+def makeOrganisation(owner: int, org: str):
     initialise()
     conn.sync()
     sqlCommand = f'''
@@ -173,7 +176,7 @@ def makeOrganisation(owner:int,org : str):
         cursor.execute(sqlCommand, (org, owner))
         conn.commit()
         conn.sync()
-        id =  cursor.lastrowid
+        id = cursor.lastrowid
 
         orgEmp = f'''
         CREATE TABLE Org{id}Emp (
@@ -230,7 +233,6 @@ def makeOrganisation(owner:int,org : str):
         conn.commit()
         conn.sync()
 
-
         owemp = f'''
         CREATE TABLE OW{id}EMP(
         ID INTEGER PRIMARY KEY,
@@ -238,7 +240,6 @@ def makeOrganisation(owner:int,org : str):
         FOREIGN KEY(ID) REFERENCES USERS(ID)
         )
         '''
-
 
         cursor.execute(owemp)
         conn.commit()
@@ -275,10 +276,7 @@ def makeOrganisation(owner:int,org : str):
         return id
 
 
-
-
-
-def makeTeam(orgId: int, team : str):
+def makeTeam(orgId: int, team: str):
     initialise()
     conn.sync()
     sqlCommand = f'''
@@ -289,7 +287,7 @@ def makeTeam(orgId: int, team : str):
         conn.sync()
 
 
-def addUserToTeam(orgId : int, userId : int, role : str, team : int):
+def addUserToTeam(orgId: int, userId: int, role: str, team: int):
     initialise()
     conn.sync()
     sqlCommand = f'''
@@ -298,6 +296,7 @@ def addUserToTeam(orgId : int, userId : int, role : str, team : int):
         cursor.execute(sqlCommand, (userId, team, role))
         conn.commit()
         conn.sync()
+
 
 def mapOrgIDToName(orgIDs: [int]):
     initialise()
@@ -332,10 +331,4 @@ def mapTeamNameToId(orgId: int, teamName: str):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamName,))
         return cursor.fetchone()
-
-
-
-
-
-
 

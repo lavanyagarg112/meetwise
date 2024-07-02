@@ -23,9 +23,11 @@ def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:
 
 def getOrganisationReport(UserID: int, OrganisationName: str) -> OrganisationPersonalReport:
     # TODO: Implement organisation report logic
-    Organisation = getOrganisationByName(OrganisationName)
-    teams = getTeamsById(Organisation)
-    orgReport = OrganisationReport(id=Organisation, name=OrganisationName, owners=[Person(id=UserID, username="name")],
+    organisation : int = getOrganisationByName(OrganisationName)
+    if organisation is None:
+        raise HTTPException(status_code=404, detail="Organisation not found")
+    teams = getTeamsById(organisation)
+    orgReport = OrganisationReport(id=organisation, name=OrganisationName, owners=[Person(id=UserID, username="name")],
                                    admins=[Person(id=UserID + 1, username="adminGuy", email="admin@admin.com",
                                                   firstName="admin", lastName="Guy")],
                                    users=[Person(id=UserID + 2, username="userGuy", email="admin@user.com",
@@ -86,9 +88,6 @@ def addUser(organisation: str, userId: int, role: str, teamName: str = None) -> 
     addUserToTeam(organisation, userId, role, teamName)
     user = getUserByID(userId).user
     return Person(id=userId, username=user.username, email=user.email, firstName=user.firstName, lastName=user.lastName)
-
-
-
 
 
 def createTeam(orgteam: OrgTeam):
