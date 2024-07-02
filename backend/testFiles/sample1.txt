@@ -1,0 +1,16 @@
+Speaker A: Good morning, team. Let's start with a quick round of updates before we dive into task allocation. Serene, could you go first?
+Speaker B: Good morning. Sure. Over the past week, I completed the market research report and started on the competitor analysis. I should have the first draft ready by Wednesday.
+Speaker A: Great, thanks Serene. How about you, David?
+Speaker C: Hi everyone. I've been working on the new website design. The main layout is almost done, and I'll be moving on to the mobile responsive design next.
+Speaker A: Excellent progress, David. Mei Ling, what's the status on the customer feedback survey?
+Speaker D: Morning all. I've compiled all the responses and started analyzing the data. I plan to have a detailed report ready by the end of the week.
+Speaker A: Fantastic. Now, for the upcoming tasks. David, can you take on the additional task of integrating the new design with our CMS?
+Speaker C: Sure, I can handle that.
+Speaker A: Thanks. Serene, once you’ve finished the competitor analysis, please start drafting the marketing strategy.
+Speaker B: Will do.
+Speaker A: Mei Ling, continue with the data analysis, but also prepare a presentation for next week's client meeting.
+Speaker D: Understood.
+Speaker A: Alright team, keep up the good work. Let's reconvene next Monday for another update.
+Speaker B: Sounds good.
+Speaker C: Got it.
+Speaker D: See you all next week.
