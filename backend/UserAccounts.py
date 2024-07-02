@@ -10,7 +10,7 @@ from IOSchema import Person, UserSignUp, UserLogIn, UserInfo, Organisation
 import os
 
 from Errors import CreateUserError, AuthError, AuthenticationError
-from Organisations import getOrgs
+from OrganisationHelpers import getOrgs
 from OrganisationHelpers import getOrganisationByID, getOrganisationByName
 from database import setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, getUserDetailsByID, \
     checkUserEmail, createNewUser, checkUserUsername
@@ -29,7 +29,7 @@ def getUserDetails(user: UserLogIn) -> [Person, AuthError, str | None]:
     if details is None:
         return None, AuthError.USER_DOES_NOT_EXIST, None
     encode = user.password.encode('utf-8')
-    if not bcrypt.checkpw(encode, details[5]):
+    if not bcrypt.checkpw(encode, details[5].encode('utf-8')):
         return None, AuthError.WRONG_PASSWORD, None
     user = Person(id=details[0], email=details[1], username=details[2], firstName=details[3], lastName=details[4])
     return user, None, getOrganisationByID(details[6])

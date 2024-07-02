@@ -1,5 +1,6 @@
-from backend.IOSchema import Organisation, Meeting
-from backend.database import mapOrgNameToID, mapOrgIDToName, mapTeamNameToId
+from typing import List
+from IOSchema import Organisation, Meeting
+from database import getUserOrgs, mapOrgNameToID, mapOrgIDToName, mapTeamNameToId
 
 
 def getOrganisationsByID(orgIds: [int] = None) -> [Organisation]:
@@ -52,3 +53,10 @@ def meetify(meetings: [Meeting]):
     mapper = lambda row: Meeting(id=row[0], title=row[1], date=row[2])
     meetings = list(map(mapper, meetings))
     return meetings
+
+def getOrgs(userId: int) -> List[Organisation]:
+    details = getUserOrgs(userId)
+    mapper = lambda row: row[0]
+    details = list(map(mapper, details))
+    orgs = getOrganisationsByID(details)
+    return orgs

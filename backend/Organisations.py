@@ -87,14 +87,6 @@ def addUser(organisation: str, userId: int, role: str, teamName: str = None) -> 
     return Person(id=userId, username=user.username, email=user.email, firstName=user.firstName, lastName=user.lastName)
 
 
-def getOrgs(userId: int) -> List[Organisation]:
-    details = getUserOrgs(userId)
-    mapper = lambda row: row[0]
-    details = list(map(mapper, details))
-    orgs = getOrganisationsByID(details)
-    return orgs
-
-
 def createTeam(orgteam: OrgTeam):
     org = getOrganisationByName(orgteam.organisation)
     if teamExists(org, orgteam.name) is not None:
