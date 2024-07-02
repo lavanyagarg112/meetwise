@@ -7,6 +7,7 @@ import TeamBlock from '../../components/LoggedIn/Organisations/TeamBlock';
 
 import CreateTeamForm from '../../components/LoggedIn/Organisations/CreateTeamForm';
 import OrganisationMeetingsList from '../../components/LoggedIn/Meetings/OrganisationMeetingsList';
+import UploadMeeting from '../../components/LoggedIn/Meetings/UploadMeeting';
 
 import NotFoundPage from '../NotFoundPage';
 
@@ -82,6 +83,8 @@ const OrganisationPage = () => {
   const createTeam = () => {
     setIsFormVisible(true);
   };
+
+  // decide at what times to reget the info
 
   const getOrganisationInfo = async (name) => {
     try {
@@ -232,6 +235,9 @@ const OrganisationPage = () => {
               )}
             </div>
           </div>
+          {/* {role != 'user' && <div className={classes.blankSection}>
+            <UploadMeeting organisationName={organisationName} allTeams={teams} />
+          </div>} */}
           <div className={classes.section}>
             <div className={classes.sectionTitle} onClick={toggleMeetings}>
               <h3>View Organisation meetings</h3>
@@ -240,7 +246,12 @@ const OrganisationPage = () => {
               </span>
             </div>
             {!isMeetingsCollapsed && (
-              <OrganisationMeetingsList organisationName={organisationName} goToMeeting={goToMeeting} />
+              <div>
+                {role != 'user' && <div className={classes.blankSection}>
+                  <UploadMeeting organisationName={organisationName} allTeams={teams} />
+                </div>}
+                <OrganisationMeetingsList organisationName={organisationName} goToMeeting={goToMeeting} />
+              </div>
             )}
           </div>
           <div className={classes.section}>

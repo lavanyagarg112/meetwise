@@ -23,10 +23,8 @@ const MeetingsComponent = ({activeOrganisation}) => {
           className={styles.searchInput}
         />
       </div>
-      <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>Upload Meeting</h2>
-        <div>Give them option to choose if team meeting or organisation meeting?</div>
-        <UploadMeeting />
+      <div className={styles.blankSection}>
+        <UploadMeeting organisationName={activeOrganisation} />
       </div>
       <div className={styles.section}>
         <h2 className={styles.sectionTitle}>Meeting List</h2>

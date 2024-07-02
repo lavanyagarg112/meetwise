@@ -26,6 +26,11 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border: 1px solid #e0e5eb;
   }
+
+  .blankSection {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
   
   .searchContainer {
     display: flex;
