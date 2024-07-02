@@ -24,7 +24,7 @@ const MeetingsComponent = ({activeOrganisation}) => {
         />
       </div>
       <div className={styles.blankSection}>
-        <UploadMeeting />
+        <UploadMeeting organisationName={activeOrganisation} />
       </div>
       <div className={styles.section}>
         <h2 className={styles.sectionTitle}>Meeting List</h2>

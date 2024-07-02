@@ -5,8 +5,22 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styles from './UploadMeeting.module.css';
 import moment from 'moment';
 
+const DUMMY_TEAMS = [
+  {
+    id: 0,
+    name: 'team 1',
+  },
+  {
+    id: 1,
+    name: 'team 2',
+  },
+  {
+    id: 2,
+    name: 'team 3',
+  }
+];
 
-const UploadMeeting = () => {
+const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
   const [ffmpeg, setFFmpeg] = useState(null);
   const [loading, setLoading] = useState(false);
   const [fileUrl, setFileUrl] = useState(null);
@@ -15,6 +29,17 @@ const UploadMeeting = () => {
   const [meetingDate, setMeetingDate] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [teams, setTeams] = useState(allTeams);
+
+  const [teamName, setTeamName] = useState(team);
+
+  useEffect(() => {
+    if (team) {
+      setType('team');
+    } else {
+      setType('organisation');
+    }
+  }, [team]);
 
   useEffect(() => {
     const initFFmpeg = async () => {
@@ -26,8 +51,49 @@ const UploadMeeting = () => {
     initFFmpeg();
   }, []);
 
+  useEffect(() => {
+    if (type === 'team' && !team) {
+      if (teams.length === 0){
+        getOrganisationTeams();
+      }
+    }
+  }, [type]);
+
+  useEffect(() => {
+    setTeams(allTeams)
+  }, [allTeams])
+
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
+  };
+
+  const getOrganisationTeams = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-organisation-teams`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: organisationName,
+        }),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        const errorText = 'An error occurred fetching the teams.';
+        throw new Error(errorText);
+      }
+
+      const data = await response.json();
+      setTeams(data.teams);
+    } catch (error) {
+      console.log('ERROR', error);
+    }
+
+    // to be removed after endpoint works
+    setTeams(teams);
   };
 
   const formatDate = (date) => {
@@ -62,9 +128,10 @@ const UploadMeeting = () => {
       const formData = new FormData();
       formData.append('file', blob, 'output.mp3');
       formData.append('type', type);
+      formData.append('organisation', organisationName);
+      formData.append('team', teamName);
       formData.append('meetingName', meetingName);
       formData.append('meetingDate', formatDate(meetingDate));
-
       try {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/upload-meeting`, {
           method: 'POST',
@@ -76,6 +143,9 @@ const UploadMeeting = () => {
           setMeetingName('');
           setMeetingDate(null);
           setSelectedFile(null);
+          if (!team) {
+            setTeamName('')
+          }
           document.getElementById('fileInput').value = '';
           setShowPopup(true);
           setTimeout(() => setShowPopup(false), 3000); // Hide the popup after 3 seconds
@@ -85,12 +155,15 @@ const UploadMeeting = () => {
       } catch (error) {
         console.error('Error uploading file:', error);
       }
-      
+
       // to be removed after endpoint works
       setLoading(false);
       setMeetingName('');
       setMeetingDate(null);
       setSelectedFile(null);
+      if (!team) {
+        setTeamName('')
+      }
       document.getElementById('fileInput').value = ''; // Reset the file input
       setShowPopup(true);
       setTimeout(() => setShowPopup(false), 3000); // Hide the popup after 3 seconds
@@ -102,14 +175,32 @@ const UploadMeeting = () => {
     <div className={styles.uploadMeeting}>
       <h2>Upload Meeting</h2>
       <div className={styles.formGroup}>
-        <label>
-          Meeting Type:
-          <select value={type} onChange={(e) => setType(e.target.value)} className={styles.selectInput}>
-            <option value="organisation">Organisation</option>
-            <option value="team">Team</option>
-          </select>
-        </label>
+        
+        {team ? <div> Team: {team}</div> : (
+          <label>
+            Meeting Type:
+            <select value={type} onChange={(e) => setType(e.target.value)} className={styles.selectInput}>
+              <option value="organisation">Organisation</option>
+              <option value="team">Team</option>
+            </select>
+          </label>
+        )}
       </div>
+      {type === 'team' && !team && (
+        <div className={styles.formGroup}>
+          <label>
+            Select Team:
+            <select value={teamName} onChange={(e) => setTeamName(e.target.value)} className={styles.selectInput}>
+              <option value="">Select a team</option>
+              {teams.map((team) => (
+                <option key={team.id} value={team.name}>
+                  {team.name}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+      )}
       <div className={styles.formGroup}>
         <label>
           Meeting Name:
@@ -141,7 +232,7 @@ const UploadMeeting = () => {
       </div>
       <button
         onClick={sendUploadAudio}
-        disabled={loading || !selectedFile || !meetingName || !meetingDate}
+        disabled={loading || !selectedFile || !meetingName || !meetingDate || (type === 'team' && !teamName)}
         className={styles.uploadButton}
       >
         {loading ? 'Uploading...' : 'Send Upload'}

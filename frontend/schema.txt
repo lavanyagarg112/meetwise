@@ -277,7 +277,9 @@ in human readable form this is not it will be:
 
 {
   "file": "binary data of the file",
-  "type": "organisation" or "team"
+  "type": "organisation" or "team",
+  "organisation": organisation name,
+  "team": team name (which will be null if it is organisation type)
   "meetingName": "Your Meeting Name",
   "meetingDate": "dd-mm-yyyy"
 }

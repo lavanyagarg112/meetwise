@@ -7,6 +7,8 @@ import NotFoundPage from '../NotFoundPage';
 import classes from './OrganisationPage.module.css';
 import { useAuth } from '../../store/auth-context';
 
+import UploadMeeting from '../../components/LoggedIn/Meetings/UploadMeeting';
+
 const TeamPage = ({ organisation }) => {
   const { user } = useAuth();
   const { name } = useParams();
@@ -156,6 +158,9 @@ const TeamPage = ({ organisation }) => {
           <div className={classes.header}>
             <h1>{teamName}</h1>
           </div>
+          {role !== 'user' && <div className={classes.blankSection}>
+            <UploadMeeting organisationName={organisation} team={teamName} />
+          </div>}
           <div className={classes.section}>
             <div className={classes.sectionTitle} onClick={toggleMeetings}>
               <h3>View Team meetings</h3>
