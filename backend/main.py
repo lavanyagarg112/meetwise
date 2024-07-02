@@ -5,7 +5,7 @@ from IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalRe
 from UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
     setOrganisationActive, eatCookie, bakeCookie
 from Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, getAllMeetings, \
-    getTeams, addUser, createTeam
+    getTeams, addUser
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.Enums import Roles
@@ -28,14 +28,14 @@ app.add_middleware(
 #TODO : add return types
 @app.post("/sign-up")
 async def signup(user: UserSignUp, response: Response):
-    try:
-        userCred, error = createUser(user)
-        if error is not None:
-            return {"error": error}, 400
-            # The calls are separated to ensure data is actually written to DB successfully,
-            #  after DB testing can merge them into 1 like current implementation
-    except:
-        raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
+    # try:
+    userCred, error = createUser(user)
+    if error is not None:
+        return {"error": error}, 400
+        # The calls are separated to ensure data is actually written to DB successfully,
+        #  after DB testing can merge them into 1 like current implementation
+    # except:
+    #     raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
     userDetails, error, activeOrg = getUserDetails(userCred)
     bakeCookie(userDetails.id, response)
     return {"user": userDetails}
@@ -79,9 +79,9 @@ async def getOrganisations(credentials: Annotated[str, Cookie()] = None):
 @app.post("/new-organisation")
 async def newOrganisation(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
+    # TODO: Implement new organisation logic
     organisation: Organisation = createOrganisation(name.name, id)
     return organisation
-
 
 #TODO:
 @app.post("/organisationpage")
@@ -117,43 +117,52 @@ async def uploadMeeting(file: UploadFile, type: str, meetingName: str, meetingDa
     pass
 
 
+#TODO:
 @app.post("/new-team")
 async def newTeam(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = None) -> Team:
     id = eatCookie(credentials)
-    id = createTeam(orgteam)
-    return Team(id=id, name=orgteam.name)
+    # TODO: Implement new team logic
+    return Team(id=1, name="no")
 
 
+#TODO:
 @app.post("/get-team-meetings")
 async def getTeamMeetings(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
+    # TODO: Implement get team meetings logic
     meetings = getMeetings(orgteam)
     return {"teams": meetings}
 
 
+#TODO:
 @app.post("/get-organisation-meetings")
 async def getOrganisationMeetings(name: str, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
+    # TODO: Implement get team meetings logic
     meetings = getAllMeetings(name)
     return {"organisations": meetings}
 
 
+#TODO:
 @app.post("/get-organisation-teams")
 async def getOrganisationTeams(name: str, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
+    # TODO: Implement get team meetings logic
     teams = getTeams(name)
     return {"teams": teams}
 
 
+#TODO:
 @app.post('/add-team-user')
 async def addTeamUser(teamName: str, organisation: str, userId: int, role: str,
                       credentials: Annotated[str, Cookie()] = None) -> Person:
     id = eatCookie(credentials)
-    user: Person = addUser(organisation, userId, role, teamName)
+    # TODO: Implement add team user logic
+    user: Person = addUser(teamName, organisation, userId, role)
     return user
 
 
 #TODO:
 @app.post('/invite-user')
-async def getTeamUsers(teamName: str, organisation: str, credentials: Annotated[str, Cookie()] = None):
+async def getTeamUsers(teamName: str, organisation: str, credentials: Annotated[str, Cookie()] = None) :
     pass

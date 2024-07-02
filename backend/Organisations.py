@@ -1,7 +1,5 @@
 from typing import List
 
-from fastapi import HTTPException
-
 from Enums import Roles
 from IOSchema import Organisation, OrganisationReport, OrganisationPersonalReport, Person, Team, TeamPersonalReport, \
     TeamReport, OrgTeam, Meeting
@@ -15,22 +13,17 @@ from database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg,
 def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:
     # TODO: Implement new organisation logic
     # Database operations to create a new organisation
-    if existsOrganisation(OrganisationName):
-        raise HTTPException(status_code=400, detail="Organisation already exists")
-    id = makeOrganisation(OwnerID,OrganisationName)
-    return Organisation(name=OrganisationName, id=id)
+    return Organisation(name=OrganisationName, id=1)
 
 
 def getOrganisationReport(UserID: int, OrganisationName: str) -> OrganisationPersonalReport:
     # TODO: Implement organisation report logic
-    Organisation = getOrganisationByName(OrganisationName)
-    teams = getTeamsById(Organisation)
-    orgReport = OrganisationReport(id=Organisation, name=OrganisationName, owners=[Person(id=UserID, username="name")],
+    orgReport = OrganisationReport(id=1, name=OrganisationName, owners=[Person(id=UserID, username="name")],
                                    admins=[Person(id=UserID + 1, username="adminGuy", email="admin@admin.com",
                                                   firstName="admin", lastName="Guy")],
                                    users=[Person(id=UserID + 2, username="userGuy", email="admin@user.com",
                                                  firstName="user", lastName="Guy")],
-                                   teams=teams)
+                                   teams=[Team(id=UserID + 3, name="SampleTeam")])
     report = OrganisationPersonalReport(isPermitted=True, userRole=Roles.USER, organisation=orgReport)
     return report
 
@@ -51,40 +44,25 @@ def getTeamReport(userID: int, teamName: str, organisationName: str) -> TeamPers
 
 
 def getMeetings(orgTeam: OrgTeam):
-    org: int = getOrganisationByName(orgTeam.organisation)
-    team: int = getTeamByName(org, orgTeam.name)
-    meetings = getMeetingsByTeam(org, team)
-    return meetify(meetings)
+    # TODO: Implement meeting logic
+    return [Meeting(id=1, title="4", date="2024-06-01")]
 
 
-def getAllMeetings(orgName: str) -> [Meeting]:
-    orgName = getOrganisationByName(orgName)
-    meetings = getMeetingsByOrg(orgName)
-    return meetify(meetings)
+def getAllMeetings(orgName: str):
+    # TODO: Implement meeting logic
+    return [Meeting(id=1, title="4", date="2024-06-01")]
 
 
-def getTeamsById(id:int) :
-    teams = getTeamsByOrg(id)
+def getTeams(name=str):
+    teams = getTeamsByOrg(getOrganisationByName(name))
     teammer = lambda row: Team(id=row[0], name=row[1])
     teams = list(map(teammer, teams))
     return teams
-def getTeams(name: str):
-    id = getOrganisationByName(name)
-    return getTeamsById(id)
 
 
-
-'''
-⚠️ if TeamControl is enabled and existing user is added they lose their powers
-'''
-
-
-def addUser(organisation: str, userId: int, role: str, teamName: str = None) -> Person:
-    organisation = getOrganisationByName(organisation)
-    teamName = getTeamByName(organisation, teamName)
-    addUserToTeam(organisation, userId, role, teamName)
-    user = getUserByID(userId).user
-    return Person(id=userId, username=user.username, email=user.email, firstName=user.firstName, lastName=user.lastName)
+def addUser(teamName: str, organisation: str, userId: int, role: str) -> Person:
+    # TODO: Implement user logic
+    return Person(id=userId, username="userGuy", email="admin@user.com", firstName="user", lastName="Guy")
 
 
 def getOrgs(userId: int) -> List[Organisation]:
@@ -93,11 +71,3 @@ def getOrgs(userId: int) -> List[Organisation]:
     details = list(map(mapper, details))
     orgs = getOrganisationsByID(details)
     return orgs
-
-
-def createTeam(orgteam: OrgTeam):
-    org = getOrganisationByName(orgteam.organisation)
-    if teamExists(org, orgteam.name) is not None:
-        raise HTTPException(status_code=400, detail="Team already exists")
-    makeTeam(org, orgteam.name)
-    id = getTeamByName(org, orgteam.name)

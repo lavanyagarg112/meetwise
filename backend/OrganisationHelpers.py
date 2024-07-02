@@ -40,15 +40,3 @@ def getOrganisationByName(orgIds: str = None) -> int | None:
         if details is None:
             return None
         return details[0].id
-
-
-def getTeamByName(orgId: int, teamName: str = None) -> int | None:
-    if teamName is None:
-        return None
-    return mapTeamNameToId(orgId, teamName)[0]
-
-
-def meetify(meetings: [Meeting]):
-    mapper = lambda row: Meeting(id=row[0], title=row[1], date=row[2])
-    meetings = list(map(mapper, meetings))
-    return meetings

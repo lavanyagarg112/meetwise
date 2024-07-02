@@ -5,12 +5,13 @@ import MeetingsComponent from '../../components/LoggedIn/MeetingsComponent'
 
 const Meetings = () => {
 
-    const {user} = useAuth()
+    const {user, activeOrganisation} = useAuth()
 
   return (
     <div>
       {!user && <div>Login</div>}
-      {user && <MeetingsComponent />}
+      {user && !activeOrganisation && <div>No active organisation found. Go to settings to set active organisation / create new organisation to view your meetings</div>}
+      {user && activeOrganisation && <MeetingsComponent activeOrganisation={activeOrganisation} />}
     </div>
   )
 }
