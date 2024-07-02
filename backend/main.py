@@ -8,8 +8,8 @@ from Organisations import createOrganisation, getOrganisationReport, getTeamRepo
     getTeams, addUser
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.Enums import Roles
-from backend.OrganisationHelpers import getTeamByName, getOrganisationByName
+from Enums import Roles
+from OrganisationHelpers import getTeamByName, getOrganisationByName
 
 app = FastAPI()
 
