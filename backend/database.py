@@ -83,6 +83,26 @@ def getTeamsByOrg(org: int):
     return cursor.fetchall()
 
 
+def getOwner(org: int):
+    initialise()
+    conn.sync()
+    with closing(conn.cursor()) as cursor:
+        cursor.execute('''
+        SELECT OWNER FROM Organisations WHERE ID =?''', (org,))
+        return cursor.fetchone()
+
+
+def getBulkUsersByIds(userIds: [int]):
+    initialise()
+    conn.sync()
+    placeHolders = ','.join('?' * len(userIds))
+    sqlCommand = f'''
+        SELECT ID,USERNAME,EMAIL,FIRSTNAME,LASTNAME FROM USERS WHERE ID IN ({placeHolders})'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, tuple(userIds))
+        return cursor.fetchall()
+
+
 def checkUserEmail(email: str):
     initialise()
     conn.sync()
@@ -144,6 +164,90 @@ def getMeetingsByTeam(orgId: int, teamId: int):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamId,))
         return cursor.fetchall()
+
+
+def getAdminsOrg(orgId: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT ID
+              FROM OW{orgId}EMP WHERE ROLE = "ADMIN"'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand)
+        return cursor.fetchall()
+
+
+def getUsersOrg(orgId: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT ID
+              FROM OW{orgId}EMP WHERE ROLE = "USER"'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand)
+        return cursor.fetchall()
+
+
+def getOrgRoleByID(orgId: int, userId: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+                  SELECT ROLE
+                  FROM OW{orgId}EMP WHERE ID = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (userId,))
+        return cursor.fetchone()
+
+
+def getAdminsTeam(orgId: int, teamId: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT OW{orgId}Emp.ID
+                FROM OW{orgId}EMP
+                INNER JOIN Org{orgId}Emp ON Org{orgId}Emp.ID = OW{orgId}EMP.ID
+                WHERE OW{orgId}EMP.ROLE = "ADMIN"
+                AND Org{orgId}Emp.TEAM = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, teamId)
+        return cursor.fetchall()
+
+
+def getUsersTeam(orgId: int, teamId: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT OW{orgId}Emp.ID
+                FROM OW{orgId}EMP
+                INNER JOIN Org{orgId}Emp ON Org{orgId}Emp.ID = OW{orgId}EMP.ID
+                WHERE OW{orgId}EMP.ROLE = "USER"
+                AND Org{orgId}Emp.TEAM = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, teamId)
+        return cursor.fetchall()
+
+
+def getOutsideTeam(orgId: int, teamId: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT ID 
+              FROM Org{orgId}Emp
+              WHERE NOT TEAM = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, teamId)
+        return cursor.fetchall()
+
+
+def getTeamRoleByID(orgId: int, teamId: int, userId: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+                  SELECT ROLE
+                  FROM Org{orgId}Emp WHERE ID =? AND TEAM =?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (userId, teamId))
+        return cursor.fetchone()
 
 
 def teamExists(orgId: int, team: str):
@@ -237,7 +341,7 @@ def makeOrganisation(owner: int, org: str):
         owemp = f'''
         CREATE TABLE OW{id}EMP(
         ID INTEGER PRIMARY KEY,
-        PERMISSIONS TEXT NOT NULL,
+        ROLE TEXT NOT NULL,
         FOREIGN KEY(ID) REFERENCES USERS(ID)
         )
         '''
@@ -332,5 +436,3 @@ def mapTeamNameToId(orgId: int, teamName: str):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamName,))
         return cursor.fetchone()
-
-
