@@ -51,7 +51,7 @@ class UserSignUp(UserLogIn):
 
 class UserInfo(BaseModel):
     user: Person
-    activeOrganisation: str | None = None
+    activeOrganisation: str
 
 
 class OrganisationReport(Organisation):
@@ -75,7 +75,7 @@ class TeamReport(Team):
 
 class TeamPersonalReport(BaseModel):
     isPermitted: bool
-    userRole: str
+    userRole: Roles
     team: TeamReport
 
 
