@@ -5,7 +5,7 @@ from fastapi import HTTPException
 from Enums import Roles
 from IOSchema import Organisation, OrganisationReport, OrganisationPersonalReport, Person, Team, TeamPersonalReport, \
     TeamReport, OrgTeam, Meeting
-from backend.OrganisationHelpers import getOrganisationsByID, getOrganisationByName, getOrganisationByID, getTeamByName, \
+from OrganisationHelpers import getOrganisationsByID, getOrganisationByName, getOrganisationByID, getTeamByName, \
     meetify
 from backend.UserAccounts import getUserByID
 from database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, getMeetingsByOrg, \
@@ -13,8 +13,6 @@ from database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg,
 
 
 def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:
-    # TODO: Implement new organisation logic
-    # Database operations to create a new organisation
     if existsOrganisation(OrganisationName):
         raise HTTPException(status_code=400, detail="Organisation already exists")
     id = makeOrganisation(OwnerID, OrganisationName)
@@ -23,11 +21,12 @@ def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:
 
 def getOrganisationReport(UserID: int, OrganisationName: str) -> OrganisationPersonalReport:
     # TODO: Implement organisation report logic
-    organisation : int = getOrganisationByName(OrganisationName)
+    organisation: int = getOrganisationByName(OrganisationName)
     if organisation is None:
         raise HTTPException(status_code=404, detail="Organisation not found")
     teams = getTeamsById(organisation)
-    orgReport = OrganisationReport(id=organisation, name=OrganisationName, owners=[Person(id=UserID, username="name")],
+    orgReport = OrganisationReport(id=organisation, name=OrganisationName, owners=[
+        Person(id=UserID, username="name", email="", firstName="", lastName="")],
                                    admins=[Person(id=UserID + 1, username="adminGuy", email="admin@admin.com",
                                                   firstName="admin", lastName="Guy")],
                                    users=[Person(id=UserID + 2, username="userGuy", email="admin@user.com",
@@ -96,3 +95,5 @@ def createTeam(orgteam: OrgTeam):
         raise HTTPException(status_code=400, detail="Team already exists")
     makeTeam(org, orgteam.name)
     id = getTeamByName(org, orgteam.name)
+
+

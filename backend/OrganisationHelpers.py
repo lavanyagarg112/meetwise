@@ -38,7 +38,7 @@ def getOrganisationByName(orgIds: str = None) -> int | None:
     if orgIds is None:
         return None
     else:
-        details = getOrganisationsByName(orgIds)
+        details = getOrganisationsByName([orgIds])
         if not details:
             return None
         return details[0].id

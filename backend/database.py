@@ -73,6 +73,7 @@ def getUserOrgs(user: int):
 
 
 def getTeamsByOrg(org: int):
+    initialise()
     conn.sync()
     sqlCommand = f'''
     SELECT * FROM Org{org}Team
@@ -316,7 +317,7 @@ def mapOrgNameToID(orgNames: [str]):
     placeHolders = ','.join('?' * len(orgNames))
     sqlCommand = f'''
           SELECT ID,NAME
-          FROM Organisations WHERE ID IN ({placeHolders})'''
+          FROM Organisations WHERE NAME IN ({placeHolders})'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, tuple(orgNames))
         return cursor.fetchall()
@@ -331,4 +332,5 @@ def mapTeamNameToId(orgId: int, teamName: str):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamName,))
         return cursor.fetchone()
+
 
