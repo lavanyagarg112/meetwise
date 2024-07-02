@@ -12,6 +12,7 @@ const UploadMeeting = () => {
   const [meetingName, setMeetingName] = useState('');
   const [meetingDate, setMeetingDate] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     const initFFmpeg = async () => {
@@ -69,17 +70,28 @@ const UploadMeeting = () => {
         });
         if (response.ok) {
           console.log('File successfully uploaded to the backend');
+          setLoading(false);
+          setMeetingName('');
+          setMeetingDate(null);
+          setSelectedFile(null);
+          document.getElementById('fileInput').value = '';
+          setShowPopup(true);
+          setTimeout(() => setShowPopup(false), 3000); // Hide the popup after 3 seconds
         } else {
           console.error('Failed to upload file to the backend');
         }
       } catch (error) {
         console.error('Error uploading file:', error);
       }
-
+      
+      // to be removed after endpoint works
       setLoading(false);
-      setMeetingName('')
-      setMeetingDate(null)
-      setSelectedFile(false)
+      setMeetingName('');
+      setMeetingDate(null);
+      setSelectedFile(null);
+      document.getElementById('fileInput').value = ''; // Reset the file input
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 3000); // Hide the popup after 3 seconds
     };
     reader.readAsArrayBuffer(selectedFile);
   };
@@ -122,7 +134,7 @@ const UploadMeeting = () => {
         </label>
       </div>
       <div className={styles.formGroup}>
-        <input type="file" onChange={handleFileChange} accept="video/*" className={styles.fileInput} />
+        <input id="fileInput" type="file" onChange={handleFileChange} accept="video/*" className={styles.fileInput} />
       </div>
       <button
         onClick={sendUploadAudio}
@@ -136,8 +148,10 @@ const UploadMeeting = () => {
           <a href={fileUrl} download="output.mp3">Download test MP3</a>
         </div>
       )}
+      {showPopup && <div className={styles.popup}>Video uploaded!</div>}
     </div>
   );
 };
 
 export default UploadMeeting;
+
