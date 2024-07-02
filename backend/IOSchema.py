@@ -1,6 +1,6 @@
 import enum
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -51,7 +51,7 @@ class UserSignUp(UserLogIn):
 
 class UserInfo(BaseModel):
     user: Person
-    activeOrganisation: str
+    activeOrganisation: Optional[str]
 
 
 class OrganisationReport(Organisation):

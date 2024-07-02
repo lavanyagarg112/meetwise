@@ -9,7 +9,7 @@ from OrganisationHelpers import getOrganisationsByID, getOrganisationByName, get
     meetify
 from UserAccounts import getUserByID
 from database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, getMeetingsByOrg, \
-    makeTeam, teamExists, addUserToTeam
+    makeTeam, teamExists, addUserToTeam, existsOrganisation, makeOrganisation
 
 
 def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:
@@ -17,7 +17,7 @@ def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:
     # Database operations to create a new organisation
     if existsOrganisation(OrganisationName):
         raise HTTPException(status_code=400, detail="Organisation already exists")
-    id = makeOrganisation(OwnerID,OrganisationName)
+    id = makeOrganisation(OwnerID, OrganisationName)
     return Organisation(name=OrganisationName, id=id)
 
 
@@ -63,15 +63,16 @@ def getAllMeetings(orgName: str) -> [Meeting]:
     return meetify(meetings)
 
 
-def getTeamsById(id:int) :
+def getTeamsById(id: int):
     teams = getTeamsByOrg(id)
     teammer = lambda row: Team(id=row[0], name=row[1])
     teams = list(map(teammer, teams))
     return teams
+
+
 def getTeams(name: str):
     id = getOrganisationByName(name)
     return getTeamsById(id)
-
 
 
 '''
@@ -85,6 +86,9 @@ def addUser(organisation: str, userId: int, role: str, teamName: str = None) -> 
     addUserToTeam(organisation, userId, role, teamName)
     user = getUserByID(userId).user
     return Person(id=userId, username=user.username, email=user.email, firstName=user.firstName, lastName=user.lastName)
+
+
+
 
 
 def createTeam(orgteam: OrgTeam):

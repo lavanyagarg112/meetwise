@@ -10,8 +10,7 @@ from IOSchema import Person, UserSignUp, UserLogIn, UserInfo, Organisation
 import os
 
 from Errors import CreateUserError, AuthError, AuthenticationError
-from OrganisationHelpers import getOrgs
-from OrganisationHelpers import getOrganisationByID, getOrganisationByName
+from OrganisationHelpers import getOrganisationByID, getOrganisationByName,getOrgs
 from database import setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, getUserDetailsByID, \
     checkUserEmail, createNewUser, checkUserUsername
 
