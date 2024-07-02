@@ -1,6 +1,7 @@
 import datetime
 from typing import List, Annotated
 
+import bcrypt
 import jwt
 from fastapi import Cookie, HTTPException, Response
 from jwt import ExpiredSignatureError
@@ -8,32 +9,35 @@ from dotenv import load_dotenv
 from IOSchema import Person, UserSignUp, UserLogIn, UserInfo, Organisation
 import os
 
-from Errors import CreateUserError, AuthError
-from database import setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail
+from Errors import CreateUserError, AuthError, AuthenticationError
+from database import setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, getUserDetailsByID, \
+    mapOrgIDToName, mapOrgNameToID
 
 load_dotenv('.env')
 secret = os.environ["JWT_SIGNING_KEY"]
 EXPIRY_TIME = datetime.timedelta(minutes=10)
 
 
-#TODO: Query DB and return Person
-def getUserDetails(user: UserLogIn) -> [Person, AuthError, str]:
-    details =[]
+def getUserDetails(user: UserLogIn) -> [Person, AuthError, str | None]:
+    details = []
     if user.username is not None:
-     details = getUserDetailsByName(user.username)
-    else :
-     details = getUserDetailsByEmail(user.email)
+        details = getUserDetailsByName(user.username)
+    else:
+        details = getUserDetailsByEmail(user.email)
     if details is None:
         return None, AuthError.USER_DOES_NOT_EXIST, None
-    if details[5] != user.password:
+    encode = user.password.encode('utf-8')
+    if not bcrypt.checkpw(encode, details[5]):
         return None, AuthError.WRONG_PASSWORD, None
     user = Person(id=details[0], email=details[1], username=details[2], firstName=details[3], lastName=details[4])
-    return user, None, details[6]
+    return user, None, getOrganisationName([details[6]])
 
 
 def getUserByID(user: int) -> UserInfo:
-    return UserInfo(user=Person(id=user, email="dummyEmail", username="DummyUser", firstName="Dummy"),
-                    activeOrganisation="Dummy")
+    details = getUserDetailsByID(user)
+    return UserInfo(
+        user=Person(id=user, email=details[0], username=details[1], firstName=details[2], lastName=details[3]),
+        activeOrganisation=getOrganisationName([details[4]]))
 
 
 #TODO:Database operations to create a new user
@@ -42,12 +46,27 @@ def createUser(user: UserSignUp) -> [UserLogIn, CreateUserError]:
     return UserLogIn(email=user.email, password=user.password), None
 
 
+#TODO
 def getOrganisationsByID(userId: int) -> List[Organisation]:
     return [Organisation(id=0, name="Hi"), Organisation(id=1, name="How are you")]
 
 
 def setOrganisationActive(userId: int, name: str):
-    setActiveOrganisation(userId, name)
+    setActiveOrganisation(userId, getOrganisationID(name))
+
+
+def getOrganisationName(orgIds: [int] = None) -> [str]:
+    if orgIds is None:
+        return None
+    else:
+        return mapOrgIDToName(orgIds)
+
+
+def getOrganisationID(orgIds: [str] = None) -> [int]:
+    if orgIds is None:
+        return None
+    else:
+        return mapOrgNameToID(orgIds)
 
 
 '''
@@ -83,10 +102,7 @@ def eatCookie(credentials: Annotated[str, Cookie()] = None) -> int:
     return id
 
 
-'''
-wrapper for throwing HTTP exceptions with status code 401
-'''
 
 
-def AuthenticationError(detail: str):
-    raise HTTPException(status_code=401, detail=detail)
+
+
