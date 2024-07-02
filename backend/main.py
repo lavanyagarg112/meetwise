@@ -8,8 +8,7 @@ from Organisations import createOrganisation, getOrganisationReport, getTeamRepo
     getTeams, addUser, createTeam
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.Enums import Roles
-from backend.OrganisationHelpers import getTeamByName, getOrganisationByName
+from Enums import Roles
 
 app = FastAPI()
 
@@ -28,14 +27,14 @@ app.add_middleware(
 #TODO : add return types
 @app.post("/sign-up")
 async def signup(user: UserSignUp, response: Response):
-    try:
-        userCred, error = createUser(user)
-        if error is not None:
-            return {"error": error}, 400
-            # The calls are separated to ensure data is actually written to DB successfully,
-            #  after DB testing can merge them into 1 like current implementation
-    except:
-        raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
+    # try:
+    userCred, error = createUser(user)
+    if error is not None:
+        return {"error": error}, 400
+        # The calls are separated to ensure data is actually written to DB successfully,
+        #  after DB testing can merge them into 1 like current implementation
+    # except:
+    #     raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
     userDetails, error, activeOrg = getUserDetails(userCred)
     bakeCookie(userDetails.id, response)
     return {"user": userDetails}
