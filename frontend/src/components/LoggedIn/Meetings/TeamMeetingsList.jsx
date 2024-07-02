@@ -47,9 +47,6 @@ const TeamMeetingsList = ({ teamName, organisationName, goToMeeting }) => {
     } catch (error) {
       console.log('ERROR');
     }
-
-    // to be removed after endpoint works
-    setMeetings(DUMMY_DATA);
   };
 
   useEffect(() => {

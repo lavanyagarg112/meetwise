@@ -29,7 +29,7 @@ def getUserDetails(user: UserLogIn) -> [Person, AuthError, str | None]:
     if details is None:
         return None, AuthError.USER_DOES_NOT_EXIST, None
     encode = user.password.encode('utf-8')
-    if not bcrypt.checkpw(encode, details[5]):
+    if not bcrypt.checkpw(encode, details[5].encode('utf-8')):
         return None, AuthError.WRONG_PASSWORD, None
     user = Person(id=details[0], email=details[1], username=details[2], firstName=details[3], lastName=details[4])
     return user, None, getOrganisationByID(details[6])
@@ -49,7 +49,7 @@ def createUser(user: UserSignUp) -> [UserLogIn, CreateUserError]:
         return None, CreateUserError.USER_ALREADY_EXISTS
     encode = user.password.encode('utf-8')
     hashed_password = bcrypt.hashpw(encode, bcrypt.gensalt())
-    createNewUser(user.username, user.email, hashed_password, user.firstName, user.lastName)
+    createNewUser(user.username, user.email, hashed_password.decode('utf-8'), user.firstName, user.lastName)
     return UserLogIn(email=user.email, password=user.password), None
 
 

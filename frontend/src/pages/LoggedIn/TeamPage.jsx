@@ -61,27 +61,6 @@ const TeamPage = ({ organisation }) => {
       console.log('ERROR');
       setShowError(true);
     }
-
-    // to be removed after endpoint is created
-    const otherUsers = [
-      {
-        id: 0,
-        name: 'user10',
-        email: 'user10@email.com'
-      },
-      {
-        id: 1,
-        name: 'user11',
-        email: 'user11@email.com'
-      }
-    ]
-    setIsPermitted(true);
-    setShowError(false);
-    setTeamName(name);
-    setAdmins([]);
-    setUsers([]);
-    setOtherUsers(otherUsers)
-    setUserRole('admin');
   };
 
   const goToMeeting = (id) => {
@@ -122,19 +101,6 @@ const TeamPage = ({ organisation }) => {
     } catch (error) {
       console.log('ERROR', error);
     }
-
-    // to be removed after end point is deleted
-    const userInfo = {
-      id: selectedUser.value,
-      username: selectedUser.label
-    }
-    if (selectedRole === 'admin') {
-      setAdmins([...admins, userInfo]);
-    } else {
-      setUsers([...users, userInfo]);
-    }
-    setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 3000);
   };
 
   useEffect(() => {

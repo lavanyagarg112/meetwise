@@ -71,13 +71,6 @@ const OrganisationPage = () => {
     } catch (error) {
       console.log('ERROR');
     }
-
-    // to be removed after endpoint
-    const data = {
-      id: 3,
-      name: teamName,
-    };
-    setTeams([...teams, data]);
   };
 
   const createTeam = () => {
@@ -179,12 +172,6 @@ const OrganisationPage = () => {
     } catch (error) {
       console.log('ERROR', error);
     }
-
-    // to be removed after endpoint works
-    // include pending invites in get organisation info
-    setPendingInvites([...pendingInvites, {id:0, email: inviteEmail, role: inviteRole}])
-    setShowInvitePopup(true);
-    setTimeout(() => setShowInvitePopup(false), 3000);
   };
 
   useEffect(() => {

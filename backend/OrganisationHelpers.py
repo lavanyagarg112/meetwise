@@ -1,5 +1,5 @@
-from backend.IOSchema import Organisation
-from backend.database import mapOrgNameToID, mapOrgIDToName
+from IOSchema import Organisation
+from database import mapOrgNameToID, mapOrgIDToName
 
 
 def getOrganisationsByID(orgIds: [int] = None) -> [Organisation]:

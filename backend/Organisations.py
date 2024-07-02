@@ -3,7 +3,7 @@ from typing import List
 from Enums import Roles
 from IOSchema import Organisation, OrganisationReport, OrganisationPersonalReport, Person, Team, TeamPersonalReport, \
     TeamReport, OrgTeam, Meeting
-from backend.OrganisationHelpers import getOrganisationsByID, getOrganisationByName
+from OrganisationHelpers import getOrganisationsByID, getOrganisationByName
 from database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg
 
 

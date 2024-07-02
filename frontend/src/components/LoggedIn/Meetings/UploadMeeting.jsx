@@ -91,9 +91,6 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
     } catch (error) {
       console.log('ERROR', error);
     }
-
-    // to be removed after endpoint works
-    setTeams(DUMMY_TEAMS);
   };
 
   const formatDate = (date) => {
@@ -155,18 +152,6 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
       } catch (error) {
         console.error('Error uploading file:', error);
       }
-
-      // to be removed after endpoint works
-      setLoading(false);
-      setMeetingName('');
-      setMeetingDate(null);
-      setSelectedFile(null);
-      if (!team) {
-        setTeamName('')
-      }
-      document.getElementById('fileInput').value = ''; // Reset the file input
-      setShowPopup(true);
-      setTimeout(() => setShowPopup(false), 3000); // Hide the popup after 3 seconds
     };
     reader.readAsArrayBuffer(selectedFile);
   };
