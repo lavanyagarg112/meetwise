@@ -3,6 +3,8 @@ import { FFmpeg } from '@ffmpeg/ffmpeg';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './UploadMeeting.module.css';
+import moment from 'moment';
+
 
 const UploadMeeting = () => {
   const [ffmpeg, setFFmpeg] = useState(null);
@@ -130,6 +132,7 @@ const UploadMeeting = () => {
             placeholderText="yyyy-mm-dd"
             required
             className={styles.dateInput}
+            maxDate={moment().toDate()}
           />
         </label>
       </div>
