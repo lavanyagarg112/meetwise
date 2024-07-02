@@ -3,7 +3,7 @@ from typing import List, Annotated
 
 import bcrypt
 import jwt
-from fastapi import Cookie, HTTPException, Response
+from fastapi import Cookie, Response
 from jwt import ExpiredSignatureError
 from dotenv import load_dotenv
 from IOSchema import Person, UserSignUp, UserLogIn, UserInfo, Organisation
