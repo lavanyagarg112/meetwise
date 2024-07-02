@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import styles from './UploadMeeting.module.css';
 
 const UploadMeeting = () => {
@@ -8,7 +10,7 @@ const UploadMeeting = () => {
   const [fileUrl, setFileUrl] = useState(null);
   const [type, setType] = useState('organisation');
   const [meetingName, setMeetingName] = useState('');
-  const [meetingDate, setMeetingDate] = useState('');
+  const [meetingDate, setMeetingDate] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
@@ -25,8 +27,10 @@ const UploadMeeting = () => {
     setSelectedFile(event.target.files[0]);
   };
 
-  const formatDate = (dateStr) => {
-    const [dd, mm, yyyy] = dateStr.split('-');
+  const formatDate = (date) => {
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
     return `${yyyy}-${mm}-${dd}`;
   };
 
@@ -73,6 +77,9 @@ const UploadMeeting = () => {
       }
 
       setLoading(false);
+      setMeetingName('')
+      setMeetingDate(null)
+      setSelectedFile(false)
     };
     reader.readAsArrayBuffer(selectedFile);
   };
@@ -104,20 +111,24 @@ const UploadMeeting = () => {
       <div className={styles.formGroup}>
         <label>
           Meeting Date:
-          <input
-            type="text"
-            placeholder="dd-mm-yyyy"
-            value={meetingDate}
-            onChange={(e) => setMeetingDate(e.target.value)}
+          <DatePicker
+            selected={meetingDate}
+            onChange={(date) => setMeetingDate(date)}
+            dateFormat="yyyy-MM-dd"
+            placeholderText="yyyy-mm-dd"
             required
-            className={styles.textInput}
+            className={styles.dateInput}
           />
         </label>
       </div>
       <div className={styles.formGroup}>
         <input type="file" onChange={handleFileChange} accept="video/*" className={styles.fileInput} />
       </div>
-      <button onClick={sendUploadAudio} disabled={loading} className={styles.uploadButton}>
+      <button
+        onClick={sendUploadAudio}
+        disabled={loading || !selectedFile || !meetingName || !meetingDate}
+        className={styles.uploadButton}
+      >
         {loading ? 'Uploading...' : 'Send Upload'}
       </button>
       {fileUrl && (
