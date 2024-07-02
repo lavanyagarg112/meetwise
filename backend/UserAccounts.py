@@ -48,8 +48,8 @@ def createUser(user: UserSignUp) -> [UserLogIn, CreateUserError]:
     if checkUserUsername(user.username) is not None:
         return None, CreateUserError.USER_ALREADY_EXISTS
     encode = user.password.encode('utf-8')
-    hashed_password = bcrypt.hashpw(encode, bcrypt.gensalt())
-    createNewUser(user.username, user.email, hashed_password.decode('utf-8'), user.firstName, user.lastName)
+    hashed_password = bcrypt.hashpw(encode, bcrypt.gensalt()).decode('utf-8')
+    createNewUser(user.username, user.email, hashed_password, user.firstName, user.lastName)
     return UserLogIn(email=user.email, password=user.password), None
 
 
