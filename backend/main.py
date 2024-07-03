@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Response, Request, Cookie, UploadFile
 from typing import Annotated
 from IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
-    OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person
+    OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput
 from UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
     setOrganisationActive, eatCookie, bakeCookie, inviteOrAddUser
 from Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, getAllMeetings, \
@@ -104,7 +104,7 @@ async def teamPage(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = Non
 
 #TODO:
 @app.post("/upload-meeting")
-async def uploadMeeting(file: UploadFile, type: str, meetingName: str, meetingDate: str,
+async def uploadMeeting(input : MeetingInput,
                         credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
     # TODO: Implement upload meeting logic
@@ -126,16 +126,16 @@ async def getTeamMeetings(orgteam: OrgTeam, credentials: Annotated[str, Cookie()
 
 
 @app.post("/get-organisation-meetings")
-async def getOrganisationMeetings(name: str, credentials: Annotated[str, Cookie()] = None):
+async def getOrganisationMeetings(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    meetings = getAllMeetings(name)
+    meetings = getAllMeetings(name.name)
     return {"organisations": meetings}
 
 
 @app.post("/get-organisation-teams")
-async def getOrganisationTeams(name: str, credentials: Annotated[str, Cookie()] = None):
+async def getOrganisationTeams(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    teams = getTeams(name)
+    teams = getTeams(name.name)
     return {"teams": teams}
 
 
@@ -149,6 +149,6 @@ async def addTeamUser(teamName: str, organisation: str, userId: int, role: str,
 
 #TODO:
 @app.post('/invite-user')
-async def inviteUser(email:str, role: Roles, organisation: str, credentials: Annotated[str, Cookie()] = None):
-    output = inviteOrAddUser(email, role,organisation)
+async def inviteUser(input : InviteInput, credentials: Annotated[str, Cookie()] = None):
+    output = inviteOrAddUser(input.email, input.role,input.organisation)
     return output
