@@ -166,7 +166,7 @@ const TeamPage = () => {
                 <Select
                   value={selectedUser}
                   onChange={setSelectedUser}
-                  options={otherUsers.map(user => ({ value: user.id, label: `${user.name} (${user.email})` }))}
+                  options={otherUsers.map(user => ({ value: user.id, label: `${user.firstName} (${user.email})` }))}
                   placeholder="Select User"
                   required
                 />
