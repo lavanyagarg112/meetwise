@@ -41,7 +41,7 @@ def getOrganisationReport(UserID: int, OrganisationName: str) -> OrganisationPer
 
 def getTeamReport(userID: int, teamName: str, organisationName: str) -> TeamPersonalReport:
     organisation = getOrganisationByName(organisationName)
-    team: int = getTeamByName(organisation, teamName)
+    team: int = getTeamByName(organisation, teamName,userID)
     admins: [Person] = getTeamAdmins(organisation, team)
     users: [Person] = getTeamUsers(organisation, team)
     allUsers: [Person] = getAllUsers(organisation, team)

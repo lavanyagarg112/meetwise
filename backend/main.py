@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Response, Request, Cookie, UploadFile
 from typing import Annotated
 from IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
-    OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput
+    OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput, AddUserInput
 from UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
     setOrganisationActive, eatCookie, bakeCookie, inviteOrAddUser
 from Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, getAllMeetings, \
@@ -135,15 +135,15 @@ async def getOrganisationMeetings(name: OrganisationName, credentials: Annotated
 @app.post("/get-organisation-teams")
 async def getOrganisationTeams(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    teams = getTeams(name.name)
+    teams = getTeams(name.name,id)
     return {"teams": teams}
 
 
 @app.post('/add-team-user')
-async def addTeamUser(teamName: str, organisation: str, userId: int, role: str,
+async def addTeamUser(input:AddUserInput,
                       credentials: Annotated[str, Cookie()] = None) -> Person:
     id = eatCookie(credentials)
-    user: Person = addUser(organisation, userId, role, teamName)
+    user: Person = addUser(input.organisation, input.userId, input.role, input.teamName)
     return user
 
 
