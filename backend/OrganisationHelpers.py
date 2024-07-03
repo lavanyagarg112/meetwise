@@ -1,7 +1,9 @@
 from typing import List
 
-from IOSchema import Organisation, Meeting
-from database import mapOrgNameToID, mapOrgIDToName, mapTeamNameToId, getUserOrgs
+from backend.Enums import Roles
+from backend.IOSchema import Organisation, Meeting, Person
+from backend.database import mapOrgNameToID, mapOrgIDToName, mapTeamNameToId, getUserOrgs, getBulkUsersByIds, \
+    getAdminsOrg, getUsersOrg, getOrgRoleByID, getTeamRoleByID, getAdminsTeam, getUsersTeam, getOutsideTeam
 
 
 def getOrganisationsByID(orgIds: [int] = None) -> [Organisation]:
@@ -38,7 +40,7 @@ def getOrganisationByName(orgIds: str = None) -> int | None:
     if orgIds is None:
         return None
     else:
-        details = getOrganisationsByName(orgIds)
+        details = getOrganisationsByName([orgIds])
         if not details:
             return None
         return details[0].id
@@ -63,9 +65,62 @@ def meetify(meetings: [Meeting]):
     meetings = list(map(mapper, meetings))
     return meetings
 
-def getOrgs(userId: int) -> List[Organisation]:
-    details = getUserOrgs(userId)
+
+def getUsersByIds(userIds: [int]) -> List[Person]:
+    mapper = lambda row: Person(id=row[0], username=row[1], email=row[2], firstName=row[3], lastName=row[4])
+    details = getBulkUsersByIds(userIds)
+    users = list(map(mapper, details))
+    return users
+
+
+def getAdmins(orgId: int) -> List[Person]:
+    details = getAdminsOrg(orgId)
+    if not details:
+        return []
     mapper = lambda row: row[0]
     details = list(map(mapper, details))
-    orgs = getOrganisationsByID(details)
-    return orgs
+    return getUsersByIds(details)
+
+
+def getRoleByID(orgId: int, userId: int) -> Roles:
+    return getOrgRoleByID(orgId, userId)
+
+
+def getUsers(orgId: int) -> List[Person]:
+    details = getUsersOrg(orgId)
+    if not details:
+        return []
+    mapper = lambda row: row[0]
+    details = list(map(mapper, details))
+    return getUsersByIds(details)
+
+
+def getTeamAdmins(orgId: int, teamId: int) -> List[Person]:
+    details = getAdminsTeam(orgId, teamId)
+    if not details:
+        return []
+    mapper = lambda row: row[0]
+    details = list(map(mapper, details))
+    return getUsersByIds(details)
+
+
+def getTeamUsers(orgId: int, teamId: int) -> List[Person]:
+    details = getUsersTeam(orgId, teamId)
+    if not details:
+        return []
+    mapper = lambda row: row[0]
+    details = list(map(mapper, details))
+    return getUsersByIds(details)
+
+
+def getOthers(orgId: int, teamId: int) -> List[Person]:
+    details = getOutsideTeam(orgId, teamId)
+    if not details:
+        return []
+    mapper = lambda row: row[0]
+    details = list(map(mapper, details))
+    return getUsersByIds(details)
+
+
+def getTRoleByID(orgId: int, teamId: int, userId: int) -> Roles:
+    return getTeamRoleByID(orgId, teamId, userId)

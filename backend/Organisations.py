@@ -6,15 +6,13 @@ from Enums import Roles
 from IOSchema import Organisation, OrganisationReport, OrganisationPersonalReport, Person, Team, TeamPersonalReport, \
     TeamReport, OrgTeam, Meeting
 from OrganisationHelpers import getOrganisationsByID, getOrganisationByName, getOrganisationByID, getTeamByName, \
-    meetify
-from UserAccounts import getUserByID
+    meetify, getAdmins, getUsers, getRoleByID, getTeamAdmins, getTeamUsers, getOthers, getTRoleByID
+from backend.UserAccounts import getUserByID
 from database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, getMeetingsByOrg, \
-    makeTeam, teamExists, addUserToTeam, existsOrganisation, makeOrganisation
+    makeTeam, teamExists, addUserToTeam, existsOrganisation, makeOrganisation, getOwner
 
 
 def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:
-    # TODO: Implement new organisation logic
-    # Database operations to create a new organisation
     if existsOrganisation(OrganisationName):
         raise HTTPException(status_code=400, detail="Organisation already exists")
     id = makeOrganisation(OwnerID, OrganisationName)
@@ -22,33 +20,35 @@ def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:
 
 
 def getOrganisationReport(UserID: int, OrganisationName: str) -> OrganisationPersonalReport:
-    # TODO: Implement organisation report logic
-    organisation : int = getOrganisationByName(OrganisationName)
+    organisation: int = getOrganisationByName(OrganisationName)
     if organisation is None:
         raise HTTPException(status_code=404, detail="Organisation not found")
     teams = getTeamsById(organisation)
-    orgReport = OrganisationReport(id=organisation, name=OrganisationName, owners=[Person(id=UserID, username="name")],
-                                   admins=[Person(id=UserID + 1, username="adminGuy", email="admin@admin.com",
-                                                  firstName="admin", lastName="Guy")],
-                                   users=[Person(id=UserID + 2, username="userGuy", email="admin@user.com",
-                                                 firstName="user", lastName="Guy")],
+    owner : int = getOwner(organisation)
+    owner : Person = getUserByID(owner).user
+    admins : [Person] = getAdmins(organisation)
+    users : [Person] = getUsers(organisation)
+    userRole = getRoleByID(organisation,UserID)
+    orgReport = OrganisationReport(id=organisation, name=OrganisationName, owners=[owner],
+                                   admins=admins,
+                                   users=users,
                                    teams=teams)
-    report = OrganisationPersonalReport(isPermitted=True, userRole=Roles.USER, organisation=orgReport)
+    report = OrganisationPersonalReport(isPermitted=True, userRole=userRole, organisation=orgReport)
     return report
 
 
-#TODO:
 def getTeamReport(userID: int, teamName: str, organisationName: str) -> TeamPersonalReport:
-    teamReport = TeamReport(id=1, name=teamName,
-                            admins=[
-                                Person(id=userID + 1, username="adminGuy", email="admin@admin.com", firstName="admin",
-                                       lastName="Guy")],
-                            users=[Person(id=userID + 2, username="userGuy", email="admin@user.com", firstName="user",
-                                          lastName="Guy")],
-                            otherUsers=[
-                                Person(id=userID + 2, username="userGuy", email="admin@user.com", firstName="user",
-                                       lastName="Guy")])
-    report = TeamPersonalReport(isPermitted=True, userRole=Roles.USER, team=teamReport)
+    organisation = getOrganisationByName(organisationName)
+    team : int = getTeamByName(organisation, teamName)
+    admins : [Person] = getTeamAdmins(organisation,team)
+    users : [Person] = getTeamUsers(organisation,team)
+    otherUsers : [Person] = getOthers(organisation,team)
+    userRole = getTRoleByID(organisation,team,userID)
+    teamReport = TeamReport(id=team, name=teamName,
+                            admins=admins,
+                            users=users,
+                            otherUsers=otherUsers)
+    report = TeamPersonalReport(isPermitted=True, userRole=userRole, team=teamReport)
     return report
 
 
@@ -96,3 +96,5 @@ def createTeam(orgteam: OrgTeam):
         raise HTTPException(status_code=400, detail="Team already exists")
     makeTeam(org, orgteam.name)
     id = getTeamByName(org, orgteam.name)
+
+
