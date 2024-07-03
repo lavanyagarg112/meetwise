@@ -16,7 +16,7 @@ from database import setActiveOrganisation, getUserDetailsByName, getUserDetails
 
 load_dotenv('.env')
 secret = os.environ["JWT_SIGNING_KEY"]
-EXPIRY_TIME = datetime.timedelta(minutes=10)
+EXPIRY_TIME = datetime.timedelta(days=1)
 
 
 def getUserDetails(user: UserLogIn) -> [Person, AuthError, str | None]:
