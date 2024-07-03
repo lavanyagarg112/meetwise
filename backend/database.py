@@ -393,6 +393,31 @@ def makeTeam(orgId: int, team: str):
         conn.sync()
 
 
+def addUserToOrg(orgId: int, userId: int, role: str):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              INSERT INTO UserOrg (ID, ORGANISATION) VALUES (?,?)'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (userId, orgId))
+        conn.commit()
+        conn.sync()
+
+        orgemp = f'''
+        INSERT INTO Org{orgId}Perm (ID) VALUES (?)
+        '''
+        cursor.execute(orgemp, (userId,))
+        conn.commit()
+        conn.sync()
+
+        OWEMP = f'''
+        INSERT INTO OW{orgId}EMP (ID,ROLE) VALUES (?,?)
+        '''
+        cursor.execute(OWEMP, (userId, role))
+        conn.commit()
+        conn.sync()
+
+
 def addUserToTeam(orgId: int, userId: int, role: str, team: int):
     initialise()
     conn.sync()
@@ -437,4 +462,3 @@ def mapTeamNameToId(orgId: int, teamName: str):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamName,))
         return cursor.fetchone()
-
