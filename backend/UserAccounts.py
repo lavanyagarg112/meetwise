@@ -49,8 +49,7 @@ def createUser(user: UserSignUp) -> [UserLogIn, CreateUserError]:
     encode = user.password.encode('utf-8')
     hashed_password = bcrypt.hashpw(encode, bcrypt.gensalt()).decode('utf-8')
     createNewUser(user.username, user.email, hashed_password, user.firstName, user.lastName)
-    id = getUserDetailsByEmail(user.email)
-    forceJoin(id)
+    forceJoin(user.email)
     return UserLogIn(email=user.email, password=user.password), None
 
 

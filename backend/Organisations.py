@@ -88,7 +88,7 @@ def getTeams(name: str, Userid: int):
 def addUser(organisation: str, userId: int, role: str, teamName: str = None) -> Person:
     organisation = getOrganisationByName(organisation)
     teamName = getTeamByName(organisation, teamName)
-    addUserToTeam(organisation, userId, role, teamName)
+    addUserToTeam(organisation, userId, role, teamName,role)
     user = getUserByID(userId).user
     return Person(id=userId, username=user.username, email=user.email, firstName=user.firstName, lastName=user.lastName)
 
@@ -99,5 +99,5 @@ def createTeam(userId: int, orgteam: OrgTeam):
         raise HTTPException(status_code=400, detail="Team already exists")
     makeTeam(org, orgteam.name)
     id = getTeamByName(org, orgteam.name)
-    addUserToTeam(org, userId, Roles.ADMIN.value, id)
+    addUserToTeam(org, userId, Roles.ADMIN.value, id,Roles.ADMIN)
     return id
