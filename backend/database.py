@@ -64,11 +64,12 @@ def getUserDetailsByID(id: int):
 
 
 def getUserOrgs(user: int):
+    initialise()
     conn.sync()
     with closing(conn.cursor()) as cursor:
         cursor.execute('''
         SELECT ORGANISATION
-        FROM UserOrg WHERE ID = ?''', (id,))
+        FROM UserOrg WHERE ID = ?''', (user,))
     return cursor.fetchall()
 
 
@@ -436,3 +437,4 @@ def mapTeamNameToId(orgId: int, teamName: str):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamName,))
         return cursor.fetchone()
+
