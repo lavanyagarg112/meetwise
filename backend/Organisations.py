@@ -99,5 +99,7 @@ def createTeam(userId: int, orgteam: OrgTeam):
         raise HTTPException(status_code=400, detail="Team already exists")
     makeTeam(org, orgteam.name)
     id = getTeamByName(org, orgteam.name)
+    ownerId = getOwner(org)
+    addUserToTeam(org, ownerId, Roles.ADMIN.value, id, Roles.ADMIN.value)
     addUserToTeam(org, userId, Roles.ADMIN.value, id,Roles.ADMIN.value)
     return id
