@@ -1,6 +1,7 @@
 from typing import List
 
 from backend.Enums import Roles
+from backend.Errors import AuthenticationError
 from backend.IOSchema import Organisation, Meeting, Person
 from backend.database import mapOrgNameToID, mapOrgIDToName, mapTeamNameToId, getUserOrgs, getBulkUsersByIds, \
     getAdminsOrg, getUsersOrg, getOrgRoleByID, getTeamRoleByID, getAdminsTeam, getUsersTeam, getOutsideTeam
@@ -83,8 +84,10 @@ def getAdmins(orgId: int) -> List[Person]:
 
 
 def getRoleByID(orgId: int, userId: int) -> Roles:
-     print(getOrgRoleByID(orgId, userId))
-     return Roles.USER
+    if not getOrgRoleByID(orgId, userId):
+        AuthenticationError("User does not belong to this organisation")
+    else:
+        return Roles(getOrgRoleByID(orgId, userId)[0])
 
 
 def getUsers(orgId: int) -> List[Person]:
@@ -123,7 +126,7 @@ def getOthers(orgId: int, teamId: int) -> List[Person]:
     return getUsersByIds(details)
 
 
-def getTRoleByID(orgId: int, teamId: int, userId: int) -> str|None:
+def getTRoleByID(orgId: int, teamId: int, userId: int) -> str | None:
     res = getTeamRoleByID(orgId, teamId, userId)
     if not res:
         return None
