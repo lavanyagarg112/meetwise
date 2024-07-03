@@ -92,10 +92,11 @@ def addUser(organisation: str, userId: int, role: str, teamName: str = None) -> 
     return Person(id=userId, username=user.username, email=user.email, firstName=user.firstName, lastName=user.lastName)
 
 
-def createTeam(orgteam: OrgTeam):
+def createTeam(userId:int, orgteam: OrgTeam):
     org = getOrganisationByName(orgteam.organisation)
     if teamExists(org, orgteam.name) is not None:
         raise HTTPException(status_code=400, detail="Team already exists")
     makeTeam(org, orgteam.name)
     id = getTeamByName(org, orgteam.name)
+    addUserToTeam(org,userId,Roles.ADMIN.value, id)
     return id

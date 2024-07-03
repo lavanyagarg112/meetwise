@@ -114,7 +114,7 @@ async def uploadMeeting(input : MeetingInput,
 @app.post("/new-team")
 async def newTeam(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = None) -> Team:
     id = eatCookie(credentials)
-    id = createTeam(orgteam)
+    id = createTeam(id,orgteam)
     return Team(id=id, name=orgteam.name)
 
 

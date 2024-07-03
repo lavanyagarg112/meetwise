@@ -76,7 +76,7 @@ class TeamReport(Team):
 
 class TeamPersonalReport(BaseModel):
     isPermitted: bool
-    userRole: Roles
+    userRole: str
     team: TeamReport
 
 
