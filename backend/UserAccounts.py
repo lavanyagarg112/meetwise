@@ -6,13 +6,13 @@ import jwt
 from fastapi import Cookie, HTTPException, Response
 from jwt import ExpiredSignatureError
 from dotenv import load_dotenv
-from IOSchema import Person, UserSignUp, UserLogIn, UserInfo, Organisation
+from IOSchema import Person, UserSignUp, UserLogIn, UserInfo, Organisation, InviteOutput
 import os
 
 from Errors import CreateUserError, AuthError, AuthenticationError
-from OrganisationHelpers import getOrganisationByID, getOrganisationByName,getOrgs
+from OrganisationHelpers import getOrganisationByID, getOrganisationByName, getOrgs
 from database import setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, getUserDetailsByID, \
-    checkUserEmail, createNewUser, checkUserUsername
+    checkUserEmail, createNewUser, checkUserUsername, checkUserOrg, addUserToOrg, addToPending
 
 load_dotenv('.env')
 secret = os.environ["JWT_SIGNING_KEY"]
@@ -58,6 +58,20 @@ def getOrganisationsByID(userId: int) -> List[Organisation]:
 
 def setOrganisationActive(userId: int, name: str):
     setActiveOrganisation(userId, getOrganisationByName(name))
+
+
+def inviteOrAddUser(email, role, organisation) -> InviteOutput:
+    organisation = getOrganisationByName(organisation)
+    if checkUserEmail(email):
+        userId = getUserDetailsByEmail(email)
+        if checkUserOrg(userId, organisation):
+            raise HTTPException(status_code=400, detail="User already exists in Organisation")
+        else:
+            addUserToOrg(orgId=organisation, userId=userId, role=role)
+        id = userId
+    else:
+        id = addToPending(email, role, organisation)
+    return InviteOutput(id=id, email=email, role=role)
 
 
 '''

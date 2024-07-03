@@ -9,13 +9,14 @@ from OrganisationHelpers import getOrganisationsByID, getOrganisationByName, get
     meetify, getAdmins, getUsers, getRoleByID, getTeamAdmins, getTeamUsers, getOthers, getTRoleByID
 from UserAccounts import getUserByID
 from database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, getMeetingsByOrg, \
-    makeTeam, teamExists, addUserToTeam, existsOrganisation, makeOrganisation, getOwner
+    makeTeam, teamExists, addUserToTeam, existsOrganisation, makeOrganisation, getOwner, addUserToOrg
 
 
 def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:
     if existsOrganisation(OrganisationName):
         raise HTTPException(status_code=400, detail="Organisation already exists")
     id = makeOrganisation(OwnerID, OrganisationName)
+    addUserToOrg(orgId=id, userId=OwnerID, role="owner")
     return Organisation(name=OrganisationName, id=id)
 
 
@@ -24,11 +25,11 @@ def getOrganisationReport(UserID: int, OrganisationName: str) -> OrganisationPer
     if organisation is None:
         raise HTTPException(status_code=404, detail="Organisation not found")
     teams = getTeamsById(organisation)
-    owner : int = getOwner(organisation)
-    owner : Person = getUserByID(owner).user
-    admins : [Person] = getAdmins(organisation)
-    users : [Person] = getUsers(organisation)
-    userRole = getRoleByID(organisation,UserID)
+    owner: int = getOwner(organisation)
+    owner: Person = getUserByID(owner).user
+    admins: [Person] = getAdmins(organisation)
+    users: [Person] = getUsers(organisation)
+    userRole = getRoleByID(organisation, UserID)
     orgReport = OrganisationReport(id=organisation, name=OrganisationName, owners=[owner],
                                    admins=admins,
                                    users=users,
@@ -39,11 +40,11 @@ def getOrganisationReport(UserID: int, OrganisationName: str) -> OrganisationPer
 
 def getTeamReport(userID: int, teamName: str, organisationName: str) -> TeamPersonalReport:
     organisation = getOrganisationByName(organisationName)
-    team : int = getTeamByName(organisation, teamName)
-    admins : [Person] = getTeamAdmins(organisation,team)
-    users : [Person] = getTeamUsers(organisation,team)
-    otherUsers : [Person] = getOthers(organisation,team)
-    userRole = getTRoleByID(organisation,team,userID)
+    team: int = getTeamByName(organisation, teamName)
+    admins: [Person] = getTeamAdmins(organisation, team)
+    users: [Person] = getTeamUsers(organisation, team)
+    otherUsers: [Person] = getOthers(organisation, team)
+    userRole = getTRoleByID(organisation, team, userID)
     teamReport = TeamReport(id=team, name=teamName,
                             admins=admins,
                             users=users,
@@ -96,5 +97,3 @@ def createTeam(orgteam: OrgTeam):
         raise HTTPException(status_code=400, detail="Team already exists")
     makeTeam(org, orgteam.name)
     id = getTeamByName(org, orgteam.name)
-
-
