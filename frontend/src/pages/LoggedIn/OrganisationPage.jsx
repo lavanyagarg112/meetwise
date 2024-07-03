@@ -104,7 +104,7 @@ const OrganisationPage = () => {
       setAdmins(data.organisation.admins);
       setUsers(data.organisation.users);
       setTeams(data.organisation.teams);
-      // setPendingInvites(data.organisation.pendingInvites);
+      setPendingInvites(data.organisation.pendingInvites);
       setUserRole(data.userRole);
     } catch (error) {
       console.log('ERROR');
