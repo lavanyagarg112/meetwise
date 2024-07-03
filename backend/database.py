@@ -4,6 +4,8 @@ from contextlib import closing
 import libsql_experimental as libsql
 from dotenv import load_dotenv
 
+from backend.Enums import Roles
+
 conn = None
 
 
@@ -185,7 +187,7 @@ def getAdminsOrg(orgId: int):
               SELECT ID
               FROM OW{orgId}EMP WHERE ROLE = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand,("ADMIN",))
+        cursor.execute(sqlCommand,(Roles.ADMIN,))
         return cursor.fetchall()
 
 
@@ -196,7 +198,7 @@ def getUsersOrg(orgId: int):
               SELECT ID
               FROM OW{orgId}EMP WHERE ROLE = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand,("USER",))
+        cursor.execute(sqlCommand,(Roles.USER,))
         return cursor.fetchall()
 
 
@@ -221,7 +223,7 @@ def getAdminsTeam(orgId: int, teamId: int):
                 WHERE OW{orgId}EMP.ROLE = ?
                 AND Org{orgId}Emp.TEAM = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, ("ADMIN",teamId))
+        cursor.execute(sqlCommand, (Roles.ADMIN,teamId))
         return cursor.fetchall()
 
 
@@ -235,7 +237,7 @@ def getUsersTeam(orgId: int, teamId: int):
                 WHERE OW{orgId}EMP.ROLE = ?
                 AND Org{orgId}Emp.TEAM = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, ("USER",teamId))
+        cursor.execute(sqlCommand, (Roles.USER,teamId))
         return cursor.fetchall()
 
 
