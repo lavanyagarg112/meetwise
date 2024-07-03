@@ -462,6 +462,10 @@ def getInvitesByUser(email:str):
               SELECT ORGANISATION,ROLE FROM PendingInvites WHERE EMAIL = ?'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (email,))
+        delUser = '''
+        DELETE FROM PendingInvites WHERE EMAIL = ?
+        '''
+        cursor.execute(delUser, (email,))
         return cursor.fetchall()
 
 
