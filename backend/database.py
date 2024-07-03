@@ -248,13 +248,12 @@ def getUsersTeam(orgId: int, teamId: int):
         return cursor.fetchall()
 
 
-def getOutsideTeam(orgId: int, teamId: int):
+def getAll(orgId: int, teamId: int):
     initialise()
     conn.sync()
     sqlCommand = f'''
               SELECT ID 
-              FROM Org{orgId}Emp
-              WHERE NOT TEAM = ?'''
+              FROM OW{orgId}EMP'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamId,))
         return cursor.fetchall()
@@ -446,6 +445,14 @@ def addToPending(email: str, role: str, organisation: int) -> int:
         conn.sync()
         return cursor.lastrowid
 
+def getInvites(orgId:int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT EMAIL FROM PendingInvites WHERE ORGANISATION = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (orgId,))
+        return cursor.fetchall()
 
 def mapOrgIDToName(orgIDs: [int]):
     initialise()

@@ -1,10 +1,11 @@
 from typing import List
 
-from Enums import Roles
-from Errors import AuthenticationError
-from IOSchema import Organisation, Meeting, Person
-from database import mapOrgNameToID, mapOrgIDToName, mapTeamNameToId, getUserOrgs, getBulkUsersByIds, \
-    getAdminsOrg, getUsersOrg, getOrgRoleByID, getTeamRoleByID, getAdminsTeam, getUsersTeam, getOutsideTeam
+from backend.Enums import Roles
+from backend.Errors import AuthenticationError
+from backend.IOSchema import Organisation, Meeting, Person
+from backend.database import mapOrgNameToID, mapOrgIDToName, mapTeamNameToId, getUserOrgs, getBulkUsersByIds, \
+    getAdminsOrg, getUsersOrg, getOrgRoleByID, getTeamRoleByID, getAdminsTeam, getUsersTeam, getOutsideTeam, getAll, \
+    getUserDetailsByEmail, getInvites
 
 
 def getOrganisationsByID(orgIds: [int] = None) -> [Organisation]:
@@ -117,8 +118,8 @@ def getTeamUsers(orgId: int, teamId: int) -> List[Person]:
     return getUsersByIds(details)
 
 
-def getOthers(orgId: int, teamId: int) -> List[Person]:
-    details = getOutsideTeam(orgId, teamId)
+def getAllUsers(orgId: int, teamId: int) -> List[Person]:
+    details = getAll(orgId, teamId)
     if not details:
         return []
     mapper = lambda row: row[0]
@@ -132,3 +133,12 @@ def getTRoleByID(orgId: int, teamId: int, userId: int) -> str | None:
         return None
     else:
         return res[0]
+
+
+def getPendingInvites(organisation: int) -> List[Person]:
+    details = getInvites(organisation)
+    if not details:
+        return []
+    mapper = lambda row: getUserDetailsByEmail(row[0])[0]
+    details = list(map(mapper, details))
+    return getUsersByIds(details)

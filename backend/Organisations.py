@@ -6,8 +6,8 @@ from Enums import Roles
 from IOSchema import Organisation, OrganisationReport, OrganisationPersonalReport, Person, Team, TeamPersonalReport, \
     TeamReport, OrgTeam, Meeting
 from OrganisationHelpers import getOrganisationsByID, getOrganisationByName, getOrganisationByID, getTeamByName, \
-    meetify, getAdmins, getUsers, getRoleByID, getTeamAdmins, getTeamUsers, getOthers, getTRoleByID
-from UserAccounts import getUserByID
+    meetify, getAdmins, getUsers, getRoleByID, getTeamAdmins, getTeamUsers, getTRoleByID, getAllUsers, getPendingInvites
+from backend.UserAccounts import getUserByID
 from database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, getMeetingsByOrg, \
     makeTeam, teamExists, addUserToTeam, existsOrganisation, makeOrganisation, getOwner, addUserToOrg
 
@@ -30,10 +30,11 @@ def getOrganisationReport(UserID: int, OrganisationName: str) -> OrganisationPer
     admins: [Person] = getAdmins(organisation)
     users: [Person] = getUsers(organisation)
     userRole = getRoleByID(organisation, UserID)
+    pendingInvites : List[Person] = getPendingInvites(organisation)
     orgReport = OrganisationReport(id=organisation, name=OrganisationName, owners=[owner],
                                    admins=admins,
                                    users=users,
-                                   teams=teams)
+                                   teams=teams,pendingInvites=pendingInvites)
     report = OrganisationPersonalReport(isPermitted=True, userRole=userRole, organisation=orgReport)
     return report
 
@@ -43,11 +44,9 @@ def getTeamReport(userID: int, teamName: str, organisationName: str) -> TeamPers
     team: int = getTeamByName(organisation, teamName)
     admins: [Person] = getTeamAdmins(organisation, team)
     users: [Person] = getTeamUsers(organisation, team)
-    otherUsers: [Person] = getOthers(organisation, team)
-    userRole = getTRoleByID(organisation, team, userID)
-    if type(userRole) == tuple:
-        userRole = userRole[0]
-    print('ROLE: ', userRole)
+    allUsers: [Person] = getAllUsers(organisation, team)
+    otherUsers = filter(lambda x: x in users, allUsers)
+    userRole = getTRoleByID(organisation, team, userID) #noNameRole
     teamReport = TeamReport(id=team, name=teamName,
                             admins=admins,
                             users=users,
