@@ -25,7 +25,6 @@ def initialise():
 
 
 def setActiveOrganisation(id: int, name: int | None):
-
     conn.sync()
     with closing(conn.cursor()) as cursor:
         if name:
@@ -194,7 +193,7 @@ def getAdminsOrg(orgId: int):
               SELECT ID
               FROM OW{orgId}EMP WHERE ROLE = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand,(Roles.ADMIN.value,))
+        cursor.execute(sqlCommand, (Roles.ADMIN.value,))
         return cursor.fetchall()
 
 
@@ -205,7 +204,7 @@ def getUsersOrg(orgId: int):
               SELECT ID
               FROM OW{orgId}EMP WHERE ROLE = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand,(Roles.USER.value,))
+        cursor.execute(sqlCommand, (Roles.USER.value,))
         return cursor.fetchall()
 
 
@@ -230,7 +229,7 @@ def getAdminsTeam(orgId: int, teamId: int):
                 WHERE OW{orgId}EMP.ROLE = ?
                 AND Org{orgId}Emp.TEAM = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (Roles.ADMIN.value,teamId))
+        cursor.execute(sqlCommand, (Roles.ADMIN.value, teamId))
         return cursor.fetchall()
 
 
@@ -244,7 +243,7 @@ def getUsersTeam(orgId: int, teamId: int):
                 WHERE OW{orgId}EMP.ROLE = ?
                 AND Org{orgId}Emp.TEAM = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (Roles.USER.value,teamId))
+        cursor.execute(sqlCommand, (Roles.USER.value, teamId))
         return cursor.fetchall()
 
 
@@ -445,14 +444,26 @@ def addToPending(email: str, role: str, organisation: int) -> int:
         conn.sync()
         return cursor.lastrowid
 
-def getInvites(orgId:int):
+
+def getInvites(orgId: int):
     initialise()
     conn.sync()
     sqlCommand = f'''
-              SELECT EMAIL FROM PendingInvites WHERE ORGANISATION = ?'''
+              SELECT rowid,EMAIL,ROLE FROM PendingInvites WHERE ORGANISATION = ?'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (orgId,))
         return cursor.fetchall()
+
+
+def getInvitesByUser(email:str):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT ORGANISATION,ROLE FROM PendingInvites WHERE EMAIL = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (email,))
+        return cursor.fetchall()
+
 
 def mapOrgIDToName(orgIDs: [int]):
     initialise()

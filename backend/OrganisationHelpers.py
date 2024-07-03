@@ -2,10 +2,10 @@ from typing import List
 
 from backend.Enums import Roles
 from backend.Errors import AuthenticationError
-from backend.IOSchema import Organisation, Meeting, Person
+from backend.IOSchema import Organisation, Meeting, Person, InviteOutput
 from backend.database import mapOrgNameToID, mapOrgIDToName, mapTeamNameToId, getUserOrgs, getBulkUsersByIds, \
     getAdminsOrg, getUsersOrg, getOrgRoleByID, getTeamRoleByID, getAdminsTeam, getUsersTeam, getOutsideTeam, getAll, \
-    getUserDetailsByEmail, getInvites
+    getUserDetailsByEmail, getInvites, getInvitesByUser
 
 
 def getOrganisationsByID(orgIds: [int] = None) -> [Organisation]:
@@ -135,10 +135,19 @@ def getTRoleByID(orgId: int, teamId: int, userId: int) -> str | None:
         return res[0]
 
 
-def getPendingInvites(organisation: int) -> List[Person]:
+def getPendingInvites(organisation: int) -> List[InviteOutput]:
     details = getInvites(organisation)
     if not details:
         return []
-    mapper = lambda row: getUserDetailsByEmail(row[0])[0]
+    mapper = lambda row: InviteOutput(id=row[0], email=row[1], role=row[2])
+    details = list(map(mapper, details))
+    return details
+
+
+def forceJoin(email:str):
+    details = getInvitesByUser(email)
+    if not details:
+        return []
+    mapper = lambda row: addUserrow[0]
     details = list(map(mapper, details))
     return getUsersByIds(details)
