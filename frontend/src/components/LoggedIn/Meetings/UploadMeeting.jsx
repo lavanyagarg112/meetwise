@@ -59,9 +59,9 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
     }
   }, [type]);
 
-  useEffect(() => {
-    setTeams(allTeams)
-  }, [allTeams])
+  // useEffect(() => {
+  //   setTeams(allTeams)
+  // }, [allTeams])
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -91,9 +91,6 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
     } catch (error) {
       console.log('ERROR', error);
     }
-
-    // to be removed after endpoint works
-    setTeams(DUMMY_TEAMS);
   };
 
   const formatDate = (date) => {
@@ -155,18 +152,6 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
       } catch (error) {
         console.error('Error uploading file:', error);
       }
-
-      // to be removed after endpoint works
-      setLoading(false);
-      setMeetingName('');
-      setMeetingDate(null);
-      setSelectedFile(null);
-      if (!team) {
-        setTeamName('')
-      }
-      document.getElementById('fileInput').value = ''; // Reset the file input
-      setShowPopup(true);
-      setTimeout(() => setShowPopup(false), 3000); // Hide the popup after 3 seconds
     };
     reader.readAsArrayBuffer(selectedFile);
   };

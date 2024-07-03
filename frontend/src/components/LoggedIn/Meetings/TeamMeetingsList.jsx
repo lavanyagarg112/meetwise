@@ -47,9 +47,6 @@ const TeamMeetingsList = ({ teamName, organisationName, goToMeeting }) => {
     } catch (error) {
       console.log('ERROR');
     }
-
-    // to be removed after endpoint works
-    setMeetings(DUMMY_DATA);
   };
 
   useEffect(() => {
@@ -62,7 +59,7 @@ const TeamMeetingsList = ({ teamName, organisationName, goToMeeting }) => {
 
   return (
     <div>
-      {meetings.length === 0 ? (
+      {!meetings || meetings.length === 0 ? (
         <p>No meetings available for the team.</p>
       ) : (
         meetings.map((meeting) => (

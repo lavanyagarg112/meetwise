@@ -35,7 +35,7 @@ function App() {
               <Route path='/organisations' element={<Organisations />} />
               <Route path='/settings' element={<Settings />} />
               <Route path='/organisations/:name' element={<OrganisationPage />} />
-              <Route path='/organisations/:organisationname/:name' element={<TeamPage />} />
+              <Route path='/organisations/:organisation/:name' element={<TeamPage />} />
               <Route path='/meetings/:id' element={<MeetingPage />} />
               <Route path='/user/:username' element={<UserProfilePage />} />
               <Route path='*' element={<NotFoundPage />} /> 
