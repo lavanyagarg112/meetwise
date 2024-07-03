@@ -86,6 +86,19 @@ class Meeting(BaseModel):
     date: datetime
 
 
+class MeetingInput(BaseModel):
+    file: UploadFile
+    type: str
+    meetingName: str
+    meetingDate: datetime
+
+
+class InviteInput(BaseModel):
+    email: str
+    role: Roles
+    organisation: str
+
+
 class InviteOutput(BaseModel):
     id: int
     email: str

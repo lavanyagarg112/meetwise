@@ -83,7 +83,7 @@ def getAdmins(orgId: int) -> List[Person]:
 
 
 def getRoleByID(orgId: int, userId: int) -> Roles:
-    return getOrgRoleByID(orgId, userId)
+    return getOrgRoleByID(orgId, userId)[0]
 
 
 def getUsers(orgId: int) -> List[Person]:

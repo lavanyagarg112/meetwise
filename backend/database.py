@@ -4,6 +4,8 @@ from contextlib import closing
 import libsql_experimental as libsql
 from dotenv import load_dotenv
 
+from backend.Enums import Roles
+
 conn = None
 
 
@@ -22,13 +24,20 @@ def initialise():
     conn.sync()  # gets change from db
 
 
-def setActiveOrganisation(id: int, name: int):
+def setActiveOrganisation(id: int, name: int | None):
+
     conn.sync()
     with closing(conn.cursor()) as cursor:
-        cursor.execute('''
-        UPDATE USERS
-        SET ACTIVEORG = ?
-        WHERE ID = ?''', (name, id))
+        if name:
+            cursor.execute('''
+            UPDATE USERS
+            SET ACTIVEORG = ?
+            WHERE ID = ?''', (name, id))
+        else:
+            cursor.execute('''
+            UPDATE USERS
+            SET ACTIVEORG = NULL
+            WHERE ID = ?''', (id,))
         conn.commit()
         conn.sync()
 
@@ -185,7 +194,7 @@ def getAdminsOrg(orgId: int):
               SELECT ID
               FROM OW{orgId}EMP WHERE ROLE = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand,("ADMIN",))
+        cursor.execute(sqlCommand,(Roles.ADMIN,))
         return cursor.fetchall()
 
 
@@ -196,7 +205,7 @@ def getUsersOrg(orgId: int):
               SELECT ID
               FROM OW{orgId}EMP WHERE ROLE = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand,("USER",))
+        cursor.execute(sqlCommand,(Roles.USER,))
         return cursor.fetchall()
 
 
@@ -221,7 +230,7 @@ def getAdminsTeam(orgId: int, teamId: int):
                 WHERE OW{orgId}EMP.ROLE = ?
                 AND Org{orgId}Emp.TEAM = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, ("ADMIN",teamId))
+        cursor.execute(sqlCommand, (Roles.ADMIN,teamId))
         return cursor.fetchall()
 
 
@@ -235,7 +244,7 @@ def getUsersTeam(orgId: int, teamId: int):
                 WHERE OW{orgId}EMP.ROLE = ?
                 AND Org{orgId}Emp.TEAM = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, ("USER",teamId))
+        cursor.execute(sqlCommand, (Roles.USER,teamId))
         return cursor.fetchall()
 
 
@@ -291,8 +300,6 @@ def makeOrganisation(owner: int, org: str):
               INSERT INTO Organisations (NAME, OWNER) VALUES (?,?)'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (org, owner))
-        conn.commit()
-        conn.sync()
         id = cursor.lastrowid
 
         orgEmp = f'''
@@ -308,8 +315,6 @@ def makeOrganisation(owner: int, org: str):
         '''
 
         cursor.execute(orgEmp)
-        conn.commit()
-        conn.sync()
 
         org = f'''
         CREATE TABLE Org{id} (
@@ -327,8 +332,6 @@ def makeOrganisation(owner: int, org: str):
         '''
 
         cursor.execute(org)
-        conn.commit()
-        conn.sync()
 
         orgTeam = f'''
         CREATE TABLE Org{id}Team (
@@ -337,8 +340,6 @@ def makeOrganisation(owner: int, org: str):
         '''
 
         cursor.execute(orgTeam)
-        conn.commit()
-        conn.sync()
 
         orgPerm = f'''
         CREATE TABLE Org{id}Perm (
@@ -347,8 +348,6 @@ def makeOrganisation(owner: int, org: str):
         '''
 
         cursor.execute(orgPerm)
-        conn.commit()
-        conn.sync()
 
         owemp = f'''
         CREATE TABLE OW{id}EMP(
@@ -359,8 +358,6 @@ def makeOrganisation(owner: int, org: str):
         '''
 
         cursor.execute(owemp)
-        conn.commit()
-        conn.sync()
 
         omatt = f'''
         CREATE TABLE O{id}MAtt(
@@ -372,8 +369,6 @@ def makeOrganisation(owner: int, org: str):
         '''
 
         cursor.execute(omatt)
-        conn.commit()
-        conn.sync()
 
         orgtodo = f'''
         CREATE TABLE Org{id}Todo(
@@ -389,6 +384,9 @@ def makeOrganisation(owner: int, org: str):
         FOREIGN KEY (TEAM) REFERENCES Org{id}Team(ID)
         )
         '''
+
+        conn.commit()
+        conn.sync()
 
         return id
 
@@ -411,20 +409,17 @@ def addUserToOrg(orgId: int, userId: int, role: str):
               INSERT INTO UserOrg (ID, ORGANISATION) VALUES (?,?)'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (userId, orgId))
-        conn.commit()
-        conn.sync()
 
         orgemp = f'''
         INSERT INTO Org{orgId}Perm (ID) VALUES (?)
         '''
         cursor.execute(orgemp, (userId,))
-        conn.commit()
-        conn.sync()
 
         OWEMP = f'''
         INSERT INTO OW{orgId}EMP (ID,ROLE) VALUES (?,?)
         '''
         cursor.execute(OWEMP, (userId, role))
+
         conn.commit()
         conn.sync()
 
