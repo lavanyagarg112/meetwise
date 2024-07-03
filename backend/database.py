@@ -426,13 +426,13 @@ def addUserToOrg(orgId: int, userId: int, role: str):
         conn.sync()
 
 
-def addUserToTeam(orgId: int, userId: int, role: str, team: int):
+def addUserToTeam(orgId: int, userId: int, role: str, team: int,status: str):
     initialise()
     conn.sync()
     sqlCommand = f'''
-              INSERT OR REPLACE INTO Org{orgId}Emp (ID,TEAM, ROLE) VALUES (?,?,?)'''
+              INSERT OR REPLACE INTO Org{orgId}Emp (ID,TEAM, ROLE,STATUS) VALUES (?,?,?,?)'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (userId, team, role))
+        cursor.execute(sqlCommand, (userId, team, role,status))
         conn.commit()
         conn.sync()
 
@@ -506,3 +506,4 @@ def mapTeamNameToId(orgId: int, teamName: str):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamName,))
         return cursor.fetchone()
+
