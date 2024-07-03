@@ -4,7 +4,7 @@ from fastapi import HTTPException
 
 from Enums import Roles
 from IOSchema import Organisation, OrganisationReport, OrganisationPersonalReport, Person, Team, TeamPersonalReport, \
-    TeamReport, OrgTeam, Meeting
+    TeamReport, OrgTeam, Meeting, InviteOutput
 from OrganisationHelpers import getOrganisationsByID, getOrganisationByName, getOrganisationByID, getTeamByName, \
     meetify, getAdmins, getUsers, getRoleByID, getTeamAdmins, getTeamUsers, getTRoleByID, getAllUsers, getPendingInvites
 from UserAccounts import getUserByID
@@ -30,7 +30,7 @@ def getOrganisationReport(UserID: int, OrganisationName: str) -> OrganisationPer
     admins: [Person] = getAdmins(organisation)
     users: [Person] = getUsers(organisation)
     userRole = getRoleByID(organisation, UserID)
-    pendingInvites : List[Person] = getPendingInvites(organisation)
+    pendingInvites : List[InviteOutput] = getPendingInvites(organisation)
     orgReport = OrganisationReport(id=organisation, name=OrganisationName, owners=[owner],
                                    admins=admins,
                                    users=users,

@@ -8,6 +8,18 @@ from pydantic import BaseModel
 from Enums import Roles
 
 
+
+class InviteInput(BaseModel):
+    email: str
+    role: Roles
+    organisation: str
+
+
+class InviteOutput(BaseModel):
+    id: int
+    email: str
+    role: Roles
+
 class Organisation(BaseModel):
     id: int
     name: str
@@ -60,7 +72,7 @@ class OrganisationReport(Organisation):
     admins: List[Person] = None
     users: List[Person] = None
     teams: List[Team] = None
-    pendingInvites: List[Person] = None  #Uncool people
+    pendingInvites: InviteOutput = None  #Uncool people
 
 
 class OrganisationPersonalReport(BaseModel):
@@ -94,27 +106,4 @@ class MeetingInput(BaseModel):
     meetingDate: datetime
 
 
-class InviteInput(BaseModel):
-    email: str
-    role: Roles
-    organisation: str
 
-
-class InviteOutput(BaseModel):
-    id: int
-    email: str
-    role: Roles
-
-class AddUserInput(BaseModel):
-    organisation: str
-    userId: int
-    role: str
-    teamName: str
-
-class UploadMeeting(BaseModel):
-    file: UploadFile
-    type: str
-    meetingName: str 
-    organisation: str 
-    team: str | None = None
-    meetingDate: str
