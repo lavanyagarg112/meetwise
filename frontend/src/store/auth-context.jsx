@@ -16,7 +16,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
-  const [activeOrganisation, setActiveOrganisation] = useState(null)
+  const [activeOrganisation, setActiveOrganisation] = useState('')
 
   // Check user's login status on component mount
   useEffect(() => {
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
         if (data.activeOrganisation) {
           setActiveOrganisation(data.activeOrganisation)
         } else {
-          setActiveOrganisation(null)
+          setActiveOrganisation('')
         }
       } catch (error) {
         console.error("Failed to check login status:", error);

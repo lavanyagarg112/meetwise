@@ -54,9 +54,6 @@ const MeetingList = ({ organisationName }) => {
     } catch (error) {
       console.log('ERROR');
     }
-
-    // to be removed after end point works
-    setTeams(DUMMY_TEAMS);
   };
 
   const goToMeeting = (id) => {
