@@ -2,6 +2,7 @@ import enum
 from datetime import datetime
 from typing import List, Optional
 
+from fastapi import UploadFile
 from pydantic import BaseModel
 
 from Enums import Roles
@@ -89,3 +90,16 @@ class InviteOutput(BaseModel):
     id: int
     email: str
     role: Roles
+
+class InviteInput(BaseModel):
+    organisation: str
+    email: str
+    role: Roles
+
+class UploadMeeting(BaseModel):
+    file: UploadFile
+    type: str
+    meetingName: str 
+    organisation: str 
+    team: str | None = None
+    meetingDate: str

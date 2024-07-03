@@ -59,9 +59,9 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
     }
   }, [type]);
 
-  useEffect(() => {
-    setTeams(allTeams)
-  }, [allTeams])
+  // useEffect(() => {
+  //   setTeams(allTeams)
+  // }, [allTeams])
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);

@@ -29,7 +29,7 @@ def getOrganisationReport(UserID: int, OrganisationName: str) -> OrganisationPer
     owner: Person = getUserByID(owner).user
     admins: [Person] = getAdmins(organisation)
     users: [Person] = getUsers(organisation)
-    userRole = getRoleByID(organisation, UserID)
+    userRole = getRoleByID(organisation, UserID)[0]
     orgReport = OrganisationReport(id=organisation, name=OrganisationName, owners=[owner],
                                    admins=admins,
                                    users=users,
@@ -45,6 +45,7 @@ def getTeamReport(userID: int, teamName: str, organisationName: str) -> TeamPers
     users: [Person] = getTeamUsers(organisation, team)
     otherUsers: [Person] = getOthers(organisation, team)
     userRole = getTRoleByID(organisation, team, userID)
+    print('ROLE: ', userRole)
     teamReport = TeamReport(id=team, name=teamName,
                             admins=admins,
                             users=users,
@@ -97,3 +98,4 @@ def createTeam(orgteam: OrgTeam):
         raise HTTPException(status_code=400, detail="Team already exists")
     makeTeam(org, orgteam.name)
     id = getTeamByName(org, orgteam.name)
+    return id

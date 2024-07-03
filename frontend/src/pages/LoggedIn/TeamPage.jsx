@@ -9,9 +9,10 @@ import { useAuth } from '../../store/auth-context';
 
 import UploadMeeting from '../../components/LoggedIn/Meetings/UploadMeeting';
 
-const TeamPage = ({ organisation }) => {
+const TeamPage = () => {
   const { user } = useAuth();
   const { name } = useParams();
+  const { organisation } = useParams()
   const [teamName, setTeamName] = useState(name);
   const [admins, setAdmins] = useState([]);
   const [users, setUsers] = useState([]);

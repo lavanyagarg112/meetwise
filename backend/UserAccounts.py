@@ -11,6 +11,7 @@ import os
 
 from Errors import CreateUserError, AuthError, AuthenticationError
 from OrganisationHelpers import getOrganisationByID, getOrganisationByName, getOrgs
+from Enums import Roles
 from database import setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, getUserDetailsByID, \
     checkUserEmail, createNewUser, checkUserUsername, checkUserOrg, addUserToOrg, addToPending
 
@@ -63,7 +64,7 @@ def setOrganisationActive(userId: int, name: str):
 def inviteOrAddUser(email, role, organisation) -> InviteOutput:
     organisation = getOrganisationByName(organisation)
     if checkUserEmail(email):
-        userId = getUserDetailsByEmail(email)
+        userId = getUserDetailsByEmail(email)[0]
         if checkUserOrg(userId, organisation):
             raise HTTPException(status_code=400, detail="User already exists in Organisation")
         else:

@@ -59,7 +59,7 @@ const TeamMeetingsList = ({ teamName, organisationName, goToMeeting }) => {
 
   return (
     <div>
-      {meetings.length === 0 ? (
+      {!meetings || meetings.length === 0 ? (
         <p>No meetings available for the team.</p>
       ) : (
         meetings.map((meeting) => (
