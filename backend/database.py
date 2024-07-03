@@ -4,7 +4,7 @@ from contextlib import closing
 import libsql_experimental as libsql
 from dotenv import load_dotenv
 
-from backend.Enums import Roles
+from Enums import Roles
 
 conn = None
 
