@@ -150,5 +150,5 @@ async def addTeamUser(teamName: str, organisation: str, userId: int, role: str,
 #TODO:
 @app.post('/invite-user')
 async def inviteUser(input : InviteInput, credentials: Annotated[str, Cookie()] = None):
-    output = inviteOrAddUser(input.email, input.role,input.organisation)
+    output = inviteOrAddUser(input.email, input.role.value,input.organisation)
     return output

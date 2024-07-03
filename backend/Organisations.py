@@ -29,7 +29,7 @@ def getOrganisationReport(UserID: int, OrganisationName: str) -> OrganisationPer
     owner: Person = getUserByID(owner).user
     admins: [Person] = getAdmins(organisation)
     users: [Person] = getUsers(organisation)
-    userRole = getRoleByID(organisation, UserID)[0]
+    userRole = getRoleByID(organisation, UserID)
     orgReport = OrganisationReport(id=organisation, name=OrganisationName, owners=[owner],
                                    admins=admins,
                                    users=users,
@@ -44,7 +44,7 @@ def getTeamReport(userID: int, teamName: str, organisationName: str) -> TeamPers
     admins: [Person] = getTeamAdmins(organisation, team)
     users: [Person] = getTeamUsers(organisation, team)
     otherUsers: [Person] = getOthers(organisation, team)
-    userRole = getTRoleByID(organisation, team, userID)
+    userRole = getTRoleByID(organisation, team, userID)[0]
     print('ROLE: ', userRole)
     teamReport = TeamReport(id=team, name=teamName,
                             admins=admins,
