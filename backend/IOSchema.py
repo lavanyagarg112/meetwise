@@ -83,3 +83,9 @@ class Meeting(BaseModel):
     id: int
     title: str
     date: datetime
+
+
+class InviteOutput(BaseModel):
+    id: int
+    email: str
+    role: Roles

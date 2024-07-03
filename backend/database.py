@@ -135,13 +135,24 @@ def createNewUser(username: str, email: str, hashed_password: str, firstName: st
         conn.sync()
 
 
-def checkUserUserName(email: str):
+def checkUserUserName(name: str):
     initialise()
     conn.sync()
     with closing(conn.cursor()) as cursor:
         cursor.execute('''
         SELECT 1
-        FROM USERS WHERE USERNAME =?''', (email,))
+        FROM USERS WHERE USERNAME =?''', (name,))
+        return cursor.fetchone()
+
+
+def checkUserOrg(id: int, org: int):
+    initialise()
+    conn.sync()
+    with closing(conn.cursor()) as cursor:
+        cursor.execute('''
+        SELECT 1
+        FROM UserOrg WHERE ID = ?
+        AND ORGANISATION =?''', (id, org))
         return cursor.fetchone()
 
 
@@ -427,6 +438,18 @@ def addUserToTeam(orgId: int, userId: int, role: str, team: int):
         cursor.execute(sqlCommand, (userId, team, role))
         conn.commit()
         conn.sync()
+
+
+def addToPending(email: str, role: str, organisation: int) -> int:
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              INSERT INTO PendingInvites (EMAIL, ROLE, ORGANISATION) VALUES (?,?,?)'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (email, role, organisation))
+        conn.commit()
+        conn.sync()
+        return cursor.lastrowid
 
 
 def mapOrgIDToName(orgIDs: [int]):

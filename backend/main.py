@@ -3,11 +3,12 @@ from typing import Annotated
 from IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
     OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person
 from UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
-    setOrganisationActive, eatCookie, bakeCookie
+    setOrganisationActive, eatCookie, bakeCookie, inviteOrAddUser
 from Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, getAllMeetings, \
     getTeams, addUser, createTeam
 from fastapi.middleware.cors import CORSMiddleware
 
+from backend.Enums import Roles
 
 app = FastAPI()
 
@@ -148,5 +149,6 @@ async def addTeamUser(teamName: str, organisation: str, userId: int, role: str,
 
 #TODO:
 @app.post('/invite-user')
-async def getTeamUsers(teamName: str, organisation: str, credentials: Annotated[str, Cookie()] = None):
-    pass
+async def inviteUser(email:str, role: Roles, organisation: str, credentials: Annotated[str, Cookie()] = None):
+    output = inviteOrAddUser(email, role,organisation)
+    return output
