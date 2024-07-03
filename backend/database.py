@@ -185,7 +185,7 @@ def getAdminsOrg(orgId: int):
               SELECT ID
               FROM OW{orgId}EMP WHERE ROLE = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand,"ADMIN")
+        cursor.execute(sqlCommand,("ADMIN",))
         return cursor.fetchall()
 
 
@@ -196,7 +196,7 @@ def getUsersOrg(orgId: int):
               SELECT ID
               FROM OW{orgId}EMP WHERE ROLE = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand,"USER")
+        cursor.execute(sqlCommand,("USER",))
         return cursor.fetchall()
 
 
