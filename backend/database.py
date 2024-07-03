@@ -343,7 +343,7 @@ def makeOrganisation(owner: int, org: str):
         orgPerm = f'''
         CREATE TABLE Org{id}Perm (
         ID INTEGER PRIMARY KEY,
-        PERMISSIONS TEXT NOT NULL)
+        PERMISSIONS TEXT NOT NULL DEFAULT 'NONE')
         '''
 
         cursor.execute(orgPerm)
@@ -444,7 +444,7 @@ def addToPending(email: str, role: str, organisation: int) -> int:
     initialise()
     conn.sync()
     sqlCommand = f'''
-              INSERT INTO PendingInvites (EMAIL, ROLE, ORGANISATION) VALUES (?,?,?)'''
+              INSERT OR IGNORE INTO PendingInvites (EMAIL, ROLE, ORGANISATION) VALUES (?,?,?)'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (email, role, organisation))
         conn.commit()
