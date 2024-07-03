@@ -24,13 +24,20 @@ def initialise():
     conn.sync()  # gets change from db
 
 
-def setActiveOrganisation(id: int, name: int):
+def setActiveOrganisation(id: int, name: int | None):
+
     conn.sync()
     with closing(conn.cursor()) as cursor:
-        cursor.execute('''
-        UPDATE USERS
-        SET ACTIVEORG = ?
-        WHERE ID = ?''', (name, id))
+        if name:
+            cursor.execute('''
+            UPDATE USERS
+            SET ACTIVEORG = ?
+            WHERE ID = ?''', (name, id))
+        else:
+            cursor.execute('''
+            UPDATE USERS
+            SET ACTIVEORG = NULL
+            WHERE ID = ?''', (id,))
         conn.commit()
         conn.sync()
 
