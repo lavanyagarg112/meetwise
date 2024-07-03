@@ -11,7 +11,7 @@ import os
 
 from Errors import CreateUserError, AuthError, AuthenticationError
 from OrganisationHelpers import getOrganisationByID, getOrganisationByName, getOrgs, forceJoin
-from database import setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, getUserDetailsByID, \
+from database import initialise, setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, getUserDetailsByID, \
     checkUserEmail, createNewUser, checkUserUsername, checkUserOrg, addUserToOrg, addToPending
 
 load_dotenv('.env')
