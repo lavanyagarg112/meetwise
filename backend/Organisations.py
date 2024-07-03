@@ -44,7 +44,9 @@ def getTeamReport(userID: int, teamName: str, organisationName: str) -> TeamPers
     admins: [Person] = getTeamAdmins(organisation, team)
     users: [Person] = getTeamUsers(organisation, team)
     otherUsers: [Person] = getOthers(organisation, team)
-    userRole = getTRoleByID(organisation, team, userID)[0]
+    userRole = getTRoleByID(organisation, team, userID)
+    if type(userRole) == tuple:
+        userRole = userRole[0]
     print('ROLE: ', userRole)
     teamReport = TeamReport(id=team, name=teamName,
                             admins=admins,

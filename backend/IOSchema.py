@@ -104,10 +104,11 @@ class InviteOutput(BaseModel):
     email: str
     role: Roles
 
-class InviteInput(BaseModel):
+class AddUserInput(BaseModel):
     organisation: str
-    email: str
-    role: Roles
+    userId: int
+    role: str
+    teamName: str
 
 class UploadMeeting(BaseModel):
     file: UploadFile
