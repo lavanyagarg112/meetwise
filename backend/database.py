@@ -293,8 +293,6 @@ def makeOrganisation(owner: int, org: str):
               INSERT INTO Organisations (NAME, OWNER) VALUES (?,?)'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (org, owner))
-        conn.commit()
-        conn.sync()
         id = cursor.lastrowid
 
         orgEmp = f'''
@@ -310,8 +308,6 @@ def makeOrganisation(owner: int, org: str):
         '''
 
         cursor.execute(orgEmp)
-        conn.commit()
-        conn.sync()
 
         org = f'''
         CREATE TABLE Org{id} (
@@ -329,8 +325,6 @@ def makeOrganisation(owner: int, org: str):
         '''
 
         cursor.execute(org)
-        conn.commit()
-        conn.sync()
 
         orgTeam = f'''
         CREATE TABLE Org{id}Team (
@@ -339,8 +333,6 @@ def makeOrganisation(owner: int, org: str):
         '''
 
         cursor.execute(orgTeam)
-        conn.commit()
-        conn.sync()
 
         orgPerm = f'''
         CREATE TABLE Org{id}Perm (
@@ -349,8 +341,6 @@ def makeOrganisation(owner: int, org: str):
         '''
 
         cursor.execute(orgPerm)
-        conn.commit()
-        conn.sync()
 
         owemp = f'''
         CREATE TABLE OW{id}EMP(
@@ -361,8 +351,6 @@ def makeOrganisation(owner: int, org: str):
         '''
 
         cursor.execute(owemp)
-        conn.commit()
-        conn.sync()
 
         omatt = f'''
         CREATE TABLE O{id}MAtt(
@@ -374,8 +362,6 @@ def makeOrganisation(owner: int, org: str):
         '''
 
         cursor.execute(omatt)
-        conn.commit()
-        conn.sync()
 
         orgtodo = f'''
         CREATE TABLE Org{id}Todo(
@@ -391,6 +377,9 @@ def makeOrganisation(owner: int, org: str):
         FOREIGN KEY (TEAM) REFERENCES Org{id}Team(ID)
         )
         '''
+
+        conn.commit()
+        conn.sync()
 
         return id
 
@@ -413,20 +402,17 @@ def addUserToOrg(orgId: int, userId: int, role: str):
               INSERT INTO UserOrg (ID, ORGANISATION) VALUES (?,?)'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (userId, orgId))
-        conn.commit()
-        conn.sync()
 
         orgemp = f'''
         INSERT INTO Org{orgId}Perm (ID) VALUES (?)
         '''
         cursor.execute(orgemp, (userId,))
-        conn.commit()
-        conn.sync()
 
         OWEMP = f'''
         INSERT INTO OW{orgId}EMP (ID,ROLE) VALUES (?,?)
         '''
         cursor.execute(OWEMP, (userId, role))
+
         conn.commit()
         conn.sync()
 
