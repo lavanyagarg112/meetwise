@@ -7,7 +7,7 @@ from IOSchema import Organisation, OrganisationReport, OrganisationPersonalRepor
     TeamReport, OrgTeam, Meeting
 from OrganisationHelpers import getOrganisationsByID, getOrganisationByName, getOrganisationByID, getTeamByName, \
     meetify, getAdmins, getUsers, getRoleByID, getTeamAdmins, getTeamUsers, getOthers, getTRoleByID
-from backend.UserAccounts import getUserByID
+from UserAccounts import getUserByID
 from database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, getMeetingsByOrg, \
     makeTeam, teamExists, addUserToTeam, existsOrganisation, makeOrganisation, getOwner
 
