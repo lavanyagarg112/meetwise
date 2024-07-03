@@ -25,7 +25,7 @@ def getOrganisationReport(UserID: int, OrganisationName: str) -> OrganisationPer
     if organisation is None:
         raise HTTPException(status_code=404, detail="Organisation not found")
     teams = getTeamsById(organisation)
-    owner: int = getOwner(organisation)
+    owner: int = getOwner(organisation)[0]
     owner: Person = getUserByID(owner).user
     admins: [Person] = getAdmins(organisation)
     users: [Person] = getUsers(organisation)
