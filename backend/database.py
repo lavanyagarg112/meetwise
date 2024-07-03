@@ -194,7 +194,7 @@ def getAdminsOrg(orgId: int):
               SELECT ID
               FROM OW{orgId}EMP WHERE ROLE = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand,(Roles.ADMIN,))
+        cursor.execute(sqlCommand,(Roles.ADMIN.value,))
         return cursor.fetchall()
 
 
@@ -205,7 +205,7 @@ def getUsersOrg(orgId: int):
               SELECT ID
               FROM OW{orgId}EMP WHERE ROLE = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand,(Roles.USER,))
+        cursor.execute(sqlCommand,(Roles.USER.value,))
         return cursor.fetchall()
 
 
@@ -230,7 +230,7 @@ def getAdminsTeam(orgId: int, teamId: int):
                 WHERE OW{orgId}EMP.ROLE = ?
                 AND Org{orgId}Emp.TEAM = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (Roles.ADMIN,teamId))
+        cursor.execute(sqlCommand, (Roles.ADMIN.value,teamId))
         return cursor.fetchall()
 
 
@@ -244,7 +244,7 @@ def getUsersTeam(orgId: int, teamId: int):
                 WHERE OW{orgId}EMP.ROLE = ?
                 AND Org{orgId}Emp.TEAM = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (Roles.USER,teamId))
+        cursor.execute(sqlCommand, (Roles.USER.value,teamId))
         return cursor.fetchall()
 
 
