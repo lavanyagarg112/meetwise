@@ -7,7 +7,7 @@ import os
 from groq import Groq
 
 client = Groq(
-    api_key='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',
+    api_key=os.environ["groq_ai_key"],
     )
 
 class Task:
