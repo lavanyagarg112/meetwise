@@ -4,7 +4,7 @@ from Enums import Roles
 from Errors import AuthenticationError
 from IOSchema import Organisation, Meeting, Person
 from database import mapOrgNameToID, mapOrgIDToName, mapTeamNameToId, getUserOrgs, getBulkUsersByIds, \
-    getAdminsOrg, getUsersOrg, getOrgRoleByID, getTeamRoleByID, getAdminsTeam, getUsersTeam, getOutsideTeam, getAll, \
+    getAdminsOrg, getUsersOrg, getOrgRoleByID, getTeamRoleByID, getAdminsTeam, getUsersTeam, getAll, \
     getUserDetailsByEmail, getInvites
 
 
