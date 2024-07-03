@@ -87,7 +87,7 @@ def getTeamsByOrg(org: int,userID : int):
     sqlCommand = f'''
     SELECT Org{org}Team.ID, Org{org}Team.NAME
     FROM Org{org}Team
-    INNER JOIN  Org{org}Team.ID = Org{org}Emp.TEAM
+    INNER JOIN  Org{org}Emp ON Org{org}Team.ID = Org{org}Emp.TEAM
     WHERE Org{org}Emp.ID = ?
     '''
     with closing(conn.cursor()) as cursor:
@@ -505,3 +505,6 @@ def mapTeamNameToId(orgId: int, teamName: str):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamName,))
         return cursor.fetchone()
+
+initialise()
+setActiveOrganisation(22,None)
