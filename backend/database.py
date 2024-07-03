@@ -81,14 +81,17 @@ def getUserOrgs(user: int):
     return cursor.fetchall()
 
 
-def getTeamsByOrg(org: int):
+def getTeamsByOrg(org: int,userID : int):
     initialise()
     conn.sync()
     sqlCommand = f'''
-    SELECT * FROM Org{org}Team
+    SELECT Org{org}Team.ID, Org{org}Team.NAME
+    FROM Org{org}Team
+    INNER JOIN  Org{org}Team.ID = Org{org}Emp.TEAM
+    WHERE Org{org}Emp.ID = ?
     '''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand)
+        cursor.execute(sqlCommand,(userID,))
     return cursor.fetchall()
 
 

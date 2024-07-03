@@ -24,29 +24,29 @@ def getOrganisationReport(UserID: int, OrganisationName: str) -> OrganisationPer
     organisation: int = getOrganisationByName(OrganisationName)
     if organisation is None:
         raise HTTPException(status_code=404, detail="Organisation not found")
-    teams = getTeamsById(organisation)
+    teams = getTeamsById(organisation, UserID)
     owner: int = getOwner(organisation)[0]
     owner: Person = getUserByID(owner).user
     admins: [Person] = getAdmins(organisation)
     users: [Person] = getUsers(organisation)
     userRole = getRoleByID(organisation, UserID)
-    pendingInvites : List[InviteOutput] = getPendingInvites(organisation)
+    pendingInvites: List[InviteOutput] = getPendingInvites(organisation)
     orgReport = OrganisationReport(id=organisation, name=OrganisationName, owners=[owner],
                                    admins=admins,
                                    users=users,
-                                   teams=teams,pendingInvites=pendingInvites)
+                                   teams=teams, pendingInvites=pendingInvites)
     report = OrganisationPersonalReport(isPermitted=True, userRole=userRole, organisation=orgReport)
     return report
 
 
 def getTeamReport(userID: int, teamName: str, organisationName: str) -> TeamPersonalReport:
     organisation = getOrganisationByName(organisationName)
-    team: int = getTeamByName(organisation, teamName,userID)
+    team: int = getTeamByName(orgId=organisation, teamName=teamName)
     admins: [Person] = getTeamAdmins(organisation, team)
     users: [Person] = getTeamUsers(organisation, team)
     allUsers: [Person] = getAllUsers(organisation, team)
     otherUsers = filter(lambda x: x in users, allUsers)
-    userRole = getTRoleByID(organisation, team, userID) #noNameRole
+    userRole = getTRoleByID(organisation, team, userID)  #noNameRole
     teamReport = TeamReport(id=team, name=teamName,
                             admins=admins,
                             users=users,
@@ -68,16 +68,16 @@ def getAllMeetings(orgName: str) -> [Meeting]:
     return meetify(meetings)
 
 
-def getTeamsById(id: int):
-    teams = getTeamsByOrg(id)
+def getTeamsById(id: int, UserId: int):
+    teams = getTeamsByOrg(id, UserId)
     teammer = lambda row: Team(id=row[0], name=row[1])
     teams = list(map(teammer, teams))
     return teams
 
 
-def getTeams(name: str):
-    id = getOrganisationByName(name)
-    return getTeamsById(id)
+def getTeams(name: str, Userid: int):
+    id = getOrganisationByName(name, )
+    return getTeamsById(id, Userid)
 
 
 '''
@@ -93,11 +93,11 @@ def addUser(organisation: str, userId: int, role: str, teamName: str = None) -> 
     return Person(id=userId, username=user.username, email=user.email, firstName=user.firstName, lastName=user.lastName)
 
 
-def createTeam(userId:int, orgteam: OrgTeam):
+def createTeam(userId: int, orgteam: OrgTeam):
     org = getOrganisationByName(orgteam.organisation)
     if teamExists(org, orgteam.name) is not None:
         raise HTTPException(status_code=400, detail="Team already exists")
     makeTeam(org, orgteam.name)
     id = getTeamByName(org, orgteam.name)
-    addUserToTeam(org,userId,Roles.ADMIN.value, id)
+    addUserToTeam(org, userId, Roles.ADMIN.value, id)
     return id
