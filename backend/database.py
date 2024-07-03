@@ -311,7 +311,8 @@ def makeOrganisation(owner: int, org: str):
         TEAMCONTROL TEXT NOT NULL DEFAULT 'member',
         FOREIGN KEY(ID) REFERENCES Users(ID),
         FOREIGN KEY(TEAM) REFERENCES Org{id}Team(ID),
-        PRIMARY KEY (ID,TEAM)
+        PRIMARY KEY (ID,TEAM),
+        STATUS TEXT NOT NULL DEFAULT {Roles.USER}
         )
         '''
 
@@ -505,6 +506,3 @@ def mapTeamNameToId(orgId: int, teamName: str):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamName,))
         return cursor.fetchone()
-
-initialise()
-setActiveOrganisation(22,None)
