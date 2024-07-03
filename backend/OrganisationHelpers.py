@@ -4,7 +4,7 @@ from backend.Enums import Roles
 from backend.Errors import AuthenticationError
 from backend.IOSchema import Organisation, Meeting, Person, InviteOutput
 from backend.database import mapOrgNameToID, mapOrgIDToName, mapTeamNameToId, getUserOrgs, getBulkUsersByIds, \
-    getAdminsOrg, getUsersOrg, getOrgRoleByID, getTeamRoleByID, getAdminsTeam, getUsersTeam, getOutsideTeam, getAll, \
+    getAdminsOrg, getUsersOrg, getOrgRoleByID, getTeamRoleByID, getAdminsTeam, getUsersTeam, getAll, \
     getUserDetailsByEmail, getInvites, getInvitesByUser, addUserToOrg
 
 
