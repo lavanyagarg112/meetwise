@@ -5,7 +5,7 @@ from backend.Errors import AuthenticationError
 from backend.IOSchema import Organisation, Meeting, Person, InviteOutput
 from backend.database import mapOrgNameToID, mapOrgIDToName, mapTeamNameToId, getUserOrgs, getBulkUsersByIds, \
     getAdminsOrg, getUsersOrg, getOrgRoleByID, getTeamRoleByID, getAdminsTeam, getUsersTeam, getOutsideTeam, getAll, \
-    getUserDetailsByEmail, getInvites, getInvitesByUser
+    getUserDetailsByEmail, getInvites, getInvitesByUser, addUserToOrg
 
 
 def getOrganisationsByID(orgIds: [int] = None) -> [Organisation]:
@@ -144,10 +144,10 @@ def getPendingInvites(organisation: int) -> List[InviteOutput]:
     return details
 
 
-def forceJoin(email:str):
+def forceJoin(email: str):
     details = getInvitesByUser(email)
+    id = getUserDetailsByEmail(email)[0]
     if not details:
         return []
-    mapper = lambda row: addUserrow[0]
+    mapper = lambda row: addUserToOrg(orgId=row[0], userId=id, role=row[1])
     details = list(map(mapper, details))
-    return getUsersByIds(details)

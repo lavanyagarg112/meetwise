@@ -72,7 +72,7 @@ class OrganisationReport(Organisation):
     admins: List[Person] = None
     users: List[Person] = None
     teams: List[Team] = None
-    pendingInvites: InviteOutput = None  #Uncool people
+    pendingInvites: [InviteOutput] = None  #Uncool people
 
 
 class OrganisationPersonalReport(BaseModel):
