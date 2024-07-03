@@ -83,7 +83,8 @@ def getAdmins(orgId: int) -> List[Person]:
 
 
 def getRoleByID(orgId: int, userId: int) -> Roles:
-    return getOrgRoleByID(orgId, userId)[0]
+     print(getOrgRoleByID(orgId, userId))
+     return Roles.USER
 
 
 def getUsers(orgId: int) -> List[Person]:
@@ -122,5 +123,9 @@ def getOthers(orgId: int, teamId: int) -> List[Person]:
     return getUsersByIds(details)
 
 
-def getTRoleByID(orgId: int, teamId: int, userId: int) -> Roles:
-    return getTeamRoleByID(orgId, teamId, userId)
+def getTRoleByID(orgId: int, teamId: int, userId: int) -> str|None:
+    res = getTeamRoleByID(orgId, teamId, userId)
+    if not res:
+        return None
+    else:
+        return res[0]
