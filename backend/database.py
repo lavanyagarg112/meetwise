@@ -466,11 +466,14 @@ def getInvitesByUser(email:str):
               SELECT ORGANISATION,ROLE FROM PendingInvites WHERE EMAIL = ?'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (email,))
+        ele = cursor.fetchall()
         delUser = '''
         DELETE FROM PendingInvites WHERE EMAIL = ?
         '''
         cursor.execute(delUser, (email,))
-        return cursor.fetchall()
+        conn.commit()
+        conn.sync()
+        return ele
 
 
 def mapOrgIDToName(orgIDs: [int]):
@@ -507,3 +510,5 @@ def mapTeamNameToId(orgId: int, teamName: str):
         cursor.execute(sqlCommand, (teamName,))
         return cursor.fetchone()
 
+initialise()
+getUserDetailsByEmail("user1@email.com")
