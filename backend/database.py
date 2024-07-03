@@ -183,9 +183,9 @@ def getAdminsOrg(orgId: int):
     conn.sync()
     sqlCommand = f'''
               SELECT ID
-              FROM OW{orgId}EMP WHERE ROLE = "ADMIN"'''
+              FROM OW{orgId}EMP WHERE ROLE = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand)
+        cursor.execute(sqlCommand,"ADMIN")
         return cursor.fetchall()
 
 
@@ -194,9 +194,9 @@ def getUsersOrg(orgId: int):
     conn.sync()
     sqlCommand = f'''
               SELECT ID
-              FROM OW{orgId}EMP WHERE ROLE = "USER"'''
+              FROM OW{orgId}EMP WHERE ROLE = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand)
+        cursor.execute(sqlCommand,"USER")
         return cursor.fetchall()
 
 
@@ -218,10 +218,10 @@ def getAdminsTeam(orgId: int, teamId: int):
               SELECT OW{orgId}Emp.ID
                 FROM OW{orgId}EMP
                 INNER JOIN Org{orgId}Emp ON Org{orgId}Emp.ID = OW{orgId}EMP.ID
-                WHERE OW{orgId}EMP.ROLE = "ADMIN"
+                WHERE OW{orgId}EMP.ROLE = ?
                 AND Org{orgId}Emp.TEAM = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, teamId)
+        cursor.execute(sqlCommand, ("ADMIN",teamId))
         return cursor.fetchall()
 
 
@@ -232,10 +232,10 @@ def getUsersTeam(orgId: int, teamId: int):
               SELECT OW{orgId}Emp.ID
                 FROM OW{orgId}EMP
                 INNER JOIN Org{orgId}Emp ON Org{orgId}Emp.ID = OW{orgId}EMP.ID
-                WHERE OW{orgId}EMP.ROLE = "USER"
+                WHERE OW{orgId}EMP.ROLE = ?
                 AND Org{orgId}Emp.TEAM = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, teamId)
+        cursor.execute(sqlCommand, ("USER",teamId))
         return cursor.fetchall()
 
 
@@ -247,7 +247,7 @@ def getOutsideTeam(orgId: int, teamId: int):
               FROM Org{orgId}Emp
               WHERE NOT TEAM = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, teamId)
+        cursor.execute(sqlCommand, (teamId,))
         return cursor.fetchall()
 
 
