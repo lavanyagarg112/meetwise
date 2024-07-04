@@ -188,7 +188,7 @@ def getMeetingsByOrg(orgId: int):
     conn.sync()
     sqlCommand = f'''
           SELECT ID,NAME,DATE
-          FROM Org{orgId} WHERE TEAM = NULL'''
+          FROM Org{orgId} WHERE TEAM IS NULL'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand)
         return cursor.fetchall()
