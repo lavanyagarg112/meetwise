@@ -5,11 +5,9 @@ from IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalRe
 from UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
     setOrganisationActive, eatCookie, bakeCookie, inviteOrAddUser
 from Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, getAllMeetings, \
-    getTeams, addUser, createTeam
+    getTeams, addUser, createTeam, storeMeeting
 from fastapi.middleware.cors import CORSMiddleware
 
-from Enums import Roles
-from audio_transcription import transcribe
 
 app = FastAPI()
 
@@ -98,30 +96,22 @@ async def setActiveOrganisation(name: OrganisationNameOptional, credentials: Ann
 
 @app.post("/teampage")
 async def teamPage(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = None) -> TeamPersonalReport:
-    id :int = eatCookie(credentials)
+    id: int = eatCookie(credentials)
     teamReport: TeamPersonalReport = getTeamReport(id, orgteam.name, orgteam.organisation)
     return teamReport
 
 
-#TODO:
 @app.post("/upload-meeting")
-async def uploadMeeting(input : MeetingInput,
+async def uploadMeeting(input: MeetingInput,
                         credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    transcription_text = transcribe(input.file)
-    print("Transcription:", transcription_text)
-    print("Meeting Name:",input.meetingName)
-    print("Meeting Date:", input.meetingDate)
-    print("Meeting Type:",input.type)
-    print("Meeting Team",input.team)
-    print("Meeting Organisation:",input.organisation)
-
+    storeMeeting(input)
 
 
 @app.post("/new-team")
 async def newTeam(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = None) -> Team:
     id = eatCookie(credentials)
-    id = createTeam(id,orgteam)
+    id = createTeam(id, orgteam)
     return Team(id=id, name=orgteam.name)
 
 
@@ -142,20 +132,24 @@ async def getOrganisationMeetings(name: OrganisationName, credentials: Annotated
 @app.post("/get-organisation-teams")
 async def getOrganisationTeams(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    teams = getTeams(name.name,id)
+    teams = getTeams(name.name, id)
     return {"teams": teams}
 
 
 @app.post('/add-team-user')
-async def addTeamUser(input:AddUserInput,
+async def addTeamUser(input: AddUserInput,
                       credentials: Annotated[str, Cookie()] = None) -> Person:
     id = eatCookie(credentials)
     user: Person = addUser(input.organisation, input.userId, input.role, input.teamName)
     return user
 
 
-#TODO:
 @app.post('/invite-user')
-async def inviteUser(input : InviteInput, credentials: Annotated[str, Cookie()] = None):
-    output = inviteOrAddUser(input.email, input.role.value,input.organisation)
+async def inviteUser(input: InviteInput, credentials: Annotated[str, Cookie()] = None):
+    output = inviteOrAddUser(input.email, input.role.value, input.organisation)
     return output
+
+
+@app.get('/logout')
+async def logout(response: Response):
+    response.delete_cookie("credentials", httponly=True, secure=True, samesite="none")

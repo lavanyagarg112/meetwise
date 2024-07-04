@@ -4,10 +4,11 @@ from fastapi import HTTPException
 
 from Enums import Roles
 from IOSchema import Organisation, OrganisationReport, OrganisationPersonalReport, Person, Team, TeamPersonalReport, \
-    TeamReport, OrgTeam, Meeting, InviteOutput
+    TeamReport, OrgTeam, Meeting, InviteOutput, MeetingInput
 from OrganisationHelpers import getOrganisationsByID, getOrganisationByName, getOrganisationByID, getTeamByName, \
     meetify, getAdmins, getUsers, getRoleByID, getTeamAdmins, getTeamUsers, getTRoleByID, getAllUsers, getPendingInvites
 from UserAccounts import getUserByID
+from audio_transcription import transcribe
 from database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, getMeetingsByOrg, \
     makeTeam, teamExists, addUserToTeam, existsOrganisation, makeOrganisation, getOwner, addUserToOrg
 
@@ -103,3 +104,13 @@ def createTeam(userId: int, orgteam: OrgTeam):
     addUserToTeam(org, owner, Roles.ADMIN.value, id,Roles.ADMIN.value)
     addUserToTeam(org, userId, Roles.ADMIN.value, id,Roles.ADMIN.value)
     return id
+
+
+def storeMeeting(meeting : MeetingInput):
+    transcription_text = transcribe(input.file)
+    print("Transcription:", transcription_text)
+    print("Meeting Name:", input.meetingName)
+    print("Meeting Date:", input.meetingDate)
+    print("Meeting Type:", input.type)
+    print("Meeting Team", input.team)
+    print("Meeting Organisation:", input.organisation)
