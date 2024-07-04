@@ -622,6 +622,28 @@ so ill not send you anything. you can use current user id from credentials for t
 
 TRANSCRIPTION:
 
+/get-meeting-details
+POST
+
+I am not 100% sure about this schema yet. pls check with me before implementing
+
+what i want:
+{
+    id: meeting id
+    title: meeting name
+    date: meeting date
+    type: "team" or "organisation"
+    team: can be null
+    organisation: the meeting which the organisation is a part of
+}
+
+what i will send:
+{
+    id: meeting id
+    team: can be null
+    organisation: the meeting which the organisation is a part of
+}
+
 /get-team-role
 POST
 
