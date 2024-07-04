@@ -93,9 +93,9 @@ const TeamPage = () => {
 
       const data = await response.json();
       if (selectedRole === 'admin') {
-        setAdmins([...admins, data.user]);
+        setAdmins([...admins, data]);
       } else {
-        setUsers([...users, data.user]);
+        setUsers([...users, data]);
       }
       setShowPopup(true);
       setTimeout(() => setShowPopup(false), 3000);
