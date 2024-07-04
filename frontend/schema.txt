@@ -446,3 +446,9 @@ credentials
 
 what u should do:
 burn cookie!
+
+
+/get-admin-teams
+POST
+
+this is basically get-organisation-teams but here out of those organisation teams, u have to return the ones where the current user is the admin
