@@ -121,11 +121,8 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
     }
   };
 
-  const formatDate = (date) => {
-    const yyyy = date.getFullYear();
-    const mm = String(date.getMonth() + 1).padStart(2, '0');
-    const dd = String(date.getDate()).padStart(2, '0');
-    return `${yyyy}-${mm}-${dd}`;
+const formatDate = (date) => {
+    return moment(date).format('YYYY-MM-DD HH:mm');
   };
 
   const sendUploadAudio = async () => {
@@ -241,12 +238,16 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
           <DatePicker
             selected={meetingDate}
             onChange={(date) => setMeetingDate(date)}
-            dateFormat="yyyy-MM-dd"
-            placeholderText="yyyy-mm-dd"
+            showTimeSelect
+            dateFormat="yyyy-MM-dd HH:mm"
+            placeholderText="yyyy-mm-dd hh:mm"
             required
             className={styles.dateInput}
             maxDate={moment().toDate()}
+            timeFormat="HH:mm"
+            timeIntervals={15}
           />
+
         </label>
       </div>
       <div className={styles.formGroup}>
