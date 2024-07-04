@@ -242,7 +242,7 @@ const OrganisationPage = () => {
               {!isMeetingsCollapsed && (
                 <div>
                   {role != 'user' && <div className={classes.blankSection}>
-                    <UploadMeeting organisationName={organisationName} allTeams={teams} />
+                    <UploadMeeting organisationName={organisationName} />
                   </div>}
                   <OrganisationMeetingsList organisationName={organisationName} goToMeeting={goToMeeting} />
                 </div>

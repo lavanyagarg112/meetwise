@@ -57,7 +57,7 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
 
   const getOrganisationTeams = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-organisation-teams`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-admin-teams`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -121,6 +121,7 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/upload-meeting`, {
           method: 'POST',
           body: formData,
+          credentials: 'include',
         });
         if (response.ok) {
           console.log('File successfully uploaded to the backend');
