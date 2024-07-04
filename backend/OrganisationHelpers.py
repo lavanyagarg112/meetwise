@@ -63,7 +63,7 @@ def getTeamByName(orgId: int, teamName: str = None) -> int | None:
 
 
 def meetify(meetings: [Meeting]):
-    mapper = lambda row: Meeting(id=row[0], title=row[1], date=row[2])
+    mapper = lambda row: Meeting(id=row[0], title=row[1], date=row[2].replace('T', ' '),)
     meetings = list(map(mapper, meetings))
     return meetings
 
