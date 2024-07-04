@@ -28,3 +28,4 @@ frontend/yarn-error.log*
 
 backend/.env
 backend/__pycache__/
+*.db
