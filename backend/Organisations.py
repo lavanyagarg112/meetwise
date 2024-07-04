@@ -10,7 +10,8 @@ from OrganisationHelpers import getOrganisationsByID, getOrganisationByName, get
 from UserAccounts import getUserByID
 from audio_transcription import transcribe
 from database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, getMeetingsByOrg, \
-    makeTeam, teamExists, addUserToTeam, existsOrganisation, makeOrganisation, getOwner, addUserToOrg
+    makeTeam, teamExists, addUserToTeam, existsOrganisation, makeOrganisation, getOwner, addUserToOrg, \
+    getTeamsByOrgStatus
 
 
 def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:
@@ -69,16 +70,20 @@ def getAllMeetings(orgName: str) -> [Meeting]:
     return meetify(meetings)
 
 
-def getTeamsById(id: int, UserId: int):
-    teams = getTeamsByOrg(id, UserId)
+def getTeamsById(id: int, UserId: int, status: Roles | None = None):
+    if not status:
+        teams = getTeamsByOrg(id, UserId)
+    else :
+        teams = getTeamsByOrgStatus(id, UserId, status)
     teammer = lambda row: Team(id=row[0], name=row[1])
     teams = list(map(teammer, teams))
     return teams
 
 
-def getTeams(name: str, Userid: int):
-    id = getOrganisationByName(name, )
-    return getTeamsById(id, Userid)
+def getTeams(name: str, Userid: int,status: Roles|None = None):
+    id = getOrganisationByName(name)
+    return getTeamsById(id, Userid,status)
+
 
 
 '''
@@ -89,7 +94,7 @@ def getTeams(name: str, Userid: int):
 def addUser(organisation: str, userId: int, role: str, teamName: str = None) -> Person:
     organisation = getOrganisationByName(organisation)
     teamName = getTeamByName(organisation, teamName)
-    addUserToTeam(organisation, userId, role, teamName,role)
+    addUserToTeam(organisation, userId, role, teamName, role)
     user = getUserByID(userId).user
     return Person(id=userId, username=user.username, email=user.email, firstName=user.firstName, lastName=user.lastName)
 
@@ -101,8 +106,6 @@ def createTeam(userId: int, orgteam: OrgTeam):
     makeTeam(org, orgteam.name)
     id = getTeamByName(org, orgteam.name)
     owner = getOwner(org)[0]
-    addUserToTeam(org, owner, Roles.ADMIN.value, id,Roles.ADMIN.value)
-    addUserToTeam(org, userId, Roles.ADMIN.value, id,Roles.ADMIN.value)
+    addUserToTeam(org, owner, Roles.ADMIN.value, id, Roles.ADMIN.value)
+    addUserToTeam(org, userId, Roles.ADMIN.value, id, Roles.ADMIN.value)
     return id
-
-

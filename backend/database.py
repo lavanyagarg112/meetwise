@@ -95,6 +95,19 @@ def getTeamsByOrg(org: int, userID: int):
         cursor.execute(sqlCommand, (userID,))
         return cursor.fetchall()
 
+def getTeamsByOrgStatus(org: int, userID: int, status: Roles):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+    SELECT Org{org}Team.ID, Org{org}Team.NAME
+    FROM Org{org}Team
+    INNER JOIN  Org{org}Emp ON Org{org}Team.ID = Org{org}Emp.TEAM
+    WHERE Org{org}Emp.ID = ?
+    AND Org{org}Emp.STATUS = ?
+    '''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (userID,status.value))
+        return cursor.fetchall()
 
 def getOwner(org: int):
     initialise()
