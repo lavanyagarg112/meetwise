@@ -6,7 +6,7 @@ from Enums import Roles
 from IOSchema import Organisation, OrganisationReport, OrganisationPersonalReport, Person, Team, TeamPersonalReport, \
     TeamReport, OrgTeam, Meeting, InviteOutput, MeetingInput
 from OrganisationHelpers import getOrganisationsByID, getOrganisationByName, getOrganisationByID, getTeamByName, \
-    meetify, getRoleByID, getTeamAdmins, getTeamUsers, getTRoleByID, getAllUsers, getPendingInvites, getStatus
+    meetify, getRoleByID, getTRoleByID, getAllUsers, getPendingInvites, getStatus, getTeamStatus
 from UserAccounts import getUserByID
 from audio_transcription import transcribe
 from database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, getMeetingsByOrg, \
@@ -44,8 +44,8 @@ def getOrganisationReport(UserID: int, OrganisationName: str) -> OrganisationPer
 def getTeamReport(userID: int, teamName: str, organisationName: str) -> TeamPersonalReport:
     organisation = getOrganisationByName(organisationName)
     team: int = getTeamByName(orgId=organisation, teamName=teamName)
-    admins: [Person] = getTeamAdmins(organisation, team)
-    users: [Person] = getTeamUsers(organisation, team)
+    admins: [Person] = getTeamStatus(organisation, team,Roles.ADMIN)
+    users: [Person] = getTeamStatus(organisation, team,Roles.USER)
     allUsers: [Person] = getAllUsers(organisation, team)
     otherUsers = filter(lambda x: (x not in users) and (x not in admins), allUsers)
     userRole = getTRoleByID(organisation, team, userID)  #noNameRole

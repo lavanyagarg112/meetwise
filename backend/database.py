@@ -95,6 +95,7 @@ def getTeamsByOrg(org: int, userID: int):
         cursor.execute(sqlCommand, (userID,))
         return cursor.fetchall()
 
+
 def getTeamsByOrgStatus(org: int, userID: int, status: Roles):
     initialise()
     conn.sync()
@@ -106,8 +107,9 @@ def getTeamsByOrgStatus(org: int, userID: int, status: Roles):
     AND Org{org}Emp.STATUS = ?
     '''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (userID,status.value))
+        cursor.execute(sqlCommand, (userID, status.value))
         return cursor.fetchall()
+
 
 def getOwner(org: int):
     initialise()
@@ -203,7 +205,7 @@ def getMeetingsByTeam(orgId: int, teamId: int):
         return cursor.fetchall()
 
 
-def getStatusOrg(orgId: int,status : Roles):
+def getStatusOrg(orgId: int, status: Roles):
     initialise()
     conn.sync()
     sqlCommand = f'''
@@ -212,8 +214,6 @@ def getStatusOrg(orgId: int,status : Roles):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (status.value,))
         return cursor.fetchall()
-
-
 
 
 def getOrgRoleByID(orgId: int, userId: int):
@@ -227,7 +227,7 @@ def getOrgRoleByID(orgId: int, userId: int):
         return cursor.fetchone()
 
 
-def getAdminsTeam(orgId: int, teamId: int):
+def getStatusTeam(orgId: int, teamId: int, status: Roles):
     initialise()
     conn.sync()
     sqlCommand = f'''
@@ -236,20 +236,7 @@ def getAdminsTeam(orgId: int, teamId: int):
                 WHERE STATUS = ?
                 AND TEAM = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (Roles.ADMIN.value, teamId))
-        return cursor.fetchall()
-
-
-def getUsersTeam(orgId: int, teamId: int):
-    initialise()
-    conn.sync()
-    sqlCommand = f'''
-              SELECT ID
-                FROM Org{orgId}Emp
-                WHERE STATUS = ?
-                AND TEAM = ?'''
-    with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (Roles.USER.value, teamId,))
+        cursor.execute(sqlCommand, (status.value, teamId))
         return cursor.fetchall()
 
 
@@ -451,8 +438,9 @@ def storeMeetingDetailsTeam(org: int, name: str, team: int, transcription: str, 
         conn.commit()
         conn.sync()
 
+
 def storeMeetingDetailsOrg(org: int, name: str, transcription: str, length: int, date: datetime,
-                            summary: str, size: int):
+                           summary: str, size: int):
     initialise()
     conn.sync()
     sqlCommand = f'''
@@ -535,5 +523,3 @@ def mapTeamNameToId(orgId: int, teamName: str):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamName,))
         return cursor.fetchone()
-
-
