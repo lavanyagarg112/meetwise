@@ -84,3 +84,5 @@ class Meeting:
 
         combined_response = "".join(responses)
         return combined_response
+    
+    #for commit
