@@ -472,6 +472,18 @@ TODOS:
 /add-todo
 POST
 
+what i want:
+
+(im guessing this can be ur todo schema cause ill need all todos in this format)
+{
+    id: todo id
+    details:
+    deadline: datetime
+    assigner: Person schema
+    assignee: Person schema
+    isCompleted: boolean
+}
+
 what i will send:
 
 {
@@ -485,17 +497,6 @@ what i will send:
     isCompleted: boolean
 }
 
-what i want:
-
-(im guessing this can be ur todo schema cause ill need all todos in this format)
-{
-    id: todo id
-    details:
-    deadline: datetime
-    assigner: Person schema
-    assignee: Person schema
-    isCompleted: boolean
-}
 
 /edit-todo
 PUT
@@ -504,9 +505,11 @@ send all the details in add-todo but update request
 
 
 /delete-todo
-DELETE
+POST
 
 per meeting so ill send meeting id, org and team, todo id
+
+what ill send:
 {
     meetingid:
     organisation:
@@ -615,3 +618,83 @@ GET
 
 basically /get-user-todos but for all the meetings in the teams that the CURRENT user can see from active organisation
 so ill not send you anything. you can use current user id from credentials for this
+
+
+TRANSCRIPTION:
+
+/get-team-role
+POST
+
+what i want: 
+{
+    role: "admin" or "user"
+}
+
+what ill send:
+{
+    teamName: teamName
+    organisationName: org name
+}
+
+/get-transcription
+POST
+
+what i want:
+
+{
+    id: transcription id
+    type: "ai" or "user"
+    transcription:
+    uncommonWords: ["word1", "word2"]
+}
+
+what i will send:
+
+{
+    meetingid:
+    organisation:
+    team: can be null
+}
+
+
+
+/update-transcription
+POST 
+
+what i want:
+{
+    id: transcription id
+    type: "ai" or "user"
+    transcription:
+    uncommonWords: ["word1", "word2"]
+}
+
+
+what i will send:
+
+{
+    meetingid:
+    organisation:
+    team: can be null
+    transcriptionid:
+}
+
+
+
+SUMMARY
+
+/get-summary
+POST
+
+what i want:
+{
+    id: summary id
+    summary:
+}
+
+what i will send:
+{
+    meetingid:
+    organisation:
+    team: can be null
+}
