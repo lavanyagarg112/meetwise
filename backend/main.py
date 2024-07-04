@@ -9,6 +9,7 @@ from Organisations import createOrganisation, getOrganisationReport, getTeamRepo
 from fastapi.middleware.cors import CORSMiddleware
 
 from Enums import Roles
+from audio_transcription import transcribe
 
 app = FastAPI()
 
@@ -107,8 +108,14 @@ async def teamPage(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = Non
 async def uploadMeeting(input : MeetingInput,
                         credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    # TODO: Implement upload meeting logic
-    pass
+    transcription_text = transcribe(input.file)
+    print("Transcription:", transcription_text)
+    print("Meeting Name:",input.meetingName)
+    print("Meeting Date:", input.meetingDate)
+    print("Meeting Type:",input.type)
+    print("Meeting Team",input.team)
+    print("Meeting Organisation:",input.organisation)
+
 
 
 @app.post("/new-team")

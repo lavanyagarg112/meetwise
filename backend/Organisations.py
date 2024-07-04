@@ -45,7 +45,7 @@ def getTeamReport(userID: int, teamName: str, organisationName: str) -> TeamPers
     admins: [Person] = getTeamAdmins(organisation, team)
     users: [Person] = getTeamUsers(organisation, team)
     allUsers: [Person] = getAllUsers(organisation, team)
-    otherUsers = filter(lambda x: x in users, allUsers)
+    otherUsers = filter(lambda x: (x not in users) and (x not in admins), allUsers)
     userRole = getTRoleByID(organisation, team, userID)  #noNameRole
     teamReport = TeamReport(id=team, name=teamName,
                             admins=admins,
@@ -99,5 +99,7 @@ def createTeam(userId: int, orgteam: OrgTeam):
         raise HTTPException(status_code=400, detail="Team already exists")
     makeTeam(org, orgteam.name)
     id = getTeamByName(org, orgteam.name)
+    owner = getOwner(org)[0]
+    addUserToTeam(org, owner, Roles.ADMIN.value, id,Roles.ADMIN.value)
     addUserToTeam(org, userId, Roles.ADMIN.value, id,Roles.ADMIN.value)
     return id

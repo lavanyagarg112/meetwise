@@ -104,6 +104,8 @@ class MeetingInput(BaseModel):
     type: str
     meetingName: str
     meetingDate: datetime
+    team: str
+    organisation: str
 
 
 class AddUserInput(BaseModel):
