@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from Meetings import storeMeeting
 from Enums import Roles
-from backend.OrganisationHelpers import getRoleByID, getOrganisationByName
+from OrganisationHelpers import getRoleByID, getOrganisationByName
 
 app = FastAPI()
 
