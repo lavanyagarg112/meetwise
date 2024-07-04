@@ -1,5 +1,7 @@
-from fastapi import FastAPI, HTTPException, Response, Request, Cookie, UploadFile
-from typing import Annotated
+from datetime import datetime
+
+from fastapi import FastAPI, HTTPException, Response, Request, Cookie, UploadFile, Form, File
+from typing import Annotated, Literal
 from IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
     OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput, AddUserInput
 from UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
@@ -104,8 +106,15 @@ async def teamPage(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = Non
 
 
 @app.post("/upload-meeting")
-async def uploadMeeting(input: MeetingInput,
+async def uploadMeeting(file: UploadFile,
+                        type: Annotated[Literal["organisation", "team"],Form()],
+                        meetingName: Annotated[str,Form()],
+                        meetingDate: Annotated[datetime,Form()],
+                        organisation: Annotated[str,Form()],
+                        team: Annotated[str | None,Form()] = None,
                         credentials: Annotated[str, Cookie()] = None):
+    input = MeetingInput(file=file, type=type, meetingName=meetingName, meetingDate=meetingDate, team=team,
+                         organisation=organisation)
     id = eatCookie(credentials)
     storeMeeting(input)
 
@@ -137,10 +146,11 @@ async def getOrganisationTeams(name: OrganisationName, credentials: Annotated[st
     teams = getTeams(name.name, id)
     return {"teams": teams}
 
+
 @app.post("/get-admin-teams")
 async def getAdminTeams(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    teams = getTeams(name.name, id,Roles.ADMIN)
+    teams = getTeams(name.name, id, Roles.ADMIN)
     return {"teams": teams}
 
 
