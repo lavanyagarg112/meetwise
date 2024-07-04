@@ -509,3 +509,5 @@ def mapTeamNameToId(orgId: int, teamName: str):
         cursor.execute(sqlCommand, (teamName,))
         return cursor.fetchone()
 
+initialise()
+getUserDetailsByEmail("user1@email.com")
