@@ -244,7 +244,7 @@ def getUsersTeam(orgId: int, teamId: int):
                 WHERE STATUS = ?
                 AND TEAM = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (teamId,))
+        cursor.execute(sqlCommand, (Roles.USER.value, teamId,))
         return cursor.fetchall()
 
 
