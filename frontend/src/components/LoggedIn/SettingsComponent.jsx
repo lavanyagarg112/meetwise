@@ -22,16 +22,11 @@ const SettingsComponent = ({ user }) => {
       <div>
         <div>Username: {user.username}</div>
         <div>Email: {user.email}</div>
-        <div>Display Name: {user.firstName}</div>
+        <div>Display Name: {user.firstName} {user.lastName}</div>
         <div>Bio</div>
       </div>
       <div>
-        <div>Update profile</div>
-      </div>
-      <div>
-        <div>Organisations created by me</div>
-        <div>organisation 1</div>
-        <div>organisation 2</div>
+        <div>Update Name</div>
       </div>
 
       <button onClick={handleOrganisations}>See all my organisations</button>
