@@ -3,6 +3,7 @@ from mutagen.mp3 import MP3
 from IOSchema import MeetingInput
 from OrganisationHelpers import getOrganisationByName, getTeamByName
 from audio_transcription import transcribe
+from Meeting import Meeting
 from database import storeMeetingDetailsTeam, storeMeetingDetailsOrg
 
 
@@ -19,12 +20,9 @@ def storeMeeting(meeting : MeetingInput):
         transcription = transcribe(file)
     except:
         raise HTTPException(status_code=500,detail="Transcription failed.")
-    print("Transcription:", transcription)
 
-    #TODO: Merge Kimaya and uncomment
-    # meetingMeta = Meeting(transcription)
-    # summary = meetingMeta.generate_summary()
-    summary = ""
+    meetingMeta = Meeting(transcription)
+    summary = meetingMeta.generate_summary()
 
     if meeting.type == 'team':
         team = getTeamByName(org,meeting.team)

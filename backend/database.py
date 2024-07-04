@@ -427,7 +427,7 @@ def addUserToTeam(orgId: int, userId: int, role: str, team: int, status: str):
         conn.sync()
 
 
-def storeMeetingDetailsTeam(org: int, name: str, team: int, transcription: str, length: int, date: datetime,
+def storeMeetingDetailsTeam(org: int, name: str, team: int, transcription: str, length: int, date: str,
                             summary: str, size: int):
     initialise()
     conn.sync()
@@ -439,7 +439,7 @@ def storeMeetingDetailsTeam(org: int, name: str, team: int, transcription: str, 
         conn.sync()
 
 
-def storeMeetingDetailsOrg(org: int, name: str, transcription: str, length: int, date: datetime,
+def storeMeetingDetailsOrg(org: int, name: str, transcription: str, length: int, date: str,
                            summary: str, size: int):
     initialise()
     conn.sync()
