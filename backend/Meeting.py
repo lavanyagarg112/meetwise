@@ -11,10 +11,18 @@ client = Groq(
     )
 
 class Task:
-    def __init__(self, description: str, deadline: str = "", assignee: str = None):  
+    def __init__(self, description: str, deadline: str = None, assignee: str = None):  
         self.description = description
-        self.deadline = deadline
+        self.deadline = self.parse_deadline(deadline)
         self.assignee = assignee
+
+    def parse_deadline(self, deadline: str):
+        if deadline:
+            try:
+                return datetime.strptime(deadline, '%Y/%m/%d %H:%M')
+            except ValueError:
+                return datetime.strptime(deadline, '%Y/%m/%d')
+        return None
 
     def __repr__(self):
         return f"Task(description={self.description}, deadline={self.deadline}, assignee={self.assignee})"
@@ -57,18 +65,17 @@ class Meeting:
         self.todo = task_list
         return self.todo
 
-    def _send_prompt_chunks(self, prompt: str, transcription: str, chunk_size: int = 2048):
-        prompt_chunks = [prompt[i:i+chunk_size] for i in range(0, len(prompt), chunk_size)]
-        transcription_chunks = [transcription[i:i+chunk_size] for i in range(0, len(transcription), chunk_size)]
-
+    def _send_prompt_chunks(self, prompt: str, transcription: str, chunk_size: int = 1500):
         responses = []
+        prompt_len = len(prompt)
+        transcription_chunks = [transcription[i:i+chunk_size-prompt_len] for i in range(0, len(transcription), chunk_size-prompt_len)]
 
-        for prompt_chunk, transcription_chunk in zip(prompt_chunks, transcription_chunks):
+        for transcription_chunk in transcription_chunks:
             chat_completion = client.chat.completions.create(
                 messages=[
                     {
                         "role": "user",
-                        "content": prompt_chunk + transcription_chunk,
+                        "content": prompt + transcription_chunk,
                     }
                 ],
                 model="llama3-8b-8192",
