@@ -1,8 +1,8 @@
 import enum
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, Literal, Annotated
 
-from fastapi import UploadFile
+from fastapi import UploadFile, Form
 from pydantic import BaseModel
 
 from Enums import Roles
@@ -101,9 +101,11 @@ class Meeting(BaseModel):
 
 class MeetingInput(BaseModel):
     file: UploadFile
-    type: str
+    type: Literal["organisation","team"]
     meetingName: str
     meetingDate: datetime
+    team: str | None = None
+    organisation: str
 
 
 class AddUserInput(BaseModel):

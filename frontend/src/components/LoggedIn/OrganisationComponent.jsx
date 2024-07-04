@@ -5,25 +5,14 @@ import classes from './OrganisationComponent.module.css'
 import OrganisationBlock from './Organisations/OrganisationBlock'
 import CreateOrganisationForm from './Organisations/CreateOrganisationForm'
 
-const DUMMY_DATA = [
-  {
-    id: 0,
-    name: 'organisation1'
-  },
-  {
-    id: 1,
-    name: 'organisation2'
-  },
-
-  
-]
-
-let id = 0
+import Loading from '../ui/Loading'
 
 const OrganisationComponent = ({user}) => {
 
   const [organisations, setOrganisations] =useState([])
   const [isFormVisible, setIsFormVisible] = useState(false)
+
+  const [loading, setLoading] = useState(false)
 
   const newOrganisation = async (organisationName) => {
 
@@ -63,6 +52,7 @@ const OrganisationComponent = ({user}) => {
 
   const getOrganisations = async () => {
     try {
+      setLoading(true)
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-organisations`, {
         credentials: 'include'
       })
@@ -79,6 +69,7 @@ const OrganisationComponent = ({user}) => {
     } catch (error) {
       console.log('ERROR')
     }
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -94,13 +85,15 @@ const OrganisationComponent = ({user}) => {
           <button className={classes.createButton} onClick={JoinOrg}>Join Organisation</button>
         </div>
       </div>
-      <div className={classes.organisationContainer}>
-        {organisations.length > 0 && organisations.map((org) => 
-          <OrganisationBlock key={org.id} org={org} />
-        )}
-        {organisations.length === 0 && <p className={classes.noOrganisations}>No organisations created / No organisations joined</p>}
-        {isFormVisible && <CreateOrganisationForm onClose={() => setIsFormVisible(false)} onCreate={newOrganisation} />}
-      </div>
+      { loading ? <Loading /> : (
+        <div className={classes.organisationContainer}>
+          {organisations.length > 0 && organisations.map((org) => 
+            <OrganisationBlock key={org.id} org={org} />
+          )}
+          {organisations.length === 0 && <p className={classes.noOrganisations}>No organisations created / No organisations joined</p>}
+          {isFormVisible && <CreateOrganisationForm onClose={() => setIsFormVisible(false)} onCreate={newOrganisation} />}
+        </div>
+      )}
     </div>
   )
 }

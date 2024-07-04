@@ -10,6 +10,7 @@ import OrganisationMeetingsList from '../../components/LoggedIn/Meetings/Organis
 import UploadMeeting from '../../components/LoggedIn/Meetings/UploadMeeting';
 
 import NotFoundPage from '../NotFoundPage';
+import Loading from '../../components/ui/Loading';
 
 import classes from './OrganisationPage.module.css';
 import { useAuth } from '../../store/auth-context';
@@ -37,6 +38,8 @@ const OrganisationPage = () => {
   const [showerror, setShowError] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [showInvitePopup, setShowInvitePopup] = useState(false);
+
+  const [loading, setLoading] = useState(false)
 
   const toggleOwners = () => setIsOwnersCollapsed(!isOwnersCollapsed);
   const toggleAdmins = () => setIsAdminsCollapsed(!isAdminsCollapsed);
@@ -81,6 +84,7 @@ const OrganisationPage = () => {
 
   const getOrganisationInfo = async (name) => {
     try {
+      setLoading(true)
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/organisationpage`, {
         method: 'POST',
         headers: {
@@ -110,6 +114,7 @@ const OrganisationPage = () => {
       console.log('ERROR');
       setShowError(true);
     }
+    setLoading(false)
   };
 
   const handleToggleActive = async () => {
@@ -184,140 +189,144 @@ const OrganisationPage = () => {
 
   return (
     <div className={classes.organisationPage}>
-      {!user ? (
-        <div>Log in</div>
-      ) : !permitted ? (
-        <div>Not permitted</div>
-      ) : (
+      {loading ? <Loading /> : (
         <div>
-          <div className={classes.header}>
-            <h1>{organisationName}</h1>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={activeOrganisation === organisationName}
-                  onChange={handleToggleActive}
-                  name="activeOrganisationToggle"
-                  color="primary"
-                />
-              }
-              label={activeOrganisation === organisationName ? 'Current Active Organisation' : 'Set as Active'}
-            />
-          </div>
-          <div className={classes.teamssection}>
-            <div className={classes.teamsHeader}>
-              <h3>My Teams</h3>
-              {role !== 'user' && (
-                <button className={classes.createTeamButton} onClick={createTeam}>
-                  Create New Team
-                </button>
-              )}
-              {isFormVisible && <CreateTeamForm onClose={() => setIsFormVisible(false)} onCreate={newTeam} />}
+        {!user ? (
+          <div>Log in</div>
+        ) : !permitted ? (
+          <div>Not permitted</div>
+        ) : (
+          <div>
+            <div className={classes.header}>
+              <h1>{organisationName}</h1>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={activeOrganisation === organisationName}
+                    onChange={handleToggleActive}
+                    name="activeOrganisationToggle"
+                    color="primary"
+                  />
+                }
+                label={activeOrganisation === organisationName ? 'Current Active Organisation' : 'Set as Active'}
+              />
             </div>
-            <div className={classes.organisationContainer}>
-              {!teams || teams.length === 0 ? (
-                <div className={classes.noOrganisations}>No teams yet</div>
-              ) : (
-                teams.map((team) => <TeamBlock key={team.id} team={team} organisationname={organisationName} />)
-              )}
-            </div>
-          </div>
-          {/* {role != 'user' && <div className={classes.blankSection}>
-            <UploadMeeting organisationName={organisationName} allTeams={teams} />
-          </div>} */}
-          <div className={classes.section}>
-            <div className={classes.sectionTitle} onClick={toggleMeetings}>
-              <h3>View Organisation meetings</h3>
-              <span className={classes.toggleIcon}>
-                {isMeetingsCollapsed ? 'View Meetings' : 'Close Section'}
-              </span>
-            </div>
-            {!isMeetingsCollapsed && (
-              <div>
-                {role != 'user' && <div className={classes.blankSection}>
-                  <UploadMeeting organisationName={organisationName} allTeams={teams} />
-                </div>}
-                <OrganisationMeetingsList organisationName={organisationName} goToMeeting={goToMeeting} />
+            <div className={classes.teamssection}>
+              <div className={classes.teamsHeader}>
+                <h3>My Teams</h3>
+                {role !== 'user' && (
+                  <button className={classes.createTeamButton} onClick={createTeam}>
+                    Create New Team
+                  </button>
+                )}
+                {isFormVisible && <CreateTeamForm onClose={() => setIsFormVisible(false)} onCreate={newTeam} />}
               </div>
-            )}
-          </div>
-          <div className={classes.section}>
-            <div className={classes.sectionTitle} onClick={toggleOwners}>
-              <h3>Organisation Owners</h3>
-              <span className={classes.toggleIcon}>
-                {isOwnersCollapsed ? 'View Owners' : 'Close Section'}
-              </span>
+              <div className={classes.organisationContainer}>
+                {!teams || teams.length === 0 ? (
+                  <div className={classes.noOrganisations}>No teams yet</div>
+                ) : (
+                  teams.map((team) => <TeamBlock key={team.id} team={team} organisationname={organisationName} />)
+                )}
+              </div>
             </div>
-            {!isOwnersCollapsed && <PeopleList people={owners} currentUser={user} role={role} />}
-          </div>
-          <div className={classes.section}>
-            <div className={classes.sectionTitle} onClick={toggleAdmins}>
-              <h3>Organisation Admins</h3>
-              <span className={classes.toggleIcon}>
-                {isAdminsCollapsed ? 'View Admins' : 'Close Section'}
-              </span>
-            </div>
-            {!isAdminsCollapsed && <PeopleList people={admins} currentUser={user} role={role} />}
-          </div>
-          <div className={classes.section}>
-            <div className={classes.sectionTitle} onClick={toggleUsers}>
-              <h3>Organisation Users</h3>
-              <span className={classes.toggleIcon}>
-                {isUsersCollapsed ? 'View Users' : 'Close Section'}
-              </span>
-            </div>
-            {!isUsersCollapsed && <PeopleList people={users} currentUser={user} role={role} />}
-          </div>
-          {role !== 'user' && (
+            {/* {role != 'user' && <div className={classes.blankSection}>
+              <UploadMeeting organisationName={organisationName} allTeams={teams} />
+            </div>} */}
             <div className={classes.section}>
-              <div className={classes.sectionTitle} onClick={toggleInvites}>
-                <h3>Invite Users</h3>
+              <div className={classes.sectionTitle} onClick={toggleMeetings}>
+                <h3>View Organisation meetings</h3>
                 <span className={classes.toggleIcon}>
-                  {isInvitesCollapsed ? 'View Invites' : 'Close Section'}
+                  {isMeetingsCollapsed ? 'View Meetings' : 'Close Section'}
                 </span>
               </div>
-              {!isInvitesCollapsed && (
+              {!isMeetingsCollapsed && (
                 <div>
-                  <form onSubmit={handleInviteUser} className={classes.inviteUserForm}>
-                    <input
-                      type="email"
-                      value={inviteEmail}
-                      onChange={(e) => setInviteEmail(e.target.value)}
-                      placeholder="User Email"
-                      required
-                    />
-                    <select
-                      value={inviteRole}
-                      onChange={(e) => setInviteRole(e.target.value)}
-                      required
-                    >
-                      <option value="">Select Role</option>
-                      <option value="admin">Organisation Admin</option>
-                      <option value="user">Organisation User</option>
-                    </select>
-                    <button type="submit">Invite User</button>
-                  </form>
-                  <div className={classes.pendingInvites}>
-                    <h4>Pending Invites</h4>
-                    {!pendingInvites || pendingInvites.length === 0 ? (
-                      <p>No pending invites.</p>
-                    ) : (
-                      pendingInvites.map((invite) => (
-                        <div key={invite.id} className={classes.inviteItem}>
-                          <span>{invite.email} - {invite.role}</span>
-                        </div>
-                      ))
-                    )}
-                  </div>
+                  {role != 'user' && <div className={classes.blankSection}>
+                    <UploadMeeting organisationName={organisationName} />
+                  </div>}
+                  <OrganisationMeetingsList organisationName={organisationName} goToMeeting={goToMeeting} />
                 </div>
               )}
             </div>
-          )}
-          {showInvitePopup && (
-            <div className={classes.popup}>
-              User invited successfully!
+            <div className={classes.section}>
+              <div className={classes.sectionTitle} onClick={toggleOwners}>
+                <h3>Organisation Owners</h3>
+                <span className={classes.toggleIcon}>
+                  {isOwnersCollapsed ? 'View Owners' : 'Close Section'}
+                </span>
+              </div>
+              {!isOwnersCollapsed && <PeopleList people={owners} currentUser={user} role={role} />}
             </div>
-          )}
+            <div className={classes.section}>
+              <div className={classes.sectionTitle} onClick={toggleAdmins}>
+                <h3>Organisation Admins</h3>
+                <span className={classes.toggleIcon}>
+                  {isAdminsCollapsed ? 'View Admins' : 'Close Section'}
+                </span>
+              </div>
+              {!isAdminsCollapsed && <PeopleList people={admins} currentUser={user} role={role} />}
+            </div>
+            <div className={classes.section}>
+              <div className={classes.sectionTitle} onClick={toggleUsers}>
+                <h3>Organisation Users</h3>
+                <span className={classes.toggleIcon}>
+                  {isUsersCollapsed ? 'View Users' : 'Close Section'}
+                </span>
+              </div>
+              {!isUsersCollapsed && <PeopleList people={users} currentUser={user} role={role} />}
+            </div>
+            {role !== 'user' && (
+              <div className={classes.section}>
+                <div className={classes.sectionTitle} onClick={toggleInvites}>
+                  <h3>Invite Users</h3>
+                  <span className={classes.toggleIcon}>
+                    {isInvitesCollapsed ? 'View Invites' : 'Close Section'}
+                  </span>
+                </div>
+                {!isInvitesCollapsed && (
+                  <div>
+                    <form onSubmit={handleInviteUser} className={classes.inviteUserForm}>
+                      <input
+                        type="email"
+                        value={inviteEmail}
+                        onChange={(e) => setInviteEmail(e.target.value)}
+                        placeholder="User Email"
+                        required
+                      />
+                      <select
+                        value={inviteRole}
+                        onChange={(e) => setInviteRole(e.target.value)}
+                        required
+                      >
+                        <option value="">Select Role</option>
+                        <option value="admin">Organisation Admin</option>
+                        <option value="user">Organisation User</option>
+                      </select>
+                      <button type="submit">Invite User</button>
+                    </form>
+                    <div className={classes.pendingInvites}>
+                      <h4>Pending Invites</h4>
+                      {!pendingInvites || pendingInvites.length === 0 ? (
+                        <p>No pending invites.</p>
+                      ) : (
+                        pendingInvites.map((invite) => (
+                          <div key={invite.id} className={classes.inviteItem}>
+                            <span>{invite.email} - {invite.role}</span>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+            {showInvitePopup && (
+              <div className={classes.popup}>
+                User invited successfully!
+              </div>
+            )}
+          </div>
+        )}
         </div>
       )}
     </div>

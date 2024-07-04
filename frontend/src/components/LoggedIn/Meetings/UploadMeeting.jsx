@@ -5,20 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styles from './UploadMeeting.module.css';
 import moment from 'moment';
 
-const DUMMY_TEAMS = [
-  {
-    id: 0,
-    name: 'team 1',
-  },
-  {
-    id: 1,
-    name: 'team 2',
-  },
-  {
-    id: 2,
-    name: 'team 3',
-  }
-];
+import Loading from '../../ui/Loading';
 
 const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
   const [ffmpeg, setFFmpeg] = useState(null);
@@ -29,6 +16,7 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
   const [meetingDate, setMeetingDate] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [showError, setShowError] = useState(false);
   const [teams, setTeams] = useState(allTeams);
 
   const [teamName, setTeamName] = useState(team);
@@ -69,7 +57,7 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
 
   const getOrganisationTeams = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-organisation-teams`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-admin-teams`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -133,6 +121,7 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/upload-meeting`, {
           method: 'POST',
           body: formData,
+          credentials: 'include',
         });
         if (response.ok) {
           console.log('File successfully uploaded to the backend');
@@ -147,11 +136,18 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
           setShowPopup(true);
           setTimeout(() => setShowPopup(false), 3000); // Hide the popup after 3 seconds
         } else {
+          setLoading(false);
           console.error('Failed to upload file to the backend');
+          setShowError(true);
+          setTimeout(() => setShowError(false), 5000);
         }
       } catch (error) {
+        setLoading(false);
         console.error('Error uploading file:', error);
+        setShowError(true);
+        setTimeout(() => setShowError(false), 5000);
       }
+      setLoading(false);
     };
     reader.readAsArrayBuffer(selectedFile);
   };
@@ -228,6 +224,8 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
         </div>
       )}
       {showPopup && <div className={styles.popup}>Video uploaded!</div>}
+      {showError && <div className={styles.error}>Error uploading video</div>}
+      {loading && <Loading />}
     </div>
   );
 };

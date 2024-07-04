@@ -43,7 +43,7 @@ const TeamMeetingsList = ({ teamName, organisationName, goToMeeting }) => {
       }
 
       const data = await response.json();
-      setMeetings(data.meetings);
+      setMeetings(data.teams);
     } catch (error) {
       console.log('ERROR');
     }

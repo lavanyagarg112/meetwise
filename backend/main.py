@@ -1,5 +1,7 @@
-from fastapi import FastAPI, HTTPException, Response, Request, Cookie, UploadFile
-from typing import Annotated
+from datetime import datetime
+
+from fastapi import FastAPI, HTTPException, Response, Request, Cookie, UploadFile, Form, File
+from typing import Annotated, Literal
 from IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
     OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput, AddUserInput
 from UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
@@ -8,6 +10,7 @@ from Organisations import createOrganisation, getOrganisationReport, getTeamRepo
     getTeams, addUser, createTeam
 from fastapi.middleware.cors import CORSMiddleware
 
+from Meetings import storeMeeting
 from Enums import Roles
 
 app = FastAPI()
@@ -97,24 +100,29 @@ async def setActiveOrganisation(name: OrganisationNameOptional, credentials: Ann
 
 @app.post("/teampage")
 async def teamPage(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = None) -> TeamPersonalReport:
-    id :int = eatCookie(credentials)
+    id: int = eatCookie(credentials)
     teamReport: TeamPersonalReport = getTeamReport(id, orgteam.name, orgteam.organisation)
     return teamReport
 
 
-#TODO:
 @app.post("/upload-meeting")
-async def uploadMeeting(input : MeetingInput,
+async def uploadMeeting(file: UploadFile,
+                        type: Annotated[Literal["organisation", "team"],Form()],
+                        meetingName: Annotated[str,Form()],
+                        meetingDate: Annotated[datetime,Form()],
+                        organisation: Annotated[str,Form()],
+                        team: Annotated[str | None,Form()] = None,
                         credentials: Annotated[str, Cookie()] = None):
+    input = MeetingInput(file=file, type=type, meetingName=meetingName, meetingDate=meetingDate, team=team,
+                         organisation=organisation)
     id = eatCookie(credentials)
-    # TODO: Implement upload meeting logic
-    pass
+    storeMeeting(input)
 
 
 @app.post("/new-team")
 async def newTeam(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = None) -> Team:
     id = eatCookie(credentials)
-    id = createTeam(id,orgteam)
+    id = createTeam(id, orgteam)
     return Team(id=id, name=orgteam.name)
 
 
@@ -135,20 +143,31 @@ async def getOrganisationMeetings(name: OrganisationName, credentials: Annotated
 @app.post("/get-organisation-teams")
 async def getOrganisationTeams(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    teams = getTeams(name.name,id)
+    teams = getTeams(name.name, id)
+    return {"teams": teams}
+
+
+@app.post("/get-admin-teams")
+async def getAdminTeams(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
+    id = eatCookie(credentials)
+    teams = getTeams(name.name, id, Roles.ADMIN)
     return {"teams": teams}
 
 
 @app.post('/add-team-user')
-async def addTeamUser(input:AddUserInput,
+async def addTeamUser(input: AddUserInput,
                       credentials: Annotated[str, Cookie()] = None) -> Person:
     id = eatCookie(credentials)
     user: Person = addUser(input.organisation, input.userId, input.role, input.teamName)
     return user
 
 
-#TODO:
 @app.post('/invite-user')
-async def inviteUser(input : InviteInput, credentials: Annotated[str, Cookie()] = None):
-    output = inviteOrAddUser(input.email, input.role.value,input.organisation)
+async def inviteUser(input: InviteInput, credentials: Annotated[str, Cookie()] = None):
+    output = inviteOrAddUser(input.email, input.role.value, input.organisation)
     return output
+
+
+@app.get('/logout')
+async def logout(response: Response):
+    response.delete_cookie("credentials", httponly=True, secure=True, samesite="none")

@@ -1,0 +1,73 @@
+/* SettingsComponent.module.css */
+
+.settingsContainer {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  
+  .userInfo {
+    margin-bottom: 20px;
+  }
+  
+  .userInfoItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .label {
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .value {
+    color: #666;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .button, .logoutButton {
+    flex: 1;
+    padding: 10px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .button {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .button:hover {
+    background-color: #0056b3;
+  }
+  
+  .logoutButton {
+    background-color: #dc3545;
+    color: #fff;
+  }
+  
+  .logoutButton:hover {
+    background-color: #c82333;
+  }
+  
