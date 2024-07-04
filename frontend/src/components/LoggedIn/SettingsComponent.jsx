@@ -30,12 +30,6 @@ const SettingsComponent = ({ user }) => {
     } catch (error) {
       console.error('Error logging out:', error);
     }
-
-    // to be removed when end point is implemented
-    setIsLoggedIn(false);
-    setUser(null); // Clear user state
-    setActiveOrganisation(null);
-    navigate('/'); // Redirect to home
   }
     
 
