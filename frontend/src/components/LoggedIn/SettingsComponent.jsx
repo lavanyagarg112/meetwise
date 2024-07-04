@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../store/auth-context';
 
 const SettingsComponent = ({ user }) => {
-  const { setIsLoggedIn, setUser } = useAuth();
+  const { setIsLoggedIn, setUser, setActiveOrganisation } = useAuth();
   const navigate = useNavigate();
 
   const handleOrganisations = () => {
@@ -13,6 +13,7 @@ const SettingsComponent = ({ user }) => {
   const handleLogout = () => {
     setIsLoggedIn(false);
     setUser(null); // Clear user state
+    setActiveOrganisation(null)
     navigate('/'); // Redirect to home
   };
 
@@ -23,9 +24,6 @@ const SettingsComponent = ({ user }) => {
         <div>Username: {user.username}</div>
         <div>Email: {user.email}</div>
         <div>Display Name: {user.firstName} {user.lastName}</div>
-        <div>Bio</div>
-      </div>
-      <div>
         <div>Update Name</div>
       </div>
 
