@@ -43,5 +43,3 @@ def transcribe(file_obj):
     transcription_text = get_transcription_result(transcription_id, headers)
 
     return transcription_text
-
-#dummy commit by Sarthak

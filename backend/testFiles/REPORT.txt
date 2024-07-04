@@ -1,38 +1,33 @@
-mp3 file size: 95.20 MB
-Transcription size: 87148 characters
+mp3 file size: 40.06 MB
+Transcription size: 24301 characters
 
-mp3 file read time: 0.07 seconds
-Transcription time: 70.91 seconds
-Summary generation time: 0.73 seconds
-To-do generation time: 0.41 seconds
-Total time taken: 72.12 seconds
-
+------------------------------------------------------------------------------------------------------------------------
++ mp3 file read time: 0.02 seconds
+| Transcription time: 47.27 seconds
+| Uncommon words generation time: 11.01 seconds
+| Summary generation time: 2.35 seconds
+| To-do generation time: 1.53 seconds
++ Total time taken: 62.19 seconds
+------------------------------------------------------------------------------------------------------------------------Uncommon Words List:
+[{'word': 'mlops'}, {'word': 'antiaubse'}]
 
 Summary:
-Here is a summary of the meeting in a bulleted list, including key discussion points and decisions made:
+Here is a summary of the meeting in a bulleted list, including key discussion points and decisions:
 
-**Apologies**
+**Summary of Meeting: SEC, Data Science, and Anti-Abuse Team Meeting (September 14 or 15th in APAC)**
 
-* Hazel apologized for her absence
-* Jim mentioned he would leave the meeting at 1:30 PM to attend another meeting
+* **Changes in the meeting format**: The leader of the meeting mentioned that they will work to provide more summarized communications to improve the signal-to-noise ratio, and will assume that people leaders on the team will attend the meeting or read the notes, rather than relying on the Slack channel.
+* **New Acting Full Stack Manager for Security Policies**: Alan has been asked to step in as acting full stack manager for security policies while the current manager hires an Engineering Manager (EM). Alan has accepted this role.
+* **Reorganization of Anti-Abuse Product Sections**: Anti-Abuse is moving product sections from SEC to Data Science. Data Science is a rename of the Model Ops section, which will include three existing groups and the Anti-Abuse group. There are plans to split the Anti-Abuse group into two groups in the future, but that is not in the near term.
+* **Workday and Handbook Changes**: There will be changes to Workday and the company handbook as a result of the reorganization.
+* **Next Steps**: The leader of the meeting will provide more information on the reorganization and changes in subsequent meetings.
 
-**Decisions**
+**Decisions Made:**
 
-* The meeting decided to continue without Hazel's apology being included in the motion (carried)
-* The meeting confirmed the order of the meeting without any changes (carried)
-
-**Disclosure of Members' Interests**
-
-* No members had any interests to disclose
-
-**Confirmation of Minutes from the 18 February**
-
-* Andrew Graham pointed out an error in the minutes, where his name was not recorded as attending the meeting
-* The meeting agreed to make the necessary changes to the minutes (carried)
-
-**Decision**
-
-* The meeting confirmed the minutes as a correct record (carried)
+* Alan will act as the full stack manager for security policies while the current manager hires an EM.
+* Anti-Abuse product sections will move from SEC to Data Science.
+* Data Science will include three existing groups from Model Ops and the Anti-Abuse group.
+* Reorganization plans will be discussed further in subsequent meetings.
 
 To-do List:
 []
