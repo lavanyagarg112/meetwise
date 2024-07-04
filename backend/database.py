@@ -188,7 +188,7 @@ def getMeetingsByOrg(orgId: int):
     conn.sync()
     sqlCommand = f'''
           SELECT ID,NAME,DATE
-          FROM Org{orgId}'''
+          FROM Org{orgId} WHERE TEAM IS NULL'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand)
         return cursor.fetchall()
@@ -427,7 +427,7 @@ def addUserToTeam(orgId: int, userId: int, role: str, team: int, status: str):
         conn.sync()
 
 
-def storeMeetingDetailsTeam(org: int, name: str, team: int, transcription: str, length: int, date: datetime,
+def storeMeetingDetailsTeam(org: int, name: str, team: int, transcription: str, length: int, date: str,
                             summary: str, size: int):
     initialise()
     conn.sync()
@@ -439,7 +439,7 @@ def storeMeetingDetailsTeam(org: int, name: str, team: int, transcription: str, 
         conn.sync()
 
 
-def storeMeetingDetailsOrg(org: int, name: str, transcription: str, length: int, date: datetime,
+def storeMeetingDetailsOrg(org: int, name: str, transcription: str, length: int, date: str,
                            summary: str, size: int):
     initialise()
     conn.sync()

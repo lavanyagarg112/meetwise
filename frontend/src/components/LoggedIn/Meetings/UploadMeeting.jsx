@@ -10,7 +10,7 @@ import Loading from '../../ui/Loading';
 const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
   const [ffmpeg, setFFmpeg] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [fileUrl, setFileUrl] = useState(null);
+  // const [fileUrl, setFileUrl] = useState(null);
   const [type, setType] = useState('organisation');
   const [meetingName, setMeetingName] = useState('');
   const [meetingDate, setMeetingDate] = useState(null);
@@ -18,6 +18,8 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [showError, setShowError] = useState(false);
   const [teams, setTeams] = useState(allTeams);
+
+  const [canUploadOrg, setCanUploadOrg] = useState(false)
 
   const [teamName, setTeamName] = useState(team);
 
@@ -55,6 +57,44 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
     setSelectedFile(event.target.files[0]);
   };
 
+  useEffect(() => {
+    checkUserRole()
+  }, [])
+
+  const checkUserRole = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-user-role`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: organisationName,
+        }),
+        credentials: 'include',
+      })
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        const errorText = 'An error occurred fetching the teams.';
+        throw new Error(errorText);
+      }
+
+      const data = await response.json();
+      if (data.role != 'user') {
+        setCanUploadOrg(true)
+        setType('organisation')
+      } else {
+        setCanUploadOrg(false)
+        setType('team')
+      }
+
+
+    } catch (error) {
+      console.log('ERROR', error);
+    }
+  }
+
   const getOrganisationTeams = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-admin-teams`, {
@@ -81,11 +121,8 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
     }
   };
 
-  const formatDate = (date) => {
-    const yyyy = date.getFullYear();
-    const mm = String(date.getMonth() + 1).padStart(2, '0');
-    const dd = String(date.getDate()).padStart(2, '0');
-    return `${yyyy}-${mm}-${dd}`;
+const formatDate = (date) => {
+    return moment(date).format('YYYY-MM-DD HH:mm');
   };
 
   const sendUploadAudio = async () => {
@@ -104,10 +141,11 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
       await ffmpeg.exec(['-i', 'input.mp4', 'output.mp3']);
       const data = await ffmpeg.readFile('output.mp3');
 
-      // Create a blob URL for the converted file
       const blob = new Blob([data], { type: 'audio/mpeg' });
-      const url = URL.createObjectURL(blob);
-      setFileUrl(url);
+
+      // test download
+      // const url = URL.createObjectURL(blob);
+      // setFileUrl(url);
 
       // Send the MP3 file to the backend
       const formData = new FormData();
@@ -161,7 +199,7 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
           <label>
             Meeting Type:
             <select value={type} onChange={(e) => setType(e.target.value)} className={styles.selectInput}>
-              <option value="organisation">Organisation</option>
+              {canUploadOrg && <option value="organisation">Organisation</option>}
               <option value="team">Team</option>
             </select>
           </label>
@@ -200,12 +238,16 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
           <DatePicker
             selected={meetingDate}
             onChange={(date) => setMeetingDate(date)}
-            dateFormat="yyyy-MM-dd"
-            placeholderText="yyyy-mm-dd"
+            showTimeSelect
+            dateFormat="yyyy-MM-dd HH:mm"
+            placeholderText="yyyy-mm-dd hh:mm"
             required
             className={styles.dateInput}
             maxDate={moment().toDate()}
+            timeFormat="HH:mm"
+            timeIntervals={15}
           />
+
         </label>
       </div>
       <div className={styles.formGroup}>
@@ -218,11 +260,11 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
       >
         {loading ? 'Uploading...' : 'Send Upload'}
       </button>
-      {fileUrl && (
+      {/* {fileUrl && (
         <div className={styles.downloadLink}>
           <a href={fileUrl} download="output.mp3">Download test MP3</a>
         </div>
-      )}
+      )} */}
       {showPopup && <div className={styles.popup}>Video uploaded!</div>}
       {showError && <div className={styles.error}>Error uploading video</div>}
       {loading && <Loading />}

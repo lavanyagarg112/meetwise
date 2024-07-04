@@ -12,6 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from Meetings import storeMeeting
 from Enums import Roles
+from OrganisationHelpers import getRoleByID, getOrganisationByName
 
 app = FastAPI()
 
@@ -152,6 +153,13 @@ async def getAdminTeams(name: OrganisationName, credentials: Annotated[str, Cook
     id = eatCookie(credentials)
     teams = getTeams(name.name, id, Roles.ADMIN)
     return {"teams": teams}
+
+@app.post("/get-user-role")
+async def getUserRole(org : OrganisationName, credentials: Annotated[str, Cookie()] = None):
+    id = eatCookie(credentials)
+    org = getOrganisationByName(org.name)
+    role = getRoleByID(org,id)
+    return {"role": role}
 
 
 @app.post('/add-team-user')
