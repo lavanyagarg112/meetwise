@@ -187,7 +187,7 @@ def getMeetingsByOrg(orgId: int):
     initialise()
     conn.sync()
     sqlCommand = f'''
-          SELECT ID,NAME,datetime(DATE)
+          SELECT ID,NAME,DATE
           FROM Org{orgId} WHERE TEAM IS NULL'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand)
@@ -198,7 +198,7 @@ def getMeetingsByTeam(orgId: int, teamId: int):
     initialise()
     conn.sync()
     sqlCommand = f'''
-              SELECT ID,NAME,datetime(DATE)
+              SELECT ID,NAME,DATE
               FROM Org{orgId} WHERE TEAM = ?'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamId,))
