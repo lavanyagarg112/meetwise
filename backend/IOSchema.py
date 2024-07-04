@@ -96,7 +96,7 @@ class TeamPersonalReport(BaseModel):
 class Meeting(BaseModel):
     id: int
     title: str
-    date: datetime
+    date: str
 
 
 class MeetingInput(BaseModel):
