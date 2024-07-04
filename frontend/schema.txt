@@ -436,3 +436,13 @@ Note: in the backend there should ideally be a table for pending invites
 if user exists already in the system (but not in that organisation): add to the organisation
 if does not exist in system, add to pending invites
 when a user signs up we should check if any email matches anyone in the pending invites section, and add to organisation with the appropriate role accordingly
+
+
+/logout
+POST
+
+what i will send:
+credentials
+
+what u should do:
+burn cookie!
