@@ -8,16 +8,18 @@ from groq import Groq
 
 client = Groq(
     api_key=os.environ["groq_ai_key"],
-    )
+)
+
 
 class Task:
-    def __init__(self, description: str, deadline: str = "", assignee: str = None):  
+    def __init__(self, description: str, deadline: str = "", assignee: str = None):
         self.description = description
         self.deadline = deadline
         self.assignee = assignee
 
     def __repr__(self):
         return f"Task(description={self.description}, deadline={self.deadline}, assignee={self.assignee})"
+
 
 class Meeting:
     def __init__(self, transcription: str):
@@ -53,13 +55,13 @@ class Meeting:
                 assignee=task_data["assignee"]
             )
             task_list.append(task)
-        
+
         self.todo = task_list
         return self.todo
 
     def _send_prompt_chunks(self, prompt: str, transcription: str, chunk_size: int = 2048):
-        prompt_chunks = [prompt[i:i+chunk_size] for i in range(0, len(prompt), chunk_size)]
-        transcription_chunks = [transcription[i:i+chunk_size] for i in range(0, len(transcription), chunk_size)]
+        prompt_chunks = [prompt[i:i + chunk_size] for i in range(0, len(prompt), chunk_size)]
+        transcription_chunks = [transcription[i:i + chunk_size] for i in range(0, len(transcription), chunk_size)]
 
         responses = []
 
