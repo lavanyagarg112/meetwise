@@ -45,7 +45,7 @@ def getTeamReport(userID: int, teamName: str, organisationName: str) -> TeamPers
     admins: [Person] = getTeamAdmins(organisation, team)
     users: [Person] = getTeamUsers(organisation, team)
     allUsers: [Person] = getAllUsers(organisation, team)
-    otherUsers = filter(lambda x: x in users, allUsers)
+    otherUsers = filter(lambda x: (x not in users) and (x not in admins), allUsers)
     userRole = getTRoleByID(organisation, team, userID)  #noNameRole
     teamReport = TeamReport(id=team, name=teamName,
                             admins=admins,
