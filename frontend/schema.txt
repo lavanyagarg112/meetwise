@@ -281,7 +281,7 @@ in human readable form this is not it will be:
   "organisation": organisation name,
   "team": team name (which will be null if it is organisation type)
   "meetingName": "Your Meeting Name",
-  "meetingDate": "dd-mm-yyyy"
+  "meetingDate": "dd-mm-yyyy HH:MM" 
 }
 
 in terms of types for backend:
