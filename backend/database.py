@@ -226,11 +226,10 @@ def getAdminsTeam(orgId: int, teamId: int):
     initialise()
     conn.sync()
     sqlCommand = f'''
-              SELECT OW{orgId}Emp.ID
-                FROM OW{orgId}EMP
-                INNER JOIN Org{orgId}Emp ON Org{orgId}Emp.ID = OW{orgId}EMP.ID
-                WHERE OW{orgId}EMP.ROLE = ?
-                AND Org{orgId}Emp.TEAM = ?'''
+              SELECT ID
+                FROM Org{orgId}Emp
+                WHERE STATUS = ?
+                AND TEAM = ?'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (Roles.ADMIN.value, teamId))
         return cursor.fetchall()
@@ -240,10 +239,10 @@ def getUsersTeam(orgId: int, teamId: int):
     initialise()
     conn.sync()
     sqlCommand = f'''
-              SELECT OW{orgId}Emp.ID
-                FROM OW{orgId}EMP
-                INNER JOIN Org{orgId}Emp ON Org{orgId}Emp.ID = OW{orgId}EMP.ID
-                WHERE Org{orgId}Emp.TEAM = ?'''
+              SELECT ID
+                FROM Org{orgId}Emp
+                WHERE STATUS = ?
+                AND TEAM = ?'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamId,))
         return cursor.fetchall()
