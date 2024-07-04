@@ -11,12 +11,35 @@ const SettingsComponent = ({ user }) => {
     navigate('/organisations');
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/logout`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include'
+      })
+      if (response.ok) {
+        setIsLoggedIn(false);
+        setUser(null); // Clear user state
+        setActiveOrganisation(null);
+        navigate('/'); // Redirect to home
+      } else {
+        console.error('Failed to log out');
+      }
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+
+    // to be removed when end point is implemented
     setIsLoggedIn(false);
     setUser(null); // Clear user state
-    setActiveOrganisation(null)
+    setActiveOrganisation(null);
     navigate('/'); // Redirect to home
-  };
+  }
+    
+
 
   return (
     <div className={styles.settingsContainer}>
