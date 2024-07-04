@@ -19,6 +19,8 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
   const [showError, setShowError] = useState(false);
   const [teams, setTeams] = useState(allTeams);
 
+  const [canUploadOrg, setCanUploadOrg] = useState(false)
+
   const [teamName, setTeamName] = useState(team);
 
   useEffect(() => {
@@ -54,6 +56,44 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
+
+  useEffect(() => {
+    checkUserRole()
+  }, [])
+
+  const checkUserRole = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-user-role`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: organisationName,
+        }),
+        credentials: 'include',
+      })
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        const errorText = 'An error occurred fetching the teams.';
+        throw new Error(errorText);
+      }
+
+      const data = await response.json();
+      if (data.role != 'user') {
+        setCanUploadOrg(true)
+        setType('organisation')
+      } else {
+        setCanUploadOrg(false)
+        setType('team')
+      }
+
+
+    } catch (error) {
+      console.log('ERROR', error);
+    }
+  }
 
   const getOrganisationTeams = async () => {
     try {
@@ -162,7 +202,7 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
           <label>
             Meeting Type:
             <select value={type} onChange={(e) => setType(e.target.value)} className={styles.selectInput}>
-              <option value="organisation">Organisation</option>
+              {canUploadOrg && <option value="organisation">Organisation</option>}
               <option value="team">Team</option>
             </select>
           </label>
