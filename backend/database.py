@@ -203,26 +203,17 @@ def getMeetingsByTeam(orgId: int, teamId: int):
         return cursor.fetchall()
 
 
-def getAdminsOrg(orgId: int):
+def getStatusOrg(orgId: int,status : Roles):
     initialise()
     conn.sync()
     sqlCommand = f'''
               SELECT ID
               FROM OW{orgId}EMP WHERE ROLE = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (Roles.ADMIN.value,))
+        cursor.execute(sqlCommand, (status.value,))
         return cursor.fetchall()
 
 
-def getUsersOrg(orgId: int):
-    initialise()
-    conn.sync()
-    sqlCommand = f'''
-              SELECT ID
-              FROM OW{orgId}EMP WHERE ROLE = ?'''
-    with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (Roles.USER.value,))
-        return cursor.fetchall()
 
 
 def getOrgRoleByID(orgId: int, userId: int):

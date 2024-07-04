@@ -6,7 +6,7 @@ from Enums import Roles
 from IOSchema import Organisation, OrganisationReport, OrganisationPersonalReport, Person, Team, TeamPersonalReport, \
     TeamReport, OrgTeam, Meeting, InviteOutput, MeetingInput
 from OrganisationHelpers import getOrganisationsByID, getOrganisationByName, getOrganisationByID, getTeamByName, \
-    meetify, getAdmins, getUsers, getRoleByID, getTeamAdmins, getTeamUsers, getTRoleByID, getAllUsers, getPendingInvites
+    meetify, getRoleByID, getTeamAdmins, getTeamUsers, getTRoleByID, getAllUsers, getPendingInvites, getStatus
 from UserAccounts import getUserByID
 from audio_transcription import transcribe
 from database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, getMeetingsByOrg, \
@@ -29,8 +29,8 @@ def getOrganisationReport(UserID: int, OrganisationName: str) -> OrganisationPer
     teams = getTeamsById(organisation, UserID)
     owner: int = getOwner(organisation)[0]
     owner: Person = getUserByID(owner).user
-    admins: [Person] = getAdmins(organisation)
-    users: [Person] = getUsers(organisation)
+    admins: [Person] = getStatus(organisation,Roles.ADMIN)
+    users: [Person] = getStatus(organisation,Roles.USER)
     userRole = getRoleByID(organisation, UserID)
     pendingInvites: List[InviteOutput] = getPendingInvites(organisation)
     orgReport = OrganisationReport(id=organisation, name=OrganisationName, owners=[owner],

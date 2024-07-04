@@ -4,8 +4,8 @@ from Enums import Roles
 from Errors import AuthenticationError
 from IOSchema import Organisation, Meeting, Person, InviteOutput
 from database import mapOrgNameToID, mapOrgIDToName, mapTeamNameToId, getUserOrgs, getBulkUsersByIds, \
-    getAdminsOrg, getUsersOrg, getOrgRoleByID, getTeamRoleByID, getAdminsTeam, getUsersTeam, getAll, \
-    getUserDetailsByEmail, getInvites, getInvitesByUser, addUserToOrg
+    getOrgRoleByID, getTeamRoleByID, getAdminsTeam, getUsersTeam, getAll, \
+    getUserDetailsByEmail, getInvites, getInvitesByUser, addUserToOrg, getStatusOrg
 
 
 def getOrganisationsByID(orgIds: [int] = None) -> [Organisation]:
@@ -75,8 +75,8 @@ def getUsersByIds(userIds: [int]) -> List[Person]:
     return users
 
 
-def getAdmins(orgId: int) -> List[Person]:
-    details = getAdminsOrg(orgId)
+def getStatus(orgId: int,status : Roles) -> List[Person]:
+    details = getStatusOrg(orgId,status)
     if not details:
         return []
     mapper = lambda row: row[0]
@@ -90,14 +90,6 @@ def getRoleByID(orgId: int, userId: int) -> Roles:
     else:
         return Roles(getOrgRoleByID(orgId, userId)[0])
 
-
-def getUsers(orgId: int) -> List[Person]:
-    details = getUsersOrg(orgId)
-    if not details:
-        return []
-    mapper = lambda row: row[0]
-    details = list(map(mapper, details))
-    return getUsersByIds(details)
 
 
 def getTeamAdmins(orgId: int, teamId: int) -> List[Person]:
