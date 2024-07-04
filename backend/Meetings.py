@@ -8,7 +8,7 @@ from database import storeMeetingDetailsTeam, storeMeetingDetailsOrg
 
 def storeMeeting(meeting : MeetingInput):
     file = meeting.file
-    if file.content_type != 'audio/mp3':
+    if file.content_type != 'audio/mpeg':
         raise HTTPException(status_code=415, detail=f"Unsupported media type. Only Audio files are supported.Received {file.content_type} instead")
 
     org = getOrganisationByName(meeting.organisation)
