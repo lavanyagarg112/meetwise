@@ -56,7 +56,7 @@ def getUserDetailsByEmail(email: str):
     conn.sync()
     with closing(conn.cursor()) as cursor:
         cursor.execute('''
-        SELECT ID , EMAIL,USERNAME,FIRSTNAME,LASTNAME ,PASSWORD,ACTIVEORG
+        SELECT ID, EMAIL, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, ACTIVEORG
         FROM USERS WHERE EMAIL = ?''', (email,))
         return cursor.fetchone()
 
@@ -78,7 +78,7 @@ def getUserOrgs(user: int):
         cursor.execute('''
         SELECT ORGANISATION
         FROM UserOrg WHERE ID = ?''', (user,))
-    return cursor.fetchall()
+        return cursor.fetchall()
 
 
 def getTeamsByOrg(org: int,userID : int):
@@ -92,7 +92,7 @@ def getTeamsByOrg(org: int,userID : int):
     '''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand,(userID,))
-    return cursor.fetchall()
+        return cursor.fetchall()
 
 
 def getOwner(org: int):
@@ -309,10 +309,10 @@ def makeOrganisation(owner: int, org: str):
         TEAM INTEGER NOT NULL,
         ROLE TEXT,
         TEAMCONTROL TEXT NOT NULL DEFAULT 'member',
+        STATUS TEXT NOT NULL DEFAULT {Roles.USER.value},
         FOREIGN KEY(ID) REFERENCES Users(ID),
         FOREIGN KEY(TEAM) REFERENCES Org{id}Team(ID),
-        PRIMARY KEY (ID,TEAM),
-        STATUS TEXT NOT NULL DEFAULT {Roles.USER}
+        PRIMARY KEY (ID,TEAM)
         )
         '''
 
@@ -426,13 +426,13 @@ def addUserToOrg(orgId: int, userId: int, role: str):
         conn.sync()
 
 
-def addUserToTeam(orgId: int, userId: int, role: str, team: int):
+def addUserToTeam(orgId: int, userId: int, role: str, team: int,status: str):
     initialise()
     conn.sync()
     sqlCommand = f'''
-              INSERT OR REPLACE INTO Org{orgId}Emp (ID,TEAM, ROLE) VALUES (?,?,?)'''
+              INSERT OR REPLACE INTO Org{orgId}Emp (ID,TEAM, ROLE,STATUS) VALUES (?,?,?,?)'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (userId, team, role))
+        cursor.execute(sqlCommand, (userId, team, role,status))
         conn.commit()
         conn.sync()
 
@@ -466,11 +466,14 @@ def getInvitesByUser(email:str):
               SELECT ORGANISATION,ROLE FROM PendingInvites WHERE EMAIL = ?'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (email,))
+        ele = cursor.fetchall()
         delUser = '''
         DELETE FROM PendingInvites WHERE EMAIL = ?
         '''
         cursor.execute(delUser, (email,))
-        return cursor.fetchall()
+        conn.commit()
+        conn.sync()
+        return ele
 
 
 def mapOrgIDToName(orgIDs: [int]):
@@ -506,3 +509,4 @@ def mapTeamNameToId(orgId: int, teamName: str):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamName,))
         return cursor.fetchone()
+

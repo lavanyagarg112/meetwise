@@ -11,7 +11,7 @@ import os
 
 from Errors import CreateUserError, AuthError, AuthenticationError
 from OrganisationHelpers import getOrganisationByID, getOrganisationByName, getOrgs, forceJoin
-from database import setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, getUserDetailsByID, \
+from database import initialise, setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, getUserDetailsByID, \
     checkUserEmail, createNewUser, checkUserUsername, checkUserOrg, addUserToOrg, addToPending
 
 load_dotenv('.env')
@@ -49,8 +49,7 @@ def createUser(user: UserSignUp) -> [UserLogIn, CreateUserError]:
     encode = user.password.encode('utf-8')
     hashed_password = bcrypt.hashpw(encode, bcrypt.gensalt()).decode('utf-8')
     createNewUser(user.username, user.email, hashed_password, user.firstName, user.lastName)
-    id = getUserDetailsByEmail(user.email)
-    forceJoin(id)
+    forceJoin(user.email)
     return UserLogIn(email=user.email, password=user.password), None
 
 
