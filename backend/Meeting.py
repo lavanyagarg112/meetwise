@@ -12,7 +12,16 @@ client = Groq(
 class Task:
     def __init__(self, description: str, deadline: str = ""):
         self.description = description
+        self.deadline = self.parse_deadline(deadline)
         self.deadline = deadline
+
+    def parse_deadline(self, deadline: str):
+        if deadline:
+            try:
+                return datetime.strptime(deadline, '%Y/%m/%d %H:%M')
+            except ValueError:
+                return datetime.strptime(deadline, '%Y/%m/%d')
+        return None
 
     def __repr__(self):
         return f"Task(description={self.description}, deadline={self.deadline})"
@@ -117,5 +126,6 @@ class Meeting:
             responses.append(chat_completion.choices[0].message.content)
 
         combined_response = "".join(responses)
-    
         return combined_response
+    
+    #for commit
