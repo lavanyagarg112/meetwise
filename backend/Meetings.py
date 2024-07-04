@@ -14,7 +14,7 @@ def storeMeeting(meeting : MeetingInput):
     org = getOrganisationByName(meeting.organisation)
     size = file.size
     file = file.file
-    length = MP3(file).info.length
+    length = int(MP3(file).info.length)
     try:
         transcription = transcribe(file)
     except:
@@ -28,6 +28,6 @@ def storeMeeting(meeting : MeetingInput):
 
     if meeting.type == 'team':
         team = getTeamByName(org,meeting.team)
-        storeMeetingDetailsTeam(org=org,name = meeting.meetingName,team = team,transcription=transcription,length =length,date=meeting.meetingDate,summary=summary,size=size)
+        storeMeetingDetailsTeam(org=org,name = meeting.meetingName,team = team,transcription=transcription,length =length,date=meeting.meetingDate.strftime('%Y-%m-%d %H:%M:%S'),summary=summary,size=size)
     else:
-        storeMeetingDetailsOrg(org=org,name = meeting.meetingName,transcription=transcription,length =length,date=meeting.meetingDate,summary=summary,size=size)
+        storeMeetingDetailsOrg(org=org,name = meeting.meetingName,transcription=transcription,length =length,date=meeting.meetingDate.strftime('%Y-%m-%d %H:%M:%S'),summary=summary,size=size)

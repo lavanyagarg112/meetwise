@@ -444,7 +444,7 @@ def storeMeetingDetailsOrg(org: int, name: str, transcription: str, length: int,
     initialise()
     conn.sync()
     sqlCommand = f'''
-              INSERT INTO Org{org} (NAME, TRANSCRIPTION, LENGTH, DATE, SUMMARY, SIZE) VALUES (?,?,?,?,?,?,?)'''
+              INSERT INTO Org{org} (NAME, TRANSCRIPTION, LENGTH, DATE, SUMMARY, SIZE) VALUES (?,?,?,?,?,?)'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (name, transcription, length, date, summary, size))
         conn.commit()
