@@ -106,7 +106,7 @@ const TeamPage = () => {
 
   useEffect(() => {
     getTeamInfo(name);
-  }, [name]);
+  }, []);
 
   if (showerror) {
     return <NotFoundPage />;
