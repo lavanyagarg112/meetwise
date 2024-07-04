@@ -3,7 +3,7 @@ from mutagen.mp3 import MP3
 from IOSchema import MeetingInput
 from OrganisationHelpers import getOrganisationByName, getTeamByName
 from audio_transcription import transcribe
-from backend.database import storeMeetingDetailsTeam
+from backend.database import storeMeetingDetailsTeam, storeMeetingDetailsOrg
 
 
 def storeMeeting(meeting : MeetingInput):
