@@ -439,7 +439,7 @@ when a user signs up we should check if any email matches anyone in the pending 
 
 
 /logout
-POST
+GET
 
 what i will send:
 credentials

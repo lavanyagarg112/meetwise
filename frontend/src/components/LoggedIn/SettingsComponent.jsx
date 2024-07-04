@@ -14,7 +14,6 @@ const SettingsComponent = ({ user }) => {
   const handleLogout = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/logout`, {
-        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
