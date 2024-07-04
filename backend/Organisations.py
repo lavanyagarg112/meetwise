@@ -106,11 +106,3 @@ def createTeam(userId: int, orgteam: OrgTeam):
     return id
 
 
-def storeMeeting(meeting : MeetingInput):
-    transcription_text = transcribe(input.file)
-    print("Transcription:", transcription_text)
-    print("Meeting Name:", input.meetingName)
-    print("Meeting Date:", input.meetingDate)
-    print("Meeting Type:", input.type)
-    print("Meeting Team", input.team)
-    print("Meeting Organisation:", input.organisation)

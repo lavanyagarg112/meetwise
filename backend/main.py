@@ -5,9 +5,10 @@ from IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalRe
 from UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
     setOrganisationActive, eatCookie, bakeCookie, inviteOrAddUser
 from Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, getAllMeetings, \
-    getTeams, addUser, createTeam, storeMeeting
+    getTeams, addUser, createTeam
 from fastapi.middleware.cors import CORSMiddleware
 
+from Meetings import storeMeeting
 
 app = FastAPI()
 

@@ -1,6 +1,6 @@
 import enum
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, Literal
 
 from fastapi import UploadFile
 from pydantic import BaseModel
@@ -101,10 +101,10 @@ class Meeting(BaseModel):
 
 class MeetingInput(BaseModel):
     file: UploadFile
-    type: str
+    type: Literal["organisation","team"]
     meetingName: str
     meetingDate: datetime
-    team: str
+    team: str | None = None
     organisation: str
 
 
