@@ -9,6 +9,8 @@ import { useAuth } from '../../store/auth-context';
 
 import UploadMeeting from '../../components/LoggedIn/Meetings/UploadMeeting';
 
+import Loading from '../../components/ui/Loading';
+
 const TeamPage = () => {
   const { user } = useAuth();
   const { name } = useParams();
@@ -26,6 +28,7 @@ const TeamPage = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedRole, setSelectedRole] = useState('');
   const [showPopup, setShowPopup] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate();
 
@@ -35,6 +38,7 @@ const TeamPage = () => {
 
   const getTeamInfo = async (name) => {
     try {
+      setLoading(true)
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/teampage`, {
         method: 'POST',
         headers: {
@@ -62,6 +66,7 @@ const TeamPage = () => {
       console.log('ERROR');
       setShowError(true);
     }
+    setLoading(false)
   };
 
   const goToMeeting = (id) => {
@@ -116,76 +121,80 @@ const TeamPage = () => {
 
   return (
     <div className={classes.organisationPage}>
-      {!user ? (
-        <div>Log in</div>
-      ) : !permitted ? (
-        <div>Not permitted</div>
-      ) : (
+      { loading ? <Loading /> : (
         <div>
-          <div className={classes.header}>
-            <h1>{teamName}</h1>
-          </div>
-          <div className={classes.section}>
-            <div className={classes.sectionTitle} onClick={toggleMeetings}>
-              <h3>View Team meetings</h3>
-              <span className={classes.toggleIcon}>
-                {isMeetingsCollapsed ? 'View Meetings' : 'Close Section'}
-              </span>
-            </div>
-            {!isMeetingsCollapsed && (
-              <div>
-                {role !== 'user' && <div className={classes.blankSection}>
-                  <UploadMeeting organisationName={organisation} team={teamName} />
-                </div>}
-                <TeamMeetingsList teamName={teamName} organisationName={organisation} goToMeeting={goToMeeting} />
+          {!user ? (
+            <div>Log in</div>
+          ) : !permitted ? (
+            <div>Not permitted</div>
+          ) : (
+            <div>
+              <div className={classes.header}>
+                <h1>{teamName}</h1>
               </div>
-            )}
-          </div>
-          <div className={classes.section}>
-            <div className={classes.sectionTitle} onClick={toggleAdmins}>
-              <h3>Team Admins</h3>
-              <span className={classes.toggleIcon}>
-                {isAdminsCollapsed ? 'View Admins' : 'Close Section'}
-              </span>
-            </div>
-            {!isAdminsCollapsed && <PeopleList people={admins} currentUser={user} role={role} />}
-          </div>
-          <div className={classes.section}>
-            <div className={classes.sectionTitle} onClick={toggleUsers}>
-              <h3>Team Users</h3>
-              <span className={classes.toggleIcon}>
-                {isUsersCollapsed ? 'View Users' : 'Close Section'}
-              </span>
-            </div>
-            {!isUsersCollapsed && <PeopleList people={users} currentUser={user} role={role} />}
-          </div>
-          {role !== 'user' && (
-            <div className={classes.section}>
-              <h3>Add Users from Organisation</h3>
-              <form onSubmit={handleAddUser} className={classes.addUserForm}>
-                <Select
-                  value={selectedUser}
-                  onChange={setSelectedUser}
-                  options={otherUsers.map(user => ({ value: user.id, label: `${user.firstName} (${user.email})` }))}
-                  placeholder="Select User"
-                  required
-                />
-                <select
-                  value={selectedRole}
-                  onChange={(e) => setSelectedRole(e.target.value)}
-                  required
-                >
-                  <option value="">Select Role</option>
-                  <option value="admin">Team Admin</option>
-                  <option value="user">Team User</option>
-                </select>
-                <button type="submit">Add User</button>
-              </form>
-            </div>
-          )}
-          {showPopup && (
-            <div className={classes.popup}>
-              User added successfully!
+              <div className={classes.section}>
+                <div className={classes.sectionTitle} onClick={toggleMeetings}>
+                  <h3>View Team meetings</h3>
+                  <span className={classes.toggleIcon}>
+                    {isMeetingsCollapsed ? 'View Meetings' : 'Close Section'}
+                  </span>
+                </div>
+                {!isMeetingsCollapsed && (
+                  <div>
+                    {role !== 'user' && <div className={classes.blankSection}>
+                      <UploadMeeting organisationName={organisation} team={teamName} />
+                    </div>}
+                    <TeamMeetingsList teamName={teamName} organisationName={organisation} goToMeeting={goToMeeting} />
+                  </div>
+                )}
+              </div>
+              <div className={classes.section}>
+                <div className={classes.sectionTitle} onClick={toggleAdmins}>
+                  <h3>Team Admins</h3>
+                  <span className={classes.toggleIcon}>
+                    {isAdminsCollapsed ? 'View Admins' : 'Close Section'}
+                  </span>
+                </div>
+                {!isAdminsCollapsed && <PeopleList people={admins} currentUser={user} role={role} />}
+              </div>
+              <div className={classes.section}>
+                <div className={classes.sectionTitle} onClick={toggleUsers}>
+                  <h3>Team Users</h3>
+                  <span className={classes.toggleIcon}>
+                    {isUsersCollapsed ? 'View Users' : 'Close Section'}
+                  </span>
+                </div>
+                {!isUsersCollapsed && <PeopleList people={users} currentUser={user} role={role} />}
+              </div>
+              {role !== 'user' && (
+                <div className={classes.section}>
+                  <h3>Add Users from Organisation</h3>
+                  <form onSubmit={handleAddUser} className={classes.addUserForm}>
+                    <Select
+                      value={selectedUser}
+                      onChange={setSelectedUser}
+                      options={otherUsers.map(user => ({ value: user.id, label: `${user.firstName} (${user.email})` }))}
+                      placeholder="Select User"
+                      required
+                    />
+                    <select
+                      value={selectedRole}
+                      onChange={(e) => setSelectedRole(e.target.value)}
+                      required
+                    >
+                      <option value="">Select Role</option>
+                      <option value="admin">Team Admin</option>
+                      <option value="user">Team User</option>
+                    </select>
+                    <button type="submit">Add User</button>
+                  </form>
+                </div>
+              )}
+              {showPopup && (
+                <div className={classes.popup}>
+                  User added successfully!
+                </div>
+              )}
             </div>
           )}
         </div>
