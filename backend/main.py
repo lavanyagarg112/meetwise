@@ -154,8 +154,11 @@ async def addTeamUser(input:AddUserInput,
     return user
 
 
-#TODO:
 @app.post('/invite-user')
 async def inviteUser(input : InviteInput, credentials: Annotated[str, Cookie()] = None):
     output = inviteOrAddUser(input.email, input.role.value,input.organisation)
     return output
+
+@app.get('/logout')
+async def logout(response: Response):
+    response.delete_cookie("credentials")
