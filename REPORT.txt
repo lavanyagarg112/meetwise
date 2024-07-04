@@ -1,0 +1,5 @@
+File read time: 0.01 seconds
+Transcription time: 15.34 seconds
+Summary generation time: 0.84 seconds
+To-do generation time: 0.32 seconds
+Total time taken: 16.51 seconds
