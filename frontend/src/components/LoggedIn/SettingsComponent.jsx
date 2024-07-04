@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../store/auth-context';
+import styles from './SettingsComponent.module.css';
 
 const SettingsComponent = ({ user }) => {
   const { setIsLoggedIn, setUser, setActiveOrganisation } = useAuth();
@@ -18,18 +19,26 @@ const SettingsComponent = ({ user }) => {
   };
 
   return (
-    <div>
-      <h1>Settings</h1>
-      <div>
-        <div>Username: {user.username}</div>
-        <div>Email: {user.email}</div>
-        <div>Display Name: {user.firstName} {user.lastName}</div>
-        <div>Update Name</div>
+    <div className={styles.settingsContainer}>
+      <h1 className={styles.title}>Settings</h1>
+      <div className={styles.userInfo}>
+        <div className={styles.userInfoItem}>
+          <span className={styles.label}>Username:</span>
+          <span className={styles.value}>{user.username}</span>
+        </div>
+        <div className={styles.userInfoItem}>
+          <span className={styles.label}>Email:</span>
+          <span className={styles.value}>{user.email}</span>
+        </div>
+        <div className={styles.userInfoItem}>
+          <span className={styles.label}>Display Name:</span>
+          <span className={styles.value}>{user.firstName} {user.lastName}</span>
+        </div>
       </div>
-
-      <button onClick={handleOrganisations}>See all my organisations</button>
-      <button onClick={handleLogout}>Logout</button>
-      {/* dummy logout. to actually logout need to send request to backend cause need to remove credentials */}
+      <div className={styles.buttons}>
+        <button className={styles.button} onClick={handleOrganisations}>My Organisations</button>
+        <button className={styles.logoutButton} onClick={handleLogout}>Logout</button>
+      </div>
     </div>
   );
 };
