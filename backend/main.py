@@ -5,9 +5,11 @@ from IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalRe
 from UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
     setOrganisationActive, eatCookie, bakeCookie, inviteOrAddUser
 from Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, getAllMeetings, \
-    getTeams, addUser, createTeam, storeMeeting
+    getTeams, addUser, createTeam
 from fastapi.middleware.cors import CORSMiddleware
 
+from Meetings import storeMeeting
+from Enums import Roles
 
 app = FastAPI()
 
@@ -133,6 +135,12 @@ async def getOrganisationMeetings(name: OrganisationName, credentials: Annotated
 async def getOrganisationTeams(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
     teams = getTeams(name.name, id)
+    return {"teams": teams}
+
+@app.post("/get-admin-teams")
+async def getAdminTeams(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
+    id = eatCookie(credentials)
+    teams = getTeams(name.name, id,Roles.ADMIN)
     return {"teams": teams}
 
 

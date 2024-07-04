@@ -1,5 +1,6 @@
 import os
 from contextlib import closing
+from datetime import datetime
 
 import libsql_experimental as libsql
 from dotenv import load_dotenv
@@ -81,7 +82,7 @@ def getUserOrgs(user: int):
         return cursor.fetchall()
 
 
-def getTeamsByOrg(org: int,userID : int):
+def getTeamsByOrg(org: int, userID: int):
     initialise()
     conn.sync()
     sqlCommand = f'''
@@ -91,7 +92,22 @@ def getTeamsByOrg(org: int,userID : int):
     WHERE Org{org}Emp.ID = ?
     '''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand,(userID,))
+        cursor.execute(sqlCommand, (userID,))
+        return cursor.fetchall()
+
+
+def getTeamsByOrgStatus(org: int, userID: int, status: Roles):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+    SELECT Org{org}Team.ID, Org{org}Team.NAME
+    FROM Org{org}Team
+    INNER JOIN  Org{org}Emp ON Org{org}Team.ID = Org{org}Emp.TEAM
+    WHERE Org{org}Emp.ID = ?
+    AND Org{org}Emp.STATUS = ?
+    '''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (userID, status.value))
         return cursor.fetchall()
 
 
@@ -189,25 +205,14 @@ def getMeetingsByTeam(orgId: int, teamId: int):
         return cursor.fetchall()
 
 
-def getAdminsOrg(orgId: int):
+def getStatusOrg(orgId: int, status: Roles):
     initialise()
     conn.sync()
     sqlCommand = f'''
               SELECT ID
               FROM OW{orgId}EMP WHERE ROLE = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (Roles.ADMIN.value,))
-        return cursor.fetchall()
-
-
-def getUsersOrg(orgId: int):
-    initialise()
-    conn.sync()
-    sqlCommand = f'''
-              SELECT ID
-              FROM OW{orgId}EMP WHERE ROLE = ?'''
-    with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (Roles.USER.value,))
+        cursor.execute(sqlCommand, (status.value,))
         return cursor.fetchall()
 
 
@@ -222,7 +227,7 @@ def getOrgRoleByID(orgId: int, userId: int):
         return cursor.fetchone()
 
 
-def getAdminsTeam(orgId: int, teamId: int):
+def getStatusTeam(orgId: int, teamId: int, status: Roles):
     initialise()
     conn.sync()
     sqlCommand = f'''
@@ -231,20 +236,7 @@ def getAdminsTeam(orgId: int, teamId: int):
                 WHERE STATUS = ?
                 AND TEAM = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (Roles.ADMIN.value, teamId))
-        return cursor.fetchall()
-
-
-def getUsersTeam(orgId: int, teamId: int):
-    initialise()
-    conn.sync()
-    sqlCommand = f'''
-              SELECT ID
-                FROM Org{orgId}Emp
-                WHERE STATUS = ?
-                AND TEAM = ?'''
-    with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (Roles.USER.value, teamId,))
+        cursor.execute(sqlCommand, (status.value, teamId))
         return cursor.fetchall()
 
 
@@ -424,13 +416,37 @@ def addUserToOrg(orgId: int, userId: int, role: str):
         conn.sync()
 
 
-def addUserToTeam(orgId: int, userId: int, role: str, team: int,status: str):
+def addUserToTeam(orgId: int, userId: int, role: str, team: int, status: str):
     initialise()
     conn.sync()
     sqlCommand = f'''
               INSERT OR REPLACE INTO Org{orgId}Emp (ID,TEAM, ROLE,STATUS) VALUES (?,?,?,?)'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (userId, team, role,status))
+        cursor.execute(sqlCommand, (userId, team, role, status))
+        conn.commit()
+        conn.sync()
+
+
+def storeMeetingDetailsTeam(org: int, name: str, team: int, transcription: str, length: int, date: datetime,
+                            summary: str, size: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              INSERT INTO Org{org} (NAME, TEAM, TRANSCRIPTION, LENGTH, DATE, SUMMARY, SIZE) VALUES (?,?,?,?,?,?,?)'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (name, team, transcription, length, date, summary, size))
+        conn.commit()
+        conn.sync()
+
+
+def storeMeetingDetailsOrg(org: int, name: str, transcription: str, length: int, date: datetime,
+                           summary: str, size: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              INSERT INTO Org{org} (NAME, TRANSCRIPTION, LENGTH, DATE, SUMMARY, SIZE) VALUES (?,?,?,?,?,?,?)'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (name, transcription, length, date, summary, size))
         conn.commit()
         conn.sync()
 
@@ -457,7 +473,7 @@ def getInvites(orgId: int):
         return cursor.fetchall()
 
 
-def getInvitesByUser(email:str):
+def getInvitesByUser(email: str):
     initialise()
     conn.sync()
     sqlCommand = f'''
@@ -507,4 +523,3 @@ def mapTeamNameToId(orgId: int, teamName: str):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamName,))
         return cursor.fetchone()
-
