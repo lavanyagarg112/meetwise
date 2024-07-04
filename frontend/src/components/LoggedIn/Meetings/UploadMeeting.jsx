@@ -10,7 +10,7 @@ import Loading from '../../ui/Loading';
 const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
   const [ffmpeg, setFFmpeg] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [fileUrl, setFileUrl] = useState(null);
+  // const [fileUrl, setFileUrl] = useState(null);
   const [type, setType] = useState('organisation');
   const [meetingName, setMeetingName] = useState('');
   const [meetingDate, setMeetingDate] = useState(null);
@@ -104,10 +104,11 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
       await ffmpeg.exec(['-i', 'input.mp4', 'output.mp3']);
       const data = await ffmpeg.readFile('output.mp3');
 
-      // Create a blob URL for the converted file
       const blob = new Blob([data], { type: 'audio/mpeg' });
-      const url = URL.createObjectURL(blob);
-      setFileUrl(url);
+
+      // test download
+      // const url = URL.createObjectURL(blob);
+      // setFileUrl(url);
 
       // Send the MP3 file to the backend
       const formData = new FormData();
@@ -218,11 +219,11 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
       >
         {loading ? 'Uploading...' : 'Send Upload'}
       </button>
-      {fileUrl && (
+      {/* {fileUrl && (
         <div className={styles.downloadLink}>
           <a href={fileUrl} download="output.mp3">Download test MP3</a>
         </div>
-      )}
+      )} */}
       {showPopup && <div className={styles.popup}>Video uploaded!</div>}
       {showError && <div className={styles.error}>Error uploading video</div>}
       {loading && <Loading />}
