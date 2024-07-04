@@ -9,7 +9,7 @@ from Organisations import createOrganisation, getOrganisationReport, getTeamRepo
 from fastapi.middleware.cors import CORSMiddleware
 
 from Enums import Roles
-from backend.audio_transcription import transcribe
+from audio_transcription import transcribe
 
 app = FastAPI()
 

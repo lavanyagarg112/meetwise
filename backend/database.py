@@ -243,10 +243,9 @@ def getUsersTeam(orgId: int, teamId: int):
               SELECT OW{orgId}Emp.ID
                 FROM OW{orgId}EMP
                 INNER JOIN Org{orgId}Emp ON Org{orgId}Emp.ID = OW{orgId}EMP.ID
-                WHERE OW{orgId}EMP.ROLE = ?
-                AND Org{orgId}Emp.TEAM = ?'''
+                WHERE Org{orgId}Emp.TEAM = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (Roles.USER.value, teamId))
+        cursor.execute(sqlCommand, (teamId,))
         return cursor.fetchall()
 
 
@@ -257,7 +256,7 @@ def getAll(orgId: int, teamId: int):
               SELECT ID 
               FROM OW{orgId}EMP'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (teamId,))
+        cursor.execute(sqlCommand)
         return cursor.fetchall()
 
 
