@@ -99,9 +99,29 @@ class Meeting(BaseModel):
     date: str
 
 
+class MeetingIdentifier(BaseModel):
+    meetingid: int
+    organisation: str
+
+
+class Transcription(MeetingIdentifier):
+    transcription: str
+
+
+class TranscriptionDetails(BaseModel):
+    type: bool
+    transcription: str
+    uncommonWords: List[str]
+
+
+class MeetingIdentifier(BaseModel):
+    meetingid: int
+    organisation: str
+
+
 class MeetingInput(BaseModel):
     file: UploadFile
-    type: Literal["organisation","team"]
+    type: Literal["organisation", "team"]
     meetingName: str
     meetingDate: datetime
     team: str | None = None

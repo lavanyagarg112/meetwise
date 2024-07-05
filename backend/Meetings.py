@@ -33,3 +33,8 @@ def storeMeeting(meeting: MeetingInput):
     else:
         storeMeetingDetailsOrg(org=org, name=meeting.meetingName, transcription=transcription, length=length,
                                date=meeting.meetingDate.strftime('%Y-%m-%d %H:%M:%S'), summary=summary, size=size)
+
+
+
+
+def updateMeetingTranscription(organisation : str,meetingid : int, transcription :str):

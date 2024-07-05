@@ -3,7 +3,8 @@ from datetime import datetime
 from fastapi import FastAPI, HTTPException, Response, Request, Cookie, UploadFile, Form, File
 from typing import Annotated, Literal
 from IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
-    OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput, AddUserInput
+    OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput, AddUserInput, \
+    MeetingIdentifier, Transcription, TranscriptionDetails
 from UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
     setOrganisationActive, eatCookie, bakeCookie, inviteOrAddUser
 from Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, getAllMeetings, \
@@ -179,3 +180,16 @@ async def inviteUser(input: InviteInput, credentials: Annotated[str, Cookie()] =
 @app.get('/logout')
 async def logout(response: Response):
     response.delete_cookie("credentials", httponly=True, secure=True, samesite="none")
+
+
+@app.post('/update-transcription')
+async def updateTranscription(meeting : Transcription, credentials: Annotated[str, Cookie()] = None) -> TranscriptionDetails:
+    id = eatCookie(credentials)
+    details = updateMeetingTranscription(meeting.organisation,meeting.meetingid, meeting.transcription)
+    return details
+
+@app.post('/get-summary')
+async def getSummary(meeting : MeetingIdentifier, credentials: Annotated[str, Cookie()] = None):
+    id = eatCookie(credentials)
+    summary = getMeetingSummary(meeting.organisation,meeting.meetingid)
+    return {"summary": summary}

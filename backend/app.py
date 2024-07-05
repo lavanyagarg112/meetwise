@@ -4,7 +4,6 @@ import time
 from audio_transcription import transcribe
 import Meeting
 
-
 file_path = "backend/testFiles/meetingTest2.mp3"
 file_size = os.path.getsize(file_path)
 

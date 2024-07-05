@@ -6,8 +6,9 @@ import os
 from groq import Groq
 
 client = Groq(
-    api_key= os.environ["groq_ai_key"]
+    api_key=os.environ["groq_ai_key"]
 )
+
 
 class Task:
     def __init__(self, description: str, deadline: str = ""):
@@ -25,6 +26,7 @@ class Task:
 
     def __repr__(self):
         return f"Task(description={self.description}, deadline={self.deadline})"
+
 
 class Meeting:
     def __init__(self, transcription: str):
@@ -46,13 +48,13 @@ class Meeting:
         for attempt in range(max_retries):
             try:
                 json_data = json.loads(combined_response)
-                break 
+                break
             except json.JSONDecodeError as e:
                 print(f"Attempt {attempt + 1}: Failed to decode uncommon_words JSON: {e}")
                 if attempt < max_retries - 1:
-                    time.sleep(1) 
+                    time.sleep(1)
                 else:
-                    json_data = [] 
+                    json_data = []
 
         uncommon_words = []
         for word in json_data:
@@ -60,11 +62,12 @@ class Meeting:
 
         self.uncommon_words = uncommon_words
         return self.uncommon_words
-                
-    
+
     def generate_summary(self) -> str:
         try:
-            prompt = "Generate a summary consisting of key discussion points of this meeting in a bulleted list for the participant to refer to in the future. It must also include the decisions made if any. Here is the transcript: "
+            prompt = ("Generate a summary consisting of key discussion points of this meeting in a bulleted list for "
+                      "the participant to refer to in the future. It must also include the decisions made if any. "
+                      "Here is the transcript:")
             combined_response = self._send_prompt_chunks(prompt, self.transcription)
             self.summary = combined_response
         except:
@@ -83,18 +86,18 @@ class Meeting:
         Here is the transcript : 
         '''
         combined_response = self._send_prompt_chunks(prompt, self.transcription)
-        
+
         max_retries = 5
         for attempt in range(max_retries):
             try:
                 json_data = json.loads(combined_response)
-                break 
+                break
             except json.JSONDecodeError as e:
                 print(f"Attempt {attempt + 1}: Failed to decode task_list JSON: {e}")
                 if attempt < max_retries - 1:
-                    time.sleep(1) 
+                    time.sleep(1)
                 else:
-                    json_data = [] 
+                    json_data = []
 
         task_list = []
         for task_data in json_data:
@@ -127,5 +130,5 @@ class Meeting:
 
         combined_response = "".join(responses)
         return combined_response
-    
+
     #for commit
