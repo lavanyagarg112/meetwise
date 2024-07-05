@@ -221,7 +221,7 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
                 dangerouslySetInnerHTML={highlightWords(transcription)}
               />
             </div>
-            <div>Uncommon words found which may have been generated correctly: </div>
+            <div>Uncommon words found which may have been generated incorrectly: </div>
             <div className={styles.uncommonWordsContainer}>
               {uncommonWords.map((word, index) => (
                 <span 

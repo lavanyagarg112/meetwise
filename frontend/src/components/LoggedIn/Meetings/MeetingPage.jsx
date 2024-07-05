@@ -85,10 +85,10 @@ const MeetingPage = () => {
           <Transcription type={type} team={team} organisation={organisation} meetingid={id} />
         </div>
         {transcriptionGenerated && <div>
-            <div>
-              <Summary />
+            <div className={styles.thissection}>
+              <Summary organisation={organisation} meetingid={id} />
             </div>
-            <div>
+            <div className={styles.thissection}>
               <MeetingTodos />
             </div>
           </div>
