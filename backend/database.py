@@ -2,6 +2,7 @@ import os
 import profile
 from contextlib import closing
 from datetime import datetime
+from typing import List, Tuple
 
 import libsql_experimental as libsql
 from dotenv import load_dotenv
@@ -633,3 +634,15 @@ def getUserTodosOrg(userId: id, org: int):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand)
         return cursor.fetchall()
+
+
+def addBulkTodos(todos: List[Tuple[str, str]], org):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              INSERT INTO Org{org}Todo (DETAILS, DEADLINE)
+              VALUES (?,?)'''
+    with closing(conn.cursor()) as cursor:
+        cursor.executemany(sqlCommand, todos)
+        conn.commit()
+        conn.sync()
