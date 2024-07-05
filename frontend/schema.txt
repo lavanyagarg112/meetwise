@@ -634,7 +634,7 @@ what i want:
 {
     id: meeting id
     title: meeting name
-    date: meeting date
+    date: meeting date as text like u do earlier
     type: "team" or "organisation"
     team: can be null
     organisation: the meeting which the organisation is a part of
