@@ -8,9 +8,12 @@ import MeetingTodos from './MeetingPage/MeetingTodos';
 import NotPermittedPage from '../../../pages/NotPermittedPage';
 
 import styles from './MeetingPage.module.css';
+import { useAuth } from '../../../store/auth-context';
 
 const MeetingPage = () => {
   const { id, organisation } = useParams();
+
+  const { user } = useAuth()
 
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
@@ -70,13 +73,10 @@ const MeetingPage = () => {
 
   };
 
-  if (!isPermitted) {
+  if (!user || !isPermitted) {
     return <NotPermittedPage />
   }
 
-  const onConfirmation = () => {
-    setTranscriptionGenerated(true)
-  }
 
   return (
     <div className={styles.meetingPage}>
@@ -86,7 +86,7 @@ const MeetingPage = () => {
       </div>
       <div className={styles.sections}>
         <div className={styles.thissection}>
-          <Transcription type={type} team={team} organisation={organisation} meetingid={id} onconfirm={() => onConfirmation()} />
+          <Transcription type={type} team={team} organisation={organisation} meetingid={id} onconfirm={setTranscriptionGenerated} />
         </div>
         {transcriptionGenerated && <div>
             <div className={styles.thissection}>

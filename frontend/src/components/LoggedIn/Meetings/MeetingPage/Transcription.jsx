@@ -120,6 +120,7 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
   const handleSubmitTranscription = async () => {
     setIsEditing(false);
     setLoading(true);
+    onconfirm(false);
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/update-transcription`, {
         method: 'POST',
@@ -139,7 +140,6 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
       }
 
       const data = await response.json();
-      onconfirm();
       setTranscriptionType(data.type);
       setTranscription(data.transcription);
       setUncommonWords(data.uncommonWords);
@@ -147,6 +147,7 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
       console.log('error:', error);
     }
     setLoading(false);
+    onconfirm(true)
 
     // // to be removed once endpoint works
     // onconfirm();
@@ -208,7 +209,7 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
     <CollapsibleSection title="Meeting Transcription" onToggle={getMeetingTranscription}>
       {loading && <Loading />}
       <div className={styles.transcriptionContainer}>
-      {canEdit && (
+      {canEdit && !isEditing && (
         <button className={styles.editButton} onClick={handleEditTranscription}>
           { !transcriptionType ? 'Confirm Transcription' : 'Edit Transcription' }
         </button>
