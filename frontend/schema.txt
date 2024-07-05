@@ -632,7 +632,6 @@ I am not 100% sure about this schema yet. pls check with me before implementing
 
 what i want:
 {
-    isPermitted: is current user permitted
     id: meeting id
     title: meeting name
     date: meeting date as text like u do earlier
