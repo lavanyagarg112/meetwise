@@ -6,7 +6,6 @@ import { useRef } from 'react';
 
 const Transcription = ({ type, team, organisation, meetingid }) => {
   const [canEdit, setCanEdit] = useState(false);
-  const [id, setTranscriptionId] = useState(null);
   const [transcriptionType, setTranscriptionType] = useState('');
   const [transcription, setTranscription] = useState('');
   const [uncommonWords, setUncommonWords] = useState([]);
@@ -90,7 +89,6 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
       }
 
       const data = await response.json();
-      setTranscriptionId(data.id);
       setTranscriptionType(data.type);
       setTranscription(data.transcription);
       setOriginalTranscription(data.transcription); // Store the original transcription
@@ -102,7 +100,6 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
 
 
     // to be removed once endpoint works:
-    setTranscriptionId(0);
     setTranscriptionType('ai');
     setTranscription('this is a sample transcription');
     setOriginalTranscription('this is a sample transcription');
@@ -131,7 +128,6 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
         body: JSON.stringify({
           meetingid,
           organisation,
-          transcriptionid: id,
           transcription,
         }),
         credentials: 'include',
