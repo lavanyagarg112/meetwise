@@ -34,7 +34,7 @@ const MeetingPage = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id: id,
+          meetingid: id,
           organisation: organisation,
         }),
         credentials: 'include',
@@ -53,7 +53,7 @@ const MeetingPage = () => {
       }
 
       const data = await response.json();
-      setTitle(data.id);
+      setTitle(data.title);
       setDate(data.date);
       setType(data.type);
       setTeam(data.team);
@@ -62,14 +62,6 @@ const MeetingPage = () => {
     } catch (error) {
       console.log('Error: ', error);
     }
-
-    // to be removed after end point works
-    setTitle('Meeting Title');
-    setDate('Meeting Date');
-    setType('organisation');
-    setTeam('team name');
-    setTranscriptionGenerated(false)
-    setIsPermitted(true)
 
   };
 
@@ -93,7 +85,7 @@ const MeetingPage = () => {
               <Summary organisation={organisation} meetingid={id} />
             </div>
             <div className={styles.thissection}>
-              <MeetingTodos />
+              <MeetingTodos organisation={organisation} meetingid={id} type={type} team={team} />
             </div>
           </div>
         }

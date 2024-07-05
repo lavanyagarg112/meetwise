@@ -114,11 +114,6 @@ class TranscriptionDetails(BaseModel):
     uncommonWords: List[str]
 
 
-class MeetingIdentifier(BaseModel):
-    meetingid: int
-    organisation: str
-
-
 class MeetingInput(BaseModel):
     file: UploadFile
     type: Literal["organisation", "team"]
@@ -133,3 +128,35 @@ class AddUserInput(BaseModel):
     organisation: str
     userId: int
     role: str
+
+
+class MeetingDetails(Meeting):
+    type: Literal["organisation", "team"]
+    team: str | None = None
+    transcriptionGenerated: bool
+
+
+class TodoInput(MeetingIdentifier):
+    details: str
+    deadline: datetime
+    assigner: int
+    assignee: int
+    isCompleted: bool
+
+
+class TodoUpdate(TodoInput):
+    todoid: int
+
+
+class TodoDetails(BaseModel):
+    id: int
+    details: str
+    deadline: str
+    assigner: Person
+    assignee: Person
+    isCompleted: bool
+
+
+class TodoEliminate(BaseModel):
+    organisation: str
+    todoid: int
