@@ -1,0 +1,51 @@
+.todosContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .todosHeader {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+  }
+  
+  .todoRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .todoRow input[type="text"],
+  .todoRow input[type="datetime-local"],
+  .todoRow select {
+    margin-right: 8px;
+    flex: 1;
+  }
+  
+  .todoRow input[type="checkbox"] {
+    margin-left: 8px;
+  }
+  
+  .todoRow button {
+    margin-left: 8px;
+  }
+  
+  .addTodoForm {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .addTodoForm input[type="text"],
+  .addTodoForm input[type="datetime-local"],
+  .addTodoForm select {
+    margin-right: 8px;
+    flex: 1;
+  }
+  
+  .addTodoForm button {
+    margin-left: 8px;
+  }
+  

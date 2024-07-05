@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import { useAuth } from '../../../../store/auth-context'
+import React, { useEffect, useState, useCallback } from 'react';
+import { useAuth } from '../../../../store/auth-context';
+import Loading from '../../../ui/Loading';
+import CollapsibleSection from '../../../ui/CollapsableSection';
+import styles from './MeetingTodos.module.css';
 
-const MeetingTodos = ({organisation, meetingid, type, team}) => {
+const MeetingTodos = ({ organisation, meetingid, type, team }) => {
+  const [meetingTodos, setMeetingTodos] = useState([]);
+  const [people, setPeople] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
+  const [newTodo, setNewTodo] = useState({ details: '', deadline: '', assignee: '' });
 
-  const [meetingTodos, setMeetingTodos] = useState([])
-
-  const {user} = useAuth()
-
-  const [people, setPeople] = useState([])
-
-
-  const getMeetingTodos = async () => {
+  const fetchTodos = useCallback(async () => {
+    setLoading(true);
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-meeting-todos`, {
         method: 'POST',
@@ -19,108 +21,27 @@ const MeetingTodos = ({organisation, meetingid, type, team}) => {
         },
         body: JSON.stringify({ meetingid, organisation }),
         credentials: 'include',
-      })
+      });
 
       if (!response.ok) {
-        throw new Error('An error occurred fetching the transcription.');
+        throw new Error('An error occurred fetching the todos.');
       }
 
-      const data = await response.json()
-      setMeetingTodos(data.todos)
-
+      const data = await response.json();
+      setMeetingTodos([...data.todos.assigner, ...data.todos.assignee]);
     } catch (error) {
-      console.log('error: ', error)
+      console.log('error: ', error);
     }
-  }
+    setLoading(false);
+  }, [meetingid, organisation]);
 
-  const addTodos = async (details, deadline, assigner, assignee, isCompleted) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/add-todo`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-          meetingid,
-          organisation,
-          details,
-          deadline,
-          assigner,
-          assignee,
-          isCompleted
-        }),
-        credentials: 'include',
-      })
-
-      if (!response.ok) {
-        throw new Error('An error occurred fetching the transcription.');
-      }
-
-      const data = await response.json()
-      setMeetingTodos([...meetingTodos, data])
-
-    } catch (error) {
-      console.log('error: ', error)
+  useEffect(() => {
+    if (type === 'organisation') {
+      getOrganisationInfo();
+    } else {
+      getTeamInfo();
     }
-  }
-
-  const editTodos = async (todoid, details, deadline, assigner, assignee, isCompleted) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/edit-todo`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-          meetingid,
-          organisation,
-          todoid,
-          details,
-          deadline,
-          assigner,
-          assignee,
-          isCompleted
-        }),
-        credentials: 'include',
-      })
-
-      if (!response.ok) {
-        throw new Error('An error occurred fetching the transcription.');
-      }
-
-      const data = await response.json()
-      finalData = []
-      meetingTodos.map((todo) => {
-        todo.id === data.id ? finalData.append(data) : finalData.append(todo)
-      })
-      setMeetingTodos(finalData)
-
-    } catch (error) {
-      console.log('error: ', error)
-    }
-  }
-
-  const deleteTodos = async (todoid) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/delete-todo`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          meetingid,
-          organisation,
-          todoid
-        }),
-        credentials: 'include'
-        
-      })
-      const data = await response.data()
-
-    } catch (error) {
-      console.log("error: ", error)
-    }
-  }
+  }, [type]);
 
   const getOrganisationInfo = async () => {
     try {
@@ -134,21 +55,18 @@ const MeetingTodos = ({organisation, meetingid, type, team}) => {
       });
 
       if (!response.ok) {
-        const errorResponse = await response.json();
-        const errorText = 'An error occurred creating your organisations.';
-        throw new Error(errorText);
+        throw new Error('An error occurred fetching the organisation info.');
       }
 
       const data = await response.json();
       setPeople([...data.organisation.owners, ...data.organisation.admins, ...data.organisation.users]);
     } catch (error) {
-      console.log('ERROR');
+      console.log('ERROR', error);
     }
   };
 
   const getTeamInfo = async () => {
     try {
-      setLoading(true)
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/teampage`, {
         method: 'POST',
         headers: {
@@ -159,24 +77,210 @@ const MeetingTodos = ({organisation, meetingid, type, team}) => {
       });
 
       if (!response.ok) {
-        const errorResponse = await response.json();
-        const errorText = 'An error occurred creating your organisations.';
-        throw new Error(errorText);
+        throw new Error('An error occurred fetching the team info.');
       }
 
       const data = await response.json();
-      setPeople([...data.organisation.owners, ...data.organisation.admins, ...data.organisation.users]);
+      setPeople([...data.team.members]);
     } catch (error) {
-      console.log('ERROR');
+      console.log('ERROR', error);
     }
   };
 
+  const handleEditTodo = (todo) => {
+    setMeetingTodos((prevTodos) =>
+      prevTodos.map((t) => (t.id === todo.id ? { ...t, ...todo } : t))
+    );
+  };
+
+  const handleSaveTodo = async (todo) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/edit-todo`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          meetingid,
+          organisation,
+          todoid: todo.id,
+          details: todo.details,
+          deadline: todo.deadline,
+          assigner: todo.assigner.id,
+          assignee: todo.assignee.id,
+          isCompleted: todo.isCompleted,
+        }),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error('An error occurred updating the todo.');
+      }
+
+      const data = await response.json();
+      setMeetingTodos((prevTodos) =>
+        prevTodos.map((t) => (t.id === data.id ? data : t))
+      );
+    } catch (error) {
+      console.log('error:', error);
+    }
+
+    // remove once endpoint created
+    setMeetingTodos((prevTodos) =>
+      prevTodos.map((t) => (t.id === todo.id ? todo : t))
+    );
+  };
+
+  const handleDeleteTodo = async (todoid) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/delete-todo`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          meetingid,
+          organisation,
+          todoid,
+        }),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error('An error occurred deleting the todo.');
+      }
+
+      setMeetingTodos((prevTodos) => prevTodos.filter((t) => t.id !== todoid));
+    } catch (error) {
+      console.log('error:', error);
+    }
+
+    // remove once endpoint created
+    setMeetingTodos((prevTodos) => prevTodos.filter((t) => t.id !== todoid));
+  };
+
+  const handleAddTodo = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/add-todo`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          meetingid,
+          organisation,
+          details: newTodo.details,
+          deadline: newTodo.deadline,
+          assigner: user.id,
+          assignee: newTodo.assignee,
+          isCompleted: false,
+        }),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error('An error occurred adding the todo.');
+      }
+
+      const data = await response.json();
+      setMeetingTodos((prevTodos) => [...prevTodos, data]);
+      setNewTodo({ details: '', deadline: '', assignee: '' });
+    } catch (error) {
+      console.log('error:', error);
+    }
+
+    setNewTodo({ details: '', deadline: '', assignee: '' });
+  };
+
+  const renderTodo = (todo) => {
+    const { id, details, deadline, assigner, assignee, isCompleted } = todo;
+    const canEditTodo = user.id === assigner.id || user.id === assignee.id;
+
+    return (
+      <div key={id} className={styles.todoRow}>
+        <input
+          type="text"
+          value={details}
+          onChange={(e) => handleEditTodo({ ...todo, details: e.target.value })}
+          disabled={!canEditTodo}
+        />
+        <input
+          type="datetime-local"
+          value={new Date(deadline).toISOString().slice(0, 16)}
+          onChange={(e) => handleEditTodo({ ...todo, deadline: new Date(e.target.value).toISOString() })}
+          disabled={!canEditTodo}
+        />
+        <input type="text" value={`${assigner.firstName} ${assigner.lastName}`} disabled />
+        <select
+          value={assignee.id}
+          onChange={(e) => {
+            const selectedPerson = people.find((p) => p.id === e.target.value);
+            handleEditTodo({ ...todo, assignee: selectedPerson });
+          }}
+          disabled={!canEditTodo}
+        >
+          {people.map((person) => (
+            <option key={person.id} value={person.id}>
+              {person.firstName} {person.lastName} - {person.username} - {person.email}
+            </option>
+          ))}
+        </select>
+        <input
+          type="checkbox"
+          checked={isCompleted}
+          onChange={(e) => handleEditTodo({ ...todo, isCompleted: e.target.checked })}
+          disabled={!canEditTodo}
+        />
+        {canEditTodo && (
+          <>
+            <button onClick={() => handleSaveTodo(todo)}>Save</button>
+            <button onClick={() => handleDeleteTodo(id)}>Delete</button>
+          </>
+        )}
+      </div>
+    );
+  };
 
   return (
-    <div>
-      Specific meeting todos
-    </div>
-  )
-}
+    <CollapsibleSection title="Meeting Todos" onToggle={fetchTodos}>
+      {loading && <Loading />}
+      <div className={styles.addTodoForm}>
+        <input
+          type="text"
+          placeholder="Details"
+          value={newTodo.details}
+          onChange={(e) => setNewTodo({ ...newTodo, details: e.target.value })}
+        />
+        <input
+          type="datetime-local"
+          value={newTodo.deadline}
+          onChange={(e) => setNewTodo({ ...newTodo, deadline: e.target.value })}
+        />
+        <select
+          value={newTodo.assignee}
+          onChange={(e) => setNewTodo({ ...newTodo, assignee: e.target.value })}
+        >
+          <option value="">Select Assignee</option>
+          {people.map((person) => (
+            <option key={person.id} value={person.id}>
+              {person.firstName} {person.lastName} - {person.username} - {person.email}
+            </option>
+          ))}
+        </select>
+        <button onClick={handleAddTodo}>Add Todo</button>
+      </div>
+      <div className={styles.todosContainer}>
+        <div className={styles.todosHeader}>
+          <span>Details</span>
+          <span>Deadline</span>
+          <span>Assigner</span>
+          <span>Assignee</span>
+          <span>Completed</span>
+        </div>
+        {meetingTodos.map((todo) => renderTodo(todo))}
+      </div>
+    </CollapsibleSection>
+  );
+};
 
-export default MeetingTodos
+export default MeetingTodos;
