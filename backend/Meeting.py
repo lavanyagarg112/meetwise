@@ -43,20 +43,20 @@ class Meeting:
         combined_response = self._send_prompt_chunks(prompt, self.transcription)
 
         max_retries = 5
+        uncommon_words = []
         for attempt in range(max_retries):
             try:
                 json_data = json.loads(combined_response)
+                for word in json_data:
+                    uncommon_words.append(word)
                 break 
             except json.JSONDecodeError as e:
                 print(f"Attempt {attempt + 1}: Failed to decode uncommon_words JSON: {e}")
                 if attempt < max_retries - 1:
+                    uncommon_words = []
                     time.sleep(1) 
                 else:
                     json_data = [] 
-
-        uncommon_words = []
-        for word in json_data:
-            uncommon_words.append(word)
 
         self.uncommon_words = uncommon_words
         return self.uncommon_words
