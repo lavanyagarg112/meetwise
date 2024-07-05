@@ -81,3 +81,5 @@ def getMeetingInfo(organisation: str, meetingid: int) -> MeetingDetails:
     else:
         return MeetingDetails(id=meetingid, title=details[0], date=details[1], type='organisation',
                               transcriptionGenerated=details[2])
+
+

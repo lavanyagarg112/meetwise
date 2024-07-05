@@ -4,7 +4,8 @@ from fastapi import FastAPI, HTTPException, Response, Request, Cookie, UploadFil
 from typing import Annotated, Literal
 from IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
     OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput, AddUserInput, \
-    MeetingIdentifier, Transcription, TranscriptionDetails, MeetingDetails
+    MeetingIdentifier, Transcription, TranscriptionDetails, MeetingDetails, TodoDetails, TodoInput, TodoEliminate, \
+    TodoUpdate
 from UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
     setOrganisationActive, eatCookie, bakeCookie, inviteOrAddUser
 from Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, getAllMeetings, \
@@ -15,6 +16,8 @@ from Meetings import storeMeeting, updateMeetingTranscription, getMeetingSummary
     getMeetingInfo
 from Enums import Roles
 from OrganisationHelpers import getRoleByID, getOrganisationByName, getTeamByName, getTRoleByID
+from backend.Todos import updateTodosOrg, addTodosOrg
+from backend.database import deleteTodos
 
 app = FastAPI()
 
@@ -215,9 +218,31 @@ async def getTranscription(meeting: MeetingIdentifier,
     details = getMeetingTranscription(meeting.organisation, meeting.meetingid)
     return details
 
+
 @app.post('/get-meeting-details')
 async def getMeetingDetails(meeting: MeetingIdentifier,
-                           credentials: Annotated[str, Cookie()] = None) -> MeetingDetails:
+                            credentials: Annotated[str, Cookie()] = None) -> MeetingDetails:
     id = eatCookie(credentials)
     details = getMeetingInfo(meeting.organisation, meeting.meetingid)
     return details
+
+
+@app.post('/add-todo')
+async def addTodo(todo: TodoInput, credentials: Annotated[str, Cookie()] = None) -> TodoDetails:
+    id = eatCookie(credentials)
+    todos = addTodosOrg(todo)
+    return todos
+
+
+@app.put('/edit-todo')
+async def editTodo(todo: TodoUpdate, credentials: Annotated[str, Cookie()] = None):
+    id = eatCookie(credentials)
+    updateTodosOrg(todo)
+
+@app.delete('/delete-todo')
+async def deleteTodo(todo: TodoEliminate, credentials: Annotated[str, Cookie()] = None):
+    id = eatCookie(credentials)
+    org = getOrganisationByName(todo.organisation)
+    if not org:
+        raise HTTPException(status_code=404, detail=f"Organisation {todo.organisation} not found.")
+    deleteTodos(org, todo.todoid)
