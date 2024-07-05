@@ -544,7 +544,7 @@ def updateMeetingDetails(organisation : int, meetingId : int, transcription : st
     initialise()
     conn.sync()
     sqlCommand = f'''
-              UPDATE Org{organisation} SET TRANSCRIPTION = ?, SUMMARY = ?, UNCOMMON = ? WHERE ID = ?'''
+              UPDATE Org{organisation} SET TRANSCRIPTION = ?, SUMMARY = ?, UNCOMMON = ?, ISUSER = TRUE WHERE ID = ?'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (transcription, summary, uncommonwords, meetingId))
         conn.commit()
