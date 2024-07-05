@@ -14,6 +14,7 @@ const MeetingPage = () => {
   const [date, setDate] = useState('');
   const [type, setType] = useState('');
   const [team, setTeam] = useState(null);
+  const [transcriptionGenerated, setTranscriptionGenerated] = useState(false)
 
   useEffect(() => {
     getMeetingDetails();
@@ -44,6 +45,7 @@ const MeetingPage = () => {
       setDate(data.date);
       setType(data.type);
       setTeam(data.team);
+      setTranscriptionGenerated(data.transcriptionGenerated)
     } catch (error) {
       console.log('Error: ', error);
     }
@@ -53,6 +55,7 @@ const MeetingPage = () => {
     setDate('Meeting Date');
     setType('organisation');
     setTeam('team name');
+    setTranscriptionGenerated(true)
 
   };
 
@@ -63,15 +66,18 @@ const MeetingPage = () => {
         <div className={styles.date}>{date}</div>
       </div>
       <div className={styles.sections}>
-        <div>
+        <div className={styles.thissection}>
           <Transcription type={type} team={team} organisation={organisation} meetingid={id} />
         </div>
-        <div>
-          <Summary />
-        </div>
-        <div>
-          <MeetingTodos />
-        </div>
+        {transcriptionGenerated && <div>
+            <div>
+              <Summary />
+            </div>
+            <div>
+              <MeetingTodos />
+            </div>
+          </div>
+        }
       </div>
     </div>
   );

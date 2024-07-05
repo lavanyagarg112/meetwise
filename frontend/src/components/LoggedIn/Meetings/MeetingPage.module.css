@@ -29,4 +29,12 @@
     flex-direction: column;
     gap: 20px;
   }
-  
+
+  .thissection {
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #f6f8fc, #eef2f6);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e5eb;
+  }

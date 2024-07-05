@@ -7,9 +7,9 @@ import { useRef } from 'react';
 const Transcription = ({ type, team, organisation, meetingid }) => {
   const [canEdit, setCanEdit] = useState(false);
   const [id, setTranscriptionId] = useState(null);
-  const [transcriptionType, setTranscriptionType] = useState('user');
+  const [transcriptionType, setTranscriptionType] = useState('');
   const [transcription, setTranscription] = useState('');
-  const [uncommonWords, setUncommonWords] = useState(["word 1"]);
+  const [uncommonWords, setUncommonWords] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [originalTranscription, setOriginalTranscription] = useState('');
@@ -67,6 +67,10 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
     } catch (error) {
       console.log('error:', error);
     }
+
+    // to be removed once endpoint works
+    setCanEdit(true)
+
   };
 
   const getMeetingTranscription = async () => {
@@ -95,6 +99,15 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
       console.log('error:', error);
     }
     setLoading(false);
+
+
+    // to be removed once endpoint works:
+    setTranscriptionId(0);
+    setTranscriptionType('ai');
+    setTranscription('this is a sample transcription');
+    setOriginalTranscription('this is a sample transcription');
+    setUncommonWords(['sample']);
+
   };
 
   const handleEditTranscription = () => {
@@ -136,6 +149,12 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
       console.log('error:', error);
     }
     setLoading(false);
+
+    // to be removed once endpoint works
+    setTranscriptionType('user');
+    setTranscription(transcription);
+    setUncommonWords(uncommonWords);
+
   };
 
   const generateLightColor = () => {
@@ -205,6 +224,7 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
                 dangerouslySetInnerHTML={highlightWords(transcription)}
               />
             </div>
+            <div>Uncommon words found which may have been generated correctly: </div>
             <div className={styles.uncommonWordsContainer}>
               {uncommonWords.map((word, index) => (
                 <span 

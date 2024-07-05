@@ -638,6 +638,7 @@ what i want:
     type: "team" or "organisation"
     team: can be null
     organisation: the meeting which the organisation is a part of
+    transcriptionGenerated: true or false so that i can decide to show summary or not
 }
 
 what i will send:
