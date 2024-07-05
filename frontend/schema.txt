@@ -683,7 +683,7 @@ what i will send:
 
 
 /update-transcription
-POST 
+PUT 
 
 what i want:
 {
@@ -700,6 +700,7 @@ what i will send:
     meetingid:
     organisation:
     transcriptionid:
+    transcription: new transcription
 }
 
 
