@@ -382,6 +382,7 @@ def makeOrganisation(owner: int, org: str):
         )
         '''
 
+        cursor.execute(orgtodo)
         conn.commit()
         conn.sync()
 
