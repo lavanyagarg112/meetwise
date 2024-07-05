@@ -2,6 +2,9 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '../../../../store/auth-context';
 import Loading from '../../../ui/Loading';
 import CollapsibleSection from '../../../ui/CollapsableSection';
+import Select from 'react-select';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import styles from './MeetingTodos.module.css';
 
 const MeetingTodos = ({ organisation, meetingid, type, team }) => {
@@ -96,7 +99,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
   const handleSaveTodo = async (todo) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/edit-todo`, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -119,7 +122,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
 
       const data = await response.json();
       setMeetingTodos((prevTodos) =>
-        prevTodos.map((t) => (t.id === data.id ? data : t))
+        prevTodos.map((t) => (t.id === todo.id ? todo : t))
       );
     } catch (error) {
       console.log('error:', error);
@@ -203,38 +206,46 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           value={details}
           onChange={(e) => handleEditTodo({ ...todo, details: e.target.value })}
           disabled={!canEditTodo}
+          className={styles.todoInput}
+        />
+        <DatePicker
+          selected={new Date(deadline)}
+          onChange={(date) => handleEditTodo({ ...todo, deadline: date.toISOString() })}
+          showTimeSelect
+          dateFormat="Pp"
+          disabled={!canEditTodo}
+          className={styles.todoDatePicker}
         />
         <input
-          type="datetime-local"
-          value={new Date(deadline).toISOString().slice(0, 16)}
-          onChange={(e) => handleEditTodo({ ...todo, deadline: new Date(e.target.value).toISOString() })}
-          disabled={!canEditTodo}
+          type="text"
+          value={`${assigner.firstName} ${assigner.lastName}`}
+          disabled
+          className={styles.todoInput}
         />
-        <input type="text" value={`${assigner.firstName} ${assigner.lastName}`} disabled />
-        <select
-          value={assignee.id}
-          onChange={(e) => {
-            const selectedPerson = people.find((p) => p.id === e.target.value);
+        <Select
+          value={{ value: assignee.id, label: `${assignee.firstName} ${assignee.lastName} - ${assignee.username} - ${assignee.email}` }}
+          onChange={(selectedOption) => {
+            const selectedPerson = people.find((p) => p.id === selectedOption.value);
             handleEditTodo({ ...todo, assignee: selectedPerson });
           }}
-          disabled={!canEditTodo}
-        >
-          {people.map((person) => (
-            <option key={person.id} value={person.id}>
-              {person.firstName} {person.lastName} - {person.username} - {person.email}
-            </option>
-          ))}
-        </select>
+          options={people.map((person) => ({
+            value: person.id,
+            label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
+          }))}
+          isDisabled={!canEditTodo}
+          className={styles.todoSelect}
+        />
         <input
           type="checkbox"
           checked={isCompleted}
           onChange={(e) => handleEditTodo({ ...todo, isCompleted: e.target.checked })}
           disabled={!canEditTodo}
+          className={styles.todoCheckbox}
         />
         {canEditTodo && (
           <>
-            <button onClick={() => handleSaveTodo(todo)}>Save</button>
-            <button onClick={() => handleDeleteTodo(id)}>Delete</button>
+            <button onClick={() => handleSaveTodo(todo)} className={styles.todoButton}>Save</button>
+            <button onClick={() => handleDeleteTodo(id)} className={styles.todoButton}>Delete</button>
           </>
         )}
       </div>
@@ -250,24 +261,27 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           placeholder="Details"
           value={newTodo.details}
           onChange={(e) => setNewTodo({ ...newTodo, details: e.target.value })}
+          className={styles.todoInput}
         />
-        <input
-          type="datetime-local"
-          value={newTodo.deadline}
-          onChange={(e) => setNewTodo({ ...newTodo, deadline: e.target.value })}
+        <DatePicker
+          selected={newTodo.deadline ? new Date(newTodo.deadline) : null}
+          onChange={(date) => setNewTodo({ ...newTodo, deadline: date.toISOString() })}
+          showTimeSelect
+          dateFormat="Pp"
+          placeholderText="Select Deadline"
+          className={styles.todoDatePicker}
         />
-        <select
-          value={newTodo.assignee}
-          onChange={(e) => setNewTodo({ ...newTodo, assignee: e.target.value })}
-        >
-          <option value="">Select Assignee</option>
-          {people.map((person) => (
-            <option key={person.id} value={person.id}>
-              {person.firstName} {person.lastName} - {person.username} - {person.email}
-            </option>
-          ))}
-        </select>
-        <button onClick={handleAddTodo}>Add Todo</button>
+        <Select
+          value={newTodo.assignee ? { value: newTodo.assignee, label: people.find(p => p.id === newTodo.assignee).firstName + ' ' + people.find(p => p.id === newTodo.assignee).lastName + ' - ' + people.find(p => p.id === newTodo.assignee).username + ' - ' + people.find(p => p.id === newTodo.assignee).email } : null}
+          onChange={(selectedOption) => setNewTodo({ ...newTodo, assignee: selectedOption.value })}
+          options={people.map((person) => ({
+            value: person.id,
+            label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
+          }))}
+          placeholder="Select Assignee"
+          className={styles.todoSelect}
+        />
+        <button onClick={handleAddTodo} className={styles.todoButton}>Add Todo</button>
       </div>
       <div className={styles.todosContainer}>
         <div className={styles.todosHeader}>

@@ -1,34 +1,59 @@
 .todosContainer {
     display: flex;
     flex-direction: column;
+    margin-top: 16px;
   }
   
   .todosHeader {
     display: flex;
     justify-content: space-between;
     font-weight: bold;
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
   }
   
   .todoRow {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
   }
   
-  .todoRow input[type="text"],
-  .todoRow input[type="datetime-local"],
-  .todoRow select {
-    margin-right: 8px;
+  .todoInput {
     flex: 1;
+    margin-right: 8px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
   }
   
-  .todoRow input[type="checkbox"] {
+  .todoDatePicker {
+    flex: 1;
+    margin-right: 8px;
+  }
+  
+  .todoSelect {
+    flex: 1;
+    margin-right: 8px;
+  }
+  
+  .todoCheckbox {
     margin-left: 8px;
   }
   
-  .todoRow button {
+  .todoButton {
     margin-left: 8px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .todoButton:hover {
+    background-color: #0056b3;
   }
   
   .addTodoForm {
@@ -39,8 +64,8 @@
   }
   
   .addTodoForm input[type="text"],
-  .addTodoForm input[type="datetime-local"],
-  .addTodoForm select {
+  .addTodoForm .todoDatePicker,
+  .addTodoForm .todoSelect {
     margin-right: 8px;
     flex: 1;
   }
