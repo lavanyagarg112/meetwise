@@ -239,6 +239,7 @@ async def editTodo(todo: TodoUpdate, credentials: Annotated[str, Cookie()] = Non
     id = eatCookie(credentials)
     updateTodosOrg(todo)
 
+
 @app.delete('/delete-todo')
 async def deleteTodo(todo: TodoEliminate, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)

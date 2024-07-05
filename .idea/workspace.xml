@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="Meeting Info">
-      <change afterPath="$PROJECT_DIR$/backend/Todos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/IOSchema.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/IOSchema.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Meetings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meetings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/main.py" afterDir="false" />
-    </list>
+    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="specific todos" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -157,7 +150,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1719909212772</updated>
-      <workItem from="1720090289331" duration="21357000" />
+      <workItem from="1720090289331" duration="21767000" />
     </task>
     <task id="LOCAL-00001" summary="summary should work now">
       <option name="closed" value="true" />
@@ -319,7 +312,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720178704201</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="specific todos">
+      <option name="closed" value="true" />
+      <created>1720186805397</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1720186805397</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -352,7 +353,8 @@
     <MESSAGE value="should work now" />
     <MESSAGE value="unpack summary" />
     <MESSAGE value="Meeting Info" />
-    <option name="LAST_COMMIT_MESSAGE" value="Meeting Info" />
+    <MESSAGE value="specific todos" />
+    <option name="LAST_COMMIT_MESSAGE" value="specific todos" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/meetwise$database.coverage" NAME="database Coverage Results" MODIFIED="1720161878666" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
