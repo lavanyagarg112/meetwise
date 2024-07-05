@@ -683,6 +683,7 @@ what i will send:
 
 /update-transcription
 PUT 
+PUT 
 
 what i want:
 {
