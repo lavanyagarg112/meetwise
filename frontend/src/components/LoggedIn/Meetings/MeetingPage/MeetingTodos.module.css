@@ -31,6 +31,8 @@
   .todoDatePicker {
     flex: 1;
     margin-right: 8px;
+    padding: 8px;
+    border: 1px solid #ddd;
   }
   
   .todoSelect {

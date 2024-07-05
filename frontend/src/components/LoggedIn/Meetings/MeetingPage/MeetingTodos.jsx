@@ -127,11 +127,6 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
     } catch (error) {
       console.log('error:', error);
     }
-
-    // remove once endpoint created
-    setMeetingTodos((prevTodos) =>
-      prevTodos.map((t) => (t.id === todo.id ? todo : t))
-    );
   };
 
   const handleDeleteTodo = async (todoid) => {
@@ -157,9 +152,6 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
     } catch (error) {
       console.log('error:', error);
     }
-
-    // remove once endpoint created
-    setMeetingTodos((prevTodos) => prevTodos.filter((t) => t.id !== todoid));
   };
 
   const handleAddTodo = async () => {

@@ -247,9 +247,9 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
                 Cancel Edit
               </button>
               <button
-                className={`${styles.submitButton} ${!hasChanges ? styles.disabledButton : ''}`}
+                className={`${styles.submitButton} ${!transcriptionType || hasChanges ? '' : styles.disabledButton}`}
                 onClick={handleSubmitTranscription}
-                disabled={!hasChanges}
+                disabled={!transcriptionType ? false : !hasChanges}
               >
                 {!transcriptionType ? 'Confirm Transcription' : 'Submit Transcription'}
               </button>
