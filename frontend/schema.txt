@@ -641,7 +641,6 @@ so ill not send you anything. you can use current user id from credentials for t
 what ill send:
 
 {
-    meetingid:
     organisation:
 }
 
