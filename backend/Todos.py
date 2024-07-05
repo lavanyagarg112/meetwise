@@ -2,10 +2,10 @@ from typing import List, Tuple
 
 from fastapi import HTTPException
 
-from backend.IOSchema import TodoInput, TodoUpdate, TodoDetails
-from backend.OrganisationHelpers import getOrganisationByName
-from backend.UserAccounts import getUserByID
-from backend.database import updateTodos, addTodos, getMeetingTodos, getUserTodosOrg
+from IOSchema import TodoInput, TodoUpdate, TodoDetails
+from OrganisationHelpers import getOrganisationByName
+from UserAccounts import getUserByID
+from database import updateTodos, addTodos, getMeetingTodos, getUserTodosOrg
 
 
 def todoBuilder(row: Tuple) -> TodoDetails:

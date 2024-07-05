@@ -191,7 +191,7 @@ async def inviteUser(input: InviteInput, credentials: Annotated[str, Cookie()] =
     return output
 
 
-@app.get('/logout')
+@app.head('/logout')
 async def logout(response: Response):
     response.delete_cookie("credentials", httponly=True, secure=True, samesite="none")
 
