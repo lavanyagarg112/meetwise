@@ -1,10 +1,11 @@
 from fastapi import HTTPException
 from mutagen.mp3 import MP3
-from IOSchema import MeetingInput, TranscriptionDetails
+from IOSchema import MeetingInput, TranscriptionDetails, MeetingDetails
 from OrganisationHelpers import getOrganisationByName, getTeamByName
 from audio_transcription import transcribe
 from Meeting import Meeting
-from database import storeMeetingDetailsTeam, storeMeetingDetailsOrg, getSummary, updateMeetingDetails, getTranscription
+from database import storeMeetingDetailsTeam, storeMeetingDetailsOrg, getSummary, updateMeetingDetails, \
+    getTranscription, getMeetingMetaData
 
 
 def storeMeeting(meeting: MeetingInput):
@@ -65,3 +66,20 @@ def getMeetingTranscription(organisation: str, meetingid: int) -> TranscriptionD
     if details is None:
         raise HTTPException(status_code=404, detail=f"Meeting {meetingid} not found.")
     return TranscriptionDetails(type=details[0], transcription=details[1], uncommonWords=details[2].split(','))
+
+
+def getMeetingInfo(organisation: str, meetingid: int) -> MeetingDetails:
+    org = getOrganisationByName(organisation)
+    if not org:
+        raise HTTPException(status_code=404, detail=f"Organisation {organisation} not found.")
+    details = getMeetingMetaData(org, meetingid)
+    if not details:
+        raise HTTPException(status_code=404, detail=f"Meeting {meetingid} not found.")
+    if details[3]:
+        return MeetingDetails(id=meetingid, title=details[0], date=details[1], type='team',
+                              transcriptionGenerated=details[2], team=details[3])
+    else:
+        return MeetingDetails(id=meetingid, title=details[0], date=details[1], type='organisation',
+                              transcriptionGenerated=details[2])
+
+
