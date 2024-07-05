@@ -53,7 +53,7 @@ const MeetingPage = () => {
       }
 
       const data = await response.json();
-      setTitle(data.id);
+      setTitle(data.title);
       setDate(data.date);
       setType(data.type);
       setTeam(data.team);
@@ -62,14 +62,6 @@ const MeetingPage = () => {
     } catch (error) {
       console.log('Error: ', error);
     }
-
-    // to be removed after end point works
-    setTitle('Meeting Title');
-    setDate('Meeting Date');
-    setType('organisation');
-    setTeam('team name');
-    setTranscriptionGenerated(false)
-    setIsPermitted(true)
 
   };
 
