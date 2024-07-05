@@ -24,7 +24,7 @@ with open("backend/testFiles/transcription.txt", "w") as t_file:
 transcription_size = len(transcription_text)
 
 meeting = Meeting.Meeting(transcription_text)
-
+print("meeting made")
 uncommon_words = meeting.generate_uncommon_words()
 end_uncommon_words = time.time()
 

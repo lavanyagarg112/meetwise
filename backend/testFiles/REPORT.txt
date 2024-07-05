@@ -2,32 +2,34 @@ mp3 file size: 40.06 MB
 Transcription size: 24301 characters
 
 ------------------------------------------------------------------------------------------------------------------------
-+ mp3 file read time: 0.02 seconds
-| Transcription time: 47.27 seconds
-| Uncommon words generation time: 11.01 seconds
-| Summary generation time: 2.35 seconds
-| To-do generation time: 1.53 seconds
-+ Total time taken: 62.19 seconds
-------------------------------------------------------------------------------------------------------------------------Uncommon Words List:
-[{'word': 'mlops'}, {'word': 'antiaubse'}]
++ mp3 file read time: 0.03 seconds
+| Transcription time: 0.00 seconds
+| Uncommon words generation time: 0.66 seconds
+| Summary generation time: 0.64 seconds
+| To-do generation time: 0.49 seconds
++ Total time taken: 1.82 seconds
+------------------------------------------------------------------------------------------------------------------------
+
+Uncommon Words List:
+['mlops']
 
 Summary:
-Here is a summary of the meeting in a bulleted list, including key discussion points and decisions:
+Here is a summary of the key discussion points and decisions made during the meeting:
 
-**Summary of Meeting: SEC, Data Science, and Anti-Abuse Team Meeting (September 14 or 15th in APAC)**
+**Key Discussion Points:**
 
-* **Changes in the meeting format**: The leader of the meeting mentioned that they will work to provide more summarized communications to improve the signal-to-noise ratio, and will assume that people leaders on the team will attend the meeting or read the notes, rather than relying on the Slack channel.
-* **New Acting Full Stack Manager for Security Policies**: Alan has been asked to step in as acting full stack manager for security policies while the current manager hires an Engineering Manager (EM). Alan has accepted this role.
-* **Reorganization of Anti-Abuse Product Sections**: Anti-Abuse is moving product sections from SEC to Data Science. Data Science is a rename of the Model Ops section, which will include three existing groups and the Anti-Abuse group. There are plans to split the Anti-Abuse group into two groups in the future, but that is not in the near term.
-* **Workday and Handbook Changes**: There will be changes to Workday and the company handbook as a result of the reorganization.
-* **Next Steps**: The leader of the meeting will provide more information on the reorganization and changes in subsequent meetings.
+* The SEC (Secure and Govern Growth) and Data Science (including ML, MLOps, and Anti-Abuse) teams are combining to form a new team.
+* The new team's name may change over time.
+* The meeting leader plans to improve communication by summarizing updates and reducing "noise" in future meetings.
+* The team will rely on meeting notes and leadership attendance instead of relying on the Slack channel for updates.
+* Alan has been appointed as the acting Full Stack Manager for Security Policies until an EM (Engineering Manager) is hired.
+* Anti-Abuse is being moved from the SEC team to the Data Science team, which includes the rebranded Model Ops team.
+* The Data Science team will have two stages: Model Ops (with three groups) and Anti-Abuse (with one current group, planned to be split into two groups in the future).
 
 **Decisions Made:**
 
-* Alan will act as the full stack manager for security policies while the current manager hires an EM.
-* Anti-Abuse product sections will move from SEC to Data Science.
-* Data Science will include three existing groups from Model Ops and the Anti-Abuse group.
-* Reorganization plans will be discussed further in subsequent meetings.
+* Alan will act as Full Stack Manager for Security Policies until an EM is hired.
+* Anti-Abuse will be moved from the SEC team to the Data Science team.
 
 To-do List:
 []

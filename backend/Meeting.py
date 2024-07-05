@@ -6,7 +6,7 @@ import os
 from groq import Groq
 
 client = Groq(
-    api_key=os.environ["groq_ai_key"]
+    api_key= os.environ["groq_ai_key"]
 )
 
 class Task:
@@ -35,9 +35,9 @@ class Meeting:
 
     def generate_uncommon_words(self) -> List[str]:
         prompt = """
-        In strict JSON format [{word : word}] generate a list of all uncommon words that occured 
-        in this meeting in strict JSON format [{word : word}]. If no uncommon terms are mentioned, return
-        empty JSON array. Your output should only be a JSON array. No other comments needed.
+        In strict JSON format {word : word} generate a list of all weird/uncommon/niche words that occured 
+        in this meeting in strict JSON format {word : word}. If no weird/uncommon/niche terms are mentioned, return
+        empty JSON array. Your output should only be a JSON array of weird/uncommon/niche. No other comments needed.
         Here is the transcript : 
         """
         combined_response = self._send_prompt_chunks(prompt, self.transcription)
