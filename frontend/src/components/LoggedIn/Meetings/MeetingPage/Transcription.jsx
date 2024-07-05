@@ -3,6 +3,7 @@ import Loading from '../../../ui/Loading';
 import CollapsibleSection from '../../../ui/CollapsableSection';
 import styles from './Transcription.module.css';
 import { useRef } from 'react';
+import { useCallback } from 'react';
 
 const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
   const [canEdit, setCanEdit] = useState(false);
@@ -160,7 +161,7 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
     return `hsl(${hue}, 100%, 85%)`;
   };
 
-  const highlightWords = (text) => {
+  const highlightWords = useCallback((text) => {
     if (!text) return { __html: '' };
     let highlightedText = text;
     uncommonWords.forEach((word) => {
@@ -171,22 +172,36 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
       const regex = new RegExp(`(${word})`, 'gi');
       highlightedText = highlightedText.replace(
         regex,
-        `<mark style="background-color: ${color}; color: transparent;">${word}</mark>`
+        `<mark style="background-color: ${color};">${word}</mark>`
       );
     });
     return { __html: highlightedText };
-  };
+  }, [uncommonWords, wordColors]);
 
   const handleTranscriptionChange = (e) => {
     setTranscription(e.target.value);
+    updateHighlight(e.target.value);
+  };
+
+  const updateHighlight = (text) => {
+    if (overlayRef.current) {
+      overlayRef.current.innerHTML = highlightWords(text).__html;
+    }
     syncScroll();
   };
 
   const syncScroll = () => {
     if (overlayRef.current && textareaRef.current) {
       overlayRef.current.scrollTop = textareaRef.current.scrollTop;
+      overlayRef.current.scrollLeft = textareaRef.current.scrollLeft;
     }
   };
+
+  useEffect(() => {
+    if (isEditing) {
+      updateHighlight(transcription);
+    }
+  }, [transcription, isEditing, highlightWords]);
 
 
   return (
@@ -220,7 +235,6 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
               <div 
                 ref={overlayRef}
                 className={styles.highlightOverlay}
-                dangerouslySetInnerHTML={highlightWords(transcription)}
               />
             </div>
             <div>Uncommon words found which may have been generated incorrectly: </div>
