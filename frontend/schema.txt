@@ -489,7 +489,6 @@ what i will send:
 {
     meetingid:
     organisation:
-    team: can be null
     details:
     deadline: datetime
     assigner: Person schema
@@ -513,7 +512,6 @@ what ill send:
 {
     meetingid:
     organisation:
-    team: can be null
     todoid:
 }
 
@@ -547,7 +545,6 @@ what ill send:
 {
     meetingid:
     organisation:
-    team: can be null
 }
 
 
@@ -609,15 +606,21 @@ what ill send:
     userId: userid
     meetingid:
     organisation:
-    team: can be null
 }
 
 
 /get-all-user-todos
-GET
+POST
 
-basically /get-user-todos but for all the meetings in the teams that the CURRENT user can see from active organisation
-so ill not send you anything. you can use current user id from credentials for this
+basically /get-user-todos but for all the meetings in the teams that the CURRENT user can see from sent organisation
+so ill not send you anything. you can use current user id from credentials for this.
+
+what ill send:
+
+{
+    meetingid:
+    organisation:
+}
 
 
 TRANSCRIPTION:
@@ -640,7 +643,6 @@ what i want:
 what i will send:
 {
     id: meeting id
-    team: can be null
     organisation: the meeting which the organisation is a part of
 }
 
@@ -675,7 +677,6 @@ what i will send:
 {
     meetingid:
     organisation:
-    team: can be null
 }
 
 
@@ -697,7 +698,6 @@ what i will send:
 {
     meetingid:
     organisation:
-    team: can be null
     transcriptionid:
 }
 
@@ -718,5 +718,4 @@ what i will send:
 {
     meetingid:
     organisation:
-    team: can be null
 }

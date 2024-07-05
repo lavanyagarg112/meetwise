@@ -57,7 +57,7 @@ const MeetingList = ({ organisationName }) => {
   };
 
   const goToMeeting = (id) => {
-    navigate(`/meetings/${id}`);
+    navigate(`/meetings/${organisationName}/${id}`);
   };
 
   const handleTeamChange = (event) => {

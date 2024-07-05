@@ -70,7 +70,7 @@ const TeamPage = () => {
   };
 
   const goToMeeting = (id) => {
-    navigate(`/meetings/${id}`);
+    navigate(`/meetings/${organisation}/${id}`);
   };
 
   const handleAddUser = async (event) => {

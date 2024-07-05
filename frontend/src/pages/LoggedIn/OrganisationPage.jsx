@@ -144,7 +144,7 @@ const OrganisationPage = () => {
   };
 
   const goToMeeting = (id) => {
-    navigate(`/meetings/${id}`);
+    navigate(`/meetings/${name}/${id}`);
   };
 
   const handleInviteUser = async (event) => {
