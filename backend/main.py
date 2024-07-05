@@ -1,5 +1,7 @@
+import os
 from datetime import datetime
 
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Response, Cookie, UploadFile, Form
 from typing import Annotated, Literal, List
 from IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
@@ -21,12 +23,12 @@ from database import deleteTodos, getUserTodosOrg
 
 app = FastAPI()
 
-origins = "http://localhost:.*"
+load_dotenv()
+origin = os.environ["FRONTEND"]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["null"],
-    allow_origin_regex=origins,
+    allow_origins=[origin],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
