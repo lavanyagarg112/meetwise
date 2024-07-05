@@ -320,7 +320,7 @@ def makeOrganisation(owner: int, org: str):
         SIZE INTEGER NOT NULL,
         CONFIDENTIALITY TEXT NOT NULL DEFAULT 'PUBLIC',
         UNCOMMON TEXT,
-        ISUSER BOOLEAN DEFAULT FALSE,
+        ISUSER BOOLEAN NOT NULL DEFAULT FALSE,
         FOREIGN KEY(TEAM) REFERENCES Org{id}Team(ID)
         )
         '''
