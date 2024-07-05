@@ -6,6 +6,7 @@ import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './MeetingTodos.module.css';
+import moment from 'moment';
 
 const MeetingTodos = ({ organisation, meetingid, type, team }) => {
   const [meetingTodos, setMeetingTodos] = useState([]);
@@ -31,7 +32,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
       }
 
       const data = await response.json();
-      setMeetingTodos([...data.todos.assigner, ...data.todos.assignee]);
+      setMeetingTodos(data);
     } catch (error) {
       console.log('error: ', error);
     }
@@ -244,8 +245,12 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
     );
   };
 
+  useEffect(() => {
+    fetchTodos()
+  }, [])
+
   return (
-    <CollapsibleSection title="Meeting Todos" onToggle={fetchTodos}>
+    <CollapsibleSection title="Meeting Todos" onToggle={() => {}}>
       {loading && <Loading />}
       <div className={styles.addTodoForm}>
         <input
@@ -259,9 +264,13 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           selected={newTodo.deadline ? new Date(newTodo.deadline) : null}
           onChange={(date) => setNewTodo({ ...newTodo, deadline: date.toISOString() })}
           showTimeSelect
-          dateFormat="Pp"
-          placeholderText="Select Deadline"
+          dateFormat="yyyy-MM-dd HH:mm"
+          placeholderText="yyyy-mm-dd hh:mm"
+          required
           className={styles.todoDatePicker}
+          minDate={moment().toDate()}
+          timeFormat="HH:mm"
+          timeIntervals={15}
         />
         <Select
           value={newTodo.assignee ? { value: newTodo.assignee, label: people.find(p => p.id === newTodo.assignee).firstName + ' ' + people.find(p => p.id === newTodo.assignee).lastName + ' - ' + people.find(p => p.id === newTodo.assignee).username + ' - ' + people.find(p => p.id === newTodo.assignee).email } : null}

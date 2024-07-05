@@ -194,8 +194,12 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
     }
   }, [transcription, isEditing, highlightWords]);
 
+  useEffect(() => {
+    getMeetingTranscription()
+  }, [])
+
   return (
-    <CollapsibleSection title="Meeting Transcription" onToggle={getMeetingTranscription}>
+    <CollapsibleSection title="Meeting Transcription" onToggle={() => {}}>
       {loading && <Loading />}
       <div className={styles.transcriptionContainer}>
         {canEdit && !isEditing && (

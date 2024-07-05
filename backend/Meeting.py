@@ -41,11 +41,13 @@ class Meeting:
 
     def generate_uncommon_words(self) -> List[str]:
         prompt = """
-        In strict JSON format {word : word} generate a list of all weird/uncommon/niche words that occured 
-        in this meeting in strict JSON format {word : word}. If no weird/uncommon/niche terms are mentioned, return
-        empty JSON array. Your output should only be a JSON array of weird/uncommon/niche. No other comments needed.
+        In strict JSON format {"word" : word} generate a list of all weird/uncommon/niche words that occured 
+        in this meeting in strict JSON format {"word" : word}. If no weird/uncommon/niche terms are mentioned, return
+        empty JSON array. For example if the uncommon words are "apple" and "orange", then you should return [{"word": "apple"}, {"word": "orange"}].
+        Your output should only be a JSON array of weird/uncommon/niche. No other comments needed.
         Here is the transcript : 
         """
+
         combined_response = self._send_prompt_chunks(prompt, self.transcription)
 
         max_retries = 5
@@ -54,7 +56,7 @@ class Meeting:
             try:
                 json_data = json.loads(combined_response)
                 for word in json_data:
-                    uncommon_words.append(word)
+                    uncommon_words.append(word["word"])
                 break 
             except json.JSONDecodeError as e:
                 print(f"Attempt {attempt + 1}: Failed to decode uncommon_words JSON: {e}")

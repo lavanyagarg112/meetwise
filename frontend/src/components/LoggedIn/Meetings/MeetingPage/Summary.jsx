@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CollapsibleSection from '../../../ui/CollapsableSection';
 import styles from './Summary.module.css';
+import MarkdownView from '../../../ui/MarkdownView';
 
 const Summary = ({ organisation, meetingid }) => {
   const [summary, setSummary] = useState('');
@@ -28,9 +29,15 @@ const Summary = ({ organisation, meetingid }) => {
 
   };
 
+  useEffect(() => {
+    getSummary()
+  }, [])
+
   return (
-    <CollapsibleSection title="Meeting Summary" onToggle={getSummary}>
-      <div className={styles.summaryContent}>{summary ? summary : "No summary available"}</div>
+    <CollapsibleSection title="Meeting Summary" onToggle={() => {}}>
+      <div className={styles.summaryContent}>
+        {summary ? <MarkdownView markdownContent={summary} /> : "No summary available"}
+      </div>
     </CollapsibleSection>
   );
 };
