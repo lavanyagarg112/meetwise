@@ -520,8 +520,8 @@ what i will send:
     todoid
     details:
     deadline: datetime
-    assigner: Person schema
-    assignee: Person schema
+    assigner: Person id
+    assignee: Person id
     isCompleted: boolean
 }
 
