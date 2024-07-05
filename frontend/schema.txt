@@ -491,8 +491,8 @@ what i will send:
     organisation:
     details:
     deadline: datetime
-    assigner: Person schema
-    assignee: Person schema
+    assigner: Person id
+    assignee: Person id
     isCompleted: boolean
 }
 
@@ -520,8 +520,8 @@ what i will send:
     todoid
     details:
     deadline: datetime
-    assigner: Person schema
-    assignee: Person schema
+    assigner: Person id
+    assignee: Person id
     isCompleted: boolean
 }
 
@@ -548,16 +548,16 @@ what i want:
             id: todo id
             details:
             deadline: datetime
-            assigner: Person schema
-            assignee: Person schema
+            assigner: Person id
+            assignee: Person id
             isCompleted: boolean
         },
         {
             id: todo id
             details:
             deadline: datetime
-            assigner: Person schema
-            assignee: Person schema
+            assigner: Person id
+            assignee: Person id
             isCompleted: boolean
         }
 
