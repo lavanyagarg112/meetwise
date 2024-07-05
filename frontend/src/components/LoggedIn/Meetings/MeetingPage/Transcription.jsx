@@ -6,9 +6,9 @@ import styles from './Transcription.module.css';
 const Transcription = ({ type, team, organisation, meetingid }) => {
   const [canEdit, setCanEdit] = useState(false);
   const [id, setTranscriptionId] = useState(null);
-  const [transcriptionType, setTranscriptionType] = useState('');
+  const [transcriptionType, setTranscriptionType] = useState('user');
   const [transcription, setTranscription] = useState('');
-  const [uncommonWords, setUncommonWords] = useState([]);
+  const [uncommonWords, setUncommonWords] = useState(["word 1"]);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [originalTranscription, setOriginalTranscription] = useState('');
