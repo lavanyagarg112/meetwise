@@ -45,8 +45,6 @@ def updateMeetingTranscription(organisation: str, meetingId: int, transcription:
     meetingMeta = Meeting(transcription)
     summary = meetingMeta.generate_summary()
     uncommonWords = meetingMeta.generate_uncommon_words()
-    print('UNCOMMON WORDS: ', uncommonWords)
-    print('JOIN: ', ",".join(uncommonWords))
     updateMeetingDetails(organisation=org, meetingId=meetingId, transcription=transcription, summary=summary,
                          uncommonwords=",".join(uncommonWords))
     return TranscriptionDetails(type=True, transcription=transcription, uncommonWords=uncommonWords)
