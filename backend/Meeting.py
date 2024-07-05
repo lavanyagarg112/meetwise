@@ -3,8 +3,12 @@ import json
 import time
 from typing import List
 import os
+
+from dotenv import load_dotenv
 from groq import Groq
 
+
+load_dotenv('.env')
 client = Groq(
     api_key=os.environ["groq_ai_key"]
 )

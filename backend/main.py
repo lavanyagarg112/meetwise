@@ -11,7 +11,7 @@ from Organisations import createOrganisation, getOrganisationReport, getTeamRepo
     getTeams, addUser, createTeam
 from fastapi.middleware.cors import CORSMiddleware
 
-from Meetings import storeMeeting, updateMeetingTranscription, getMeetingSummary
+from Meetings import storeMeeting, updateMeetingTranscription, getMeetingSummary, getMeetingTranscription
 from Enums import Roles
 from OrganisationHelpers import getRoleByID, getOrganisationByName
 
@@ -196,3 +196,10 @@ async def getSummary(meeting: MeetingIdentifier, credentials: Annotated[str, Coo
     id = eatCookie(credentials)
     summary = getMeetingSummary(meeting.organisation, meeting.meetingid)
     return {"summary": summary}
+
+@app.post('/get-transcription')
+async def getTranscription(meeting: MeetingIdentifier,
+                              credentials: Annotated[str, Cookie()] = None) -> TranscriptionDetails:
+    id = eatCookie(credentials)
+    details = getMeetingTranscription(meeting.organisation, meeting.meetingid)
+    return details

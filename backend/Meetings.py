@@ -4,7 +4,7 @@ from IOSchema import MeetingInput, TranscriptionDetails
 from OrganisationHelpers import getOrganisationByName, getTeamByName
 from audio_transcription import transcribe
 from Meeting import Meeting
-from database import storeMeetingDetailsTeam, storeMeetingDetailsOrg, getSummary, updateMeetingDetails
+from database import storeMeetingDetailsTeam, storeMeetingDetailsOrg, getSummary, updateMeetingDetails, getTranscription
 
 
 def storeMeeting(meeting: MeetingInput):
@@ -55,3 +55,12 @@ def getMeetingSummary(organisation: str, meetingid: int) -> str:
     if not org:
         raise HTTPException(status_code=404, detail=f"Organisation {organisation} not found.")
     return getSummary(org, meetingid)
+
+def getMeetingTranscription(organisation: str, meetingid: int) -> TranscriptionDetails:
+    org: int = getOrganisationByName(organisation)
+    if not org:
+        raise HTTPException(status_code=404, detail=f"Organisation {organisation} not found.")
+    details = getTranscription(org, meetingid)
+    if details is None:
+        raise HTTPException(status_code=404, detail=f"Meeting {meetingid} not found.")
+    return TranscriptionDetails(type= details[0], transcription=details[1],uncommonWords=details[2])

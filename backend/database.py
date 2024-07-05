@@ -320,6 +320,7 @@ def makeOrganisation(owner: int, org: str):
         SIZE INTEGER NOT NULL,
         CONFIDENTIALITY TEXT NOT NULL DEFAULT 'PUBLIC',
         UNCOMMON TEXT,
+        ISUSER BOOLEAN DEFAULT FALSE,
         FOREIGN KEY(TEAM) REFERENCES Org{id}Team(ID)
         )
         '''
@@ -548,3 +549,13 @@ def updateMeetingDetails(organisation : int, meetingId : int, transcription : st
         cursor.execute(sqlCommand, (transcription, summary, uncommonwords, meetingId))
         conn.commit()
         conn.sync()
+
+def getTranscription(organisation : int, meetingId : int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT TRANSCRIPTION,ISUSER,UNCOMMON
+              FROM Org{organisation} WHERE ID = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (meetingId,))
+        return cursor.fetchone()
