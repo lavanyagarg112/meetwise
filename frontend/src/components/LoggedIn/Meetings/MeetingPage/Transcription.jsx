@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Loading from '../../../ui/Loading';
 import CollapsibleSection from '../../../ui/CollapsableSection';
 import styles from './Transcription.module.css';
-import { useRef } from 'react';
-import { useCallback } from 'react';
 
 const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
   const [canEdit, setCanEdit] = useState(false);
-  const [transcriptionType, setTranscriptionType] = useState(false);
+  const [transcriptionType, setTranscriptionType] = useState('');
   const [transcription, setTranscription] = useState('');
   const [uncommonWords, setUncommonWords] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -70,8 +68,7 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
     }
 
     // to be removed once endpoint works
-    setCanEdit(true)
-
+    setCanEdit(true);
   };
 
   const getMeetingTranscription = async () => {
@@ -99,14 +96,6 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
       console.log('error:', error);
     }
     setLoading(false);
-
-
-    // // to be removed once endpoint works:
-    // setTranscriptionType('ai');
-    // setTranscription('this is a sample transcription');
-    // setOriginalTranscription('this is a sample transcription');
-    // setUncommonWords(['sample']);
-
   };
 
   const handleEditTranscription = () => {
@@ -150,14 +139,7 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
       console.log('error:', error);
     }
     setLoading(false);
-    onconfirm(true)
-
-    // // to be removed once endpoint works
-    // onconfirm();
-    // setTranscriptionType('user');
-    // setTranscription(transcription);
-    // setUncommonWords(uncommonWords);
-
+    onconfirm(true);
   };
 
   const generateLightColor = () => {
@@ -170,7 +152,7 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
     let highlightedText = text;
     uncommonWords.forEach((word) => {
       if (!wordColors[word]) {
-        setWordColors(prev => ({ ...prev, [word]: generateLightColor() }));
+        setWordColors((prev) => ({ ...prev, [word]: generateLightColor() }));
       }
       const color = wordColors[word];
       const regex = new RegExp(`(${word})`, 'gi');
@@ -183,9 +165,10 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
   }, [uncommonWords, wordColors]);
 
   const handleTranscriptionChange = (e) => {
-    setTranscription(e.target.value);
-    updateHighlight(e.target.value);
-    setHasChanges(e.target.value !== originalTranscription);
+    const newText = e.target.value;
+    setTranscription(newText);
+    updateHighlight(newText);
+    setHasChanges(newText !== originalTranscription);
   };
 
   const updateHighlight = (text) => {
@@ -208,23 +191,17 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
     }
   }, [transcription, isEditing, highlightWords]);
 
-
   return (
     <CollapsibleSection title="Meeting Transcription" onToggle={getMeetingTranscription}>
       {loading && <Loading />}
       <div className={styles.transcriptionContainer}>
-      {canEdit && !isEditing && (
-        <button className={styles.editButton} onClick={handleEditTranscription}>
-          { !transcriptionType ? 'Confirm Transcription' : 'Edit Transcription' }
-        </button>
-
-      )}
+        {canEdit && !isEditing && (
+          <button className={styles.editButton} onClick={handleEditTranscription}>
+            {!transcriptionType ? 'Confirm Transcription' : 'Edit Transcription'}
+          </button>
+        )}
         {!isEditing ? (
           <div>
-            {/* <div
-              className={styles.transcriptionContent}
-              dangerouslySetInnerHTML={highlightWords(transcription)}
-            /> */}
             <div className={styles.transcriptionContent}>{transcription}</div>
           </div>
         ) : (
@@ -237,16 +214,13 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
                 onChange={handleTranscriptionChange}
                 onScroll={syncScroll}
               />
-              <div 
-                ref={overlayRef}
-                className={styles.highlightOverlay}
-              />
+              <div ref={overlayRef} className={styles.highlightOverlay} />
             </div>
-            <div>Uncommon words found which may have been generated incorrectly: </div>
+            <div>Uncommon words found which may have been generated incorrectly:</div>
             <div className={styles.uncommonWordsContainer}>
               {uncommonWords.map((word, index) => (
-                <span 
-                  key={index} 
+                <span
+                  key={index}
                   className={styles.uncommonWord}
                   style={{ backgroundColor: wordColors[word] || generateLightColor() }}
                 >
@@ -256,7 +230,7 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
             </div>
             {transcriptionType && (
               <div className={styles.warning}>
-                Warning: Summary and todos will be regenerated. You will lose manual todos if you click on submit. Click on cancel to cancel this edit
+                Warning: Summary and todos will be regenerated. You will lose manual todos if you click on submit. Click on cancel to cancel this edit.
               </div>
             )}
             {!transcriptionType && (
@@ -269,8 +243,12 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
               <button className={styles.cancelButton} onClick={handleCancelEdit}>
                 Cancel Edit
               </button>
-              <button className={styles.submitButton} onClick={handleSubmitTranscription} disabled={!hasChanges}>
-              { !transcriptionType ? 'Confirm Transcription' : 'Submit Transcription' }
+              <button
+                className={`${styles.submitButton} ${!hasChanges ? styles.disabledButton : ''}`}
+                onClick={handleSubmitTranscription}
+                disabled={!hasChanges}
+              >
+                {!transcriptionType ? 'Confirm Transcription' : 'Submit Transcription'}
               </button>
             </div>
           </div>

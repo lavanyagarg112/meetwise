@@ -88,11 +88,12 @@
   }
 
 
-.submitButton:disabled {
-  background-color: #cccccc; /* Example: light grey background */
-  cursor: not-allowed;
-  opacity: 0.6; /* Example: reduced opacity */
-}
+  .submitButton:disabled,
+  .submitButton.disabledButton {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
   
   .textareaWrapper {
     position: relative;
