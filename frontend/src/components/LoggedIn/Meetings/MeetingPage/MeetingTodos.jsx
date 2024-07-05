@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import { useAuth } from '../../../../store/auth-context'
 
-const MeetingTodos = ({organisation, meetingid}) => {
+const MeetingTodos = ({organisation, meetingid, type, team}) => {
 
   const [meetingTodos, setMeetingTodos] = useState([])
+
+  const {user} = useAuth()
+
+  const [people, setPeople] = useState([])
 
 
   const getMeetingTodos = async () => {
@@ -116,6 +121,56 @@ const MeetingTodos = ({organisation, meetingid}) => {
       console.log("error: ", error)
     }
   }
+
+  const getOrganisationInfo = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/organisationpage`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: organisation }),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        const errorText = 'An error occurred creating your organisations.';
+        throw new Error(errorText);
+      }
+
+      const data = await response.json();
+      setPeople([...data.organisation.owners, ...data.organisation.admins, ...data.organisation.users]);
+    } catch (error) {
+      console.log('ERROR');
+    }
+  };
+
+  const getTeamInfo = async () => {
+    try {
+      setLoading(true)
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/teampage`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: team, organisation }),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        const errorText = 'An error occurred creating your organisations.';
+        throw new Error(errorText);
+      }
+
+      const data = await response.json();
+      setPeople([...data.organisation.owners, ...data.organisation.admins, ...data.organisation.users]);
+    } catch (error) {
+      console.log('ERROR');
+    }
+  };
+
 
   return (
     <div>

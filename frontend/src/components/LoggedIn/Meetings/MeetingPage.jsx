@@ -93,7 +93,7 @@ const MeetingPage = () => {
               <Summary organisation={organisation} meetingid={id} />
             </div>
             <div className={styles.thissection}>
-              <MeetingTodos organisation={organisation} meetingid={id} />
+              <MeetingTodos organisation={organisation} meetingid={id} type={type} team={team} />
             </div>
           </div>
         }
