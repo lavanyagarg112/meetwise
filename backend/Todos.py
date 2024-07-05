@@ -5,7 +5,7 @@ from fastapi import HTTPException
 from backend.IOSchema import TodoInput, TodoUpdate, TodoDetails
 from backend.OrganisationHelpers import getOrganisationByName
 from backend.UserAccounts import getUserByID
-from backend.database import updateTodos, addTodos, getMeetingTodos
+from backend.database import updateTodos, addTodos, getMeetingTodos, getUserTodosOrg
 
 
 def todoBuilder(row: Tuple) -> TodoDetails:
@@ -17,6 +17,14 @@ def todoBuilder(row: Tuple) -> TodoDetails:
 
 def getMeetTodos(orgId: int, meetingID: int) -> List[TodoDetails]:
     details = getMeetingTodos(orgId, meetingID)
+    if not details:
+        return []
+    details = list(map(todoBuilder, details))
+    return details
+
+
+def getUserOrgTodos(userId: int, orgId: int) -> List[TodoDetails]:
+    details = getUserTodosOrg(userId, orgId)
     if not details:
         return []
     details = list(map(todoBuilder, details))

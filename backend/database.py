@@ -622,3 +622,14 @@ def getMeetingTodos(org: int, meetingId: int):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (meetingId,))
         return cursor.fetchall()
+
+
+def getUserTodosOrg(userId: id, org: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT ID, DETAILS, DEADLINE, ASSIGNER, ASSIGNEE, COMPLETED
+              FROM Org{org}Todo '''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand)
+        return cursor.fetchall()

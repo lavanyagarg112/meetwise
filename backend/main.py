@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from fastapi import FastAPI, HTTPException, Response, Request, Cookie, UploadFile, Form, File
+from fastapi import FastAPI, HTTPException, Response, Cookie, UploadFile, Form
 from typing import Annotated, Literal, List
 from IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
     OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput, AddUserInput, \
@@ -16,8 +16,8 @@ from Meetings import storeMeeting, updateMeetingTranscription, getMeetingSummary
     getMeetingInfo
 from Enums import Roles
 from OrganisationHelpers import getRoleByID, getOrganisationByName, getTeamByName, getTRoleByID
-from backend.Todos import updateTodosOrg, addTodosOrg, getMeetTodos
-from backend.database import deleteTodos
+from Todos import updateTodosOrg, addTodosOrg, getMeetTodos, getUserOrgTodos
+from database import deleteTodos, getUserTodosOrg
 
 app = FastAPI()
 
@@ -256,4 +256,13 @@ async def getMeetingTodos(meeting: MeetingIdentifier, credentials: Annotated[str
     if not org:
         raise HTTPException(status_code=404, detail=f"Organisation {meeting.organisation} not found.")
     todos = getMeetTodos(org, meeting.meetingid)
+    return todos
+
+@app.post('/get-all-user-todos')
+async def getAllUserTodos(organisation : OrganisationName,credentials: Annotated[str, Cookie()] = None) -> List[TodoDetails]:
+    id = eatCookie(credentials)
+    org = getOrganisationByName(organisation.name)
+    if not org:
+        raise HTTPException(status_code=404, detail=f"Organisation {organisation.name} not found.")
+    todos = getUserOrgTodos(id,org)
     return todos
