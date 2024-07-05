@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Loading from '../../../ui/Loading';
 import CollapsibleSection from '../../../ui/CollapsableSection';
 import styles from './Transcription.module.css';
+import { useRef } from 'react';
 
 const Transcription = ({ type, team, organisation, meetingid }) => {
   const [canEdit, setCanEdit] = useState(false);
@@ -12,6 +13,9 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [originalTranscription, setOriginalTranscription] = useState('');
+  const [wordColors, setWordColors] = useState({});
+  const textareaRef = useRef(null);
+  const overlayRef = useRef(null);
 
   useEffect(() => {
     if (type === 'organisation') {
@@ -134,28 +138,39 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
     setLoading(false);
   };
 
-  const generateRandomColor = () => {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
+  const generateLightColor = () => {
+    const hue = Math.floor(Math.random() * 360);
+    return `hsl(${hue}, 100%, 85%)`;
   };
 
   const highlightWords = (text) => {
     if (!text) return { __html: '' };
     let highlightedText = text;
     uncommonWords.forEach((word) => {
-      const color = generateRandomColor();
+      if (!wordColors[word]) {
+        setWordColors(prev => ({ ...prev, [word]: generateLightColor() }));
+      }
+      const color = wordColors[word];
       const regex = new RegExp(`(${word})`, 'gi');
       highlightedText = highlightedText.replace(
         regex,
-        `<span style="background-color: ${color};">${word}</span>`
+        `<mark style="background-color: ${color}; color: transparent;">${word}</mark>`
       );
     });
     return { __html: highlightedText };
   };
+
+  const handleTranscriptionChange = (e) => {
+    setTranscription(e.target.value);
+    syncScroll();
+  };
+
+  const syncScroll = () => {
+    if (overlayRef.current && textareaRef.current) {
+      overlayRef.current.scrollTop = textareaRef.current.scrollTop;
+    }
+  };
+
 
   return (
     <CollapsibleSection title="Meeting Transcription" onToggle={getMeetingTranscription}>
@@ -168,21 +183,35 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
       )}
         {!isEditing ? (
           <div>
-            <div
+            {/* <div
               className={styles.transcriptionContent}
               dangerouslySetInnerHTML={highlightWords(transcription)}
-            />
+            /> */}
+            <div className={styles.transcriptionContent}>{transcription}</div>
           </div>
         ) : (
           <div className={styles.editContainer}>
-            <textarea
-              className={styles.textarea}
-              value={transcription}
-              onChange={(e) => setTranscription(e.target.value)}
-            />
+            <div className={styles.textareaWrapper}>
+              <textarea
+                ref={textareaRef}
+                className={styles.textarea}
+                value={transcription}
+                onChange={handleTranscriptionChange}
+                onScroll={syncScroll}
+              />
+              <div 
+                ref={overlayRef}
+                className={styles.highlightOverlay}
+                dangerouslySetInnerHTML={highlightWords(transcription)}
+              />
+            </div>
             <div className={styles.uncommonWordsContainer}>
               {uncommonWords.map((word, index) => (
-                <span key={index} className={styles.uncommonWord}>
+                <span 
+                  key={index} 
+                  className={styles.uncommonWord}
+                  style={{ backgroundColor: wordColors[word] || generateLightColor() }}
+                >
                   {word}
                 </span>
               ))}
