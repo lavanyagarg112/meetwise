@@ -554,7 +554,7 @@ def getTranscription(organisation : int, meetingId : int):
     initialise()
     conn.sync()
     sqlCommand = f'''
-              SELECT TRANSCRIPTION,ISUSER,UNCOMMON
+              SELECT ISUSER,TRANSCRIPTION,UNCOMMON
               FROM Org{organisation} WHERE ID = ?'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (meetingId,))

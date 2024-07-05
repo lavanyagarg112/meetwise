@@ -56,6 +56,7 @@ def getMeetingSummary(organisation: str, meetingid: int) -> str:
         raise HTTPException(status_code=404, detail=f"Organisation {organisation} not found.")
     return getSummary(org, meetingid)
 
+
 def getMeetingTranscription(organisation: str, meetingid: int) -> TranscriptionDetails:
     org: int = getOrganisationByName(organisation)
     if not org:
@@ -63,4 +64,4 @@ def getMeetingTranscription(organisation: str, meetingid: int) -> TranscriptionD
     details = getTranscription(org, meetingid)
     if details is None:
         raise HTTPException(status_code=404, detail=f"Meeting {meetingid} not found.")
-    return TranscriptionDetails(type= details[0], transcription=details[1],uncommonWords=details[2].split(','))
+    return TranscriptionDetails(type=details[0], transcription=details[1], uncommonWords=details[2].split(','))
