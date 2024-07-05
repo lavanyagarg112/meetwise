@@ -134,17 +134,45 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
     setLoading(false);
   };
 
+  const generateRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
+  const highlightWords = (text) => {
+    if (!text) return { __html: '' };
+    let highlightedText = text;
+    uncommonWords.forEach((word) => {
+      const color = generateRandomColor();
+      const regex = new RegExp(`(${word})`, 'gi');
+      highlightedText = highlightedText.replace(
+        regex,
+        `<span style="background-color: ${color};">${word}</span>`
+      );
+    });
+    return { __html: highlightedText };
+  };
+
   return (
     <CollapsibleSection title="Meeting Transcription" onToggle={getMeetingTranscription}>
       {loading && <Loading />}
       <div className={styles.transcriptionContainer}>
-        {canEdit && !isEditing && (
-          <button className={styles.editButton} onClick={handleEditTranscription}>
-            Edit Transcription
-          </button>
-        )}
+      {canEdit && (
+        <button className={styles.editButton} onClick={handleEditTranscription}>
+          Edit Transcription
+        </button>
+      )}
         {!isEditing ? (
-          <div className={styles.transcriptionContent}>{transcription ? transcription : "No transcription available"}</div>
+          <div>
+            <div
+              className={styles.transcriptionContent}
+              dangerouslySetInnerHTML={highlightWords(transcription)}
+            />
+          </div>
         ) : (
           <div className={styles.editContainer}>
             <textarea
