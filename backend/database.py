@@ -586,7 +586,7 @@ def addTodos(organisation: int, meetingId: int, details: str, deadline: str, ass
         cursor.execute(sqlCommand, (meetingId, details, deadline, assigner, assignee, isCompleted))
         conn.commit()
         conn.sync()
-        return cursor.lastrowid()
+        return cursor.lastrowid
 
 
 def updateTodos(todoId: int, organisation: int, meetingId: int, details: str, deadline: str, assigner: int,
