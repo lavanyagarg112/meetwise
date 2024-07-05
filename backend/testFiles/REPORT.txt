@@ -1,38 +1,35 @@
-mp3 file size: 95.20 MB
-Transcription size: 87148 characters
+mp3 file size: 40.06 MB
+Transcription size: 24301 characters
 
-mp3 file read time: 0.07 seconds
-Transcription time: 70.91 seconds
-Summary generation time: 0.73 seconds
-To-do generation time: 0.41 seconds
-Total time taken: 72.12 seconds
+------------------------------------------------------------------------------------------------------------------------
++ mp3 file read time: 0.03 seconds
+| Transcription time: 0.00 seconds
+| Uncommon words generation time: 0.66 seconds
+| Summary generation time: 0.64 seconds
+| To-do generation time: 0.49 seconds
++ Total time taken: 1.82 seconds
+------------------------------------------------------------------------------------------------------------------------
 
+Uncommon Words List:
+['mlops']
 
 Summary:
-Here is a summary of the meeting in a bulleted list, including key discussion points and decisions made:
+Here is a summary of the key discussion points and decisions made during the meeting:
 
-**Apologies**
+**Key Discussion Points:**
 
-* Hazel apologized for her absence
-* Jim mentioned he would leave the meeting at 1:30 PM to attend another meeting
+* The SEC (Secure and Govern Growth) and Data Science (including ML, MLOps, and Anti-Abuse) teams are combining to form a new team.
+* The new team's name may change over time.
+* The meeting leader plans to improve communication by summarizing updates and reducing "noise" in future meetings.
+* The team will rely on meeting notes and leadership attendance instead of relying on the Slack channel for updates.
+* Alan has been appointed as the acting Full Stack Manager for Security Policies until an EM (Engineering Manager) is hired.
+* Anti-Abuse is being moved from the SEC team to the Data Science team, which includes the rebranded Model Ops team.
+* The Data Science team will have two stages: Model Ops (with three groups) and Anti-Abuse (with one current group, planned to be split into two groups in the future).
 
-**Decisions**
+**Decisions Made:**
 
-* The meeting decided to continue without Hazel's apology being included in the motion (carried)
-* The meeting confirmed the order of the meeting without any changes (carried)
-
-**Disclosure of Members' Interests**
-
-* No members had any interests to disclose
-
-**Confirmation of Minutes from the 18 February**
-
-* Andrew Graham pointed out an error in the minutes, where his name was not recorded as attending the meeting
-* The meeting agreed to make the necessary changes to the minutes (carried)
-
-**Decision**
-
-* The meeting confirmed the minutes as a correct record (carried)
+* Alan will act as Full Stack Manager for Security Policies until an EM is hired.
+* Anti-Abuse will be moved from the SEC team to the Data Science team.
 
 To-do List:
 []

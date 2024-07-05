@@ -46,9 +46,9 @@ const OrganisationComponent = ({user}) => {
     setIsFormVisible(true)
   }
 
-  const JoinOrg = () => {
-    alert('Join organisation')
-  }
+  // const JoinOrg = () => {
+  //   alert('Join organisation')
+  // }
 
   const getOrganisations = async () => {
     try {
@@ -82,7 +82,7 @@ const OrganisationComponent = ({user}) => {
         <div className={classes.organisationsHeader}>My Organisations</div>
         <div className={classes.buttonContainer}>
           <button className={classes.createButton} onClick={createOrg}>Create New Organisation</button>
-          <button className={classes.createButton} onClick={JoinOrg}>Join Organisation</button>
+          {/* <button className={classes.createButton} onClick={JoinOrg}>Join Organisation</button> */}
         </div>
       </div>
       { loading ? <Loading /> : (

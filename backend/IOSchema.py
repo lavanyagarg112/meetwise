@@ -99,9 +99,24 @@ class Meeting(BaseModel):
     date: str
 
 
+class MeetingIdentifier(BaseModel):
+    meetingid: int
+    organisation: str
+
+
+class Transcription(MeetingIdentifier):
+    transcription: str
+
+
+class TranscriptionDetails(BaseModel):
+    type: bool
+    transcription: str
+    uncommonWords: List[str]
+
+
 class MeetingInput(BaseModel):
     file: UploadFile
-    type: Literal["organisation","team"]
+    type: Literal["organisation", "team"]
     meetingName: str
     meetingDate: datetime
     team: str | None = None
@@ -113,3 +128,35 @@ class AddUserInput(BaseModel):
     organisation: str
     userId: int
     role: str
+
+
+class MeetingDetails(Meeting):
+    type: Literal["organisation", "team"]
+    team: str | None = None
+    transcriptionGenerated: bool
+
+
+class TodoInput(MeetingIdentifier):
+    details: str
+    deadline: datetime
+    assigner: int
+    assignee: int
+    isCompleted: bool
+
+
+class TodoUpdate(TodoInput):
+    todoid: int
+
+
+class TodoDetails(BaseModel):
+    id: int
+    details: str
+    deadline: str
+    assigner: Person
+    assignee: Person
+    isCompleted: bool
+
+
+class TodoEliminate(BaseModel):
+    organisation: str
+    todoid: int

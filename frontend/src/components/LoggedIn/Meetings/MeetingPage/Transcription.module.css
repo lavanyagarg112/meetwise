@@ -1,0 +1,138 @@
+.transcriptionContainer {
+    margin: 20px;
+  }
+  
+  .editButton {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  
+  .editButton:hover {
+    background-color: #45a049;
+  }
+  
+  .transcriptionContent {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+  }
+  
+  .editContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 200px;
+  }
+  
+  .uncommonWordsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  
+  .uncommonWord {
+    background-color: yellow;
+    padding: 2px 4px;
+    margin: 2px;
+    border-radius: 4px;
+  }
+  
+  .warning {
+    color: red;
+    margin-bottom: 10px;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .cancelButton,
+  .submitButton {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .cancelButton {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .cancelButton:hover {
+    background-color: #e53935;
+  }
+  
+  .submitButton {
+    background-color: #008cba;
+    color: white;
+  }
+  
+  .submitButton:hover {
+    background-color: #007bb5;
+  }
+
+
+  .submitButton:disabled,
+  .submitButton.disabledButton {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  
+  .textareaWrapper {
+    position: relative;
+    font-family: monospace;
+  }
+  
+  .textarea, .highlightOverlay {
+    width: 100%;
+    min-height: 200px;
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 10px;
+    border: 1px solid #ccc;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow-y: auto;
+  }
+  
+  .textarea {
+    background-color: transparent;
+    resize: vertical;
+    z-index: 1;
+    position: relative;
+  }
+  
+  .highlightOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    color: transparent;
+    background-color: transparent;
+  }
+  
+  .highlightOverlay mark {
+    color: transparent;
+    border-radius: 3px;
+    padding: 0;
+  }
