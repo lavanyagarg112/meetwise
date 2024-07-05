@@ -4,7 +4,7 @@ import time
 from audio_transcription import transcribe
 import Meeting
 
-file_path = "backend/testFiles/meetingTest2.mp3"
+file_path = "./testFiles/meetingTest1.mp3"
 file_size = os.path.getsize(file_path)
 
 start = time.time()
@@ -17,7 +17,7 @@ end_read = time.time()
 transcription_text = transcribe(file_obj)
 end_transcription = time.time()
 
-with open("backend/testFiles/transcription.txt", "w") as t_file:
+with open("./testFiles/transcription.txt", "w") as t_file:
     t_file.write(transcription_text)
 
 transcription_size = len(transcription_text)

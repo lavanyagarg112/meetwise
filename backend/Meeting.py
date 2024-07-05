@@ -14,19 +14,19 @@ client = Groq(
 )
 
 
+def parse_deadline(deadline: str):
+    if deadline:
+        try:
+            return datetime.strptime(deadline, '%Y/%m/%d %H:%M')
+        except ValueError:
+            return datetime.strptime(deadline, '%Y/%m/%d')
+    return None
+
+
 class Task:
     def __init__(self, description: str, deadline: str = ""):
         self.description = description
-        self.deadline = self.parse_deadline(deadline)
-        self.deadline = deadline
-
-    def parse_deadline(self, deadline: str):
-        if deadline:
-            try:
-                return datetime.strptime(deadline, '%Y/%m/%d %H:%M')
-            except ValueError:
-                return datetime.strptime(deadline, '%Y/%m/%d')
-        return None
+        self.deadline = parse_deadline(deadline)
 
     def __repr__(self):
         return f"Task(description={self.description}, deadline={self.deadline})"

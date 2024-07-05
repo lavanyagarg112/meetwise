@@ -1,11 +1,13 @@
+from typing import List, Tuple
+
 from fastapi import HTTPException
 from mutagen.mp3 import MP3
 from IOSchema import MeetingInput, TranscriptionDetails, MeetingDetails
 from OrganisationHelpers import getOrganisationByName, getTeamByName
 from audio_transcription import transcribe
-from Meeting import Meeting
+from Meeting import Meeting, Task
 from database import storeMeetingDetailsTeam, storeMeetingDetailsOrg, getSummary, updateMeetingDetails, \
-    getTranscription, getMeetingMetaData
+    getTranscription, getMeetingMetaData, addBulkTodos
 
 
 def storeMeeting(meeting: MeetingInput):
@@ -36,6 +38,10 @@ def storeMeeting(meeting: MeetingInput):
         storeMeetingDetailsOrg(org=org, name=meeting.meetingName, transcription=transcription, length=length,
                                date=meeting.meetingDate.strftime('%Y-%m-%d %H:%M:%S'), summary=summary, size=size,
                                uncommon=uncommonWords)
+    todos: List[Task] = meetingMeta.generate_todo()
+    unwrap = lambda x: (x.description, x.deadline.strftime('%Y-%m-%d %H:%M:%S'))
+    todos: List[Tuple[str, str]] = list(map(unwrap, todos))
+    addBulkTodos(todos, org)
 
 
 def updateMeetingTranscription(organisation: str, meetingId: int, transcription: str) -> TranscriptionDetails:
@@ -81,5 +87,3 @@ def getMeetingInfo(organisation: str, meetingid: int) -> MeetingDetails:
     else:
         return MeetingDetails(id=meetingid, title=details[0], date=details[1], type='organisation',
                               transcriptionGenerated=details[2])
-
-
