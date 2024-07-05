@@ -4,16 +4,17 @@ from fastapi import FastAPI, HTTPException, Response, Request, Cookie, UploadFil
 from typing import Annotated, Literal
 from IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
     OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput, AddUserInput, \
-    MeetingIdentifier, Transcription, TranscriptionDetails
+    MeetingIdentifier, Transcription, TranscriptionDetails, MeetingDetails
 from UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
     setOrganisationActive, eatCookie, bakeCookie, inviteOrAddUser
 from Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, getAllMeetings, \
     getTeams, addUser, createTeam
 from fastapi.middleware.cors import CORSMiddleware
 
-from Meetings import storeMeeting, updateMeetingTranscription, getMeetingSummary, getMeetingTranscription
+from Meetings import storeMeeting, updateMeetingTranscription, getMeetingSummary, getMeetingTranscription, \
+    getMeetingInfo
 from Enums import Roles
-from OrganisationHelpers import getRoleByID, getOrganisationByName
+from OrganisationHelpers import getRoleByID, getOrganisationByName, getTeamByName, getTRoleByID
 
 app = FastAPI()
 
@@ -164,6 +165,15 @@ async def getUserRole(org: OrganisationName, credentials: Annotated[str, Cookie(
     return {"role": role}
 
 
+@app.post('/get-team-role')
+async def getUserRole(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = None):
+    id = eatCookie(credentials)
+    org = getOrganisationByName(orgteam.organisation)
+    team = getTeamByName(org, orgteam.name)
+    role = getTRoleByID(org, team, id)
+    return {"role": role}
+
+
 @app.post('/add-team-user')
 async def addTeamUser(input: AddUserInput,
                       credentials: Annotated[str, Cookie()] = None) -> Person:
@@ -197,9 +207,17 @@ async def getSummary(meeting: MeetingIdentifier, credentials: Annotated[str, Coo
     summary = getMeetingSummary(meeting.organisation, meeting.meetingid)
     return {"summary": summary}
 
+
 @app.post('/get-transcription')
 async def getTranscription(meeting: MeetingIdentifier,
-                              credentials: Annotated[str, Cookie()] = None) -> TranscriptionDetails:
+                           credentials: Annotated[str, Cookie()] = None) -> TranscriptionDetails:
     id = eatCookie(credentials)
     details = getMeetingTranscription(meeting.organisation, meeting.meetingid)
+    return details
+
+@app.post('/get-meeting-details')
+async def getMeetingDetails(meeting: MeetingIdentifier,
+                           credentials: Annotated[str, Cookie()] = None) -> MeetingDetails:
+    id = eatCookie(credentials)
+    details = getMeetingInfo(meeting.organisation, meeting.meetingid)
     return details

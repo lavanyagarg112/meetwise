@@ -561,3 +561,13 @@ def getTranscription(organisation: int, meetingId: int):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (meetingId,))
         return cursor.fetchone()
+
+def getMeetingMetaData(organisation: int, meetingId: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT NAME,DATE,ISUSER,TEAM
+              FROM Org{organisation} WHERE ID = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (meetingId,))
+        return cursor.fetchone()
