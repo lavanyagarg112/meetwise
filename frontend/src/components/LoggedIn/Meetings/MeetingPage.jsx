@@ -34,7 +34,7 @@ const MeetingPage = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id: id,
+          meetingid: id,
           organisation: organisation,
         }),
         credentials: 'include',

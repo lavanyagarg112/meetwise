@@ -498,9 +498,32 @@ what i will send:
 
 
 /edit-todo
-PUT
+POST
 
-send all the details in add-todo but update request
+what i want:
+
+(im guessing this can be ur todo schema cause ill need all todos in this format)
+{
+    id: todo id
+    details:
+    deadline: datetime
+    assigner: Person schema
+    assignee: Person schema
+    isCompleted: boolean
+}
+
+what i will send:
+
+{
+    meetingid:
+    organisation:
+    todoid
+    details:
+    deadline: datetime
+    assigner: Person schema
+    assignee: Person schema
+    isCompleted: boolean
+}
 
 
 /delete-todo
@@ -643,7 +666,7 @@ what i want:
 
 what i will send:
 {
-    id: meeting id
+    meetingid: meeting id
     organisation: the meeting which the organisation is a part of
 }
 
@@ -657,8 +680,8 @@ what i want:
 
 what ill send:
 {
-    teamName: teamName
-    organisationName: org name
+    team: teamName
+    organisation: org name
 }
 
 /get-transcription
