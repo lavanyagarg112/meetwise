@@ -452,3 +452,291 @@ burn cookie!
 POST
 
 this is basically get-organisation-teams but here out of those organisation teams, u have to return the ones where the current user is the admin
+
+/get-user-role
+POST
+
+what i want:
+{
+    role: user role in the organisation
+}
+
+what ill send:
+{
+    name: organisation name
+}
+
+
+TODOS:
+
+/add-todo
+POST
+
+what i want:
+
+(im guessing this can be ur todo schema cause ill need all todos in this format)
+{
+    id: todo id
+    details:
+    deadline: datetime
+    assigner: Person schema
+    assignee: Person schema
+    isCompleted: boolean
+}
+
+what i will send:
+
+{
+    meetingid:
+    organisation:
+    details:
+    deadline: datetime
+    assigner: Person id
+    assignee: Person id
+    isCompleted: boolean
+}
+
+
+/edit-todo
+POST
+
+what i want:
+
+(im guessing this can be ur todo schema cause ill need all todos in this format)
+{
+    id: todo id
+    details:
+    deadline: datetime
+    assigner: Person schema
+    assignee: Person schema
+    isCompleted: boolean
+}
+
+what i will send:
+
+{
+    meetingid:
+    organisation:
+    todoid
+    details:
+    deadline: datetime
+    assigner: Person id
+    assignee: Person id
+    isCompleted: boolean
+}
+
+
+/delete-todo
+POST
+
+per meeting so ill send meeting id, org and team, todo id
+
+what ill send:
+{
+    meetingid:
+    organisation:
+    todoid:
+}
+
+/get-meeting-todos
+POST
+
+what i want:
+{
+    todos: [
+        {
+            id: todo id
+            details:
+            deadline: datetime
+            assigner: Person id
+            assignee: Person id
+            isCompleted: boolean
+        },
+        {
+            id: todo id
+            details:
+            deadline: datetime
+            assigner: Person id
+            assignee: Person id
+            isCompleted: boolean
+        }
+
+    ]
+}
+
+what ill send:
+{
+    meetingid:
+    organisation:
+}
+
+
+/get-user-todos
+POST
+
+basically get-meeting-todos but where sent user in post request is the assignee or assigner
+
+What I want:
+
+{
+    todos: {
+        assigner: [
+            {
+                id: todo id
+                details:
+                deadline: datetime
+                assigner: Person schema
+                assignee: Person schema
+                isCompleted: boolean
+            },
+            {
+                id: todo id
+                details:
+                deadline: datetime
+                assigner: Person schema
+                assignee: Person schema
+                isCompleted: boolean
+            }
+        ],
+
+        assignee: [
+            {
+                id: todo id
+                details:
+                deadline: datetime
+                assigner: Person schema
+                assignee: Person schema
+                isCompleted: boolean
+            },
+            {
+                id: todo id
+                details:
+                deadline: datetime
+                assigner: Person schema
+                assignee: Person schema
+                isCompleted: boolean
+            }
+        ]
+
+    }
+}
+
+so assigner array is the list of all todos where user is the assinger
+assignee array is the list of all todos where user is the assignee
+
+what ill send:
+{
+    userId: userid
+    meetingid:
+    organisation:
+}
+
+
+/get-all-user-todos
+POST
+
+basically /get-user-todos but for all the meetings in the teams that the CURRENT user can see from sent organisation
+so ill not send you anything. you can use current user id from credentials for this.
+
+what ill send:
+
+{
+    organisation:
+}
+
+
+TRANSCRIPTION:
+
+/get-meeting-details
+POST
+
+I am not 100% sure about this schema yet. pls check with me before implementing
+
+what i want:
+{
+    id: meeting id
+    title: meeting name
+    date: meeting date as text like u do earlier
+    type: "team" or "organisation"
+    team: can be null
+    organisation: the meeting which the organisation is a part of
+    transcriptionGenerated: true or false so that i can decide to show summary or not
+}
+
+what i will send:
+{
+    meetingid: meeting id
+    organisation: the meeting which the organisation is a part of
+}
+
+/get-team-role
+POST
+
+what i want: 
+{
+    role: "admin" or "user"
+}
+
+what ill send:
+{
+    team: teamName
+    organisation: org name
+}
+
+/get-transcription
+POST
+
+what i want:
+
+{
+    type: "ai" or "user"
+    transcription:
+    uncommonWords: ["word1", "word2"]
+}
+
+what i will send:
+
+{
+    meetingid:
+    organisation:
+}
+
+
+
+/update-transcription
+PUT 
+PUT 
+
+what i want:
+{
+    type: "ai" or "user"
+    transcription:
+    uncommonWords: ["word1", "word2"]
+}
+
+
+what i will send:
+
+{
+    meetingid:
+    organisation:
+    transcription: new transcription
+}
+
+
+
+SUMMARY
+
+/get-summary
+POST
+
+what i want:
+{
+    summary:
+}
+
+what i will send:
+{
+    meetingid:
+    organisation:
+}

@@ -1,0 +1,40 @@
+/* MeetingPage.module.css */
+
+.meetingPage {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .date {
+    font-size: 18px;
+    color: #888;
+  }
+  
+  .sections {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .thissection {
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #f6f8fc, #eef2f6);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e5eb;
+  }

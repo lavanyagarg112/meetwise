@@ -1,4 +1,5 @@
 import os
+import profile
 from contextlib import closing
 from datetime import datetime
 
@@ -319,6 +320,8 @@ def makeOrganisation(owner: int, org: str):
         SUMMARY TEXT NOT NULL,
         SIZE INTEGER NOT NULL,
         CONFIDENTIALITY TEXT NOT NULL DEFAULT 'PUBLIC',
+        UNCOMMON TEXT,
+        ISUSER BOOLEAN NOT NULL DEFAULT FALSE,
         FOREIGN KEY(TEAM) REFERENCES Org{id}Team(ID)
         )
         '''
@@ -366,17 +369,19 @@ def makeOrganisation(owner: int, org: str):
         CREATE TABLE Org{id}Todo(
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         ASSIGNEE INT,
-        DETAIL TEXT,
+        ASSIGNER INT,
+        DETAILS TEXT,
         MEETINGID INT,
         DEADLINE DATETIME,
         COMPLETED BOOLEAN,
         TEAM INT,
         FOREIGN KEY (ASSIGNEE) REFERENCES USERS(ID),
+        FOREIGN KEY (ASSIGNER) REFERENCES USERS(ID),
         FOREIGN KEY (MEETINGID) REFERENCES Org{id}(ID),
         FOREIGN KEY (TEAM) REFERENCES Org{id}Team(ID)
         )
         '''
-
+        cursor.execute(orgtodo)
         conn.commit()
         conn.sync()
 
@@ -428,25 +433,25 @@ def addUserToTeam(orgId: int, userId: int, role: str, team: int, status: str):
 
 
 def storeMeetingDetailsTeam(org: int, name: str, team: int, transcription: str, length: int, date: str,
-                            summary: str, size: int):
+                            summary: str, size: int, uncommon: str):
     initialise()
     conn.sync()
     sqlCommand = f'''
-              INSERT INTO Org{org} (NAME, TEAM, TRANSCRIPTION, LENGTH, DATE, SUMMARY, SIZE) VALUES (?,?,?,?,?,?,?)'''
+              INSERT INTO Org{org} (NAME, TEAM, TRANSCRIPTION, LENGTH, DATE, SUMMARY, SIZE,UNCOMMON) VALUES (?,?,?,?,?,?,?,?)'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (name, team, transcription, length, date, summary, size))
+        cursor.execute(sqlCommand, (name, team, transcription, length, date, summary, size, uncommon))
         conn.commit()
         conn.sync()
 
 
 def storeMeetingDetailsOrg(org: int, name: str, transcription: str, length: int, date: str,
-                           summary: str, size: int):
+                           summary: str, size: int, uncommon: str):
     initialise()
     conn.sync()
     sqlCommand = f'''
-              INSERT INTO Org{org} (NAME, TRANSCRIPTION, LENGTH, DATE, SUMMARY, SIZE) VALUES (?,?,?,?,?,?)'''
+              INSERT INTO Org{org} (NAME, TRANSCRIPTION, LENGTH, DATE, SUMMARY, SIZE,UNCOMMON) VALUES (?,?,?,?,?,?,?)'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (name, transcription, length, date, summary, size))
+        cursor.execute(sqlCommand, (name, transcription, length, date, summary, size, uncommon))
         conn.commit()
         conn.sync()
 
@@ -523,3 +528,108 @@ def mapTeamNameToId(orgId: int, teamName: str):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamName,))
         return cursor.fetchone()
+
+
+def getSummary(orgId: int, meetingId: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT SUMMARY
+              FROM Org{orgId} WHERE ID = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (meetingId,))
+        return cursor.fetchone()
+
+
+def updateMeetingDetails(organisation: int, meetingId: int, transcription: str, summary: str,
+                         uncommonwords: str):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              UPDATE Org{organisation} SET TRANSCRIPTION = ?, SUMMARY = ?, UNCOMMON = ?, ISUSER = TRUE WHERE ID = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (transcription, summary, uncommonwords, meetingId))
+        conn.commit()
+        conn.sync()
+
+
+def getTranscription(organisation: int, meetingId: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT ISUSER,TRANSCRIPTION,UNCOMMON
+              FROM Org{organisation} WHERE ID = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (meetingId,))
+        return cursor.fetchone()
+
+
+def getMeetingMetaData(organisation: int, meetingId: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT NAME,DATE,ISUSER,TEAM
+              FROM Org{organisation} WHERE ID = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (meetingId,))
+        return cursor.fetchone()
+
+
+def addTodos(organisation: int, meetingId: int, details: str, deadline: str, assigner: int, assignee: int,
+             isCompleted: bool):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              INSERT INTO  Org{organisation}Todo (MEETINGID, DETAILS, DEADLINE, ASSIGNER, ASSIGNEE, COMPLETED)
+              VALUES (?,?,?,?,?,?)'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (meetingId, details, deadline, assigner, assignee, isCompleted))
+        conn.commit()
+        conn.sync()
+        return cursor.lastrowid
+
+
+def updateTodos(todoId: int, organisation: int, meetingId: int, details: str, deadline: str, assigner: int,
+                assignee: int,
+                isCompleted: bool):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              UPDATE Org{organisation}Todo SET MEETINGID =?,DETAILS =?, DEADLINE =?, ASSIGNER =?, ASSIGNEE =?, COMPLETED =? WHERE ID = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (meetingId, details, deadline, assigner, assignee, isCompleted, todoId))
+        conn.commit()
+        conn.sync()
+
+
+def deleteTodos(org: int, todoId: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              DELETE FROM Org{org}Todo WHERE ID = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (todoId,))
+        conn.commit()
+        conn.sync()
+
+
+def getMeetingTodos(org: int, meetingId: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT ID, DETAILS, DEADLINE, ASSIGNER, ASSIGNEE, COMPLETED
+              FROM Org{org}Todo WHERE MEETINGID = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (meetingId,))
+        return cursor.fetchall()
+
+
+def getUserTodosOrg(userId: id, org: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT ID, DETAILS, DEADLINE, ASSIGNER, ASSIGNEE, COMPLETED
+              FROM Org{org}Todo '''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand)
+        return cursor.fetchall()
