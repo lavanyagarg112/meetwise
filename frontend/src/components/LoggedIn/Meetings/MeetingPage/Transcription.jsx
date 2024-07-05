@@ -4,7 +4,7 @@ import CollapsibleSection from '../../../ui/CollapsableSection';
 import styles from './Transcription.module.css';
 import { useRef } from 'react';
 
-const Transcription = ({ type, team, organisation, meetingid }) => {
+const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
   const [canEdit, setCanEdit] = useState(false);
   const [transcriptionType, setTranscriptionType] = useState('');
   const [transcription, setTranscription] = useState('');
@@ -138,6 +138,7 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
       }
 
       const data = await response.json();
+      onconfirm();
       setTranscriptionType(data.type);
       setTranscription(data.transcription);
       setUncommonWords(data.uncommonWords);
@@ -147,6 +148,7 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
     setLoading(false);
 
     // to be removed once endpoint works
+    onconfirm();
     setTranscriptionType('user');
     setTranscription(transcription);
     setUncommonWords(uncommonWords);

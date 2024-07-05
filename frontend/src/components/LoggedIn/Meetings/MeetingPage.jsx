@@ -65,13 +65,17 @@ const MeetingPage = () => {
     setDate('Meeting Date');
     setType('organisation');
     setTeam('team name');
-    setTranscriptionGenerated(true)
+    setTranscriptionGenerated(false)
     setIsPermitted(true)
 
   };
 
   if (!isPermitted) {
     return <NotPermittedPage />
+  }
+
+  const onConfirmation = () => {
+    setTranscriptionGenerated(true)
   }
 
   return (
@@ -82,7 +86,7 @@ const MeetingPage = () => {
       </div>
       <div className={styles.sections}>
         <div className={styles.thissection}>
-          <Transcription type={type} team={team} organisation={organisation} meetingid={id} />
+          <Transcription type={type} team={team} organisation={organisation} meetingid={id} onconfirm={() => onConfirmation()} />
         </div>
         {transcriptionGenerated && <div>
             <div className={styles.thissection}>
