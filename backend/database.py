@@ -611,3 +611,14 @@ def deleteTodos(org: int, todoId: int):
         cursor.execute(sqlCommand, (todoId,))
         conn.commit()
         conn.sync()
+
+
+def getMeetingTodos(org: int, meetingId: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT ID, DETAILS, DEADLINE, ASSIGNER, ASSIGNEE, COMPLETED
+              FROM Org{org}Todo WHERE MEETINGID = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (meetingId,))
+        return cursor.fetchall()
