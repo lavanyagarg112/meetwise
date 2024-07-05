@@ -14,6 +14,7 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
   const [loading, setLoading] = useState(false);
   const [originalTranscription, setOriginalTranscription] = useState('');
   const [wordColors, setWordColors] = useState({});
+  const [hasChanges, setHasChanges] = useState(false);
   const textareaRef = useRef(null);
   const overlayRef = useRef(null);
 
@@ -110,11 +111,13 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
 
   const handleEditTranscription = () => {
     setIsEditing(true);
+    setHasChanges(false);
   };
 
   const handleCancelEdit = () => {
     setTranscription(originalTranscription); // Revert to the original transcription
     setIsEditing(false);
+    setHasChanges(false);
   };
 
   const handleSubmitTranscription = async () => {
@@ -182,6 +185,7 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
   const handleTranscriptionChange = (e) => {
     setTranscription(e.target.value);
     updateHighlight(e.target.value);
+    setHasChanges(e.target.value !== originalTranscription);
   };
 
   const updateHighlight = (text) => {
@@ -265,7 +269,7 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
               <button className={styles.cancelButton} onClick={handleCancelEdit}>
                 Cancel Edit
               </button>
-              <button className={styles.submitButton} onClick={handleSubmitTranscription}>
+              <button className={styles.submitButton} onClick={handleSubmitTranscription} disabled={!hasChanges}>
               { !transcriptionType ? 'Confirm Transcription' : 'Submit Transcription' }
               </button>
             </div>
