@@ -548,8 +548,8 @@ what i want:
             id: todo id
             details:
             deadline: datetime
-            assigner: Person id
-            assignee: Person id
+            assigner: Person schema
+            assignee: Person schema
             isCompleted: boolean
         },
         {
