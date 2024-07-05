@@ -370,7 +370,7 @@ def makeOrganisation(owner: int, org: str):
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         ASSIGNEE INT,
         ASSIGNER INT,
-        DETAIL TEXT,
+        DETAILS TEXT,
         MEETINGID INT,
         DEADLINE DATETIME,
         COMPLETED BOOLEAN,
@@ -381,7 +381,6 @@ def makeOrganisation(owner: int, org: str):
         FOREIGN KEY (TEAM) REFERENCES Org{id}Team(ID)
         )
         '''
-
         cursor.execute(orgtodo)
         conn.commit()
         conn.sync()
