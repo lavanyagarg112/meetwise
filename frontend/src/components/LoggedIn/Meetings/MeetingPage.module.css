@@ -1,0 +1,32 @@
+/* MeetingPage.module.css */
+
+.meetingPage {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .date {
+    font-size: 18px;
+    color: #888;
+  }
+  
+  .sections {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  

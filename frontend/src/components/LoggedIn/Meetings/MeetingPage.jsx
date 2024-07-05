@@ -1,35 +1,37 @@
-import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-import Transcription from './MeetingPage/Transcription'
-import Summary from './MeetingPage/Summary'
-import MeetingTodos from './MeetingPage/MeetingTodos'
+import Transcription from './MeetingPage/Transcription';
+import Summary from './MeetingPage/Summary';
+import MeetingTodos from './MeetingPage/MeetingTodos';
+
+import styles from './MeetingPage.module.css';
 
 const MeetingPage = () => {
+  const { id, organisation } = useParams();
 
-  const {id} = useParams()
-  const { organisation } = useParams()
+  const [title, setTitle] = useState('');
+  const [date, setDate] = useState('');
+  const [type, setType] = useState('');
+  const [team, setTeam] = useState(null);
 
-  const [title, setTitle] = useState('')
-  const [date, setDate] = useState('')
-  const [type, setType] = useState('')
-  const [team, setTeam] = useState(null)
-
+  useEffect(() => {
+    getMeetingDetails();
+  }, []);
 
   const getMeetingDetails = async () => {
-
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_ULS}/get-meeting-details`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-meeting-details`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           id: id,
           organisation: organisation,
         }),
-        credentials: 'include'
-      })
+        credentials: 'include',
+      });
 
       if (!response.ok) {
         const errorResponse = await response.json();
@@ -38,34 +40,41 @@ const MeetingPage = () => {
       }
 
       const data = await response.json();
-      setTitle(data.id)
-      setDate(data.date)
-      setType(data.type)
-      setTeam(data.team)
-
+      setTitle(data.id);
+      setDate(data.date);
+      setType(data.type);
+      setTeam(data.team);
     } catch (error) {
-      console.log('Error: ', error)
+      console.log('Error: ', error);
     }
 
-  }
+    // to be removed after end point works
+    setTitle('Meeting Title');
+    setDate('Meeting Date');
+    setType('organisation');
+    setTeam('team name');
+
+  };
 
   return (
-    <div>
-      <div>
-        <div>{title}</div>
-        <div>{date}</div>
+    <div className={styles.meetingPage}>
+      <div className={styles.header}>
+        <div className={styles.title}>{title}</div>
+        <div className={styles.date}>{date}</div>
       </div>
-      <div>
-        <Transcription />
-      </div>
-      <div>
-        <Summary />
-      </div>
-      <div>
-        <MeetingTodos />
+      <div className={styles.sections}>
+        <div>
+          <Transcription type={type} team={team} organisation={organisation} meetingid={id} />
+        </div>
+        <div>
+          <Summary />
+        </div>
+        <div>
+          <MeetingTodos />
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default MeetingPage
+export default MeetingPage;
