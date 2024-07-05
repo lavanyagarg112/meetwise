@@ -1,6 +1,6 @@
 import os
+import profile
 from contextlib import closing
-from datetime import datetime
 
 import libsql_experimental as libsql
 from dotenv import load_dotenv
@@ -319,6 +319,8 @@ def makeOrganisation(owner: int, org: str):
         SUMMARY TEXT NOT NULL,
         SIZE INTEGER NOT NULL,
         CONFIDENTIALITY TEXT NOT NULL DEFAULT 'PUBLIC',
+        UNCOMMON TEXT,
+        ISUSER BOOLEAN NOT NULL DEFAULT FALSE,
         FOREIGN KEY(TEAM) REFERENCES Org{id}Team(ID)
         )
         '''
@@ -366,12 +368,14 @@ def makeOrganisation(owner: int, org: str):
         CREATE TABLE Org{id}Todo(
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         ASSIGNEE INT,
+        ASSIGNER INT,
         DETAIL TEXT,
         MEETINGID INT,
         DEADLINE DATETIME,
         COMPLETED BOOLEAN,
         TEAM INT,
         FOREIGN KEY (ASSIGNEE) REFERENCES USERS(ID),
+        FOREIGN KEY (ASSIGNER) REFERENCES USERS(ID),
         FOREIGN KEY (MEETINGID) REFERENCES Org{id}(ID),
         FOREIGN KEY (TEAM) REFERENCES Org{id}Team(ID)
         )
@@ -428,25 +432,25 @@ def addUserToTeam(orgId: int, userId: int, role: str, team: int, status: str):
 
 
 def storeMeetingDetailsTeam(org: int, name: str, team: int, transcription: str, length: int, date: str,
-                            summary: str, size: int):
+                            summary: str, size: int, uncommon: str):
     initialise()
     conn.sync()
     sqlCommand = f'''
-              INSERT INTO Org{org} (NAME, TEAM, TRANSCRIPTION, LENGTH, DATE, SUMMARY, SIZE) VALUES (?,?,?,?,?,?,?)'''
+              INSERT INTO Org{org} (NAME, TEAM, TRANSCRIPTION, LENGTH, DATE, SUMMARY, SIZE,UNCOMMON) VALUES (?,?,?,?,?,?,?,?)'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (name, team, transcription, length, date, summary, size))
+        cursor.execute(sqlCommand, (name, team, transcription, length, date, summary, size, uncommon))
         conn.commit()
         conn.sync()
 
 
 def storeMeetingDetailsOrg(org: int, name: str, transcription: str, length: int, date: str,
-                           summary: str, size: int):
+                           summary: str, size: int, uncommon: str):
     initialise()
     conn.sync()
     sqlCommand = f'''
-              INSERT INTO Org{org} (NAME, TRANSCRIPTION, LENGTH, DATE, SUMMARY, SIZE) VALUES (?,?,?,?,?,?)'''
+              INSERT INTO Org{org} (NAME, TRANSCRIPTION, LENGTH, DATE, SUMMARY, SIZE,UNCOMMON) VALUES (?,?,?,?,?,?,?)'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (name, transcription, length, date, summary, size))
+        cursor.execute(sqlCommand, (name, transcription, length, date, summary, size, uncommon))
         conn.commit()
         conn.sync()
 
@@ -522,4 +526,38 @@ def mapTeamNameToId(orgId: int, teamName: str):
           FROM Org{orgId}Team WHERE NAME = ?'''
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamName,))
+        return cursor.fetchone()
+
+
+def getSummary(orgId: int, meetingId: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT SUMMARY
+              FROM Org{orgId} WHERE ID = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (meetingId,))
+        return cursor.fetchone()
+
+
+def updateMeetingDetails(organisation: int, meetingId: int, transcription: str, summary: str,
+                         uncommonwords: str):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              UPDATE Org{organisation} SET TRANSCRIPTION = ?, SUMMARY = ?, UNCOMMON = ?, ISUSER = TRUE WHERE ID = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (transcription, summary, uncommonwords, meetingId))
+        conn.commit()
+        conn.sync()
+
+
+def getTranscription(organisation: int, meetingId: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT ISUSER,TRANSCRIPTION,UNCOMMON
+              FROM Org{organisation} WHERE ID = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (meetingId,))
         return cursor.fetchone()

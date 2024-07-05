@@ -3,11 +3,11 @@ import Loading from '../../../ui/Loading';
 import CollapsibleSection from '../../../ui/CollapsableSection';
 import styles from './Transcription.module.css';
 import { useRef } from 'react';
+import { useCallback } from 'react';
 
-const Transcription = ({ type, team, organisation, meetingid }) => {
+const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
   const [canEdit, setCanEdit] = useState(false);
-  const [id, setTranscriptionId] = useState(null);
-  const [transcriptionType, setTranscriptionType] = useState('');
+  const [transcriptionType, setTranscriptionType] = useState(false);
   const [transcription, setTranscription] = useState('');
   const [uncommonWords, setUncommonWords] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -90,7 +90,6 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
       }
 
       const data = await response.json();
-      setTranscriptionId(data.id);
       setTranscriptionType(data.type);
       setTranscription(data.transcription);
       setOriginalTranscription(data.transcription); // Store the original transcription
@@ -101,12 +100,11 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
     setLoading(false);
 
 
-    // to be removed once endpoint works:
-    setTranscriptionId(0);
-    setTranscriptionType('ai');
-    setTranscription('this is a sample transcription');
-    setOriginalTranscription('this is a sample transcription');
-    setUncommonWords(['sample']);
+    // // to be removed once endpoint works:
+    // setTranscriptionType('ai');
+    // setTranscription('this is a sample transcription');
+    // setOriginalTranscription('this is a sample transcription');
+    // setUncommonWords(['sample']);
 
   };
 
@@ -122,16 +120,16 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
   const handleSubmitTranscription = async () => {
     setIsEditing(false);
     setLoading(true);
+    onconfirm(false);
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/update-transcription`, {
-        method: 'PUT',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           meetingid,
           organisation,
-          transcriptionid: id,
           transcription,
         }),
         credentials: 'include',
@@ -149,11 +147,13 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
       console.log('error:', error);
     }
     setLoading(false);
+    onconfirm(true)
 
-    // to be removed once endpoint works
-    setTranscriptionType('user');
-    setTranscription(transcription);
-    setUncommonWords(uncommonWords);
+    // // to be removed once endpoint works
+    // onconfirm();
+    // setTranscriptionType('user');
+    // setTranscription(transcription);
+    // setUncommonWords(uncommonWords);
 
   };
 
@@ -162,7 +162,7 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
     return `hsl(${hue}, 100%, 85%)`;
   };
 
-  const highlightWords = (text) => {
+  const highlightWords = useCallback((text) => {
     if (!text) return { __html: '' };
     let highlightedText = text;
     uncommonWords.forEach((word) => {
@@ -173,31 +173,45 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
       const regex = new RegExp(`(${word})`, 'gi');
       highlightedText = highlightedText.replace(
         regex,
-        `<mark style="background-color: ${color}; color: transparent;">${word}</mark>`
+        `<mark style="background-color: ${color};">${word}</mark>`
       );
     });
     return { __html: highlightedText };
-  };
+  }, [uncommonWords, wordColors]);
 
   const handleTranscriptionChange = (e) => {
     setTranscription(e.target.value);
+    updateHighlight(e.target.value);
+  };
+
+  const updateHighlight = (text) => {
+    if (overlayRef.current) {
+      overlayRef.current.innerHTML = highlightWords(text).__html;
+    }
     syncScroll();
   };
 
   const syncScroll = () => {
     if (overlayRef.current && textareaRef.current) {
       overlayRef.current.scrollTop = textareaRef.current.scrollTop;
+      overlayRef.current.scrollLeft = textareaRef.current.scrollLeft;
     }
   };
+
+  useEffect(() => {
+    if (isEditing) {
+      updateHighlight(transcription);
+    }
+  }, [transcription, isEditing, highlightWords]);
 
 
   return (
     <CollapsibleSection title="Meeting Transcription" onToggle={getMeetingTranscription}>
       {loading && <Loading />}
       <div className={styles.transcriptionContainer}>
-      {canEdit && (
+      {canEdit && !isEditing && (
         <button className={styles.editButton} onClick={handleEditTranscription}>
-          { transcriptionType === 'ai' ? 'Confirm Transcription' : 'Edit Transcription' }
+          { !transcriptionType ? 'Confirm Transcription' : 'Edit Transcription' }
         </button>
 
       )}
@@ -222,10 +236,9 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
               <div 
                 ref={overlayRef}
                 className={styles.highlightOverlay}
-                dangerouslySetInnerHTML={highlightWords(transcription)}
               />
             </div>
-            <div>Uncommon words found which may have been generated correctly: </div>
+            <div>Uncommon words found which may have been generated incorrectly: </div>
             <div className={styles.uncommonWordsContainer}>
               {uncommonWords.map((word, index) => (
                 <span 
@@ -237,12 +250,12 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
                 </span>
               ))}
             </div>
-            {transcriptionType === 'user' && (
+            {transcriptionType && (
               <div className={styles.warning}>
                 Warning: Summary and todos will be regenerated. You will lose manual todos if you click on submit. Click on cancel to cancel this edit
               </div>
             )}
-            {transcriptionType === 'ai' && (
+            {!transcriptionType && (
               <div className={styles.warning}>
                 Warning: Once you confirm, your summary and todos will be generated after which you can edit your
                 todos. However, if you make any further edits to the transcription after confirmation, your work will be lost. Click on cancel to not confirm transcription.
@@ -253,7 +266,7 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
                 Cancel Edit
               </button>
               <button className={styles.submitButton} onClick={handleSubmitTranscription}>
-              { transcriptionType === 'ai' ? 'Confirm Transcription' : 'Submit Transcription' }
+              { !transcriptionType ? 'Confirm Transcription' : 'Submit Transcription' }
               </button>
             </div>
           </div>

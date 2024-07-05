@@ -667,7 +667,6 @@ POST
 what i want:
 
 {
-    id: transcription id
     type: "ai" or "user"
     transcription:
     uncommonWords: ["word1", "word2"]
@@ -683,11 +682,11 @@ what i will send:
 
 
 /update-transcription
-POST 
+PUT 
+PUT 
 
 what i want:
 {
-    id: transcription id
     type: "ai" or "user"
     transcription:
     uncommonWords: ["word1", "word2"]
@@ -699,7 +698,7 @@ what i will send:
 {
     meetingid:
     organisation:
-    transcriptionid:
+    transcription: new transcription
 }
 
 
@@ -711,7 +710,6 @@ POST
 
 what i want:
 {
-    id: summary id
     summary:
 }
 

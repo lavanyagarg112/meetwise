@@ -3,14 +3,15 @@ from datetime import datetime
 from fastapi import FastAPI, HTTPException, Response, Request, Cookie, UploadFile, Form, File
 from typing import Annotated, Literal
 from IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
-    OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput, AddUserInput
+    OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput, AddUserInput, \
+    MeetingIdentifier, Transcription, TranscriptionDetails
 from UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
     setOrganisationActive, eatCookie, bakeCookie, inviteOrAddUser
 from Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, getAllMeetings, \
     getTeams, addUser, createTeam
 from fastapi.middleware.cors import CORSMiddleware
 
-from Meetings import storeMeeting
+from Meetings import storeMeeting, updateMeetingTranscription, getMeetingSummary, getMeetingTranscription
 from Enums import Roles
 from OrganisationHelpers import getRoleByID, getOrganisationByName
 
@@ -108,11 +109,11 @@ async def teamPage(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = Non
 
 @app.post("/upload-meeting")
 async def uploadMeeting(file: UploadFile,
-                        type: Annotated[Literal["organisation", "team"],Form()],
-                        meetingName: Annotated[str,Form()],
-                        meetingDate: Annotated[datetime,Form()],
-                        organisation: Annotated[str,Form()],
-                        team: Annotated[str | None,Form()] = None,
+                        type: Annotated[Literal["organisation", "team"], Form()],
+                        meetingName: Annotated[str, Form()],
+                        meetingDate: Annotated[datetime, Form()],
+                        organisation: Annotated[str, Form()],
+                        team: Annotated[str | None, Form()] = None,
                         credentials: Annotated[str, Cookie()] = None):
     input = MeetingInput(file=file, type=type, meetingName=meetingName, meetingDate=meetingDate, team=team,
                          organisation=organisation)
@@ -154,11 +155,12 @@ async def getAdminTeams(name: OrganisationName, credentials: Annotated[str, Cook
     teams = getTeams(name.name, id, Roles.ADMIN)
     return {"teams": teams}
 
+
 @app.post("/get-user-role")
-async def getUserRole(org : OrganisationName, credentials: Annotated[str, Cookie()] = None):
+async def getUserRole(org: OrganisationName, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
     org = getOrganisationByName(org.name)
-    role = getRoleByID(org,id)
+    role = getRoleByID(org, id)
     return {"role": role}
 
 
@@ -179,3 +181,25 @@ async def inviteUser(input: InviteInput, credentials: Annotated[str, Cookie()] =
 @app.get('/logout')
 async def logout(response: Response):
     response.delete_cookie("credentials", httponly=True, secure=True, samesite="none")
+
+
+@app.post('/update-transcription')
+async def updateTranscription(meeting: Transcription,
+                              credentials: Annotated[str, Cookie()] = None) -> TranscriptionDetails:
+    id = eatCookie(credentials)
+    details = updateMeetingTranscription(meeting.organisation, meeting.meetingid, meeting.transcription)
+    return details
+
+
+@app.post('/get-summary')
+async def getSummary(meeting: MeetingIdentifier, credentials: Annotated[str, Cookie()] = None):
+    id = eatCookie(credentials)
+    summary = getMeetingSummary(meeting.organisation, meeting.meetingid)
+    return {"summary": summary}
+
+@app.post('/get-transcription')
+async def getTranscription(meeting: MeetingIdentifier,
+                              credentials: Annotated[str, Cookie()] = None) -> TranscriptionDetails:
+    id = eatCookie(credentials)
+    details = getMeetingTranscription(meeting.organisation, meeting.meetingid)
+    return details

@@ -92,21 +92,24 @@
     font-family: monospace;
   }
   
-  .textarea {
+  .textarea, .highlightOverlay {
     width: 100%;
     min-height: 200px;
     font-size: 16px;
     line-height: 1.5;
     padding: 10px;
     border: 1px solid #ccc;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow-y: auto;
+  }
+  
+  .textarea {
     background-color: transparent;
     resize: vertical;
     z-index: 1;
     position: relative;
-    font-family: inherit;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
   }
   
   .highlightOverlay {
@@ -116,17 +119,12 @@
     right: 0;
     bottom: 0;
     pointer-events: none;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
     color: transparent;
-    padding: 10px;
-    font-size: 16px;
-    line-height: 1.5;
-    font-family: inherit;
+    background-color: transparent;
   }
   
   .highlightOverlay mark {
+    color: transparent;
     border-radius: 3px;
     padding: 0;
   }
