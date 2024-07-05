@@ -6,7 +6,7 @@ import { useRef } from 'react';
 
 const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
   const [canEdit, setCanEdit] = useState(false);
-  const [transcriptionType, setTranscriptionType] = useState('');
+  const [transcriptionType, setTranscriptionType] = useState(false);
   const [transcription, setTranscription] = useState('');
   const [uncommonWords, setUncommonWords] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -195,7 +195,7 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
       <div className={styles.transcriptionContainer}>
       {canEdit && (
         <button className={styles.editButton} onClick={handleEditTranscription}>
-          { transcriptionType === 'ai' ? 'Confirm Transcription' : 'Edit Transcription' }
+          { !transcriptionType ? 'Confirm Transcription' : 'Edit Transcription' }
         </button>
 
       )}
@@ -235,12 +235,12 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
                 </span>
               ))}
             </div>
-            {transcriptionType === 'user' && (
+            {transcriptionType && (
               <div className={styles.warning}>
                 Warning: Summary and todos will be regenerated. You will lose manual todos if you click on submit. Click on cancel to cancel this edit
               </div>
             )}
-            {transcriptionType === 'ai' && (
+            {!transcriptionType && (
               <div className={styles.warning}>
                 Warning: Once you confirm, your summary and todos will be generated after which you can edit your
                 todos. However, if you make any further edits to the transcription after confirmation, your work will be lost. Click on cancel to not confirm transcription.
@@ -251,7 +251,7 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
                 Cancel Edit
               </button>
               <button className={styles.submitButton} onClick={handleSubmitTranscription}>
-              { transcriptionType === 'ai' ? 'Confirm Transcription' : 'Submit Transcription' }
+              { !transcriptionType ? 'Confirm Transcription' : 'Submit Transcription' }
               </button>
             </div>
           </div>
