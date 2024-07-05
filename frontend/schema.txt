@@ -699,7 +699,6 @@ what i will send:
 {
     meetingid:
     organisation:
-    transcriptionid:
     transcription: new transcription
 }
 
@@ -712,7 +711,6 @@ POST
 
 what i want:
 {
-    id: summary id
     summary:
 }
 
