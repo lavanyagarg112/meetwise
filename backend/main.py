@@ -11,7 +11,7 @@ from Organisations import createOrganisation, getOrganisationReport, getTeamRepo
     getTeams, addUser, createTeam
 from fastapi.middleware.cors import CORSMiddleware
 
-from Meetings import storeMeeting
+from Meetings import storeMeeting, updateMeetingTranscription, getMeetingSummary
 from Enums import Roles
 from OrganisationHelpers import getRoleByID, getOrganisationByName
 
@@ -109,11 +109,11 @@ async def teamPage(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = Non
 
 @app.post("/upload-meeting")
 async def uploadMeeting(file: UploadFile,
-                        type: Annotated[Literal["organisation", "team"],Form()],
-                        meetingName: Annotated[str,Form()],
-                        meetingDate: Annotated[datetime,Form()],
-                        organisation: Annotated[str,Form()],
-                        team: Annotated[str | None,Form()] = None,
+                        type: Annotated[Literal["organisation", "team"], Form()],
+                        meetingName: Annotated[str, Form()],
+                        meetingDate: Annotated[datetime, Form()],
+                        organisation: Annotated[str, Form()],
+                        team: Annotated[str | None, Form()] = None,
                         credentials: Annotated[str, Cookie()] = None):
     input = MeetingInput(file=file, type=type, meetingName=meetingName, meetingDate=meetingDate, team=team,
                          organisation=organisation)
@@ -155,11 +155,12 @@ async def getAdminTeams(name: OrganisationName, credentials: Annotated[str, Cook
     teams = getTeams(name.name, id, Roles.ADMIN)
     return {"teams": teams}
 
+
 @app.post("/get-user-role")
-async def getUserRole(org : OrganisationName, credentials: Annotated[str, Cookie()] = None):
+async def getUserRole(org: OrganisationName, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
     org = getOrganisationByName(org.name)
-    role = getRoleByID(org,id)
+    role = getRoleByID(org, id)
     return {"role": role}
 
 
@@ -183,13 +184,15 @@ async def logout(response: Response):
 
 
 @app.post('/update-transcription')
-async def updateTranscription(meeting : Transcription, credentials: Annotated[str, Cookie()] = None) -> TranscriptionDetails:
+async def updateTranscription(meeting: Transcription,
+                              credentials: Annotated[str, Cookie()] = None) -> TranscriptionDetails:
     id = eatCookie(credentials)
-    details = updateMeetingTranscription(meeting.organisation,meeting.meetingid, meeting.transcription)
+    details = updateMeetingTranscription(meeting.organisation, meeting.meetingid, meeting.transcription)
     return details
 
+
 @app.post('/get-summary')
-async def getSummary(meeting : MeetingIdentifier, credentials: Annotated[str, Cookie()] = None):
+async def getSummary(meeting: MeetingIdentifier, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    summary = getMeetingSummary(meeting.organisation,meeting.meetingid)
+    summary = getMeetingSummary(meeting.organisation, meeting.meetingid)
     return {"summary": summary}
