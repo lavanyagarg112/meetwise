@@ -26,9 +26,6 @@ const Summary = ({ organisation, meetingid }) => {
       console.log('error: ', error);
     }
 
-    // remove when endpoint created
-    setSummary('This is a summary')
-
   };
 
   return (

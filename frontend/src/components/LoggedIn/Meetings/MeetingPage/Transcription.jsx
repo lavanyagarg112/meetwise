@@ -122,7 +122,7 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
     setLoading(true);
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/update-transcription`, {
-        method: 'PUT',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
