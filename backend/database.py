@@ -1,6 +1,6 @@
 import os
+import profile
 from contextlib import closing
-from datetime import datetime
 
 import libsql_experimental as libsql
 from dotenv import load_dotenv
@@ -432,25 +432,25 @@ def addUserToTeam(orgId: int, userId: int, role: str, team: int, status: str):
 
 
 def storeMeetingDetailsTeam(org: int, name: str, team: int, transcription: str, length: int, date: str,
-                            summary: str, size: int,uncommon :str):
+                            summary: str, size: int, uncommon: str):
     initialise()
     conn.sync()
     sqlCommand = f'''
               INSERT INTO Org{org} (NAME, TEAM, TRANSCRIPTION, LENGTH, DATE, SUMMARY, SIZE,UNCOMMON) VALUES (?,?,?,?,?,?,?,?)'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (name, team, transcription, length, date, summary, size,uncommon))
+        cursor.execute(sqlCommand, (name, team, transcription, length, date, summary, size, uncommon))
         conn.commit()
         conn.sync()
 
 
 def storeMeetingDetailsOrg(org: int, name: str, transcription: str, length: int, date: str,
-                           summary: str, size: int,uncommon :str):
+                           summary: str, size: int, uncommon: str):
     initialise()
     conn.sync()
     sqlCommand = f'''
               INSERT INTO Org{org} (NAME, TRANSCRIPTION, LENGTH, DATE, SUMMARY, SIZE,UNCOMMON) VALUES (?,?,?,?,?,?,?)'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (name, transcription, length, date, summary, size,uncommon))
+        cursor.execute(sqlCommand, (name, transcription, length, date, summary, size, uncommon))
         conn.commit()
         conn.sync()
 
@@ -539,8 +539,9 @@ def getSummary(orgId: int, meetingId: int):
         cursor.execute(sqlCommand, (meetingId,))
         return cursor.fetchone()
 
-def updateMeetingDetails(organisation : int, meetingId : int, transcription : str, summary : str,
-                         uncommonwords:str):
+
+def updateMeetingDetails(organisation: int, meetingId: int, transcription: str, summary: str,
+                         uncommonwords: str):
     initialise()
     conn.sync()
     sqlCommand = f'''
@@ -550,7 +551,8 @@ def updateMeetingDetails(organisation : int, meetingId : int, transcription : st
         conn.commit()
         conn.sync()
 
-def getTranscription(organisation : int, meetingId : int):
+
+def getTranscription(organisation: int, meetingId: int):
     initialise()
     conn.sync()
     sqlCommand = f'''

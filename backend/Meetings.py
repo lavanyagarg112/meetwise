@@ -54,7 +54,7 @@ def getMeetingSummary(organisation: str, meetingid: int) -> str:
     org: int = getOrganisationByName(organisation)
     if not org:
         raise HTTPException(status_code=404, detail=f"Organisation {organisation} not found.")
-    return getSummary(org, meetingid)
+    return getSummary(org, meetingid)[0]
 
 
 def getMeetingTranscription(organisation: str, meetingid: int) -> TranscriptionDetails:
