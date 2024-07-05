@@ -99,11 +99,11 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
     setLoading(false);
 
 
-    // to be removed once endpoint works:
-    setTranscriptionType('ai');
-    setTranscription('this is a sample transcription');
-    setOriginalTranscription('this is a sample transcription');
-    setUncommonWords(['sample']);
+    // // to be removed once endpoint works:
+    // setTranscriptionType('ai');
+    // setTranscription('this is a sample transcription');
+    // setOriginalTranscription('this is a sample transcription');
+    // setUncommonWords(['sample']);
 
   };
 
@@ -147,11 +147,11 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
     }
     setLoading(false);
 
-    // to be removed once endpoint works
-    onconfirm();
-    setTranscriptionType('user');
-    setTranscription(transcription);
-    setUncommonWords(uncommonWords);
+    // // to be removed once endpoint works
+    // onconfirm();
+    // setTranscriptionType('user');
+    // setTranscription(transcription);
+    // setUncommonWords(uncommonWords);
 
   };
 
