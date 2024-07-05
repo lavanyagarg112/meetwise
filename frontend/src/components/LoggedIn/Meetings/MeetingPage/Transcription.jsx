@@ -199,7 +199,14 @@ const Transcription = ({ type, team, organisation, meetingid }) => {
         <button className={styles.editButton} onClick={handleEditTranscription}>
           Edit Transcription
         </button>
+
       )}
+
+        {canEdit && transcriptionType === 'ai' && (
+          <button className={styles.submitButton} onClick={handleSubmitTranscription}>
+            Confirm Transcription
+          </button>
+        )}
         {!isEditing ? (
           <div>
             {/* <div
