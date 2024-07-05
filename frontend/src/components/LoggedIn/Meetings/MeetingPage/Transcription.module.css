@@ -1,0 +1,88 @@
+.transcriptionContainer {
+    margin: 20px;
+  }
+  
+  .editButton {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .editButton:hover {
+    background-color: #45a049;
+  }
+  
+  .transcriptionContent {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+  }
+  
+  .editContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 200px;
+  }
+  
+  .uncommonWordsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  
+  .uncommonWord {
+    background-color: yellow;
+    padding: 2px 4px;
+    margin: 2px;
+    border-radius: 4px;
+  }
+  
+  .warning {
+    color: red;
+    margin-bottom: 10px;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .cancelButton,
+  .submitButton {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .cancelButton {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .cancelButton:hover {
+    background-color: #e53935;
+  }
+  
+  .submitButton {
+    background-color: #008cba;
+    color: white;
+  }
+  
+  .submitButton:hover {
+    background-color: #007bb5;
+  }
+  
