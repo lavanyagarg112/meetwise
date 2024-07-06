@@ -445,6 +445,7 @@ def storeMeetingDetailsTeam(org: int, name: str, team: int, transcription: str, 
         cursor.execute(sqlCommand, (name, team, transcription, length, date, summary, size, uncommon))
         conn.commit()
         conn.sync()
+        return cursor.lastrowid
 
 
 def storeMeetingDetailsOrg(org: int, name: str, transcription: str, length: int, date: str,
@@ -457,6 +458,7 @@ def storeMeetingDetailsOrg(org: int, name: str, transcription: str, length: int,
         cursor.execute(sqlCommand, (name, transcription, length, date, summary, size, uncommon))
         conn.commit()
         conn.sync()
+        return cursor.lastrowid
 
 
 def addToPending(email: str, role: str, organisation: int) -> int:
@@ -675,12 +677,12 @@ def replaceMeetTodos(org: int, meetingId: int, todos: List[Tuple[str, str]]):
         conn.sync()
 
 
-def addBulkTodos(todos: List[Tuple[str, str]], org):
+def addBulkTodos(meetingId:int,todos: List[Tuple[str, str]], org):
     initialise()
     conn.sync()
     sqlCommand = f'''
-              INSERT INTO Org{org}Todo (DETAILS, DEADLINE)
-              VALUES (?,?)'''
+              INSERT INTO Org{org}Todo (MEETINGID,DETAILS, DEADLINE)
+              VALUES ({meetingId} ,?,?)'''
     with closing(conn.cursor()) as cursor:
         cursor.executemany(sqlCommand, todos)
         conn.commit()

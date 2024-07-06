@@ -33,17 +33,18 @@ def storeMeeting(meeting: MeetingInput):
 
     if meeting.type == 'team':
         team = getTeamByName(org, meeting.team)
-        storeMeetingDetailsTeam(org=org, name=meeting.meetingName, team=team, transcription=transcription,
-                                length=length, date=meeting.meetingDate.strftime('%Y-%m-%d %H:%M:%S'), summary=summary,
-                                size=size, uncommon=uncommonWords)
+        id = storeMeetingDetailsTeam(org=org, name=meeting.meetingName, team=team, transcription=transcription,
+                                     length=length, date=meeting.meetingDate.strftime('%Y-%m-%d %H:%M:%S'),
+                                     summary=summary,
+                                     size=size, uncommon=uncommonWords)
     else:
-        storeMeetingDetailsOrg(org=org, name=meeting.meetingName, transcription=transcription, length=length,
-                               date=meeting.meetingDate.strftime('%Y-%m-%d %H:%M:%S'), summary=summary, size=size,
-                               uncommon=uncommonWords)
+        id = storeMeetingDetailsOrg(org=org, name=meeting.meetingName, transcription=transcription, length=length,
+                                    date=meeting.meetingDate.strftime('%Y-%m-%d %H:%M:%S'), summary=summary, size=size,
+                                    uncommon=uncommonWords)
     todos: List[Task] = meetingMeta.generate_todo()
     unwrap = lambda x: (x.description, x.deadline.strftime('%Y-%m-%d %H:%M:%S'))
     todos: List[Tuple[str, str]] = list(map(unwrap, todos))
-    addBulkTodos(todos, org)
+    addBulkTodos(id, todos, org)
 
 
 def updateMeetingTranscription(organisation: str, meetingId: int, transcription: str) -> TranscriptionDetails:
@@ -56,8 +57,8 @@ def updateMeetingTranscription(organisation: str, meetingId: int, transcription:
     uncommonWords = meetingMeta.generate_uncommon_words()
     updateMeetingDetails(organisation=org, meetingId=meetingId, transcription=transcription, summary=summary,
                          uncommonwords=",".join(uncommonWords))
-    tasks : List[Task] = meetingMeta.generate_todo()
-    replaceTodos(org,meetingId,tasks)
+    tasks: List[Task] = meetingMeta.generate_todo()
+    replaceTodos(org, meetingId, tasks)
     return TranscriptionDetails(type=True, transcription=transcription, uncommonWords=uncommonWords)
 
 
@@ -91,6 +92,3 @@ def getMeetingInfo(organisation: str, meetingid: int) -> MeetingDetails:
     else:
         return MeetingDetails(id=meetingid, title=details[0], date=details[1], type='organisation',
                               transcriptionGenerated=details[2])
-
-
-
