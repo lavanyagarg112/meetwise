@@ -106,25 +106,25 @@ const Todos = ({ organisation }) => {
       <div className={styles.filterContainer}>
         <Select
           placeholder="Filter by Status"
-          options={[{ value: 'completed', label: 'Completed' }, { value: 'active', label: 'Active' }]}
+          options={[{ value: null, label: 'Filter by Status' }, { value: 'completed', label: 'Completed' }, { value: 'active', label: 'Active' }]}
           onChange={(selectedOption) => setFilterStatus(selectedOption ? selectedOption.value : null)}
           className={styles.filterSelect}
         />
         <Select
           placeholder="Filter by Assignee"
-          options={people.map((person) => ({
+          options={[{ value: null, label: 'Filter by Assignee' }, ...people.map((person) => ({
             value: person.id,
             label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
-          }))}
+          }))]}
           onChange={(selectedOption) => setFilterAssignee(selectedOption ? selectedOption.value : null)}
           className={styles.filterSelect}
         />
         <Select
           placeholder="Filter by Assigner"
-          options={people.map((person) => ({
+          options={[{ value: null, label: 'Filter by Assigner' }, ...people.map((person) => ({
             value: person.id,
             label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
-          }))}
+          }))]}
           onChange={(selectedOption) => setFilterAssigner(selectedOption ? selectedOption.value : null)}
           className={styles.filterSelect}
         />
