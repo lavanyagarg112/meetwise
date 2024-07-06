@@ -65,5 +65,5 @@ def getAllTodos(userId: int) -> List[TodoDetails]:
     dbDetails = getUserTodos(userId,details)
     if not dbDetails:
         return []
-    dbDetails = list(map(todoBuilder, details))
+    dbDetails = list(map(todoBuilder, dbDetails))
     return dbDetails
