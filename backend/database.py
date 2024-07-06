@@ -2,6 +2,7 @@ import os
 import profile
 from contextlib import closing
 from datetime import datetime
+from typing import List
 
 import libsql_experimental as libsql
 from dotenv import load_dotenv
@@ -633,3 +634,18 @@ def getUserTodosOrg(userId: id, org: int):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand)
         return cursor.fetchall()
+
+
+def getUserTodos(userId: id, orgs: List[int]):
+    initialise()
+    conn.sync()
+    todos =[]
+    with closing(conn.cursor()) as cursor:
+        for org in orgs:
+            sqlCommand = f'''
+                      SELECT ID, DETAILS, DEADLINE, ASSIGNER, ASSIGNEE, COMPLETED
+                      FROM Org{org}Todo
+                      WHERE ASSIGNEE = ?'''
+            cursor.execute(sqlCommand, (userId,))
+            todo=todo+cursor.fetchall()
+    return todos
