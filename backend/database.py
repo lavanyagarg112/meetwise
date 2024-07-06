@@ -673,6 +673,14 @@ def replaceMeetTodos(org: int, meetingId: int, todos: List[Tuple[str, str]]):
     conn.sync()
     with closing(conn.cursor()) as cursor:
         sqlCommand = f'''
+        SELECT TEAM FROM Org{org}Todo
+        WHERE MEETINGID = {meetingId}
+        LIMIT 1
+        '''
+        cursor.execute(sqlCommand)
+        team = cursor.fetchone()[0]
+
+        sqlCommand = f'''
         DELETE FROM Org{org}Todo 
         WHERE MEETINGID = ?
         AND ISUSER = ?
@@ -681,15 +689,15 @@ def replaceMeetTodos(org: int, meetingId: int, todos: List[Tuple[str, str]]):
         conn.commit()
         conn.sync()
         sqlCommand = f'''
-        INSERT INTO Org{org}Todo (MEETINGID, DETAILS, DEADLINE) 
-        VALUES ({meetingId},?,?)
+        INSERT INTO Org{org}Todo (MEETINGID, TEAM, DETAILS, DEADLINE) 
+        VALUES ({meetingId},{team}, ?,?)
         '''
         cursor.executemany(sqlCommand, todos)
         conn.commit()
         conn.sync()
 
 
-def addBulkTodos(meetingId:int,todos: List[Tuple[str, str]], org):
+def addBulkTodos(meetingId: int, todos: List[Tuple[str, str]], org):
     initialise()
     conn.sync()
     sqlCommand = f'''
@@ -699,3 +707,26 @@ def addBulkTodos(meetingId:int,todos: List[Tuple[str, str]], org):
         cursor.executemany(sqlCommand, todos)
         conn.commit()
         conn.sync()
+
+
+def addBulkTodosTeam(meetingId: int, teamID: int, todos: List[Tuple[str, str]], org):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              INSERT INTO Org{org}Todo (MEETINGID,TEAM,DETAILS, DEADLINE)
+              VALUES ({meetingId} , {teamID} ,?,?)'''
+    with closing(conn.cursor()) as cursor:
+        cursor.executemany(sqlCommand, todos)
+        conn.commit()
+        conn.sync()
+
+
+def getTeamById(org: int, teamId: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT NAME
+              FROM Org{org}Team WHERE ID = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (teamId,))
+        return cursor.fetchone()
