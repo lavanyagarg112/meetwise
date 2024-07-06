@@ -659,5 +659,5 @@ def getUserTodos(userId: id, orgs: List[int]):
                       FROM Org{org}Todo
                       WHERE ASSIGNEE = ?'''
             cursor.execute(sqlCommand, (userId,))
-            todo=todo+cursor.fetchall()
+            todos=todos+cursor.fetchall()
     return todos

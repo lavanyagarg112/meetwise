@@ -1,0 +1,64 @@
+.dashboardContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.welcomeMessage {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.dashboardContent {
+  display: flex;
+  gap: 20px;
+}
+
+.calendarCard {
+  flex: 2;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 20px;
+}
+
+.sidebar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.upcomingTasksCard,
+.organizationsCard {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 20px;
+}
+
+.toggleButton,
+.organizationsButton {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.toggleButton:hover,
+.organizationsButton:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .dashboardContent {
+    flex-direction: column;
+  }
+}
