@@ -681,12 +681,12 @@ def replaceMeetTodos(org: int, meetingId: int, todos: List[Tuple[str, str | None
         INSERT INTO Org{org}Todo (MEETINGID, TEAM, DETAILS, DEADLINE) 
         VALUES ({meetingId} , {team} , ?,?)
         '''
-        sqlCommandNone = '''
+        sqlCommandNone = f'''
         INSERT INTO Org{org}Todo (MEETINGID, TEAM, DETAILS) 
         VALUES ({meetingId} , {team} , ?)
         '''
         for todo in todos:
-            if not todo[1]:
+            if not todo[1] or todo[1] is None:
                 cursor.execute(sqlCommandNone, (todo[0],))
             else:
                 cursor.execute(sqlCommand, todo)
