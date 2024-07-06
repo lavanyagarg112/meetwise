@@ -2,7 +2,7 @@ import os
 import profile
 from contextlib import closing
 from datetime import datetime
-from typing import List
+from typing import List, Tuple
 
 import libsql_experimental as libsql
 from dotenv import load_dotenv
