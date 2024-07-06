@@ -6,7 +6,7 @@ from IOSchema import MeetingInput, TranscriptionDetails, MeetingDetails
 from OrganisationHelpers import getOrganisationByName, getTeamByName
 from audio_transcription import transcribe
 from Meeting import Meeting, Task
-from backend.Todos import replaceTodos
+from Todos import replaceTodos
 from database import storeMeetingDetailsTeam, storeMeetingDetailsOrg, getSummary, updateMeetingDetails, \
     getTranscription, getMeetingMetaData, addBulkTodos
 
