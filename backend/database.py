@@ -668,7 +668,7 @@ def getUserTodos(userId: id, orgs: List[int]):
     return todos
 
 
-def replaceMeetTodos(org: int, meetingId: int, todos: List[Tuple[str, str]]):
+def replaceMeetTodos(org: int, meetingId: int, todos: List[Tuple[str, str|None]]):
     initialise()
     conn.sync()
     with closing(conn.cursor()) as cursor:
@@ -697,7 +697,7 @@ def replaceMeetTodos(org: int, meetingId: int, todos: List[Tuple[str, str]]):
         conn.sync()
 
 
-def addBulkTodos(meetingId: int, todos: List[Tuple[str, str]], org):
+def addBulkTodos(meetingId: int, todos: List[Tuple[str, str|None]], org):
     initialise()
     conn.sync()
     sqlCommand = f'''
@@ -709,7 +709,7 @@ def addBulkTodos(meetingId: int, todos: List[Tuple[str, str]], org):
         conn.sync()
 
 
-def addBulkTodosTeam(meetingId: int, teamID: int, todos: List[Tuple[str, str]], org):
+def addBulkTodosTeam(meetingId: int, teamID: int, todos: List[Tuple[str, str|None]], org):
     initialise()
     conn.sync()
     sqlCommand = f'''

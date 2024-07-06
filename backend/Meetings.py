@@ -43,10 +43,10 @@ def storeMeeting(meeting: MeetingInput):
                                     date=meeting.meetingDate.strftime('%Y-%m-%d %H:%M:%S'), summary=summary, size=size,
                                     uncommon=uncommonWords)
     todos: List[Task] = meetingMeta.generate_todo()
-    unwrap = lambda x: (x.description, x.deadline.strftime('%Y-%m-%d %H:%M:%S'))
-    todos: List[Tuple[str, str]] = list(map(unwrap, todos))
+    unwrap = lambda x: (x.description, x.deadline.strftime('%Y-%m-%d %H:%M:%S') if x.deadline else None)
+    todos: List[Tuple[str, str | None]] = list(map(unwrap, todos))
     if meeting.type == 'team':
-        addBulkTodosTeam(id, team,todos, org)
+        addBulkTodosTeam(id, team, todos, org)
     else:
         addBulkTodos(id, todos, org)
 
@@ -91,10 +91,10 @@ def getMeetingInfo(organisation: str, meetingid: int) -> MeetingDetails:
     if not details:
         raise HTTPException(status_code=404, detail=f"Meeting {meetingid} not found.")
     if details[3]:
-        team = getTeamById(org,details[3])
+        team = getTeamById(org, details[3])
         if team:
             return MeetingDetails(id=meetingid, title=details[0], date=details[1], type='team',
-                              transcriptionGenerated=details[2], team=team[0])
+                                  transcriptionGenerated=details[2], team=team[0])
         else:
             return MeetingDetails(id=meetingid, title=details[0], date=details[1], type='organisation',
                                   transcriptionGenerated=details[2])
