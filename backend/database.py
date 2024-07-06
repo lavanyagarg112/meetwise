@@ -636,6 +636,18 @@ def getUserTodosOrg(userId: id, org: int):
         return cursor.fetchall()
 
 
+def addBulkTodos(todos: List[Tuple[str, str]], org):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              INSERT INTO Org{org}Todo (DETAILS, DEADLINE)
+              VALUES (?,?)'''
+    with closing(conn.cursor()) as cursor:
+        cursor.executemany(sqlCommand, todos)
+        conn.commit()
+        conn.sync()
+
+
 def getUserTodos(userId: id, orgs: List[int]):
     initialise()
     conn.sync()

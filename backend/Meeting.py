@@ -8,25 +8,27 @@ from dotenv import load_dotenv
 from groq import Groq
 
 
+
+
 load_dotenv('.env')
 client = Groq(
     api_key=os.environ["groq_ai_key"]
 )
 
 
+def parse_deadline(deadline: str):
+    if deadline and deadline != "null":
+        try:
+            return datetime.strptime(deadline, '%Y/%m/%d %H:%M')
+        except ValueError:
+            return datetime.strptime(deadline, '%Y/%m/%d')
+    return None
+
+
 class Task:
     def __init__(self, description: str, deadline: str = ""):
         self.description = description
-        self.deadline = self.parse_deadline(deadline)
-        self.deadline = deadline
-
-    def parse_deadline(self, deadline: str):
-        if deadline:
-            try:
-                return datetime.strptime(deadline, '%Y/%m/%d %H:%M')
-            except ValueError:
-                return datetime.strptime(deadline, '%Y/%m/%d')
-        return None
+        self.deadline = parse_deadline(deadline)
 
     def __repr__(self):
         return f"Task(description={self.description}, deadline={self.deadline})"
@@ -71,8 +73,9 @@ class Meeting:
 
     def generate_summary(self) -> str:
         try:
-            prompt = ("Generate a summary consisting of key discussion points of this meeting in a bulleted list for "
-                      "the participant to refer to in the future. It must also include the decisions made if any. "
+            prompt = ("Generate a well-formatted markdown summary consisting of key discussion points of this meeting in a bulleted list for "
+                      "the participant to refer to in the future. It must also include the decisions made if any."
+                       "Your response should just contain the summary from start to finish."
                       "Here is the transcript:")
             combined_response = self._send_prompt_chunks(prompt, self.transcription)
             self.summary = combined_response
@@ -85,10 +88,9 @@ class Meeting:
         Create a todo list of all assigned tasks in this meeting in JSON format 
         with fields description and deadline
         deadline has the format yyyy/mm/dd hh:mm or yyyy/mm/dd if no time is specified.
-        deadline may have null value if no appropriate value is found. 
-        Do not implement your own deadlines or create your own teams. Always refer to
+        deadline may have null value if no appropriate value is found. Always refer to
         the actual transcription content. If no assigned tasks are mentioned, return
-        empty JSON array. Your output should only be a JSON array. No other comments needed.
+        empty JSON array. Do not forget any tasks. Your output should only be a JSON array. No other comments needed.
         Here is the transcript : 
         '''
         combined_response = self._send_prompt_chunks(prompt, self.transcription)

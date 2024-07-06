@@ -1,35 +1,36 @@
-mp3 file size: 40.06 MB
 Transcription size: 24301 characters
 
 ------------------------------------------------------------------------------------------------------------------------
-+ mp3 file read time: 0.03 seconds
++ mp3 file read time: 0.00 seconds
 | Transcription time: 0.00 seconds
-| Uncommon words generation time: 0.66 seconds
-| Summary generation time: 0.64 seconds
-| To-do generation time: 0.49 seconds
-+ Total time taken: 1.82 seconds
+| Uncommon words generation time: 10.68 seconds
+| Summary generation time: 0.52 seconds
+| To-do generation time: 0.34 seconds
++ Total time taken: 11.55 seconds
 ------------------------------------------------------------------------------------------------------------------------
 
 Uncommon Words List:
-['mlops']
+['mlops', 'anti abuse']
 
 Summary:
 Here is a summary of the key discussion points and decisions made during the meeting:
 
 **Key Discussion Points:**
 
-* The SEC (Secure and Govern Growth) and Data Science (including ML, MLOps, and Anti-Abuse) teams are combining to form a new team.
-* The new team's name may change over time.
-* The meeting leader plans to improve communication by summarizing updates and reducing "noise" in future meetings.
-* The team will rely on meeting notes and leadership attendance instead of relying on the Slack channel for updates.
-* Alan has been appointed as the acting Full Stack Manager for Security Policies until an EM (Engineering Manager) is hired.
-* Anti-Abuse is being moved from the SEC team to the Data Science team, which includes the rebranded Model Ops team.
-* The Data Science team will have two stages: Model Ops (with three groups) and Anti-Abuse (with one current group, planned to be split into two groups in the future).
+* The SEC (Secure and Govern Growth) team and the Data Science team (formerly Model Ops) are merging to create a new team, with the goal of secure and governing growth, including data science, AI, and anti-abuse.
+* The team will include three groups from Model Ops (formerly) and one group from Anti-Abuse.
+* At some point, Anti-Abuse may be split into two groups, but this is not planned in the near term.
+* The team will work through changes to Workday and Handbook to implement the new structure.
 
 **Decisions Made:**
 
-* Alan will act as Full Stack Manager for Security Policies until an EM is hired.
-* Anti-Abuse will be moved from the SEC team to the Data Science team.
+* Alan has agreed to step in as Acting Full Stack Manager for Security Policies while a new EM is hired.
+* The team will assume that leaders on the team will attend the meeting or read the notes, rather than relying on the Slack channel.
+
+**Future Actions:**
+
+* [To be determined]: Improved summarized communications to the team to reduce noise and improve signal-to-noise ratio.
+* [To be determined]: Review and implementation of handbook and Workday changes to support the new team structure.
 
 To-do List:
 []
