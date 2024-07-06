@@ -673,3 +673,15 @@ def replaceMeetTodos(org: int, meetingId: int, todos: List[Tuple[str, str]]):
         cursor.executemany(sqlCommand, todos)
         conn.commit()
         conn.sync()
+
+
+def addBulkTodos(todos: List[Tuple[str, str]], org):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              INSERT INTO Org{org}Todo (DETAILS, DEADLINE)
+              VALUES (?,?)'''
+    with closing(conn.cursor()) as cursor:
+        cursor.executemany(sqlCommand, todos)
+        conn.commit()
+        conn.sync()
