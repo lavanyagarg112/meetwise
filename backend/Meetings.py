@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 
 from fastapi import HTTPException
 from mutagen.mp3 import MP3
@@ -40,6 +40,10 @@ def storeMeeting(meeting: MeetingInput):
         storeMeetingDetailsOrg(org=org, name=meeting.meetingName, transcription=transcription, length=length,
                                date=meeting.meetingDate.strftime('%Y-%m-%d %H:%M:%S'), summary=summary, size=size,
                                uncommon=uncommonWords)
+    todos: List[Task] = meetingMeta.generate_todo()
+    unwrap = lambda x: (x.description, x.deadline.strftime('%Y-%m-%d %H:%M:%S'))
+    todos: List[Tuple[str, str]] = list(map(unwrap, todos))
+    addBulkTodos(todos, org)
 
 
 def updateMeetingTranscription(organisation: str, meetingId: int, transcription: str) -> TranscriptionDetails:
