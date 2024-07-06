@@ -200,7 +200,7 @@ async def logout(response: Response):
 @app.post('/update-transcription')
 async def updateTranscription(meeting: Transcription,
                               credentials: Annotated[str, Cookie()] = None) -> TranscriptionDetails:
-    id = eatCookie(credentials)
+    #id = eatCookie(credentials)
     details = updateMeetingTranscription(meeting.organisation, meeting.meetingid, meeting.transcription)
     return details
 

@@ -5,7 +5,7 @@ from fastapi import HTTPException
 from IOSchema import TodoInput, TodoUpdate, TodoDetails
 from OrganisationHelpers import getOrganisationByName
 from UserAccounts import getUserByID
-from backend.Meeting import Task
+from Meeting import Task
 from database import updateTodos, addTodos, getMeetingTodos, getUserTodosOrg, getUserOrgs, getUserTodos, \
     replaceMeetTodos
 

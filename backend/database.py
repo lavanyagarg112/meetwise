@@ -8,7 +8,7 @@ import libsql_experimental as libsql
 from dotenv import load_dotenv
 
 from Enums import Roles
-from backend.Meeting import Task
+from Meeting import Task
 
 conn = None
 
