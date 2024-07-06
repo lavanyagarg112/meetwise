@@ -54,7 +54,7 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ 
-          team: teamName,
+          name: teamName,
           organisation: organisationName
         }),
         credentials: 'include',

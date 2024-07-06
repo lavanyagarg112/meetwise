@@ -347,7 +347,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           className={styles.todoSelect}
           required
         />
-        <button onClick={handleAddTodo} className={styles.todoButton}>Add Todo</button>
+        <button onClick={handleAddTodo} className={styles.todoButton} disabled={!newTodo.details || !newTodo.deadline || !newTodo.assignee}>Add Todo</button>
       </div>
       <div className={styles.todosContainer}>
         <div className={styles.todosHeader}>
