@@ -72,6 +72,9 @@ def getAllTodos(userId: int) -> List[TodoDetails]:
 
 
 def replaceTodos(organisation: int, meetingId: int, todos: List[Task]):
-    TaskUnwrapper = lambda row: (row.description,row.deadline.strftime('%Y-%m-%d %H:%M:%S'))
+    TaskUnwrapper = lambda row: (row.description, row.deadline.strftime('%Y-%m-%d %H:%M:%S') if row.deadline else None)
     todos = list(map(TaskUnwrapper, todos))
     replaceMeetTodos(organisation, meetingId, todos)
+
+
+
