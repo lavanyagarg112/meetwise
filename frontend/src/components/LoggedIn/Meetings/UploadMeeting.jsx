@@ -137,11 +137,15 @@ const formatDate = (date) => {
       const arrayBuffer = e.target.result;
       const uint8Array = new Uint8Array(arrayBuffer);
 
-      await ffmpeg.writeFile('input.mp4', uint8Array);
-      await ffmpeg.exec(['-i', 'input.mp4', 'output.mp3']);
-      const data = await ffmpeg.readFile('output.mp3');
+      let blob = selectedFile;
 
-      const blob = new Blob([data], { type: 'audio/mpeg' });
+      if (selectedFile.type.startsWith('video')) {
+        await ffmpeg.writeFile('input.mp4', uint8Array);
+        await ffmpeg.exec(['-i', 'input.mp4', 'output.mp3']);
+        const data = await ffmpeg.readFile('output.mp3');
+        blob = new Blob([data], { type: 'audio/mpeg' });
+
+      }
 
       // test download
       // const url = URL.createObjectURL(blob);
@@ -251,7 +255,7 @@ const formatDate = (date) => {
         </label>
       </div>
       <div className={styles.formGroup}>
-        <input id="fileInput" type="file" onChange={handleFileChange} accept="video/*" className={styles.fileInput} />
+        <input id="fileInput" type="file" onChange={handleFileChange} accept="audio/*, video/*" className={styles.fileInput} />
       </div>
       <button
         onClick={sendUploadAudio}
