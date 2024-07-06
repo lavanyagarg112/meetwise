@@ -5,7 +5,7 @@ from fastapi import HTTPException
 from IOSchema import TodoInput, TodoUpdate, TodoDetails
 from OrganisationHelpers import getOrganisationByName
 from UserAccounts import getUserByID
-from database import updateTodos, addTodos, getMeetingTodos, getUserTodosOrg
+from database import updateTodos, addTodos, getMeetingTodos, getUserTodosOrg, getUserOrgs, getUserTodos
 
 
 def todoBuilder(row: Tuple) -> TodoDetails:
@@ -50,3 +50,16 @@ def updateTodosOrg(todo: TodoUpdate):
     deadline = todo.deadline.strftime('%Y-%m-%d %H:%M:%S')
     updateTodos(todo.todoid, org, todo.meetingid, todo.details, deadline, todo.assigner, todo.assignee,
                 todo.isCompleted)
+
+
+def getAllTodos(userId: int) -> List[TodoDetails]:
+    details = getUserOrgs(userId)
+    if not details:
+        return []
+    unwrap = lambda x: x[0]
+    details = list(map(unwrap, details))
+    dbDetails = getUserTodos(userId,details)
+    if not dbDetails:
+        return []
+    dbDetails = list(map(todoBuilder, details))
+    return dbDetails
