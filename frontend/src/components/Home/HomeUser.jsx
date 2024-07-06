@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const HomeUser = ({user}) => {
 
+  const [todos, setTodos] = useState([])
 
   const getAllTodos = async () => {
       try {
@@ -17,6 +18,7 @@ const HomeUser = ({user}) => {
         }
 
         const data = await response.json()
+        setTodos(data)
 
       } catch (error) {
         console.log("error: ", error)
