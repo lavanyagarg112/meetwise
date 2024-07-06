@@ -1,4 +1,15 @@
-.todosContainer {
+.filterContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    gap: 8px;
+  }
+  
+  .filterSelect {
+    flex: 1;
+  }
+  
+  .todosContainer {
     display: flex;
     flex-direction: column;
     margin-top: 16px;
@@ -21,77 +32,12 @@
     gap: 8px;
   }
   
-  .todoInput {
-    flex: 1;
-    margin-right: 8px;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .todoDatePicker {
-    flex: 1;
-    margin-right: 8px;
-    padding: 8px;
-    border: 1px solid #ddd;
-  }
-  
-  .todoSelect {
+  .todoText {
     flex: 1;
     margin-right: 8px;
   }
   
   .todoCheckbox {
     margin-right: 8px;
-  }
-  
-  .todoButton {
-    margin-left: 8px;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-  }
-  
-  .todoButton:hover {
-    background-color: #0056b3;
-  }
-  
-  .todoButton:disabled {
-    background-color: #d3d3d3;
-    cursor: not-allowed;
-  }
-  
-  .addTodoForm {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-    gap: 8px;
-  }
-  
-  .addTodoForm input[type="text"],
-  .addTodoForm .todoDatePicker,
-  .addTodoForm .todoSelect {
-    margin-right: 8px;
-    flex: 1;
-  }
-  
-  .addTodoForm button {
-    margin-left: 8px;
-  }
-  
-  .filterContainer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-    gap: 8px;
-  }
-  
-  .filterSelect {
-    flex: 1;
   }
   

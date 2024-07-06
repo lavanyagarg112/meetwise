@@ -131,7 +131,6 @@ const Todos = ({ organisation }) => {
       </div>
       <div className={styles.todosContainer}>
         <div className={styles.todosHeader}>
-          <span></span>
           <span>Details</span>
           <span>Deadline</span>
           <span>Assigner</span>
