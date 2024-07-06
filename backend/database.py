@@ -2,12 +2,13 @@ import os
 import profile
 from contextlib import closing
 from datetime import datetime
-from typing import List
+from typing import List, Tuple
 
 import libsql_experimental as libsql
 from dotenv import load_dotenv
 
 from Enums import Roles
+from backend.Meeting import Task
 
 conn = None
 
@@ -375,6 +376,7 @@ def makeOrganisation(owner: int, org: str):
         MEETINGID INT,
         DEADLINE DATETIME,
         COMPLETED BOOLEAN,
+        ISUSER BOOLEAN NOT NULL DEFAULT FALSE, 
         TEAM INT,
         FOREIGN KEY (ASSIGNEE) REFERENCES USERS(ID),
         FOREIGN KEY (ASSIGNER) REFERENCES USERS(ID),
@@ -596,9 +598,10 @@ def updateTodos(todoId: int, organisation: int, meetingId: int, details: str, de
     initialise()
     conn.sync()
     sqlCommand = f'''
-              UPDATE Org{organisation}Todo SET MEETINGID =?,DETAILS =?, DEADLINE =?, ASSIGNER =?, ASSIGNEE =?, COMPLETED =? WHERE ID = ?'''
+              UPDATE Org{organisation}Todo SET MEETINGID =?,DETAILS =?, DEADLINE =?, ASSIGNER =?, ASSIGNEE =?,
+              COMPLETED =?, ISUSER =? WHERE ID = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (meetingId, details, deadline, assigner, assignee, isCompleted, todoId))
+        cursor.execute(sqlCommand, (meetingId, details, deadline, assigner, assignee, isCompleted, todoId, True))
         conn.commit()
         conn.sync()
 
@@ -649,3 +652,24 @@ def getUserTodos(userId: id, orgs: List[int]):
             cursor.execute(sqlCommand, (userId,))
             todos = todos + cursor.fetchall()
     return todos
+
+
+def replaceMeetTodos(org: int, meetingId: int, todos: List[Tuple[str, str]]):
+    initialise()
+    conn.sync()
+    with closing(conn.cursor()) as cursor:
+        sqlCommand = f'''
+        DELETE FROM Org{org}Todo 
+        WHERE MEETINGID = ?
+        AND ISUSER = ?
+        '''
+        cursor.execute(sqlCommand, (meetingId, False))
+        conn.commit()
+        conn.sync()
+        sqlCommand = f'''
+        INSERT INTO Org{org}Todo (MEETINGID, DETAILS, DEADLINE) 
+        VALUES ({meetingId},?,?)
+        '''
+        cursor.executemany(sqlCommand, todos)
+        conn.commit()
+        conn.sync()

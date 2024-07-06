@@ -1,9 +1,12 @@
+from typing import List
+
 from fastapi import HTTPException
 from mutagen.mp3 import MP3
 from IOSchema import MeetingInput, TranscriptionDetails, MeetingDetails
 from OrganisationHelpers import getOrganisationByName, getTeamByName
 from audio_transcription import transcribe
-from Meeting import Meeting
+from Meeting import Meeting, Task
+from backend.Todos import replaceTodos
 from database import storeMeetingDetailsTeam, storeMeetingDetailsOrg, getSummary, updateMeetingDetails, \
     getTranscription, getMeetingMetaData
 
@@ -48,6 +51,8 @@ def updateMeetingTranscription(organisation: str, meetingId: int, transcription:
     uncommonWords = meetingMeta.generate_uncommon_words()
     updateMeetingDetails(organisation=org, meetingId=meetingId, transcription=transcription, summary=summary,
                          uncommonwords=",".join(uncommonWords))
+    tasks : List[Task] = meetingMeta.generate_todo()
+    replaceTodos(org,meetingId,tasks)
     return TranscriptionDetails(type=True, transcription=transcription, uncommonWords=uncommonWords)
 
 
