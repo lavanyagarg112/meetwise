@@ -668,7 +668,7 @@ def getUserTodos(userId: id, orgs: List[int]):
     return todos
 
 
-def replaceMeetTodos(org: int, meetingId: int, todos: List[Tuple[str, str|None]]):
+def replaceMeetTodos(org: int, meetingId: int, todos: List[Tuple[str, str | None]]):
     initialise()
     conn.sync()
     with closing(conn.cursor()) as cursor:
@@ -679,7 +679,7 @@ def replaceMeetTodos(org: int, meetingId: int, todos: List[Tuple[str, str|None]]
         '''
         cursor.execute(sqlCommand)
         team = cursor.fetchone()
-        team = team[0] if team else None
+        team = team[0] if team else "NULL"
 
         sqlCommand = f'''
         DELETE FROM Org{org}Todo 
@@ -691,14 +691,22 @@ def replaceMeetTodos(org: int, meetingId: int, todos: List[Tuple[str, str|None]]
         conn.sync()
         sqlCommand = f'''
         INSERT INTO Org{org}Todo (MEETINGID, TEAM, DETAILS, DEADLINE) 
-        VALUES ({meetingId},{team}, ?,?)
+        VALUES ({meetingId} , {team} , ?,?)
         '''
-        cursor.executemany(sqlCommand, todos)
+        sqlCommandNone = '''
+        INSERT INTO Org{org}Todo (MEETINGID, TEAM, DETAILS) 
+        VALUES ({meetingId} , {team} , ?)
+        '''
+        for todo in todos:
+            if not todo[1]:
+                cursor.execute(sqlCommandNone, (todo[0],))
+            else:
+                cursor.execute(sqlCommand, todo)
         conn.commit()
         conn.sync()
 
 
-def addBulkTodos(meetingId: int, todos: List[Tuple[str, str|None]], org):
+def addBulkTodos(meetingId: int, todos: List[Tuple[str, str | None]], org):
     initialise()
     conn.sync()
     sqlCommand = f'''
@@ -710,7 +718,7 @@ def addBulkTodos(meetingId: int, todos: List[Tuple[str, str|None]], org):
         conn.sync()
 
 
-def addBulkTodosTeam(meetingId: int, teamID: int, todos: List[Tuple[str, str|None]], org):
+def addBulkTodosTeam(meetingId: int, teamID: int, todos: List[Tuple[str, str | None]], org):
     initialise()
     conn.sync()
     sqlCommand = f'''
