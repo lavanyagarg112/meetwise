@@ -8,7 +8,7 @@ from audio_transcription import transcribe
 from Meeting import Meeting, Task
 from backend.Todos import replaceTodos
 from database import storeMeetingDetailsTeam, storeMeetingDetailsOrg, getSummary, updateMeetingDetails, \
-    getTranscription, getMeetingMetaData, addBulkTodos
+    getTranscription, getMeetingMetaData, addBulkTodos, addBulkTodosTeam
 
 
 def storeMeeting(meeting: MeetingInput):
@@ -31,6 +31,7 @@ def storeMeeting(meeting: MeetingInput):
     summary = meetingMeta.generate_summary()
     uncommonWords = ",".join(meetingMeta.generate_uncommon_words())
 
+    team = None
     if meeting.type == 'team':
         team = getTeamByName(org, meeting.team)
         id = storeMeetingDetailsTeam(org=org, name=meeting.meetingName, team=team, transcription=transcription,
@@ -44,7 +45,10 @@ def storeMeeting(meeting: MeetingInput):
     todos: List[Task] = meetingMeta.generate_todo()
     unwrap = lambda x: (x.description, x.deadline.strftime('%Y-%m-%d %H:%M:%S'))
     todos: List[Tuple[str, str]] = list(map(unwrap, todos))
-    addBulkTodos(id, todos, org)
+    if meeting.type == 'team':
+        addBulkTodosTeam(id, team,todos, org)
+    else:
+        addBulkTodos(id, todos, org)
 
 
 def updateMeetingTranscription(organisation: str, meetingId: int, transcription: str) -> TranscriptionDetails:
