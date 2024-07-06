@@ -91,8 +91,13 @@ def getMeetingInfo(organisation: str, meetingid: int) -> MeetingDetails:
     if not details:
         raise HTTPException(status_code=404, detail=f"Meeting {meetingid} not found.")
     if details[3]:
-        return MeetingDetails(id=meetingid, title=details[0], date=details[1], type='team',
-                              transcriptionGenerated=details[2], team=getTeamById(org,details[3])[0])
+        team = getTeamById(org,details[3])
+        if team:
+            return MeetingDetails(id=meetingid, title=details[0], date=details[1], type='team',
+                              transcriptionGenerated=details[2], team=team[0])
+        else:
+            return MeetingDetails(id=meetingid, title=details[0], date=details[1], type='organisation',
+                                  transcriptionGenerated=details[2])
     else:
         return MeetingDetails(id=meetingid, title=details[0], date=details[1], type='organisation',
                               transcriptionGenerated=details[2])
