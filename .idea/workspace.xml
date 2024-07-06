@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="error fixes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="add teamwise meetings">
       <change beforePath="$PROJECT_DIR$/backend/Meetings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meetings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database.py" afterDir="false" />
     </list>
@@ -404,7 +403,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720281054420</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="add teamwise meetings">
+      <option name="closed" value="true" />
+      <created>1720281748125</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1720281748125</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -422,7 +429,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="summary should work now" />
     <MESSAGE value="file reformattings" />
     <MESSAGE value="Exclusive Relationship (Between Orgs and Teams)" />
     <MESSAGE value="get user Role" />
@@ -447,7 +453,8 @@
     <MESSAGE value="another spelling error" />
     <MESSAGE value="meeting generates todo on transcript modification" />
     <MESSAGE value="error fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="error fixes" />
+    <MESSAGE value="add teamwise meetings" />
+    <option name="LAST_COMMIT_MESSAGE" value="add teamwise meetings" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/meetwise$database.coverage" NAME="database Coverage Results" MODIFIED="1720280052157" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />

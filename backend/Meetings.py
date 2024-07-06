@@ -8,7 +8,7 @@ from audio_transcription import transcribe
 from Meeting import Meeting, Task
 from backend.Todos import replaceTodos
 from database import storeMeetingDetailsTeam, storeMeetingDetailsOrg, getSummary, updateMeetingDetails, \
-    getTranscription, getMeetingMetaData, addBulkTodos, addBulkTodosTeam
+    getTranscription, getMeetingMetaData, addBulkTodos, addBulkTodosTeam, getTeamById
 
 
 def storeMeeting(meeting: MeetingInput):
@@ -92,7 +92,7 @@ def getMeetingInfo(organisation: str, meetingid: int) -> MeetingDetails:
         raise HTTPException(status_code=404, detail=f"Meeting {meetingid} not found.")
     if details[3]:
         return MeetingDetails(id=meetingid, title=details[0], date=details[1], type='team',
-                              transcriptionGenerated=details[2], team=details[3])
+                              transcriptionGenerated=details[2], team=getTeamById(org,details[3])[0])
     else:
         return MeetingDetails(id=meetingid, title=details[0], date=details[1], type='organisation',
                               transcriptionGenerated=details[2])

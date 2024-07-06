@@ -707,3 +707,14 @@ def addBulkTodosTeam(meetingId: int, teamID: int, todos: List[Tuple[str, str]], 
         cursor.executemany(sqlCommand, todos)
         conn.commit()
         conn.sync()
+
+
+def getTeamById(org: int, teamId: int):
+    initialise()
+    conn.sync()
+    sqlCommand = f'''
+              SELECT NAME
+              FROM Org{org}Team WHERE ID = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (teamId,))
+        return cursor.fetchone()
