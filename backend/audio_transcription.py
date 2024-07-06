@@ -37,7 +37,7 @@ def get_transcription_result(transcription_id, headers):
 
 
 def transcribe(file_obj):
-    ASSEMBLY_AI_KEY = os.environ["assembly_ai_key"]
+    ASSEMBLY_AI_KEY=os.environ["assembly_ai_key"]
 
     headers = {
         "authorization": f"{ASSEMBLY_AI_KEY}"

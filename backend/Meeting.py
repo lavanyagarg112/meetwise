@@ -42,40 +42,47 @@ class Meeting:
         self.uncommon_words: List[str] = []
 
     def generate_uncommon_words(self) -> List[str]:
-        prompt = """
-        In strict JSON format {"word" : word} generate a list of all weird/uncommon/niche words that occured 
-        in this meeting in strict JSON format {"word" : word}. If no weird/uncommon/niche terms are mentioned, return
-        empty JSON array. For example if the uncommon words are "apple" and "orange", then you should return [{"word": "apple"}, {"word": "orange"}].
-        Your output should only be a JSON array of weird/uncommon/niche. No other comments needed.
-        Here is the transcript : 
-        """
+        try:
+            prompt = """
+            In strict JSON format {"word" : word} generate a list of all weird/uncommon/niche words that occured 
+            in this meeting in strict JSON format {"word" : word}. If no weird/uncommon/niche terms are mentioned, return
+            empty JSON array. For example if the uncommon words are "apple" and "orange", then you should return [{"word": "apple"}, {"word": "orange"}].
+            Your output should only be a JSON array of weird/uncommon/niche. No other comments needed.
+            Here is the transcript : 
+            """
 
-        combined_response = self._send_prompt_chunks(prompt, self.transcription)
+            combined_response = self._send_prompt_chunks(prompt, self.transcription)
 
-        max_retries = 5
-        uncommon_words = []
-        for attempt in range(max_retries):
-            try:
-                json_data = json.loads(combined_response)
-                for word in json_data:
-                    uncommon_words.append(word["word"])
-                break 
-            except json.JSONDecodeError as e:
-                print(f"Attempt {attempt + 1}: Failed to decode uncommon_words JSON: {e}")
-                if attempt < max_retries - 1:
-                    uncommon_words = []
-                    time.sleep(1) 
-                else:
-                    json_data = []
+            max_retries = 5
+            uncommon_words = []
+            for attempt in range(max_retries):
+                try:
+                    json_data = json.loads(combined_response)
+                    for word in json_data:
+                        uncommon_words.append(word["word"])
+                    break 
+                except json.JSONDecodeError as e:
+                    print(f"Attempt {attempt + 1}: Failed to decode uncommon_words JSON: {e}")
+                    if attempt < max_retries - 1:
+                        uncommon_words = []
+                        time.sleep(1) 
+                    else:
+                        json_data = []
 
-        self.uncommon_words = uncommon_words
-        return self.uncommon_words
+            self.uncommon_words = uncommon_words
+            return self.uncommon_words
+        except:
+            empty_uncommon_words = []
+            return empty_uncommon_words
 
     def generate_summary(self) -> str:
         try:
-            prompt = ("Generate a well-formatted markdown summary consisting of key discussion points of this meeting in a bulleted list for "
+            prompt = ("In Standard Markdown, generate a summary consisting of key discussion points of this meeting for "
                       "the participant to refer to in the future. It must also include the decisions made if any."
+                      "Do not start the summary with phrases like 'Here is the summary' or 'In conclusion."
+                      "Use Standard Markdown only."
                        "Your response should just contain the summary from start to finish."
+                       
                       "Here is the transcript:")
             combined_response = self._send_prompt_chunks(prompt, self.transcription)
             self.summary = combined_response
@@ -84,39 +91,47 @@ class Meeting:
         return self.summary
 
     def generate_todo(self) -> List[Task]:
-        prompt = '''
-        Create a todo list of all assigned tasks in this meeting in JSON format 
-        with fields description and deadline
-        deadline has the format yyyy/mm/dd hh:mm or yyyy/mm/dd if no time is specified.
-        deadline may have null value if no appropriate value is found. Always refer to
-        the actual transcription content. If no assigned tasks are mentioned, return
-        empty JSON array. Do not forget any tasks. Your output should only be a JSON array. No other comments needed.
-        Here is the transcript : 
-        '''
-        combined_response = self._send_prompt_chunks(prompt, self.transcription)
+        try:
+            prompt = '''
+            Create a todo list of all assigned tasks in this meeting in JSON format 
+            with fields description and deadline
+            deadline has the format yyyy/mm/dd hh:mm or yyyy/mm/dd if no time is specified.
+            deadline may have null value if no appropriate value is found. Always refer to
+            the actual transcription content. If no assigned tasks are mentioned, return
+            empty JSON array. Do not forget any tasks. Your output should only be a JSON array. No other comments needed.
+            Here is the transcript : 
+            '''
+            combined_response = self._send_prompt_chunks(prompt, self.transcription)
 
-        max_retries = 5
-        for attempt in range(max_retries):
-            try:
-                json_data = json.loads(combined_response)
-                break
-            except json.JSONDecodeError as e:
-                print(f"Attempt {attempt + 1}: Failed to decode task_list JSON: {e}")
-                if attempt < max_retries - 1:
-                    time.sleep(1)
-                else:
-                    json_data = []
+            max_retries = 5
+            for attempt in range(max_retries):
+                try:
+                    json_data = json.loads(combined_response)
+                    break
+                except json.JSONDecodeError as e:
+                    print(f"Attempt {attempt + 1}: Failed to decode task_list JSON: {e}")
+                    if attempt < max_retries - 1:
+                        time.sleep(1)
+                    else:
+                        json_data = []
 
-        task_list = []
-        for task_data in json_data:
-            task = Task(
-                description=task_data["description"],
-                deadline=task_data["deadline"]
-            )
-            task_list.append(task)
+            task_list = []
+            for task_data in json_data:
+                try:
+                    task = Task(
+                        description=task_data["description"],
+                        deadline=task_data["deadline"]
+                    )
+                    task_list.append(task)
+                except:
+                    task_list.append()
 
-        self.todo = task_list
-        return self.todo
+            self.todo = task_list
+            return self.todo
+        except:
+            empty_task_list = []
+            return empty_task_list
+        
 
     def _send_prompt_chunks(self, prompt: str, transcription: str, chunk_size: int = 2048):
         prompt_chunks = [prompt[i:i + chunk_size] for i in range(0, len(prompt), chunk_size)]
