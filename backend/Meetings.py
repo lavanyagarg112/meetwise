@@ -93,3 +93,4 @@ def getMeetingInfo(organisation: str, meetingid: int) -> MeetingDetails:
                               transcriptionGenerated=details[2])
 
 
+
