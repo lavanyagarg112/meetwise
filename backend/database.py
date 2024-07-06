@@ -727,11 +727,3 @@ def getTeamById(org: int, teamId: int):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamId,))
         return cursor.fetchone()
-
-initialise()
-conn.sync()
-with closing(conn.cursor()) as cursor:
-        cursor.execute('''
-            UPDATE USERS
-            SET ACTIVEORG = :act
-            WHERE ID = :id''', {"act":None, "id":50})
