@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import classes from './HomeUser.module.css'
 
 const HomeUser = ({user}) => {
 
