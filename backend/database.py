@@ -712,8 +712,16 @@ def addBulkTodos(meetingId: int, todos: List[Tuple[str, str | None]], org):
     sqlCommand = f'''
               INSERT INTO Org{org}Todo (MEETINGID,DETAILS, DEADLINE)
               VALUES ({meetingId} ,?,?)'''
+    sqlCommandNone = '''
+        INSERT INTO Org{org}Todo (MEETINGID, DETAILS) 
+        VALUES ({meetingId} , ?)
+        '''
     with closing(conn.cursor()) as cursor:
-        cursor.executemany(sqlCommand, todos)
+        for todo in todos:
+            if not todo[1]:
+                cursor.execute(sqlCommandNone, (todo[0],))
+            else:
+                cursor.execute(sqlCommand, todo)
         conn.commit()
         conn.sync()
 
@@ -724,8 +732,16 @@ def addBulkTodosTeam(meetingId: int, teamID: int, todos: List[Tuple[str, str | N
     sqlCommand = f'''
               INSERT INTO Org{org}Todo (MEETINGID,TEAM,DETAILS, DEADLINE)
               VALUES ({meetingId} , {teamID} ,?,?)'''
+    sqlCommandNone = '''
+        INSERT INTO Org{org}Todo (MEETINGID, TEAM, DETAILS) 
+        VALUES ({meetingId} , {team} , ?)
+        '''
     with closing(conn.cursor()) as cursor:
-        cursor.executemany(sqlCommand, todos)
+        for todo in todos:
+            if not todo[1]:
+                cursor.execute(sqlCommandNone, (todo[0],))
+            else:
+                cursor.execute(sqlCommand, todo)
         conn.commit()
         conn.sync()
 
