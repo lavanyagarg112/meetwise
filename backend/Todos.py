@@ -9,8 +9,12 @@ from database import updateTodos, addTodos, getMeetingTodos, getUserTodosOrg, ge
 
 
 def todoBuilder(row: Tuple) -> TodoDetails:
-    assigner = getUserByID(row[3]).user
-    assignee = getUserByID(row[4]).user
+    assigner = getUserByID(row[3])
+    if assigner:
+        assigner = assigner.user
+    assignee = getUserByID(row[4])
+    if assignee:
+        assignee = assignee.user
     return TodoDetails(id=row[0], details=row[1], deadline=row[2].replace('T', ' '), assigner=assigner,
                        assignee=assignee, isCompleted=row[5])
 

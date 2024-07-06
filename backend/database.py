@@ -651,7 +651,7 @@ def addBulkTodos(todos: List[Tuple[str, str]], org):
 def getUserTodos(userId: id, orgs: List[int]):
     initialise()
     conn.sync()
-    todos =[]
+    todos = []
     with closing(conn.cursor()) as cursor:
         for org in orgs:
             sqlCommand = f'''
@@ -659,5 +659,5 @@ def getUserTodos(userId: id, orgs: List[int]):
                       FROM Org{org}Todo
                       WHERE ASSIGNEE = ?'''
             cursor.execute(sqlCommand, (userId,))
-            todos=todos+cursor.fetchall()
+            todos = todos + cursor.fetchall()
     return todos
