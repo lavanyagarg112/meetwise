@@ -666,7 +666,8 @@ def replaceMeetTodos(org: int, meetingId: int, todos: List[Tuple[str, str|None]]
         LIMIT 1
         '''
         cursor.execute(sqlCommand)
-        team = cursor.fetchone()[0]
+        team = cursor.fetchone()
+        team = team[0] if team else None
 
         sqlCommand = f'''
         DELETE FROM Org{org}Todo 
