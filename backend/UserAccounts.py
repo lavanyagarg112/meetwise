@@ -34,8 +34,10 @@ def getUserDetails(user: UserLogIn) -> [Person, AuthError, str | None]:
     return user, None, getOrganisationByID(details[6])
 
 
-def getUserByID(user: int) -> UserInfo:
+def getUserByID(user: int) -> UserInfo|None:
     details = getUserDetailsByID(user)
+    if not details:
+        return None
     return UserInfo(
         user=Person(id=user, email=details[0], username=details[1], firstName=details[2], lastName=details[3]),
         activeOrganisation=getOrganisationByID(details[4]))
