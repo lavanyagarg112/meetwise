@@ -322,6 +322,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           value={newTodo.details}
           onChange={(e) => setNewTodo({ ...newTodo, details: e.target.value })}
           className={styles.todoInput}
+          required
         />
         <DatePicker
           selected={newTodo.deadline ? new Date(newTodo.deadline) : null}
@@ -344,6 +345,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           }))}
           placeholder="Select Assignee"
           className={styles.todoSelect}
+          required
         />
         <button onClick={handleAddTodo} className={styles.todoButton}>Add Todo</button>
       </div>
