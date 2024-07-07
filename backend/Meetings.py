@@ -15,7 +15,6 @@ time = 300  #timeout
 
 def storeMeeting(meeting: MeetingInput):
     file = meeting.file
-    print('FILE: ', file)
     if file.content_type != 'audio/mpeg':
         raise HTTPException(status_code=415,
                             detail=f'''Unsupported media type. Only Audio files are supported.Received {file.content_type} "
@@ -25,7 +24,6 @@ def storeMeeting(meeting: MeetingInput):
     size = file.size
     file = file.file
     length = int(MP3(file).info.length)
-    print('FILE: ', file)
     try:
         transcription = func_timeout(time, transcribe, (file,))
     except FunctionTimedOut:
