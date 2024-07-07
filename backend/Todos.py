@@ -17,7 +17,8 @@ def todoBuilder(row: Tuple) -> TodoDetails:
     assignee = getUserByID(row[4])
     if assignee:
         assignee = assignee.user
-    return TodoDetails(id=row[0], details=row[1], deadline=row[2].replace('T', ' ') if row[2] else None, assigner=assigner,
+    return TodoDetails(id=row[0], details=row[1], deadline=row[2].replace('T', ' ') if row[2] else None,
+                       assigner=assigner,
                        assignee=assignee, isCompleted=row[5])
 
 
@@ -75,6 +76,5 @@ def replaceTodos(organisation: int, meetingId: int, todos: List[Task]):
     TaskUnwrapper = lambda row: (row.description, row.deadline.strftime('%Y-%m-%d %H:%M:%S') if row.deadline else None)
     todos = list(map(TaskUnwrapper, todos))
     replaceMeetTodos(organisation, meetingId, todos)
-
 
 
