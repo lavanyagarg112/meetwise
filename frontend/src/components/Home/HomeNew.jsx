@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import classes from './Home.module.css';
-import video from './assets/meetwise-home-page.mp4'
+import video from './assets/meetwise2-home-page.mp4'
 
 const HomeNew = () => {
   return (

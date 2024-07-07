@@ -6,11 +6,11 @@
   justify-content: center;
   align-items: center;
   padding-top: 100px;
-  color: white;
+  color: Black;
   text-align: center;
   padding: 20px;
   background: none; /* Makes the container transparent */
-  background-color: #080120;
+  /* background-color: #080120; */
 }
 
 .landingtitle {
