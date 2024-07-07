@@ -30,8 +30,8 @@ def getOrganisationReport(UserID: int, OrganisationName: str) -> OrganisationPer
     teams = getTeamsById(organisation, UserID)
     owner: int = getOwner(organisation)[0]
     owner: Person = getUserByID(owner).user
-    admins: [Person] = getStatus(organisation,Roles.ADMIN)
-    users: [Person] = getStatus(organisation,Roles.USER)
+    admins: [Person] = getStatus(organisation, Roles.ADMIN)
+    users: [Person] = getStatus(organisation, Roles.USER)
     userRole = getRoleByID(organisation, UserID)
     pendingInvites: List[InviteOutput] = getPendingInvites(organisation)
     orgReport = OrganisationReport(id=organisation, name=OrganisationName, owners=[owner],
@@ -48,8 +48,8 @@ def getTeamReport(userID: int, teamName: str, organisationName: str) -> TeamPers
     userRole = getTRoleByID(organisation, team, userID)
     if not userRole:
         AuthenticationError("User is not in team")
-    admins: [Person] = getTeamStatus(organisation, team,Roles.ADMIN)
-    users: [Person] = getTeamStatus(organisation, team,Roles.USER)
+    admins: [Person] = getTeamStatus(organisation, team, Roles.ADMIN)
+    users: [Person] = getTeamStatus(organisation, team, Roles.USER)
     allUsers: [Person] = getAllUsers(organisation, team)
     otherUsers = filter(lambda x: (x not in users) and (x not in admins), allUsers)
     teamReport = TeamReport(id=team, name=teamName,
@@ -60,15 +60,19 @@ def getTeamReport(userID: int, teamName: str, organisationName: str) -> TeamPers
     return report
 
 
-def getMeetings(orgTeam: OrgTeam):
+def getMeetings(userId: int, orgTeam: OrgTeam):
     org: int = getOrganisationByName(orgTeam.organisation)
     team: int = getTeamByName(org, orgTeam.name)
+    if not getTRoleByID(org, team, userId):
+        AuthenticationError("You can only see your own team's meetings")
     meetings = getMeetingsByTeam(org, team)
     return meetify(meetings)
 
 
-def getAllMeetings(orgName: str) -> [Meeting]:
+def getAllMeetings(userId: int, orgName: str) -> [Meeting]:
     orgName = getOrganisationByName(orgName)
+    if not getRoleByID(orgName, userId):
+        AuthenticationError("You can only see your own organisation's meetings")
     meetings = getMeetingsByOrg(orgName)
     return meetify(meetings)
 
@@ -76,17 +80,18 @@ def getAllMeetings(orgName: str) -> [Meeting]:
 def getTeamsById(id: int, UserId: int, status: Roles | None = None):
     if not status:
         teams = getTeamsByOrg(id, UserId)
-    else :
+    else:
         teams = getTeamsByOrgStatus(id, UserId, status)
     teammer = lambda row: Team(id=row[0], name=row[1])
     teams = list(map(teammer, teams))
     return teams
 
 
-def getTeams(name: str, Userid: int,status: Roles|None = None):
+def getTeams(name: str, Userid: int, status: Roles | None = None):
     id = getOrganisationByName(name)
-    return getTeamsById(id, Userid,status)
-
+    if not getRoleByID(id, Userid):
+        AuthenticationError("You can only see your own organisation's teams")
+    return getTeamsById(id, Userid, status)
 
 
 '''
@@ -106,7 +111,7 @@ def createTeam(userId: int, orgteam: OrgTeam):
     org = getOrganisationByName(orgteam.organisation)
     if teamExists(org, orgteam.name) is not None:
         raise HTTPException(status_code=400, detail="Team already exists")
-    if getRoleByID(org,userId) == Roles.USER.value:
+    if getRoleByID(org, userId) == Roles.USER.value:
         raise HTTPException(status_code=403, detail="User is not authorized to create team")
     makeTeam(org, orgteam.name)
     id = getTeamByName(org, orgteam.name)
