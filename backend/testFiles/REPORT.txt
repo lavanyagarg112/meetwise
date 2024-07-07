@@ -2,38 +2,51 @@ Transcription size: 87148 characters
 
 ------------------------------------------------------------------------------------------------------------------------
 | Transcription time: 0.00 seconds
-| Uncommon words generation time: 0.75 seconds
-| Summary generation time: 0.51 seconds
-| To-do generation time: 0.37 seconds
-+ Total time taken: 1.62 seconds
+| Uncommon words generation time: 0.54 seconds
+| Summary generation time: 0.49 seconds
+| To-do generation time: 0.98 seconds
++ Total time taken: 2.01 seconds
 ------------------------------------------------------------------------------------------------------------------------
 
 Uncommon Words List:
-['future proof', 'trim']
+['future proof', 'contrary']
 
 Summary:
 Here is a summary of the meeting in a bulleted list, including key discussion points and decisions:
 
-**Apologies**
+**Apologies and Attendance**
 
-* Hazel was not present, but apologized for her absence
-* The meeting noted that everyone else was present
+* Hazel was absent
+* The meeting acknowledged Jim's early departure at 1:30 PM to attend another meeting
 
 **Decisions**
 
-* The meeting began with a brief apology from Jim, who had to leave the meeting at 1:30 PM to attend a future-proofing meeting
-* The meeting then moved on to confirm the order of the agenda, which was carried
-* The meeting also confirmed the minutes from the 18th February, with one correction regarding Andrew Graham's attendance, which was carried
+* Apologies were accepted and the meeting proceeded
 
-**Discussion Points**
+**Disclosure of Members' Interests**
 
-* No members disclosed any interests
-* No late items were present
-* The meeting welcomed several guests and noted that they were aware of the meeting time
-* Andrew Graham spoke up about not being recorded as attending the previous meeting, which was acknowledged and agreed to be resolved
+* No disclosure was required
 
-Note that this summary focuses on the key discussion points and decisions made during the meeting, and can be used as a reference for future purposes.
+**Confirmation of Meeting Order**
+
+* No changes to the meeting order were required
+
+**Decisions**
+
+* The meeting order was confirmed
+
+**Confirmation of Minutes from 18 February**
+
+* Andrew Graham raised an issue with his name not being recorded in the minutes
+* The minutes were reviewed and changes will be made to rectify the error
+* Decision: The minutes were received as a corrected record
+
+**Future Agenda Items**
+
+* None mentioned
+
+Note: The meeting transcript is incomplete, so the summary only covers the topics discussed up to the point where the transcript ended.
 
 To-do List:
-[]
+[Task(description=Check on businesses with more than 100 employees for support gap, deadline=None), Task(description=Conduct survey to measure full impacts of unemployed tourism staff, deadline=None), Task(description=Prepare major and business events restart campaign, deadline=None), Task(description=Collaborate with local government on shovel-ready tourism projects, deadline=None), Task(description=Continue research on domestic perceptions and major events, deadline=None), Task(description=Share weekly data and insights with Tawahka and contribute to Tawaka economic outlook, deadline=None), Task(description=Launch local campaign to support tourism in the region, deadline=None)]
 
