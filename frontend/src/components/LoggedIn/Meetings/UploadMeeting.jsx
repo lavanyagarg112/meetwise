@@ -270,7 +270,7 @@ const formatDate = (date) => {
         </div>
       )} */}
       {showPopup && <div className={styles.popup}>Video uploaded!</div>}
-      {showError && <div className={styles.error}>Error uploading video</div>}
+      {showError && <div className={styles.error}>Please try again. Make sure your format is audio or video</div>}
       {loading && <Loading />}
     </div>
   );
