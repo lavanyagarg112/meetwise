@@ -71,9 +71,6 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
       const data = await response.json();
       setPeople([...data.organisation.owners, ...data.organisation.admins, ...data.organisation.users]);
       setEditablePeople([...data.organisation.owners, ...data.organisation.admins])
-      if (editablePeople.find(person => person.id === user.id)) {
-        setIsAdmin(true)
-      }
     } catch (error) {
       console.log('ERROR', error);
     }
@@ -97,9 +94,6 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
       const data = await response.json();
       setPeople([...data.team.admins, ...data.team.users]);
       setEditablePeople(data.team.admins)
-      if (editablePeople.find(person => person.id === user.id)) {
-        setIsAdmin(true)
-      }
     } catch (error) {
       console.log('ERROR', error);
     }
@@ -221,7 +215,8 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
 
   const RenderTodo = ({ todo }) => {
     const { id, details, deadline, assigner, assignee, isCompleted } = todo;
-    const canEditTodo = (assigner && user.id === assigner.id) || (assignee && user.id === assignee.id) || isAdmin || !assignee || !assigner;
+    const canEditTodo = (assigner && user.id === assigner.id) || (assignee && user.id === assignee.id) || editablePeople.find(person => person.id === user.id) || !assignee || !assigner;
+    setIsAdmin(editablePeople.find(person => person.id === user.id))
     const [isEditing, setIsEditing] = useState(false);
     const [localTodo, setLocalTodo] = useState({ ...todo });
   
