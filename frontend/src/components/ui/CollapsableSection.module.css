@@ -8,7 +8,7 @@
   font-weight: bold;
   cursor: pointer;
   padding: 10px;
-  background-color: var(--background-color-code);
+  /* background-color: var(--background-color-code); */
 }
 
 .content {
