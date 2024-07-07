@@ -250,12 +250,18 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           disabled={!canEditTodo || !isEditing}
           className={styles.todoCheckbox}
         />
-        <input
+        {/* <input
           type="text"
           value={localTodo.details}
           onChange={(e) => handleLocalEditTodo({ details: e.target.value })}
           disabled={!canEditTodo || !isEditing}
           className={styles.todoInput}
+        /> */}
+        <textarea
+        value={localTodo.details}
+        onChange={(e) => handleLocalEditTodo({ details: e.target.value })}
+        disabled={!canEditTodo || !isEditing}
+        className={styles.todoDetails}
         />
         <DatePicker
           selected={new Date(localTodo.deadline)}

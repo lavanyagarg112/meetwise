@@ -21,6 +21,18 @@
   gap: 8px;
 }
 
+.todoDetails {
+  flex: 1;
+  margin-right: 8px;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  resize: vertical;
+  min-height: 38px;
+}
+
 .todoInput {
   flex: 1;
   margin-right: 8px;
