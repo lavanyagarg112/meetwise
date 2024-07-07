@@ -95,7 +95,7 @@ class Meeting:
         return self.summary
 
     def generate_todo(self) -> List[Task]:
-        print('IN GENERATE TODO')
+
         try :
             prompt = '''
             "You are a to-do generator that outputs in JSON from meeting trasncription that the user will provide in chunks.\n"
@@ -127,11 +127,9 @@ class Meeting:
                 )
                 task_list.append(task)
 
-            print('TASK LIST: ', task_list)
 
             self.todo = task_list
         except e:
-            print('HI IM IN EXCEPT: ', e)
             self.todo = []
         return self.todo
 
