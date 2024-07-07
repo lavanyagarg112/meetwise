@@ -8,10 +8,11 @@ import moment from 'moment';
 import Loading from '../../ui/Loading';
 
 const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
+
   const [ffmpeg, setFFmpeg] = useState(null);
   const [loading, setLoading] = useState(false);
   // const [fileUrl, setFileUrl] = useState(null);
-  const [type, setType] = useState('organisation');
+  const [type, setType] = useState('');
   const [meetingName, setMeetingName] = useState('');
   const [meetingDate, setMeetingDate] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -83,7 +84,12 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
       const data = await response.json();
       if (data.role != 'user') {
         setCanUploadOrg(true)
-        setType('organisation')
+        if (team) {
+          setType('team')
+        } else {
+          setType('organisation')
+        }
+        
       } else {
         setCanUploadOrg(false)
         setType('team')
@@ -137,11 +143,15 @@ const formatDate = (date) => {
       const arrayBuffer = e.target.result;
       const uint8Array = new Uint8Array(arrayBuffer);
 
-      await ffmpeg.writeFile('input.mp4', uint8Array);
-      await ffmpeg.exec(['-i', 'input.mp4', 'output.mp3']);
-      const data = await ffmpeg.readFile('output.mp3');
+      let blob = selectedFile;
 
-      const blob = new Blob([data], { type: 'audio/mpeg' });
+      if (selectedFile.type.startsWith('video')) {
+        await ffmpeg.writeFile('input.mp4', uint8Array);
+        await ffmpeg.exec(['-i', 'input.mp4', 'output.mp3']);
+        const data = await ffmpeg.readFile('output.mp3');
+        blob = new Blob([data], { type: 'audio/mpeg' });
+
+      }
 
       // test download
       // const url = URL.createObjectURL(blob);
@@ -251,7 +261,7 @@ const formatDate = (date) => {
         </label>
       </div>
       <div className={styles.formGroup}>
-        <input id="fileInput" type="file" onChange={handleFileChange} accept="video/*" className={styles.fileInput} />
+        <input id="fileInput" type="file" onChange={handleFileChange} accept="audio/*, video/*" className={styles.fileInput} />
       </div>
       <button
         onClick={sendUploadAudio}
@@ -266,7 +276,7 @@ const formatDate = (date) => {
         </div>
       )} */}
       {showPopup && <div className={styles.popup}>Video uploaded!</div>}
-      {showError && <div className={styles.error}>Error uploading video</div>}
+      {showError && <div className={styles.error}>Please try again. Make sure your format is audio or video</div>}
       {loading && <Loading />}
     </div>
   );

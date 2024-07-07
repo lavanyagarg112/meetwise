@@ -14,6 +14,11 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const [newTodo, setNewTodo] = useState({ details: '', deadline: '', assignee: '' });
+  const [filterStatus, setFilterStatus] = useState(null);
+  const [filterAssignee, setFilterAssignee] = useState(null);
+  const [filterAssigner, setFilterAssigner] = useState(null);
+  const [editablePeople, setEditablePeople] = useState([])
+  const [isAdmin, setIsAdmin] = useState(false)
 
   const fetchTodos = useCallback(async () => {
     setLoading(true);
@@ -32,7 +37,8 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
       }
 
       const data = await response.json();
-      setMeetingTodos(data);
+      setMeetingTodos(data.map((item) => !item.deadline ? {id: item.id, details: item.details, deadline: new Date(), assigner: item.assigner, assignee: item.assignee, isCompleted: item.isCompleted} : item));
+
     } catch (error) {
       console.log('error: ', error);
     }
@@ -64,6 +70,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
 
       const data = await response.json();
       setPeople([...data.organisation.owners, ...data.organisation.admins, ...data.organisation.users]);
+      setEditablePeople([...data.organisation.owners, ...data.organisation.admins])
     } catch (error) {
       console.log('ERROR', error);
     }
@@ -85,7 +92,8 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
       }
 
       const data = await response.json();
-      setPeople([...data.team.members]);
+      setPeople([...data.team.admins, ...data.team.users]);
+      setEditablePeople(data.team.admins)
     } catch (error) {
       console.log('ERROR', error);
     }
@@ -188,70 +196,185 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
     setNewTodo({ details: '', deadline: '', assignee: '' });
   };
 
-  const renderTodo = (todo) => {
-    const { id, details, deadline, assigner, assignee, isCompleted } = todo;
-    const canEditTodo = user.id === assigner.id || user.id === assignee.id;
+  const filterTodos = (todos) => {
+    return todos
+      .filter((todo) => {
+        if (filterStatus === 'completed') return todo.isCompleted;
+        if (filterStatus === 'active') return !todo.isCompleted;
+        return true;
+      })
+      .filter((todo) => {
+        if (filterAssignee) return todo.assignee.id === filterAssignee;
+        return true;
+      })
+      .filter((todo) => {
+        if (filterAssigner) return todo.assigner.id === filterAssigner;
+        return true;
+      });
+  };
 
+  const RenderTodo = ({ todo }) => {
+    const { id, details, deadline, assigner, assignee, isCompleted } = todo;
+    const canEditTodo = (assigner && user.id === assigner.id) || (assignee && user.id === assignee.id) || editablePeople.find(person => person.id === user.id) || !assignee || !assigner;
+    setIsAdmin(editablePeople.find(person => person.id === user.id))
+    const [isEditing, setIsEditing] = useState(false);
+    const [localTodo, setLocalTodo] = useState({ ...todo });
+  
+    useEffect(() => {
+      setLocalTodo({ ...todo });
+    }, [todo]);
+  
+    const handleLocalEditTodo = (updatedFields) => {
+      setLocalTodo((prevTodo) => ({
+        ...prevTodo,
+        ...updatedFields,
+      }));
+    };
+  
+    const handleSave = () => {
+      setIsEditing(false);
+      handleSaveTodo(localTodo);
+    };
+  
     return (
       <div key={id} className={styles.todoRow}>
         <input
+          type="checkbox"
+          checked={localTodo.isCompleted}
+          onChange={(e) => handleLocalEditTodo({ isCompleted: e.target.checked })}
+          disabled={!canEditTodo || !isEditing}
+          className={styles.todoCheckbox}
+        />
+        {/* <input
           type="text"
-          value={details}
-          onChange={(e) => handleEditTodo({ ...todo, details: e.target.value })}
-          disabled={!canEditTodo}
+          value={localTodo.details}
+          onChange={(e) => handleLocalEditTodo({ details: e.target.value })}
+          disabled={!canEditTodo || !isEditing}
           className={styles.todoInput}
+        /> */}
+        <textarea
+        value={localTodo.details}
+        onChange={(e) => handleLocalEditTodo({ details: e.target.value })}
+        disabled={!canEditTodo || !isEditing}
+        className={styles.todoDetails}
         />
         <DatePicker
-          selected={new Date(deadline)}
-          onChange={(date) => handleEditTodo({ ...todo, deadline: date.toISOString() })}
+          selected={new Date(localTodo.deadline)}
+          onChange={(date) => handleLocalEditTodo({ deadline: date.toISOString() })}
           showTimeSelect
           dateFormat="Pp"
-          disabled={!canEditTodo}
+          disabled={!canEditTodo || !isEditing}
           className={styles.todoDatePicker}
         />
-        <input
-          type="text"
-          value={`${assigner.firstName} ${assigner.lastName}`}
-          disabled
-          className={styles.todoInput}
-        />
-        <Select
-          value={{ value: assignee.id, label: `${assignee.firstName} ${assignee.lastName} - ${assignee.username} - ${assignee.email}` }}
+        {localTodo.assigner ? (localTodo.assigner.id === user.id ? (
+          <Select
+          value={localTodo.assigner ? { value: localTodo.assigner.id, label: `${localTodo.assigner.firstName} ${localTodo.assigner.lastName}` } : { value: '', label: '' }}
           onChange={(selectedOption) => {
             const selectedPerson = people.find((p) => p.id === selectedOption.value);
-            handleEditTodo({ ...todo, assignee: selectedPerson });
+            handleLocalEditTodo({ assigner: selectedPerson });
+          }}
+          // options={people.map((person) => ({
+          //   value: person.id,
+          //   label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`,
+          // }))}
+          options={[{value: user.id, label: `${user.firstName} ${user.lastName} (${user.username} - ${user.email})`}]}
+          isDisabled={!canEditTodo || !isEditing}
+          className={styles.todoSelect}
+          />
+        ) : (
+            <Select
+            value={localTodo.assigner ? { value: localTodo.assigner.id, label: `${localTodo.assigner.firstName} ${localTodo.assigner.lastName}` } : { value: '', label: '' }}
+            onChange={(selectedOption) => {
+              const selectedPerson = people.find((p) => p.id === selectedOption.value);
+              handleLocalEditTodo({ assigner: selectedPerson });
+            }}
+            // options={people.map((person) => ({
+            //   value: person.id,
+            //   label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`,
+            // }))}
+            options={[{value: user.id, label: `${user.firstName} ${user.lastName} (${user.username} - ${user.email})`},
+            {value: localTodo.assigner.id, label: `${localTodo.assigner.firstName} ${localTodo.assigner.lastName} (${localTodo.assigner.username} - ${localTodo.assigner.email})` }]}
+            isDisabled={!canEditTodo || !isEditing}
+            className={styles.todoSelect}
+          />
+        )) : (
+          <Select
+          value={{ value: '', label: '' }}
+          onChange={(selectedOption) => {
+            const selectedPerson = people.find((p) => p.id === selectedOption.value);
+            handleLocalEditTodo({ assigner: selectedPerson });
+          }}
+          // options={people.map((person) => ({
+          //   value: person.id,
+          //   label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`,
+          // }))}
+          options={[{value: user.id, label: `${user.firstName} ${user.lastName} (${user.username} - ${user.email})`}]}
+          isDisabled={!canEditTodo || !isEditing}
+          className={styles.todoSelect}
+          />
+        )
+        }
+        <Select
+          value={localTodo.assignee ? { value: localTodo.assignee.id, label: `${localTodo.assignee.firstName} ${localTodo.assignee.lastName}` } : { value: '', label: '' }}
+          onChange={(selectedOption) => {
+            const selectedPerson = people.find((p) => p.id === selectedOption.value);
+            handleLocalEditTodo({ assignee: selectedPerson });
           }}
           options={people.map((person) => ({
             value: person.id,
-            label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
+            label: `${person.firstName} ${person.lastName} (${person.username} - ${person.email})`,
           }))}
-          isDisabled={!canEditTodo}
+          isDisabled={!canEditTodo || !isEditing}
           className={styles.todoSelect}
         />
-        <input
-          type="checkbox"
-          checked={isCompleted}
-          onChange={(e) => handleEditTodo({ ...todo, isCompleted: e.target.checked })}
-          disabled={!canEditTodo}
-          className={styles.todoCheckbox}
-        />
-        {canEditTodo && (
-          <>
-            <button onClick={() => handleSaveTodo(todo)} className={styles.todoButton}>Save</button>
-            <button onClick={() => handleDeleteTodo(id)} className={styles.todoButton}>Delete</button>
-          </>
-        )}
+        
+        <div className={styles.todoActions}>
+          <button
+            onClick={isEditing && (!localTodo.deadline || !localTodo.assigner || !localTodo.assignee) ? () => {setIsEditing(false); setLocalTodo(todo)} : !isEditing ? () => setIsEditing(true) : handleSave}
+            className={styles.todoButton}
+            disabled={!canEditTodo}
+          >
+            { isEditing && (!localTodo.deadline || !localTodo.assigner || !localTodo.assignee) ? 'Cancel' : isEditing ? 'Save' : 'Edit'}
+          </button>
+          <button onClick={() => handleDeleteTodo(id)} className={styles.todoButton} disabled={!canEditTodo}>Delete</button>
+        </div>
       </div>
     );
   };
 
   useEffect(() => {
-    fetchTodos()
-  }, [])
+    fetchTodos();
+  }, []);
 
   return (
     <CollapsibleSection title="Meeting Todos" onToggle={() => {}}>
       {loading && <Loading />}
+      <div className={styles.filterContainer}>
+        <Select
+          placeholder="Filter by Status"
+          options={[{ value: null, label: 'Filter by Status' }, { value: 'completed', label: 'Completed' }, { value: 'active', label: 'Active' }]}
+          onChange={(selectedOption) => setFilterStatus(selectedOption ? selectedOption.value : null)}
+          className={styles.filterSelect}
+        />
+        <Select
+          placeholder="Filter by Assignee"
+          options={[{ value: null, label: 'Filter by Assignee' }, ...people.map((person) => ({
+            value: person.id,
+            label: `${person.firstName} ${person.lastName} (${person.username} - ${person.email})`
+          }))]}
+          onChange={(selectedOption) => setFilterAssignee(selectedOption ? selectedOption.value : null)}
+          className={styles.filterSelect}
+        />
+        <Select
+          placeholder="Filter by Assigner"
+          options={[{ value: null, label: 'Filter by Assigner' }, ...people.map((person) => ({
+            value: person.id,
+            label: `${person.firstName} ${person.lastName} (${person.username} - ${person.email})`
+          }))]}
+          onChange={(selectedOption) => setFilterAssigner(selectedOption ? selectedOption.value : null)}
+          className={styles.filterSelect}
+        />
+      </div>
       <div className={styles.addTodoForm}>
         <input
           type="text"
@@ -259,6 +382,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           value={newTodo.details}
           onChange={(e) => setNewTodo({ ...newTodo, details: e.target.value })}
           className={styles.todoInput}
+          required
         />
         <DatePicker
           selected={newTodo.deadline ? new Date(newTodo.deadline) : null}
@@ -277,22 +401,24 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           onChange={(selectedOption) => setNewTodo({ ...newTodo, assignee: selectedOption.value })}
           options={people.map((person) => ({
             value: person.id,
-            label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
+            label: `${person.firstName} ${person.lastName} (${person.username} - ${person.email})`
           }))}
           placeholder="Select Assignee"
           className={styles.todoSelect}
+          required
         />
-        <button onClick={handleAddTodo} className={styles.todoButton}>Add Todo</button>
+        <button onClick={handleAddTodo} className={styles.todoButton} disabled={!newTodo.details || !newTodo.deadline || !newTodo.assignee}>Add Todo</button>
       </div>
       <div className={styles.todosContainer}>
         <div className={styles.todosHeader}>
+          <span></span>
           <span>Details</span>
           <span>Deadline</span>
           <span>Assigner</span>
           <span>Assignee</span>
-          <span>Completed</span>
+          <span>Actions</span>
         </div>
-        {meetingTodos.map((todo) => renderTodo(todo))}
+        {filterTodos(meetingTodos).map((todo) => <RenderTodo todo={todo} />)}
       </div>
     </CollapsibleSection>
   );

@@ -10,7 +10,8 @@ from IOSchema import Person, UserSignUp, UserLogIn, UserInfo, Organisation, Invi
 import os
 
 from Errors import CreateUserError, AuthError, AuthenticationError
-from OrganisationHelpers import getOrganisationByID, getOrganisationByName, getOrgs, forceJoin
+from OrganisationHelpers import getOrganisationByID, getOrganisationByName, getOrgs, forceJoin, getRoleByID
+from Enums import Roles
 from database import initialise, setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, getUserDetailsByID, \
     checkUserEmail, createNewUser, checkUserUsername, checkUserOrg, addUserToOrg, addToPending
 
@@ -34,8 +35,10 @@ def getUserDetails(user: UserLogIn) -> [Person, AuthError, str | None]:
     return user, None, getOrganisationByID(details[6])
 
 
-def getUserByID(user: int) -> UserInfo:
+def getUserByID(user: int) -> UserInfo|None:
     details = getUserDetailsByID(user)
+    if not details:
+        return None
     return UserInfo(
         user=Person(id=user, email=details[0], username=details[1], firstName=details[2], lastName=details[3]),
         activeOrganisation=getOrganisationByID(details[4]))
@@ -61,8 +64,10 @@ def setOrganisationActive(userId: int, name: str):
     setActiveOrganisation(userId, getOrganisationByName(name))
 
 
-def inviteOrAddUser(email, role, organisation) -> InviteOutput:
+def inviteOrAddUser(userId,email, role, organisation) -> InviteOutput:
     organisation = getOrganisationByName(organisation)
+    if getRoleByID(organisation,userId) == Roles.USER.value:
+        AuthenticationError("Only admins can invite users.")
     if checkUserEmail(email):
         userId = getUserDetailsByEmail(email)[0]
         if checkUserOrg(userId, organisation):

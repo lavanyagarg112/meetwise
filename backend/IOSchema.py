@@ -151,9 +151,9 @@ class TodoUpdate(TodoInput):
 class TodoDetails(BaseModel):
     id: int
     details: str
-    deadline: str
-    assigner: Person
-    assignee: Person
+    deadline: str | None = None
+    assigner: Person | None = None
+    assignee: Person | None = None
     isCompleted: bool
 
 

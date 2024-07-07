@@ -297,6 +297,16 @@ typer = ">=0.12.3"
 standard = ["fastapi", "uvicorn[standard] (>=0.15.0)"]
 
 [[package]]
+name = "func-timeout"
+version = "4.3.5"
+description = "Python module which allows you to specify timeouts when calling any existing function. Also provides support for stoppable-threads"
+optional = false
+python-versions = "*"
+files = [
+    {file = "func_timeout-4.3.5.tar.gz", hash = "sha256:74cd3c428ec94f4edfba81f9b2f14904846d5ffccc27c92433b8b5939b5575dd"},
+]
+
+[[package]]
 name = "groq"
 version = "0.9.0"
 description = "The official Python library for the groq API"
@@ -1322,4 +1332,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "6aafe965d3e1c618d6cf578e9495bcd07b424c143db07b8b09e5a883fb617b51"
+content-hash = "62eb41a10f9ffdfef159133cc7083080d91cde29ced31ce4b68fb3c21ba858a4"

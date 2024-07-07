@@ -54,7 +54,7 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ 
-          team: teamName,
+          name: teamName,
           organisation: organisationName
         }),
         credentials: 'include',
@@ -136,7 +136,7 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
 
       const data = await response.json();
       setTranscriptionType(data.type);
-      setTranscription(data.transcription);
+      setOriginalTranscription(data.transcription);
       setUncommonWords(data.uncommonWords);
     } catch (error) {
       console.log('error:', error);
@@ -237,7 +237,7 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
             </div>
             {transcriptionType && (
               <div className={styles.warning}>
-                Warning: Summary and todos will be regenerated. You will lose manual todos if you click on submit. Click on cancel to cancel this edit.
+                Warning: Summary and todos will be regenerated. Click on cancel to cancel this edit.
               </div>
             )}
             {!transcriptionType && (

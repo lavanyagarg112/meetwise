@@ -1,36 +1,52 @@
-mp3 file size: 40.06 MB
-Transcription size: 24301 characters
+Transcription size: 87148 characters
 
 ------------------------------------------------------------------------------------------------------------------------
-+ mp3 file read time: 0.03 seconds
 | Transcription time: 0.00 seconds
-| Uncommon words generation time: 0.66 seconds
-| Summary generation time: 0.64 seconds
-| To-do generation time: 0.49 seconds
-+ Total time taken: 1.82 seconds
+| Uncommon words generation time: 0.54 seconds
+| Summary generation time: 0.49 seconds
+| To-do generation time: 0.98 seconds
++ Total time taken: 2.01 seconds
 ------------------------------------------------------------------------------------------------------------------------
 
 Uncommon Words List:
-['mlops']
+['future proof', 'contrary']
 
 Summary:
-Here is a summary of the key discussion points and decisions made during the meeting:
+Here is a summary of the meeting in a bulleted list, including key discussion points and decisions:
 
-**Key Discussion Points:**
+**Apologies and Attendance**
 
-* The SEC (Secure and Govern Growth) and Data Science (including ML, MLOps, and Anti-Abuse) teams are combining to form a new team.
-* The new team's name may change over time.
-* The meeting leader plans to improve communication by summarizing updates and reducing "noise" in future meetings.
-* The team will rely on meeting notes and leadership attendance instead of relying on the Slack channel for updates.
-* Alan has been appointed as the acting Full Stack Manager for Security Policies until an EM (Engineering Manager) is hired.
-* Anti-Abuse is being moved from the SEC team to the Data Science team, which includes the rebranded Model Ops team.
-* The Data Science team will have two stages: Model Ops (with three groups) and Anti-Abuse (with one current group, planned to be split into two groups in the future).
+* Hazel was absent
+* The meeting acknowledged Jim's early departure at 1:30 PM to attend another meeting
 
-**Decisions Made:**
+**Decisions**
 
-* Alan will act as Full Stack Manager for Security Policies until an EM is hired.
-* Anti-Abuse will be moved from the SEC team to the Data Science team.
+* Apologies were accepted and the meeting proceeded
+
+**Disclosure of Members' Interests**
+
+* No disclosure was required
+
+**Confirmation of Meeting Order**
+
+* No changes to the meeting order were required
+
+**Decisions**
+
+* The meeting order was confirmed
+
+**Confirmation of Minutes from 18 February**
+
+* Andrew Graham raised an issue with his name not being recorded in the minutes
+* The minutes were reviewed and changes will be made to rectify the error
+* Decision: The minutes were received as a corrected record
+
+**Future Agenda Items**
+
+* None mentioned
+
+Note: The meeting transcript is incomplete, so the summary only covers the topics discussed up to the point where the transcript ended.
 
 To-do List:
-[]
+[Task(description=Check on businesses with more than 100 employees for support gap, deadline=None), Task(description=Conduct survey to measure full impacts of unemployed tourism staff, deadline=None), Task(description=Prepare major and business events restart campaign, deadline=None), Task(description=Collaborate with local government on shovel-ready tourism projects, deadline=None), Task(description=Continue research on domestic perceptions and major events, deadline=None), Task(description=Share weekly data and insights with Tawahka and contribute to Tawaka economic outlook, deadline=None), Task(description=Launch local campaign to support tourism in the region, deadline=None)]
 
