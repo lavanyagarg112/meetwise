@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
   padding-top: 100px;
-  color: var(--black);
+  color: white;
   text-align: center;
   padding: 20px;
   background: none; /* Makes the container transparent */
@@ -16,6 +16,7 @@
   font-weight: 700;
   font-size: 6rem; /* Larger font size for the title */
   margin: 0;
+  margin-top: 12rem;
   animation: fadeIn 1s ease-out forwards;
 }
 
@@ -43,7 +44,7 @@
 }
 
 .register a:hover {
-  background-color: var(--dark-gray); /* Darker gray background on hover */
+  background-color: lightyellow; /* Darker gray background on hover */
 }
 
 /* Animation keyframes for fading in the elements */
@@ -109,6 +110,40 @@
   margin-bottom: 1rem; /* Space between list items */
   font-size: 1rem; /* Font size for list content */
 }
+
+.video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+/* .content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  z-index: 2;
+} */
+
+.content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
 
 /* Add responsive design for smaller screens */
 @media (max-width: 768px) {
