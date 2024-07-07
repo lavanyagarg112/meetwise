@@ -18,8 +18,8 @@ from Meetings import storeMeeting, updateMeetingTranscription, getMeetingSummary
     getMeetingInfo
 from Enums import Roles
 from OrganisationHelpers import getRoleByID, getOrganisationByName, getTeamByName, getTRoleByID
-from Todos import updateTodosOrg, addTodosOrg, getMeetTodos, getUserOrgTodos
-from database import deleteTodos, getUserTodosOrg
+from Todos import updateTodosOrg, addTodosOrg, getMeetTodos, getUserOrgTodos, getAllTodos
+from database import deleteTodos, getUserTodosOrg, getUserOrgs
 
 app = FastAPI()
 
@@ -35,7 +35,6 @@ app.add_middleware(
 )
 
 
-#TODO : add return types
 @app.post("/sign-up")
 async def signup(user: UserSignUp, response: Response):
     try:
@@ -123,7 +122,7 @@ async def uploadMeeting(file: UploadFile,
                         credentials: Annotated[str, Cookie()] = None):
     input = MeetingInput(file=file, type=type, meetingName=meetingName, meetingDate=meetingDate, team=team,
                          organisation=organisation)
-    id = eatCookie(credentials)
+    #id = eatCookie(credentials)
     storeMeeting(input)
 
 
@@ -252,7 +251,8 @@ async def deleteTodo(todo: TodoEliminate, credentials: Annotated[str, Cookie()] 
 
 
 @app.post('/get-meeting-todos')
-async def getMeetingTodos(meeting: MeetingIdentifier, credentials: Annotated[str, Cookie()] = None) -> List[TodoDetails]:
+async def getMeetingTodos(meeting: MeetingIdentifier, credentials: Annotated[str, Cookie()] = None) -> List[
+    TodoDetails]:
     id = eatCookie(credentials)
     org = getOrganisationByName(meeting.organisation)
     if not org:
@@ -260,11 +260,18 @@ async def getMeetingTodos(meeting: MeetingIdentifier, credentials: Annotated[str
     todos = getMeetTodos(org, meeting.meetingid)
     return todos
 
+
 @app.post('/get-all-user-todos')
-async def getAllUserTodos(organisation : OrganisationName,credentials: Annotated[str, Cookie()] = None) -> List[TodoDetails]:
+async def getAllUserTodos(organisation: OrganisationName, credentials: Annotated[str, Cookie()] = None) -> List[
+    TodoDetails]:
     id = eatCookie(credentials)
     org = getOrganisationByName(organisation.name)
     if not org:
         raise HTTPException(status_code=404, detail=f"Organisation {organisation.name} not found.")
-    todos = getUserOrgTodos(id,org)
+    todos = getUserOrgTodos(id, org)
     return todos
+
+@app.get('/get-user-todos')
+async def getUserTodos(credentials: Annotated[str, Cookie()] = None) -> List[TodoDetails]:
+    id = eatCookie(credentials)
+    return getAllTodos(id)

@@ -54,7 +54,7 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ 
-          team: teamName,
+          name: teamName,
           organisation: organisationName
         }),
         credentials: 'include',
@@ -237,13 +237,13 @@ const Transcription = ({ type, team, organisation, meetingid, onconfirm }) => {
             </div>
             {transcriptionType && (
               <div className={styles.warning}>
-                Warning: Summary and todos will be regenerated. You will lose manual todos if you click on submit. Click on cancel to cancel this edit.
+                Warning: Summary and todos will be regenerated. Your manually added todos will stay. Click on cancel to cancel this edit.
               </div>
             )}
             {!transcriptionType && (
               <div className={styles.warning}>
                 Warning: Once you confirm, your summary and todos will be generated after which you can edit your
-                todos. However, if you make any further edits to the transcription after confirmation, your work will be lost. Click on cancel to not confirm transcription.
+                todos. However, if you make any further edits to the transcription after confirmation, your work will be lost. Your manually added todos will stay. Click on cancel to not confirm transcription.
               </div>
             )}
             <div className={styles.buttonContainer}>

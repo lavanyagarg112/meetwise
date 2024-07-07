@@ -14,6 +14,12 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const [newTodo, setNewTodo] = useState({ details: '', deadline: '', assignee: '' });
+  const [filterStatus, setFilterStatus] = useState(null);
+  const [filterAssignee, setFilterAssignee] = useState(null);
+  const [filterAssigner, setFilterAssigner] = useState(null);
+  const [isEditing, setIsEditing] = useState(false)
+  const [editablePeople, setEditablePeople] = useState([])
+  const [isAdmin, setIsAdmin] = useState(false)
 
   const fetchTodos = useCallback(async () => {
     setLoading(true);
@@ -64,6 +70,10 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
 
       const data = await response.json();
       setPeople([...data.organisation.owners, ...data.organisation.admins, ...data.organisation.users]);
+      setEditablePeople([...data.organisation.owners, ...data.organisation.admins])
+      if (editablePeople.find(person => person.id === user.id)) {
+        setIsAdmin(true)
+      }
     } catch (error) {
       console.log('ERROR', error);
     }
@@ -85,7 +95,11 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
       }
 
       const data = await response.json();
-      setPeople([...data.team.members]);
+      setPeople([...data.team.admins, ...data.team.users]);
+      setEditablePeople(data.team.admins)
+      if (editablePeople.find(person => person.id === user.id)) {
+        setIsAdmin(true)
+      }
     } catch (error) {
       console.log('ERROR', error);
     }
@@ -98,6 +112,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
   };
 
   const handleSaveTodo = async (todo) => {
+    setIsEditing(false)
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/edit-todo`, {
         method: 'PUT',
@@ -188,17 +203,45 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
     setNewTodo({ details: '', deadline: '', assignee: '' });
   };
 
+  const filterTodos = (todos) => {
+    return todos
+      .filter((todo) => {
+        if (filterStatus === 'completed') return todo.isCompleted;
+        if (filterStatus === 'active') return !todo.isCompleted;
+        return true;
+      })
+      .filter((todo) => {
+        if (filterAssignee) return todo.assignee.id === filterAssignee;
+        return true;
+      })
+      .filter((todo) => {
+        if (filterAssigner) return todo.assigner.id === filterAssigner;
+        return true;
+      });
+  };
+
   const renderTodo = (todo) => {
     const { id, details, deadline, assigner, assignee, isCompleted } = todo;
-    const canEditTodo = user.id === assigner.id || user.id === assignee.id;
+    const canEditTodo = user.id === assigner.id || user.id === assignee.id || isAdmin
+
+    {console.log("EDITABLE PEOPLE: ", editablePeople)
+     console.log('USER: ', user)
+    }
 
     return (
       <div key={id} className={styles.todoRow}>
         <input
+          type="checkbox"
+          checked={isCompleted}
+          onChange={(e) => handleEditTodo({ ...todo, isCompleted: e.target.checked })}
+          disabled={!canEditTodo || !isEditing}
+          className={styles.todoCheckbox}
+        />
+        <input
           type="text"
           value={details}
           onChange={(e) => handleEditTodo({ ...todo, details: e.target.value })}
-          disabled={!canEditTodo}
+          disabled={!canEditTodo || !isEditing}
           className={styles.todoInput}
         />
         <DatePicker
@@ -206,7 +249,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           onChange={(date) => handleEditTodo({ ...todo, deadline: date.toISOString() })}
           showTimeSelect
           dateFormat="Pp"
-          disabled={!canEditTodo}
+          disabled={!canEditTodo || !isEditing}
           className={styles.todoDatePicker}
         />
         <input
@@ -225,33 +268,53 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
             value: person.id,
             label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
           }))}
-          isDisabled={!canEditTodo}
+          isDisabled={!canEditTodo || !isEditing}
           className={styles.todoSelect}
         />
-        <input
-          type="checkbox"
-          checked={isCompleted}
-          onChange={(e) => handleEditTodo({ ...todo, isCompleted: e.target.checked })}
-          disabled={!canEditTodo}
-          className={styles.todoCheckbox}
-        />
-        {canEditTodo && (
-          <>
-            <button onClick={() => handleSaveTodo(todo)} className={styles.todoButton}>Save</button>
-            <button onClick={() => handleDeleteTodo(id)} className={styles.todoButton}>Delete</button>
-          </>
-        )}
+        
+        <div className={styles.todoActions}>
+          <button onClick={!isEditing ? () => setIsEditing(true) :() => handleSaveTodo(todo)} className={styles.todoButton}  disabled={!canEditTodo}>
+            {isEditing ? 'Save' : 'Edit'}
+          </button>
+          <button onClick={() => handleDeleteTodo(id)} className={styles.todoButton}  disabled={!canEditTodo}>Delete</button>
+        </div>
       </div>
     );
   };
 
   useEffect(() => {
-    fetchTodos()
-  }, [])
+    fetchTodos();
+  }, []);
 
   return (
     <CollapsibleSection title="Meeting Todos" onToggle={() => {}}>
       {loading && <Loading />}
+      <div className={styles.filterContainer}>
+        <Select
+          placeholder="Filter by Status"
+          options={[{ value: null, label: 'Filter by Status' }, { value: 'completed', label: 'Completed' }, { value: 'active', label: 'Active' }]}
+          onChange={(selectedOption) => setFilterStatus(selectedOption ? selectedOption.value : null)}
+          className={styles.filterSelect}
+        />
+        <Select
+          placeholder="Filter by Assignee"
+          options={[{ value: null, label: 'Filter by Assignee' }, ...people.map((person) => ({
+            value: person.id,
+            label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
+          }))]}
+          onChange={(selectedOption) => setFilterAssignee(selectedOption ? selectedOption.value : null)}
+          className={styles.filterSelect}
+        />
+        <Select
+          placeholder="Filter by Assigner"
+          options={[{ value: null, label: 'Filter by Assigner' }, ...people.map((person) => ({
+            value: person.id,
+            label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
+          }))]}
+          onChange={(selectedOption) => setFilterAssigner(selectedOption ? selectedOption.value : null)}
+          className={styles.filterSelect}
+        />
+      </div>
       <div className={styles.addTodoForm}>
         <input
           type="text"
@@ -259,6 +322,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           value={newTodo.details}
           onChange={(e) => setNewTodo({ ...newTodo, details: e.target.value })}
           className={styles.todoInput}
+          required
         />
         <DatePicker
           selected={newTodo.deadline ? new Date(newTodo.deadline) : null}
@@ -281,18 +345,20 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           }))}
           placeholder="Select Assignee"
           className={styles.todoSelect}
+          required
         />
-        <button onClick={handleAddTodo} className={styles.todoButton}>Add Todo</button>
+        <button onClick={handleAddTodo} className={styles.todoButton} disabled={!newTodo.details || !newTodo.deadline || !newTodo.assignee}>Add Todo</button>
       </div>
       <div className={styles.todosContainer}>
         <div className={styles.todosHeader}>
+          <span></span>
           <span>Details</span>
           <span>Deadline</span>
           <span>Assigner</span>
           <span>Assignee</span>
-          <span>Completed</span>
+          <span>Actions</span>
         </div>
-        {meetingTodos.map((todo) => renderTodo(todo))}
+        {filterTodos(meetingTodos).map((todo) => renderTodo(todo))}
       </div>
     </CollapsibleSection>
   );

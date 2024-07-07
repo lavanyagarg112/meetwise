@@ -38,6 +38,7 @@ const OrganisationPage = () => {
   const [showerror, setShowError] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [showInvitePopup, setShowInvitePopup] = useState(false);
+  const [showExistsPopup, setShowExistsPopup] = useState(false)
 
   const [loading, setLoading] = useState(false)
 
@@ -62,6 +63,10 @@ const OrganisationPage = () => {
         }),
         credentials: 'include',
       });
+
+      if (response.status === 400) {
+        setShowExistsPopup(true)
+      }
 
       if (!response.ok) {
         const errorResponse = await response.json();
@@ -323,6 +328,11 @@ const OrganisationPage = () => {
             {showInvitePopup && (
               <div className={classes.popup}>
                 User invited successfully!
+              </div>
+            )}
+            {showExistsPopup && (
+              <div className={classes.error}>
+                Team name already exists in organisation
               </div>
             )}
           </div>

@@ -1,40 +1,39 @@
 .markdownContainer {
-    padding: 16px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .markdownContainer h1 {
-    font-size: 2em;
-    margin-bottom: 0.5em;
-  }
-  
-  .markdownContainer h2 {
-    font-size: 1.5em;
-    margin-bottom: 0.5em;
-  }
-  
-  .markdownContainer p {
-    margin-bottom: 1em;
-    line-height: 1.5;
-  }
-  
-  .markdownContainer ul, .markdownContainer ol {
-    margin-bottom: 1em;
-    padding-left: 1.5em;
-  }
-  
-  .markdownContainer code {
-    background-color: #f5f5f5;
-    border-radius: 3px;
-    padding: 0.2em 0.4em;
-  }
-  
-  .markdownContainer pre {
-    background-color: #f5f5f5;
-    padding: 1em;
-    border-radius: 3px;
-    overflow-x: auto;
-  }
-  
+  padding: var(--padding-container);
+  background-color: var(--background-color-light);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+.markdownContainer h1 {
+  font-size: var(--font-size-h1);
+  margin-bottom: var(--margin-bottom-h);
+}
+
+.markdownContainer h2 {
+  font-size: var(--font-size-h2);
+  margin-bottom: var(--margin-bottom-h);
+}
+
+.markdownContainer p {
+  margin-bottom: var(--margin-bottom-p);
+  line-height: var(--line-height-p);
+}
+
+.markdownContainer ul, .markdownContainer ol {
+  margin-bottom: var(--margin-bottom-p);
+  padding-left: var(--padding-left-list);
+}
+
+.markdownContainer code {
+  background-color: var(--background-color-code);
+  border-radius: var(--border-radius);
+  padding: var(--padding-code);
+}
+
+.markdownContainer pre {
+  background-color: var(--background-color-code);
+  padding: var(--padding-pre);
+  border-radius: var(--border-radius);
+  overflow-x: auto;
+}

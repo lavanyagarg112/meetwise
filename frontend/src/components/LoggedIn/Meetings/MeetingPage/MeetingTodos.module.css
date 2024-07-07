@@ -1,78 +1,102 @@
 .todosContainer {
-    display: flex;
-    flex-direction: column;
-    margin-top: 16px;
-  }
-  
-  .todosHeader {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-    padding: 8px 0;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .todoRow {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .todoInput {
-    flex: 1;
-    margin-right: 8px;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .todoDatePicker {
-    flex: 1;
-    margin-right: 8px;
-    padding: 8px;
-    border: 1px solid #ddd;
-  }
-  
-  .todoSelect {
-    flex: 1;
-    margin-right: 8px;
-  }
-  
-  .todoCheckbox {
-    margin-left: 8px;
-  }
-  
-  .todoButton {
-    margin-left: 8px;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-  }
-  
-  .todoButton:hover {
-    background-color: #0056b3;
-  }
-  
-  .addTodoForm {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-  
-  .addTodoForm input[type="text"],
-  .addTodoForm .todoDatePicker,
-  .addTodoForm .todoSelect {
-    margin-right: 8px;
-    flex: 1;
-  }
-  
-  .addTodoForm button {
-    margin-left: 8px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+}
+
+.todosHeader {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.todoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-color);
+  gap: 8px;
+}
+
+.todoInput {
+  flex: 1;
+  margin-right: 8px;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+.todoDatePicker {
+  flex: 1;
+  margin-right: 8px;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.todoSelect {
+  flex: 1;
+  margin-right: 8px;
+}
+
+.todoCheckbox {
+  margin-right: 8px;
+}
+
+.todoButton {
+  margin-left: 8px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: var(--border-radius);
+  background-color: var(--primary-color);
+  color: var(--white);
+  cursor: pointer;
+}
+
+.todoButton:hover {
+  background-color: var(--primary-color-hover);
+}
+
+.todoButton:disabled {
+  background-color: var(--light-gray);
+  cursor: not-allowed;
+}
+
+.addTodoForm {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 8px;
+}
+
+.addTodoForm input[type="text"],
+.addTodoForm .todoDatePicker,
+.addTodoForm .todoSelect {
+  margin-right: 8px;
+  flex: 1;
+}
+
+.addTodoForm button {
+  margin-left: 8px;
+}
+
+.addTodoForm:disabled {
+  background-color: var(--light-gray);
+  cursor: not-allowed;
+  color: var(--text-color-light);
+}
+
+.filterContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 8px;
+}
+
+.filterSelect {
+  flex: 1;
+}
