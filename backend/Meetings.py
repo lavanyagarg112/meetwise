@@ -26,7 +26,6 @@ def storeMeeting(meeting: MeetingInput):
         transcription = transcribe(file)
     except:
         raise HTTPException(status_code=500, detail="Transcription failed.")
-
     meetingMeta = Meeting(transcription)
     summary = meetingMeta.generate_summary()
     uncommonWords = ",".join(meetingMeta.generate_uncommon_words())
@@ -53,9 +52,8 @@ def storeMeeting(meeting: MeetingInput):
                                uncommon=uncommonWords)
     todos: List[Task] = meetingMeta.generate_todo()
     unwrap = lambda x: (x.description, x.deadline.strftime('%Y-%m-%d %H:%M:%S') if x.deadline else None)
-    todos: List[Tuple[str, str|None]] = list(map(unwrap, todos))
-    addBulkTodos(id,todos, org)
-
+    todos: List[Tuple[str, str | None]] = list(map(unwrap, todos))
+    addBulkTodos(id, todos, org)
 
 
 def updateMeetingTranscription(organisation: str, meetingId: int, transcription: str) -> TranscriptionDetails:

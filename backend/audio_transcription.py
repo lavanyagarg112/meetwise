@@ -27,12 +27,11 @@ def get_transcription_result(transcription_id, headers):
     while True:
         response = requests.get(transcription_url, headers=headers)
         transcription_result = response.json()
-
         if transcription_result['status'] == 'completed':
             return transcription_result['text']
-        elif transcription_result['status'] == 'failed':
+        elif transcription_result['status'] == 'error':
             return "Transcription failed"
-        else:
+        elif transcription_result['status'] == 'processing' or transcription_result['status'] == 'queued':
             time.sleep(10)
 
 
@@ -46,7 +45,6 @@ def transcribe(file_obj):
     audio_url = upload_to_assemblyai(file_obj, headers)
     transcription_id = request_transcription(audio_url, headers)
     transcription_text = get_transcription_result(transcription_id, headers)
-
     return transcription_text
 
 #dummy commit by Sarthak
