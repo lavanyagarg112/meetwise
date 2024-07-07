@@ -16,6 +16,7 @@
 .sectionTitle {
   color: var(--black);
   margin-bottom: 10px;
+  padding-bottom: 10px;
 }
 
 .section {

@@ -277,7 +277,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           //   value: person.id,
           //   label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`,
           // }))}
-          options={[{value: user.id, label: `${user.firstName} ${user.lastName} - ${user.username} - ${user.email}`}]}
+          options={[{value: user.id, label: `${user.firstName} ${user.lastName} (${user.username} - ${user.email})`}]}
           isDisabled={!canEditTodo || !isEditing}
           className={styles.todoSelect}
           />
@@ -292,8 +292,8 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
             //   value: person.id,
             //   label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`,
             // }))}
-            options={[{value: user.id, label: `${user.firstName} ${user.lastName} - ${user.username} - ${user.email}`},
-            {value: localTodo.assigner.id, label: `${localTodo.assigner.firstName} ${localTodo.assigner.lastName} - ${localTodo.assigner.username} - ${localTodo.assigner.email}` }]}
+            options={[{value: user.id, label: `${user.firstName} ${user.lastName} (${user.username} - ${user.email})`},
+            {value: localTodo.assigner.id, label: `${localTodo.assigner.firstName} ${localTodo.assigner.lastName} (${localTodo.assigner.username} - ${localTodo.assigner.email})` }]}
             isDisabled={!canEditTodo || !isEditing}
             className={styles.todoSelect}
           />
@@ -307,7 +307,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           }}
           options={people.map((person) => ({
             value: person.id,
-            label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`,
+            label: `${person.firstName} ${person.lastName} (${person.username} - ${person.email})`,
           }))}
           isDisabled={!canEditTodo || !isEditing}
           className={styles.todoSelect}
@@ -345,7 +345,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           placeholder="Filter by Assignee"
           options={[{ value: null, label: 'Filter by Assignee' }, ...people.map((person) => ({
             value: person.id,
-            label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
+            label: `${person.firstName} ${person.lastName} (${person.username} - ${person.email})`
           }))]}
           onChange={(selectedOption) => setFilterAssignee(selectedOption ? selectedOption.value : null)}
           className={styles.filterSelect}
@@ -354,7 +354,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           placeholder="Filter by Assigner"
           options={[{ value: null, label: 'Filter by Assigner' }, ...people.map((person) => ({
             value: person.id,
-            label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
+            label: `${person.firstName} ${person.lastName} (${person.username} - ${person.email})`
           }))]}
           onChange={(selectedOption) => setFilterAssigner(selectedOption ? selectedOption.value : null)}
           className={styles.filterSelect}
@@ -386,7 +386,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           onChange={(selectedOption) => setNewTodo({ ...newTodo, assignee: selectedOption.value })}
           options={people.map((person) => ({
             value: person.id,
-            label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
+            label: `${person.firstName} ${person.lastName} (${person.username} - ${person.email})`
           }))}
           placeholder="Select Assignee"
           className={styles.todoSelect}
