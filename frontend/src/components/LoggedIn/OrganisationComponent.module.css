@@ -57,3 +57,16 @@
   display: flex;
   gap: 10px; /* Space between buttons */
 }
+
+.error {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px;
+  background-color: var(--error-color);
+  color: var(--text-color-light);
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
