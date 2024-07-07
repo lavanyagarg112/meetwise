@@ -40,6 +40,10 @@ const LogInForm = () => {
 
       const data = await response.json();
 
+      if (response.status === 401) {
+        setLoginError(data.detail)
+      }
+
       if (response.ok) {
         setIsLoggedIn(true);
         setUser(data.user);

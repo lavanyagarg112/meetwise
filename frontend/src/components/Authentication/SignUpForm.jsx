@@ -52,17 +52,20 @@ const SignUpForm = () => {
       credentials: 'include'
     })
 
-    if (!response.ok) {
+    if (response.status === 400) {
+      const data = await response.json()
+      setSignUpError(data.detail)
+    } else if (!response.ok) {
       const errorResponse = await response.json()
       const errorText = errorResponse?.errors?.email ? errorResponse.errors.email[0] : 'An error occurred during sign up.'
       throw new Error(errorText)
+    } else {
+      const data = await response.json()
+      setIsLoggedIn(true)
+      setUser(data.user)
+      navigate('/')
     }
 
-    const data = await response.json()
-    setIsLoggedIn(true)
-    setUser(data.user)
-
-    navigate('/')
   } catch (error) {
     if (error instanceof Error) {
       // Now we know it's an Error instance
