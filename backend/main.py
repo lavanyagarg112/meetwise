@@ -44,7 +44,7 @@ async def signup(user: UserSignUp, response: Response):
     except:
         raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
     if error is not None:
-            raise HTTPException(status_code=400, detail=error)
+            raise HTTPException(status_code=400, detail=error.value)
     userDetails, error, activeOrg = getUserDetails(userCred)
     bakeCookie(userDetails.id, response)
     return {"user": userDetails}
@@ -59,7 +59,7 @@ async def signin(user: UserLogIn, response: Response):
     except:
         raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
     if error is not None:
-        raise HTTPException(status_code=401,detail=error)
+        raise HTTPException(status_code=401,detail=error.value)
     bakeCookie(userDetails.id, response)
     return {"user": userDetails, "activeOrganisation": activeOrganisation}
 
