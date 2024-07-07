@@ -17,10 +17,11 @@
   
   .todosHeader {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     font-weight: bold;
     padding: 8px 0;
     border-bottom: 1px solid var(--border-color);
+    /* text-align: center; */
   }
   
   .todoRow {
@@ -32,9 +33,24 @@
     gap: 8px;
   }
   
-  .todoText {
+  .todoDetails {
     flex: 1;
+    margin: 1rem;
     margin-right: 8px;
+    min-width: 25%;
+  }
+
+  .todoPerson {
+    flex: 1;
+    padding-right: 3rem;
+    text-align: center;
+  }
+
+  .todoDate {
+    flex: 1;
+    text-align: center;
+    margin-right: 8px;
+
   }
   
   .todoCheckbox {

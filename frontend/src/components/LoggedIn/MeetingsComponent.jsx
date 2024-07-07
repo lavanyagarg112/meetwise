@@ -31,7 +31,7 @@ const MeetingsComponent = ({activeOrganisation}) => {
         <MeetingList organisationName={activeOrganisation} />
       </div>
       <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>Todos across organisation</h2>
+        <h2 className={styles.sectionTitle}>My Tasks Across Organisation</h2>
         <Todos organisation={activeOrganisation} />
       </div>
     </div>

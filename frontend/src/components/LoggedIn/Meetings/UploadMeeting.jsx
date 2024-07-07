@@ -8,10 +8,11 @@ import moment from 'moment';
 import Loading from '../../ui/Loading';
 
 const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
+
   const [ffmpeg, setFFmpeg] = useState(null);
   const [loading, setLoading] = useState(false);
   // const [fileUrl, setFileUrl] = useState(null);
-  const [type, setType] = useState('organisation');
+  const [type, setType] = useState('');
   const [meetingName, setMeetingName] = useState('');
   const [meetingDate, setMeetingDate] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -83,7 +84,12 @@ const UploadMeeting = ({ organisationName, team, allTeams=[] }) => {
       const data = await response.json();
       if (data.role != 'user') {
         setCanUploadOrg(true)
-        setType('organisation')
+        if (team) {
+          setType('team')
+        } else {
+          setType('organisation')
+        }
+        
       } else {
         setCanUploadOrg(false)
         setType('team')

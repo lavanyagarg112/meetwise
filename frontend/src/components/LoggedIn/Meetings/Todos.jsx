@@ -92,10 +92,10 @@ const Todos = ({ organisation }) => {
           disabled
           className={styles.todoCheckbox}
         />
-        <span className={styles.todoText}>{details}</span>
-        <span className={styles.todoText}>{moment(deadline).format('LLL')}</span>
-        <span className={styles.todoText}>{assigner ? `${assigner.firstName} ${assigner.lastName}` : ''}</span>
-        <span className={styles.todoText}>{assignee ?`${assignee.firstName} ${assignee.lastName}` : assignee}</span>
+        <span className={styles.todoDetails}>{details}</span>
+        <span className={styles.todoPerson}>{assigner ? `${assigner.firstName} ${assigner.lastName}` : ''}</span>
+        {/* <span className={styles.todoPerson}>{assignee ?`${assignee.firstName} ${assignee.lastName}` : assignee}</span> */}
+        <span className={styles.todoDate}>{moment(deadline).format('LLL')}</span>
       </div>
     );
   };
@@ -110,7 +110,7 @@ const Todos = ({ organisation }) => {
           onChange={(selectedOption) => setFilterStatus(selectedOption ? selectedOption.value : null)}
           className={styles.filterSelect}
         />
-        <Select
+        {/* <Select
           placeholder="Filter by Assignee"
           options={[{ value: null, label: 'Filter by Assignee' }, ...people.map((person) => ({
             value: person.id,
@@ -118,12 +118,12 @@ const Todos = ({ organisation }) => {
           }))]}
           onChange={(selectedOption) => setFilterAssignee(selectedOption ? selectedOption.value : null)}
           className={styles.filterSelect}
-        />
+        /> */}
         <Select
           placeholder="Filter by Assigner"
           options={[{ value: null, label: 'Filter by Assigner' }, ...people.map((person) => ({
             value: person.id,
-            label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
+            label: `${person.firstName} ${person.lastName} (${person.username} - ${person.email})`
           }))]}
           onChange={(selectedOption) => setFilterAssigner(selectedOption ? selectedOption.value : null)}
           className={styles.filterSelect}
@@ -132,9 +132,9 @@ const Todos = ({ organisation }) => {
       <div className={styles.todosContainer}>
         <div className={styles.todosHeader}>
           <span>Details</span>
-          <span>Deadline</span>
           <span>Assigner</span>
-          <span>Assignee</span>
+          {/* <span>Assignee</span> */}
+          <span>Deadline</span>
         </div>
         {filterTodos(todos).map((todo) => renderTodo(todo))}
       </div>

@@ -71,9 +71,6 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
       const data = await response.json();
       setPeople([...data.organisation.owners, ...data.organisation.admins, ...data.organisation.users]);
       setEditablePeople([...data.organisation.owners, ...data.organisation.admins])
-      if (editablePeople.find(person => person.id === user.id)) {
-        setIsAdmin(true)
-      }
     } catch (error) {
       console.log('ERROR', error);
     }
@@ -97,9 +94,6 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
       const data = await response.json();
       setPeople([...data.team.admins, ...data.team.users]);
       setEditablePeople(data.team.admins)
-      if (editablePeople.find(person => person.id === user.id)) {
-        setIsAdmin(true)
-      }
     } catch (error) {
       console.log('ERROR', error);
     }
@@ -221,7 +215,8 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
 
   const RenderTodo = ({ todo }) => {
     const { id, details, deadline, assigner, assignee, isCompleted } = todo;
-    const canEditTodo = (assigner && user.id === assigner.id) || (assignee && user.id === assignee.id) || isAdmin || !assignee || !assigner;
+    const canEditTodo = (assigner && user.id === assigner.id) || (assignee && user.id === assignee.id) || editablePeople.find(person => person.id === user.id) || !assignee || !assigner;
+    setIsAdmin(editablePeople.find(person => person.id === user.id))
     const [isEditing, setIsEditing] = useState(false);
     const [localTodo, setLocalTodo] = useState({ ...todo });
   
@@ -271,7 +266,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           disabled={!canEditTodo || !isEditing}
           className={styles.todoDatePicker}
         />
-        {localTodo.assigner.id === user.id ? (
+        {localTodo.assigner ? (localTodo.assigner.id === user.id ? (
           <Select
           value={localTodo.assigner ? { value: localTodo.assigner.id, label: `${localTodo.assigner.firstName} ${localTodo.assigner.lastName}` } : { value: '', label: '' }}
           onChange={(selectedOption) => {
@@ -282,7 +277,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           //   value: person.id,
           //   label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`,
           // }))}
-          options={[{value: user.id, label: `${user.firstName} ${user.lastName} - ${user.username} - ${user.email}`}]}
+          options={[{value: user.id, label: `${user.firstName} ${user.lastName} (${user.username} - ${user.email})`}]}
           isDisabled={!canEditTodo || !isEditing}
           className={styles.todoSelect}
           />
@@ -297,10 +292,25 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
             //   value: person.id,
             //   label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`,
             // }))}
-            options={[{value: user.id, label: `${user.firstName} ${user.lastName} - ${user.username} - ${user.email}`},
-            {value: localTodo.assigner.id, label: `${localTodo.assigner.firstName} ${localTodo.assigner.lastName} - ${localTodo.assigner.username} - ${localTodo.assigner.email}` }]}
+            options={[{value: user.id, label: `${user.firstName} ${user.lastName} (${user.username} - ${user.email})`},
+            {value: localTodo.assigner.id, label: `${localTodo.assigner.firstName} ${localTodo.assigner.lastName} (${localTodo.assigner.username} - ${localTodo.assigner.email})` }]}
             isDisabled={!canEditTodo || !isEditing}
             className={styles.todoSelect}
+          />
+        )) : (
+          <Select
+          value={{ value: '', label: '' }}
+          onChange={(selectedOption) => {
+            const selectedPerson = people.find((p) => p.id === selectedOption.value);
+            handleLocalEditTodo({ assigner: selectedPerson });
+          }}
+          // options={people.map((person) => ({
+          //   value: person.id,
+          //   label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`,
+          // }))}
+          options={[{value: user.id, label: `${user.firstName} ${user.lastName} (${user.username} - ${user.email})`}]}
+          isDisabled={!canEditTodo || !isEditing}
+          className={styles.todoSelect}
           />
         )
         }
@@ -312,7 +322,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           }}
           options={people.map((person) => ({
             value: person.id,
-            label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`,
+            label: `${person.firstName} ${person.lastName} (${person.username} - ${person.email})`,
           }))}
           isDisabled={!canEditTodo || !isEditing}
           className={styles.todoSelect}
@@ -320,11 +330,11 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
         
         <div className={styles.todoActions}>
           <button
-            onClick={!isEditing ? () => setIsEditing(true) : handleSave}
+            onClick={isEditing && (!localTodo.deadline || !localTodo.assigner || !localTodo.assignee) ? () => {setIsEditing(false); setLocalTodo(todo)} : !isEditing ? () => setIsEditing(true) : handleSave}
             className={styles.todoButton}
-            disabled={!canEditTodo || (isEditing && (!localTodo.deadline || !localTodo.assigner || !localTodo.assignee))}
+            disabled={!canEditTodo}
           >
-            {isEditing ? 'Save' : 'Edit'}
+            { isEditing && (!localTodo.deadline || !localTodo.assigner || !localTodo.assignee) ? 'Cancel' : isEditing ? 'Save' : 'Edit'}
           </button>
           <button onClick={() => handleDeleteTodo(id)} className={styles.todoButton} disabled={!canEditTodo}>Delete</button>
         </div>
@@ -350,7 +360,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           placeholder="Filter by Assignee"
           options={[{ value: null, label: 'Filter by Assignee' }, ...people.map((person) => ({
             value: person.id,
-            label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
+            label: `${person.firstName} ${person.lastName} (${person.username} - ${person.email})`
           }))]}
           onChange={(selectedOption) => setFilterAssignee(selectedOption ? selectedOption.value : null)}
           className={styles.filterSelect}
@@ -359,7 +369,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           placeholder="Filter by Assigner"
           options={[{ value: null, label: 'Filter by Assigner' }, ...people.map((person) => ({
             value: person.id,
-            label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
+            label: `${person.firstName} ${person.lastName} (${person.username} - ${person.email})`
           }))]}
           onChange={(selectedOption) => setFilterAssigner(selectedOption ? selectedOption.value : null)}
           className={styles.filterSelect}
@@ -391,7 +401,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           onChange={(selectedOption) => setNewTodo({ ...newTodo, assignee: selectedOption.value })}
           options={people.map((person) => ({
             value: person.id,
-            label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
+            label: `${person.firstName} ${person.lastName} (${person.username} - ${person.email})`
           }))}
           placeholder="Select Assignee"
           className={styles.todoSelect}

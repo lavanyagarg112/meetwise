@@ -3,17 +3,19 @@ from fastapi import HTTPException
 from func_timeout import func_timeout, FunctionTimedOut
 from mutagen.mp3 import MP3
 from IOSchema import MeetingInput, TranscriptionDetails, MeetingDetails
-from OrganisationHelpers import getOrganisationByName, getTeamByName
+from OrganisationHelpers import getOrganisationByName, getTeamByName, getRoleByID, getTRoleByID
 from audio_transcription import transcribe
 from Meeting import Meeting, Task
 from Todos import replaceTodos
+from Enums import Roles
+from Errors import AuthenticationError
 from database import storeMeetingDetailsTeam, storeMeetingDetailsOrg, getSummary, updateMeetingDetails, \
     getTranscription, getMeetingMetaData, addBulkTodos, addBulkTodosTeam, getTeamById
 
 time = 300  #timeout
 
 
-def storeMeeting(meeting: MeetingInput):
+def storeMeeting(userId: int, meeting: MeetingInput):
     file = meeting.file
     if file.content_type != 'audio/mpeg':
         raise HTTPException(status_code=415,
@@ -21,6 +23,14 @@ def storeMeeting(meeting: MeetingInput):
                                    instead''')
 
     org = getOrganisationByName(meeting.organisation)
+    if meeting.type == "organisation" and getRoleByID(org, userId) == Roles.USER.value:
+        AuthenticationError("Only Admins can upload meetings.")
+    team = None
+    if meeting.type == 'team':
+        team = getTeamByName(org, meeting.team)
+
+    if meeting.type == "team" and getTRoleByID(org, team, userId) == Roles.USER.value:
+        AuthenticationError("Only Admins can upload meetings.")
     size = file.size
     file = file.file
     length = int(MP3(file).info.length)
@@ -37,9 +47,7 @@ def storeMeeting(meeting: MeetingInput):
         summary = "Summary timed out. Please use a smaller file or try again."
     uncommonWords = ",".join(meetingMeta.generate_uncommon_words())
 
-    team = None
     if meeting.type == 'team':
-        team = getTeamByName(org, meeting.team)
         id = storeMeetingDetailsTeam(org=org, name=meeting.meetingName, team=team, transcription=transcription,
                                      length=length, date=meeting.meetingDate.strftime('%Y-%m-%d %H:%M:%S'),
                                      summary=summary,
@@ -61,10 +69,13 @@ def storeMeeting(meeting: MeetingInput):
     addBulkTodos(id, todos, org)
 
 
-def updateMeetingTranscription(organisation: str, meetingId: int, transcription: str) -> TranscriptionDetails:
+def updateMeetingTranscription(userId:int,organisation: str, meetingId: int, transcription: str) -> TranscriptionDetails:
     org: int = getOrganisationByName(organisation)
     if not org:
         raise HTTPException(status_code=404, detail=f"Organisation {organisation} not found.")
+
+    if not getRoleByID(org, userId):
+        AuthenticationError("Only Organisation members can see meetings.")
 
     meetingMeta = Meeting(transcription)
     try:
@@ -79,27 +90,33 @@ def updateMeetingTranscription(organisation: str, meetingId: int, transcription:
     return TranscriptionDetails(type=True, transcription=transcription, uncommonWords=uncommonWords)
 
 
-def getMeetingSummary(organisation: str, meetingid: int) -> str:
+def getMeetingSummary(userId:int, organisation: str, meetingid: int) -> str:
     org: int = getOrganisationByName(organisation)
     if not org:
         raise HTTPException(status_code=404, detail=f"Organisation {organisation} not found.")
+    if not getRoleByID(org, userId):
+        AuthenticationError("Only Organisation members can see meetings.")
     return getSummary(org, meetingid)[0]
 
 
-def getMeetingTranscription(organisation: str, meetingid: int) -> TranscriptionDetails:
+def getMeetingTranscription(userId:int,organisation: str, meetingid: int) -> TranscriptionDetails:
     org: int = getOrganisationByName(organisation)
     if not org:
         raise HTTPException(status_code=404, detail=f"Organisation {organisation} not found.")
+    if not getRoleByID(org, userId):
+        AuthenticationError("Only Organisation members can see meetings.")
     details = getTranscription(org, meetingid)
     if details is None:
         raise HTTPException(status_code=404, detail=f"Meeting {meetingid} not found.")
     return TranscriptionDetails(type=details[0], transcription=details[1], uncommonWords=details[2].split(','))
 
 
-def getMeetingInfo(organisation: str, meetingid: int) -> MeetingDetails:
+def getMeetingInfo(userId:int, organisation: str, meetingid: int) -> MeetingDetails:
     org = getOrganisationByName(organisation)
     if not org:
         raise HTTPException(status_code=404, detail=f"Organisation {organisation} not found.")
+    if not getRoleByID(org, userId):
+        AuthenticationError("Only Organisation members can see meetings.")
     details = getMeetingMetaData(org, meetingid)
     if not details:
         raise HTTPException(status_code=404, detail=f"Meeting {meetingid} not found.")
