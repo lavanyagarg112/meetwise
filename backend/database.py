@@ -721,9 +721,9 @@ def addBulkTodosTeam(meetingId: int, teamID: int, todos: List[Tuple[str, str | N
     sqlCommand = f'''
               INSERT INTO Org{org}Todo (MEETINGID,TEAM,DETAILS, DEADLINE)
               VALUES ({meetingId} , {teamID} ,?,?)'''
-    sqlCommandNone = '''
+    sqlCommandNone = f'''
         INSERT INTO Org{org}Todo (MEETINGID, TEAM, DETAILS) 
-        VALUES ({meetingId} , {team} , ?)
+        VALUES ({meetingId} , {teamID} , ?)
         '''
     with closing(conn.cursor()) as cursor:
         for todo in todos:
