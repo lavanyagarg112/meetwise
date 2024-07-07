@@ -605,7 +605,7 @@ def updateTodos(todoId: int, organisation: int, meetingId: int, details: str, de
               UPDATE Org{organisation}Todo SET MEETINGID =?,DETAILS =?, DEADLINE =?, ASSIGNER =?, ASSIGNEE =?,
               COMPLETED =?, ISUSER =? WHERE ID = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (meetingId, details, deadline, assigner, assignee, isCompleted, todoId, True))
+        cursor.execute(sqlCommand, (meetingId, details, deadline, assigner, assignee, isCompleted,True,todoId))
         conn.commit()
         conn.sync()
 
