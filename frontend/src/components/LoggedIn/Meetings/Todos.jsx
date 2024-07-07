@@ -30,7 +30,7 @@ const Todos = ({ organisation }) => {
       }
 
       const data = await response.json();
-      setTodos(data.map((item) => !item.deadline ? {id: item.id, details: item.details, deadline: new Date(), assigner: item.assigner, assignee: item.assignee, isCompleted: item.isCompleted} : item));
+      setTodos(data.filter((item) => item.assignee).map((item) => !item.deadline ? {id: item.id, details: item.details, deadline: new Date(), assigner: item.assigner, assignee: item.assignee, isCompleted: item.isCompleted} : item));
     } catch (error) {
       console.log('error: ', error);
     }
