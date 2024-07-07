@@ -17,7 +17,6 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
   const [filterStatus, setFilterStatus] = useState(null);
   const [filterAssignee, setFilterAssignee] = useState(null);
   const [filterAssigner, setFilterAssigner] = useState(null);
-  const [isEditing, setIsEditing] = useState(false)
   const [editablePeople, setEditablePeople] = useState([])
   const [isAdmin, setIsAdmin] = useState(false)
 
@@ -113,7 +112,6 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
   };
 
   const handleSaveTodo = async (todo) => {
-    setIsEditing(false)
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/edit-todo`, {
         method: 'PUT',
@@ -221,13 +219,10 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
       });
   };
 
-  const renderTodo = (todo) => {
+  const RenderTodo = ({todo}) => {
     const { id, details, deadline, assigner, assignee, isCompleted } = todo;
     const canEditTodo = (assigner && user.id === assigner.id) || (assignee && user.id === assignee.id) || isAdmin || !assignee || !assigner
-
-    {console.log("EDITABLE PEOPLE: ", editablePeople)
-     console.log('USER: ', user)
-    }
+    const [isEditing, setIsEditing] = useState(false)
 
     return (
       <div key={id} className={styles.todoRow}>
@@ -281,7 +276,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
         />
         
         <div className={styles.todoActions}>
-          <button onClick={!isEditing ? () => setIsEditing(true) :() => handleSaveTodo(todo)} className={styles.todoButton}  disabled={!canEditTodo ||(isEditing && (!todo.deadline || !todo.assigner || !todo.assignee))}>
+          <button onClick={!isEditing ? () => setIsEditing(true) : () => {setIsEditing(false); handleSaveTodo(todo);}} className={styles.todoButton}  disabled={!canEditTodo ||(isEditing && (!todo.deadline || !todo.assigner || !todo.assignee))}>
             {isEditing ? 'Save' : 'Edit'}
           </button>
           <button onClick={() => handleDeleteTodo(id)} className={styles.todoButton}  disabled={!canEditTodo}>Delete</button>
@@ -366,7 +361,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           <span>Assignee</span>
           <span>Actions</span>
         </div>
-        {filterTodos(meetingTodos).map((todo) => renderTodo(todo))}
+        {filterTodos(meetingTodos).map((todo) => <RenderTodo todo={todo} />)}
       </div>
     </CollapsibleSection>
   );

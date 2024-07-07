@@ -1,5 +1,6 @@
 import React from 'react'
 import { useAuth } from '../../store/auth-context'
+import { Link } from 'react-router-dom'
 
 import OrganisationComponent from '../../components/LoggedIn/OrganisationComponent'
 
@@ -9,7 +10,7 @@ const Organisations = () => {
 
   return (
     <div>
-      {!user && <div>Log in</div>}
+      {!user && <div>Please <Link to={`/sign-up`}>Log in</Link> to view this page</div>}
 
       {user && (
         <OrganisationComponent user={user} />

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuth } from '../../store/auth-context'
+import { Link } from 'react-router-dom'
 
 const UserProfilePage = () => {
 
@@ -9,7 +10,7 @@ const UserProfilePage = () => {
 
   return (
     <div>
-      {!user ? <div>Login to view user profile page</div> : (
+      {!user ? <div>Please <Link to={`/sign-up`}>Log in</Link> to view this page</div> : (
         <div>
             User Profile Page - {username}
         </div>
