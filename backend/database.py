@@ -744,3 +744,4 @@ def getTeamById(org: int, teamId: int):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamId,))
         return cursor.fetchone()
+
