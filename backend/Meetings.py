@@ -1,5 +1,5 @@
 from typing import List, Tuple
-
+import threading
 from fastapi import HTTPException
 from mutagen.mp3 import MP3
 from IOSchema import MeetingInput, TranscriptionDetails, MeetingDetails
@@ -50,9 +50,7 @@ def storeMeeting(meeting: MeetingInput):
     if meeting.type == 'team':
         addBulkTodosTeam(id, team, todos, org)
     else:
-        storeMeetingDetailsOrg(org=org, name=meeting.meetingName, transcription=transcription, length=length,
-                               date=meeting.meetingDate.strftime('%Y-%m-%d %H:%M:%S'), summary=summary, size=size,
-                               uncommon=uncommonWords)
+        addBulkTodos(id,todos, org)
     todos: List[Task] = meetingMeta.generate_todo()
     unwrap = lambda x: (x.description, x.deadline.strftime('%Y-%m-%d %H:%M:%S') if x.deadline else None)
     todos: List[Tuple[str, str | None]] = list(map(unwrap, todos))
