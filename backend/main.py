@@ -113,7 +113,7 @@ async def teamPage(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = Non
     return teamReport
 
 
-#TODO:Security
+
 @app.post("/upload-meeting")
 async def uploadMeeting(file: UploadFile,
                         type: Annotated[Literal["organisation", "team"], Form()],
@@ -124,8 +124,8 @@ async def uploadMeeting(file: UploadFile,
                         credentials: Annotated[str, Cookie()] = None):
     input = MeetingInput(file=file, type=type, meetingName=meetingName, meetingDate=meetingDate, team=team,
                          organisation=organisation)
-    #id = eatCookie(credentials)
-    storeMeeting(input)
+    id = eatCookie(credentials)
+    storeMeeting(id,input)
 
 
 @app.post("/new-team")

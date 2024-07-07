@@ -3,17 +3,19 @@ from fastapi import HTTPException
 from func_timeout import func_timeout, FunctionTimedOut
 from mutagen.mp3 import MP3
 from IOSchema import MeetingInput, TranscriptionDetails, MeetingDetails
-from OrganisationHelpers import getOrganisationByName, getTeamByName
+from OrganisationHelpers import getOrganisationByName, getTeamByName, getRoleByID, getTRoleByID
 from audio_transcription import transcribe
 from Meeting import Meeting, Task
 from Todos import replaceTodos
+from Enums import Roles
+from Errors import AuthenticationError
 from database import storeMeetingDetailsTeam, storeMeetingDetailsOrg, getSummary, updateMeetingDetails, \
     getTranscription, getMeetingMetaData, addBulkTodos, addBulkTodosTeam, getTeamById
 
 time = 300  #timeout
 
 
-def storeMeeting(meeting: MeetingInput):
+def storeMeeting(userId: int, meeting: MeetingInput):
     file = meeting.file
     if file.content_type != 'audio/mpeg':
         raise HTTPException(status_code=415,
@@ -21,6 +23,14 @@ def storeMeeting(meeting: MeetingInput):
                                    instead''')
 
     org = getOrganisationByName(meeting.organisation)
+    if meeting.type == "organisation" and getRoleByID(org, userId) == Roles.USER.value:
+        AuthenticationError("Only Admins can upload meetings.")
+    team = None
+    if meeting.type == 'team':
+        team = getTeamByName(org, meeting.team)
+
+    if meeting.type == "team" and getTRoleByID(org, team, userId) == Roles.USER.value:
+        AuthenticationError("Only Admins can upload meetings.")
     size = file.size
     file = file.file
     length = int(MP3(file).info.length)
@@ -37,9 +47,7 @@ def storeMeeting(meeting: MeetingInput):
         summary = "Summary timed out. Please use a smaller file or try again."
     uncommonWords = ",".join(meetingMeta.generate_uncommon_words())
 
-    team = None
     if meeting.type == 'team':
-        team = getTeamByName(org, meeting.team)
         id = storeMeetingDetailsTeam(org=org, name=meeting.meetingName, team=team, transcription=transcription,
                                      length=length, date=meeting.meetingDate.strftime('%Y-%m-%d %H:%M:%S'),
                                      summary=summary,
