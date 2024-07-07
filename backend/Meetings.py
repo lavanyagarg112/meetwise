@@ -52,8 +52,8 @@ def storeMeeting(meeting: MeetingInput):
                                date=meeting.meetingDate.strftime('%Y-%m-%d %H:%M:%S'), summary=summary, size=size,
                                uncommon=uncommonWords)
     todos: List[Task] = meetingMeta.generate_todo()
-    unwrap = lambda x: (x.description, x.deadline.strftime('%Y-%m-%d %H:%M:%S'))
-    todos: List[Tuple[str, str]] = list(map(unwrap, todos))
+    unwrap = lambda x: (x.description, x.deadline.strftime('%Y-%m-%d %H:%M:%S') if x.deadline else None)
+    todos: List[Tuple[str, str|None]] = list(map(unwrap, todos))
     addBulkTodos(id,todos, org)
 
 
