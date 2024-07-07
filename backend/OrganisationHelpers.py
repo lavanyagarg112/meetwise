@@ -85,10 +85,11 @@ def getStatus(orgId: int, status: Roles) -> List[Person]:
 
 
 def getRoleByID(orgId: int, userId: int) -> Roles:
-    if not getOrgRoleByID(orgId, userId):
+    x = getOrgRoleByID(orgId, userId)
+    if not x:
         AuthenticationError("User does not belong to this organisation")
     else:
-        return Roles(getOrgRoleByID(orgId, userId)[0])
+        return Roles(x[0])
 
 
 def getTeamStatus(orgId: int, teamId: int, status: Roles) -> List[Person]:

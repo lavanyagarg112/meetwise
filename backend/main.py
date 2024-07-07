@@ -39,12 +39,12 @@ app.add_middleware(
 async def signup(user: UserSignUp, response: Response):
     try:
         userCred, error = createUser(user)
-            # The calls are separated to ensure data is actually written to DB successfully,
-            #  after DB testing can merge them into 1 like current implementation
+        # The calls are separated to ensure data is actually written to DB successfully,
+        #  after DB testing can merge them into 1 like current implementation
     except:
         raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
     if error is not None:
-            raise HTTPException(status_code=400, detail=error.value)
+        raise HTTPException(status_code=400, detail=error.value)
     userDetails, error, activeOrg = getUserDetails(userCred)
     bakeCookie(userDetails.id, response)
     return {"user": userDetails}
@@ -59,7 +59,7 @@ async def signin(user: UserLogIn, response: Response):
     except:
         raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
     if error is not None:
-        raise HTTPException(status_code=401,detail=error.value)
+        raise HTTPException(status_code=401, detail=error.value)
     bakeCookie(userDetails.id, response)
     return {"user": userDetails, "activeOrganisation": activeOrganisation}
 
@@ -105,7 +105,6 @@ async def setActiveOrganisation(name: OrganisationNameOptional, credentials: Ann
     setOrganisationActive(id, name.name)
 
 
-
 @app.post("/teampage")
 async def teamPage(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = None) -> TeamPersonalReport:
     id: int = eatCookie(credentials)
@@ -113,7 +112,6 @@ async def teamPage(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = Non
     return teamReport
 
 
-#TODO:Security
 @app.post("/upload-meeting")
 async def uploadMeeting(file: UploadFile,
                         type: Annotated[Literal["organisation", "team"], Form()],
@@ -124,8 +122,8 @@ async def uploadMeeting(file: UploadFile,
                         credentials: Annotated[str, Cookie()] = None):
     input = MeetingInput(file=file, type=type, meetingName=meetingName, meetingDate=meetingDate, team=team,
                          organisation=organisation)
-    #id = eatCookie(credentials)
-    storeMeeting(input)
+    id = eatCookie(credentials)
+    storeMeeting(id, input)
 
 
 @app.post("/new-team")
@@ -135,23 +133,20 @@ async def newTeam(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = None
     return Team(id=id, name=orgteam.name)
 
 
-#TODO:Security
 @app.post("/get-team-meetings")
 async def getTeamMeetings(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    meetings = getMeetings(orgteam)
+    meetings = getMeetings(id, orgteam)
     return {"teams": meetings}
 
 
-#TODO:Security
 @app.post("/get-organisation-meetings")
 async def getOrganisationMeetings(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    meetings = getAllMeetings(name.name)
+    meetings = getAllMeetings(id, name.name)
     return {"organisations": meetings}
 
 
-#TODO:Security
 @app.post("/get-organisation-teams")
 async def getOrganisationTeams(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
@@ -159,7 +154,6 @@ async def getOrganisationTeams(name: OrganisationName, credentials: Annotated[st
     return {"teams": teams}
 
 
-#TODO:Security
 @app.post("/get-admin-teams")
 async def getAdminTeams(name: OrganisationName, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
@@ -167,7 +161,6 @@ async def getAdminTeams(name: OrganisationName, credentials: Annotated[str, Cook
     return {"teams": teams}
 
 
-#TODO:Security
 @app.post("/get-user-role")
 async def getUserRole(org: OrganisationName, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
@@ -176,7 +169,6 @@ async def getUserRole(org: OrganisationName, credentials: Annotated[str, Cookie(
     return {"role": role}
 
 
-#TODO:Security
 @app.post('/get-team-role')
 async def getUserRole(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
@@ -186,50 +178,46 @@ async def getUserRole(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = 
     return {"role": role}
 
 
-#TODO:Security
 @app.post('/add-team-user')
 async def addTeamUser(input: AddUserInput,
                       credentials: Annotated[str, Cookie()] = None) -> Person:
     id = eatCookie(credentials)
-    user: Person = addUser(input.organisation, input.userId, input.role, input.teamName)
+    user: Person = addUser(id,input.organisation, input.userId, input.role, input.teamName)
     return user
 
 
-#TODO:Security
 @app.post('/invite-user')
 async def inviteUser(input: InviteInput, credentials: Annotated[str, Cookie()] = None):
-    output = inviteOrAddUser(input.email, input.role.value, input.organisation)
+    id = eatCookie(credentials)
+    output = inviteOrAddUser(id, input.email, input.role.value, input.organisation)
     return output
 
 
-#TODO:Security
 @app.head('/logout')
 async def logout(response: Response):
     response.delete_cookie("credentials", httponly=True, secure=True, samesite="none")
 
 
-#TODO:Security
 @app.post('/update-transcription')
 async def updateTranscription(meeting: Transcription,
                               credentials: Annotated[str, Cookie()] = None) -> TranscriptionDetails:
     id = eatCookie(credentials)
-    details = updateMeetingTranscription(meeting.organisation, meeting.meetingid, meeting.transcription)
+    details = updateMeetingTranscription(id, meeting.organisation, meeting.meetingid, meeting.transcription)
     return details
 
 
-#TODO:Security
 @app.post('/get-summary')
 async def getSummary(meeting: MeetingIdentifier, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    summary = getMeetingSummary(meeting.organisation, meeting.meetingid)
+    summary = getMeetingSummary(id, meeting.organisation, meeting.meetingid)
     return {"summary": summary}
 
-#TODO:Security
+
 @app.post('/get-transcription')
 async def getTranscription(meeting: MeetingIdentifier,
                            credentials: Annotated[str, Cookie()] = None) -> TranscriptionDetails:
     id = eatCookie(credentials)
-    details = getMeetingTranscription(meeting.organisation, meeting.meetingid)
+    details = getMeetingTranscription(id, meeting.organisation, meeting.meetingid)
     return details
 
 
@@ -237,7 +225,7 @@ async def getTranscription(meeting: MeetingIdentifier,
 async def getMeetingDetails(meeting: MeetingIdentifier,
                             credentials: Annotated[str, Cookie()] = None) -> MeetingDetails:
     id = eatCookie(credentials)
-    details = getMeetingInfo(meeting.organisation, meeting.meetingid)
+    details = getMeetingInfo(id, meeting.organisation, meeting.meetingid)
     return details
 
 
