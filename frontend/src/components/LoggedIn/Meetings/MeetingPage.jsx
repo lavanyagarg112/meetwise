@@ -6,6 +6,7 @@ import Summary from './MeetingPage/Summary';
 import MeetingTodos from './MeetingPage/MeetingTodos';
 
 import NotPermittedPage from '../../../pages/NotPermittedPage';
+import Loading from '../../ui/Loading';
 
 import styles from './MeetingPage.module.css';
 import { useAuth } from '../../../store/auth-context';
@@ -20,13 +21,15 @@ const MeetingPage = () => {
   const [type, setType] = useState('');
   const [team, setTeam] = useState(null);
   const [transcriptionGenerated, setTranscriptionGenerated] = useState(false)
-  const [isPermitted, setIsPermitted] = useState(false)
+  const [isPermitted, setIsPermitted] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     getMeetingDetails();
   }, []);
 
   const getMeetingDetails = async () => {
+    setLoading(true)
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-meeting-details`, {
         method: 'POST',
@@ -61,8 +64,9 @@ const MeetingPage = () => {
       setTranscriptionGenerated(data.transcriptionGenerated)
     } catch (error) {
       console.log('Error: ', error);
+      setIsPermitted(false)
     }
-
+    setLoading(false)
   };
 
   if (!user || !isPermitted) {
@@ -72,6 +76,7 @@ const MeetingPage = () => {
 
   return (
     <div className={styles.meetingPage}>
+      {loading && <Loading />}
       <div className={styles.header}>
         <div className={styles.title}>{title}</div>
         <div className={styles.date}>{date}</div>
