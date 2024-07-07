@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="dropDownDead">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="impose not  null on completed">
+      <change beforePath="$PROJECT_DIR$/backend/Meetings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meetings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,15 +154,7 @@
       <updated>1719909212772</updated>
       <workItem from="1720090289331" duration="25735000" />
       <workItem from="1720324744075" duration="2724000" />
-      <workItem from="1720335356624" duration="5499000" />
-    </task>
-    <task id="LOCAL-00005" summary="Null Pointer Exception">
-      <option name="closed" value="true" />
-      <created>1720104379740</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1720104379740</updated>
+      <workItem from="1720335356624" duration="5803000" />
     </task>
     <task id="LOCAL-00006" summary="date formatting">
       <option name="closed" value="true" />
@@ -548,7 +540,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720340719695</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="impose not  null on completed">
+      <option name="closed" value="true" />
+      <created>1720345565248</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1720345565248</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -566,7 +566,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="should work" />
     <MESSAGE value="should work maybe" />
     <MESSAGE value="another spelling error" />
     <MESSAGE value="meeting generates todo on transcript modification" />
@@ -591,7 +590,8 @@
     <MESSAGE value="null problems" />
     <MESSAGE value="deadPointerException" />
     <MESSAGE value="dropDownDead" />
-    <option name="LAST_COMMIT_MESSAGE" value="dropDownDead" />
+    <MESSAGE value="impose not  null on completed" />
+    <option name="LAST_COMMIT_MESSAGE" value="impose not  null on completed" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/meetwise$database.coverage" NAME="database Coverage Results" MODIFIED="1720338003250" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />

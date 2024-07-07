@@ -1,5 +1,6 @@
 from typing import List, Tuple
 from fastapi import HTTPException
+from func_timeout import func_timeout, FunctionTimedOut
 from mutagen.mp3 import MP3
 from IOSchema import MeetingInput, TranscriptionDetails, MeetingDetails
 from OrganisationHelpers import getOrganisationByName, getTeamByName
@@ -10,6 +11,7 @@ from database import storeMeetingDetailsTeam, storeMeetingDetailsOrg, getSummary
     getTranscription, getMeetingMetaData, addBulkTodos, addBulkTodosTeam, getTeamById
 
 
+time = 300 #timeout
 def storeMeeting(meeting: MeetingInput):
     file = meeting.file
     if file.content_type != 'audio/mpeg':
@@ -22,7 +24,9 @@ def storeMeeting(meeting: MeetingInput):
     file = file.file
     length = int(MP3(file).info.length)
     try:
-        transcription = transcribe(file)
+        transcription = func_timeout(time, transcribe, args=(file))
+    except FunctionTimedOut:
+        raise HTTPException(status_code=500,detail="Transcription timed out. Please use a smaller file or try again.")
     except:
         raise HTTPException(status_code=500, detail="Transcription failed.")
     meetingMeta = Meeting(transcription)
