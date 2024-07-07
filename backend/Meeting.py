@@ -12,26 +12,31 @@ from groq import Groq
 
 load_dotenv('.env')
 client = Groq(
-    api_key=os.environ["groq_ai_key"]
+    api_key='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' #os.environ["groq_ai_key"]
 )
-
-
-def parse_deadline(deadline: str):
-    if deadline and deadline != "null":
-        try:
-            return datetime.strptime(deadline, '%Y/%m/%d %H:%M')
-        except ValueError:
-            return datetime.strptime(deadline, '%Y/%m/%d')
-    return None
 
 
 class Task:
     def __init__(self, description: str, deadline: str = ""):
         self.description = description
-        self.deadline = parse_deadline(deadline)
+        self.deadline = self.parse_datetime(deadline)
 
-    def __repr__(self):
-        return f"Task(description={self.description}, deadline={self.deadline})"
+    def parse_datetime(self, deadline):
+        try:
+            deadline_datetime = datetime.strptime(deadline, "%Y-%m-%d %H:%M:%S")
+            return deadline_datetime
+        except ValueError:
+            return None
+            
+
+
+# class Task:
+#     def __init__(self, description: str, deadline: str = ""):
+#         self.description = description
+#         self.deadline = parse_deadline(deadline)
+
+#     def __repr__(self):
+#         return f"Task(description={self.description}, deadline={self.deadline})"
 
 
 class Meeting:
@@ -42,7 +47,7 @@ class Meeting:
         self.uncommon_words: List[str] = []
 
     def generate_uncommon_words(self) -> List[str]:
-        try:
+        try :
             prompt = """
             In strict JSON format {"word" : word} generate a list of all weird/uncommon/niche words that occured 
             in this meeting in strict JSON format {"word" : word}. If no weird/uncommon/niche terms are mentioned, return
@@ -70,10 +75,9 @@ class Meeting:
                         json_data = []
 
             self.uncommon_words = uncommon_words
-            return self.uncommon_words
         except:
-            empty_uncommon_words = []
-            return empty_uncommon_words
+            self.uncommon_words = []
+        return self.uncommon_words
 
     def generate_summary(self) -> str:
         try:
@@ -91,17 +95,17 @@ class Meeting:
         return self.summary
 
     def generate_todo(self) -> List[Task]:
-        try:
+
+        try :
             prompt = '''
-            Create a todo list of all assigned tasks in this meeting in JSON format 
-            with fields description and deadline
-            deadline has the format yyyy/mm/dd hh:mm or yyyy/mm/dd if no time is specified.
-            deadline may have null value if no appropriate value is found. Always refer to
-            the actual transcription content. If no assigned tasks are mentioned, return
-            empty JSON array. Do not forget any tasks. Your output should only be a JSON array. No other comments needed.
-            Here is the transcript : 
+            "You are a to-do generator that outputs in JSON from meeting trasncription that the user will provide in chunks.\n"
+            Output todos after the user indicates \"transcript ends here\".\n" The JSON has 2 fields, "descirption" which is str and "deadline" which is datetime. If no deadline, then use empty string.\n
+            An example of what is expected is [{"description": "Email Sarah about agreement", "deadline" : 2023-07-07 15:30:00}, {"description": "Remind Josh about report", "deadline" : ""}]\n
+            return just the json as the user will be passing your entire output directly into the JSON parser.\n
             '''
-            combined_response = self._send_prompt_chunks(prompt, self.transcription)
+            
+            combined_response = self._todo_send_prompt_chunks(prompt, self.transcription)
+            combined_response = combined_response[combined_response.index("[") : combined_response.index("]")+1]
 
             max_retries = 5
             for attempt in range(max_retries):
@@ -117,21 +121,17 @@ class Meeting:
 
             task_list = []
             for task_data in json_data:
-                try:
-                    task = Task(
-                        description=task_data["description"],
-                        deadline=task_data["deadline"]
-                    )
-                    task_list.append(task)
-                except:
-                    task_list.append()
+                task = Task(
+                    description=task_data["description"],
+                    deadline=task_data["deadline"]
+                )
+                task_list.append(task)
+
 
             self.todo = task_list
-            return self.todo
-        except:
-            empty_task_list = []
-            return empty_task_list
-        
+        except e:
+            self.todo = []
+        return self.todo
 
     def _send_prompt_chunks(self, prompt: str, transcription: str, chunk_size: int = 2048):
         prompt_chunks = [prompt[i:i + chunk_size] for i in range(0, len(prompt), chunk_size)]
@@ -153,5 +153,32 @@ class Meeting:
 
         combined_response = "".join(responses)
         return combined_response
+    
+    def _todo_send_prompt_chunks(self, prompt: str, transcription: str, chunk_size: int = 2048):
+    
+        transcription_chunks = [transcription[i:i + chunk_size] for i in range(0, 17000, chunk_size)]
+        transcription_chunks[-1] = transcription_chunks[-1] + "\n transcription ends here."
+        
+        messages=[
+            {
+                "role": "system",
+                "content": prompt,
+            }
+        ]
+        
+        for chunk in transcription_chunks:
+            messages.append(
+                {
+                    "role" : "user",
+                    "content" : chunk,
+                }
+            )
 
-    #for commit
+
+        chat_completion = client.chat.completions.create(
+            messages=messages,
+            model="mixtral-8x7b-32768", 
+            temperature=0,
+        )
+
+        return chat_completion.choices[0].message.content 

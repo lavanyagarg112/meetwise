@@ -4,7 +4,6 @@ import time
 from audio_transcription import transcribe
 import Meeting
 
-
 # file_path = "backend/testFiles/meetingTest2.mp3"
 # file_size = os.path.getsize(file_path)
 
@@ -13,12 +12,10 @@ start = time.time()
 #     mp3_data = f.read()
 
 # file_obj = io.BytesIO(mp3_data)
-
-file = open("backend/testFiles/transcription.txt")
-
-end_read = time.time()
+# end_read = time.time()
 
 #transcription_text = transcribe(file_obj)
+file = open("backend/testFiles/transcription.txt")
 transcription_text = file.read()
 end_transcription = time.time()
 
@@ -44,8 +41,8 @@ report_content = (
     #f"mp3 file size: {file_size / (1024 * 1024):.2f} MB\n"
     f"Transcription size: {int(transcription_size)} characters\n\n"
     f"------------------------------------------------------------------------------------------------------------------------\n"
-    f"+ mp3 file read time: {end_read - start:.2f} seconds\n"
-    f"| Transcription time: {end_transcription - end_read:.2f} seconds\n"
+    #f"+ mp3 file read time: {end_read - start:.2f} seconds\n"
+    f"| Transcription time: {end_transcription - start:.2f} seconds\n"
     f"| Uncommon words generation time: {end_uncommon_words - end_transcription:.2f} seconds\n"
     f"| Summary generation time: {end_summary - end_uncommon_words:.2f} seconds\n"
     f"| To-do generation time: {end_todo - end_summary:.2f} seconds\n"

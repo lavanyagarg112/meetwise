@@ -6,10 +6,12 @@ import TeamMeetingsList from '../../components/LoggedIn/Meetings/TeamMeetingsLis
 import NotFoundPage from '../NotFoundPage';
 import classes from './OrganisationPage.module.css';
 import { useAuth } from '../../store/auth-context';
+import { Link } from 'react-router-dom';
 
 import UploadMeeting from '../../components/LoggedIn/Meetings/UploadMeeting';
 
 import Loading from '../../components/ui/Loading';
+import NotPermittedPage from '../NotPermittedPage';
 
 const TeamPage = () => {
   const { user } = useAuth();
@@ -124,9 +126,9 @@ const TeamPage = () => {
       { loading ? <Loading /> : (
         <div>
           {!user ? (
-            <div>Log in</div>
+            <div>Please <Link to={`/sign-up`}>Log in</Link> to view this page</div>
           ) : !permitted ? (
-            <div>Not permitted</div>
+            <NotPermittedPage />
           ) : (
             <div>
               <div className={classes.header}>

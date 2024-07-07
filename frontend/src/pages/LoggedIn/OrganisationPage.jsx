@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Switch, FormControlLabel } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 import PeopleList from '../../components/LoggedIn/Organisations/PeopleList';
 import TeamBlock from '../../components/LoggedIn/Organisations/TeamBlock';
@@ -14,6 +15,7 @@ import Loading from '../../components/ui/Loading';
 
 import classes from './OrganisationPage.module.css';
 import { useAuth } from '../../store/auth-context';
+import NotPermittedPage from '../NotPermittedPage';
 
 const OrganisationPage = () => {
   const { user, activeOrganisation, setActiveOrganisation } = useAuth();
@@ -197,9 +199,9 @@ const OrganisationPage = () => {
       {loading ? <Loading /> : (
         <div>
         {!user ? (
-          <div>Log in</div>
+          <div>Please <Link to={`/sign-up`}>Log in</Link> to view this page</div>
         ) : !permitted ? (
-          <div>Not permitted</div>
+          <NotPermittedPage />
         ) : (
           <div>
             <div className={classes.header}>

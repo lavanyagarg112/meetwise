@@ -1,39 +1,52 @@
-Transcription size: 2382 characters
+Transcription size: 87148 characters
 
 ------------------------------------------------------------------------------------------------------------------------
-+ mp3 file read time: 0.00 seconds
 | Transcription time: 0.00 seconds
-| Uncommon words generation time: 0.64 seconds
-| Summary generation time: 0.57 seconds
-| To-do generation time: 0.46 seconds
-+ Total time taken: 1.67 seconds
+| Uncommon words generation time: 0.54 seconds
+| Summary generation time: 0.49 seconds
+| To-do generation time: 0.98 seconds
++ Total time taken: 2.01 seconds
 ------------------------------------------------------------------------------------------------------------------------
 
 Uncommon Words List:
-['HR', 'strategies', 'dynamics', 'technological', 'guarantees', 'alpha', 'probation', 'radio']
+['future proof', 'contrary']
 
 Summary:
-**Summary of ABC Manufacturing Meeting - July 7, 2024**
+Here is a summary of the meeting in a bulleted list, including key discussion points and decisions:
 
-The meeting kicked off with introductions, where new HR Manager Trudy Finch discussed her background and goals. The team consists of Carol (Operations Manager), Peter Morgan (Finance Manager), Frank Mayfair (Head of IT), and Mike Reynard (Production Floor Manager).
+**Apologies and Attendance**
 
-**Financial Decision**: The team decided to proceed with the purchase for Trudy's recruitment, ensuring quality and guarantees remain intact.
+* Hazel was absent
+* The meeting acknowledged Jim's early departure at 1:30 PM to attend another meeting
 
-**Production Update**: Mike reported a 2% increase in production streams one and two, but a 0.5% decrease in stream three due to recent sales strategies.
+**Decisions**
 
-**Recruitment Summary**: Trudy summarized the successful onboarding of ten new hires from January to April, with nine completing probation. The team attributed this success to radio advertising.
+* Apologies were accepted and the meeting proceeded
 
-**Health and Safety Concerns**: The team emphasized the importance of implementing all safety measures to prevent accidents.
+**Disclosure of Members' Interests**
 
-**Implementation of New Systems**: Frank proposed a phased implementation of the alpha system rollout to minimize disruptions and ensure effective training.
+* No disclosure was required
 
-**Internet Usage Policy**: The team discussed limiting internet usage to enhance productivity, and agreed to explore options for implementation without negatively impacting the team.
+**Confirmation of Meeting Order**
 
-**Action Items**:
-- Prepare budget proposal for next quarter: Peter (Deadline: 2024/07/14)
-- Conduct safety inspection: Mike (Deadline: 2024/07/10)
-- Draft an internet usage policy: Team (TBD)
+* No changes to the meeting order were required
+
+**Decisions**
+
+* The meeting order was confirmed
+
+**Confirmation of Minutes from 18 February**
+
+* Andrew Graham raised an issue with his name not being recorded in the minutes
+* The minutes were reviewed and changes will be made to rectify the error
+* Decision: The minutes were received as a corrected record
+
+**Future Agenda Items**
+
+* None mentioned
+
+Note: The meeting transcript is incomplete, so the summary only covers the topics discussed up to the point where the transcript ended.
 
 To-do List:
-[Task(description=Prepare budget proposal for next quarter, deadline=2024-07-14 00:00:00), Task(description=Conduct safety inspection, deadline=2024-07-10 00:00:00), Task(description=Implement alpha system rollout, deadline=None), Task(description=Explore options for limiting internet usage to enhance productivity, deadline=None), Task(description=Draft health and safety policy, deadline=None)]
+[Task(description=Check on businesses with more than 100 employees for support gap, deadline=None), Task(description=Conduct survey to measure full impacts of unemployed tourism staff, deadline=None), Task(description=Prepare major and business events restart campaign, deadline=None), Task(description=Collaborate with local government on shovel-ready tourism projects, deadline=None), Task(description=Continue research on domestic perceptions and major events, deadline=None), Task(description=Share weekly data and insights with Tawahka and contribute to Tawaka economic outlook, deadline=None), Task(description=Launch local campaign to support tourism in the region, deadline=None)]
 
