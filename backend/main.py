@@ -278,6 +278,6 @@ async def getUserTodos(credentials: Annotated[str, Cookie()] = None) -> List[Tod
     return getAllTodos(id)
 
 
-@app.get('/health')
+@app.head('/health')
 async def health():
-    return {}
+    pass
