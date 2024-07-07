@@ -1,6 +1,6 @@
 .meetingItem {
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -8,11 +8,11 @@
 
 .meetingDate {
   font-size: 0.9rem;
-  color: #888;
+  color: var(--secondary-color);
 }
 
 .viewDetails {
-  color: #007bff;
+  color: var(--primary-color);
   cursor: pointer;
   margin-left: 10px;
 }

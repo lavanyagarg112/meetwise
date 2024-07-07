@@ -1,19 +1,18 @@
 .meetingItem {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .meetingDate {
-    font-size: 0.9rem;
-    color: #888;
-  }
-  
-  .viewDetails {
-    color: #007bff;
-    cursor: pointer;
-    margin-left: 10px;
-  }
-  
+  padding: 10px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.meetingDate {
+  font-size: 0.9rem;
+  color: var(--secondary-color);
+}
+
+.viewDetails {
+  color: var(--primary-color);
+  cursor: pointer;
+  margin-left: 10px;
+}
