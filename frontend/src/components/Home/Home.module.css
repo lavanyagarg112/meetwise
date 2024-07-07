@@ -45,7 +45,7 @@
 }
 
 .register a:hover {
-  background-color: lightyellow; /* Darker gray background on hover */
+  background-color: darkgray; /* Darker gray background on hover */
 }
 
 /* Animation keyframes for fading in the elements */
