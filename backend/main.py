@@ -90,7 +90,7 @@ async def newOrganisation(name: OrganisationName, credentials: Annotated[str, Co
     organisation: Organisation = createOrganisation(name.name, id)
     return organisation
 
-#TODO:Security
+
 @app.post("/organisationpage")
 async def organisationPage(name: OrganisationName,
                            credentials: Annotated[str, Cookie()] = None) -> OrganisationPersonalReport:
@@ -99,14 +99,13 @@ async def organisationPage(name: OrganisationName,
     return orgReport
 
 
-#TODO:Security
 @app.post("/set-active-organisation")
 async def setActiveOrganisation(name: OrganisationNameOptional, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
     setOrganisationActive(id, name.name)
 
 
-#TODO:Security
+
 @app.post("/teampage")
 async def teamPage(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = None) -> TeamPersonalReport:
     id: int = eatCookie(credentials)
@@ -129,7 +128,6 @@ async def uploadMeeting(file: UploadFile,
     storeMeeting(input)
 
 
-#TODO:Security
 @app.post("/new-team")
 async def newTeam(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = None) -> Team:
     id = eatCookie(credentials)

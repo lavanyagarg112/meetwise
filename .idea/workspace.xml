@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="uh....">
-      <change beforePath="$PROJECT_DIR$/backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/main.py" afterDir="false" />
+    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="changed logout to head">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,7 +22,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="summary" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -40,12 +40,11 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Python.Todos.executor": "Run",
     "Python.database.executor": "Run",
     "Python.geminisus.executor": "Run",
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "allorgtodos",
+    "git-widget-placeholder": "beta",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -60,29 +59,6 @@
   }
 }]]></component>
   <component name="RunManager" selected="Python.database">
-    <configuration name="Todos" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="meetwise" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/backend" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/backend/Todos.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="database" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="meetwise" />
       <option name="ENV_FILES" value="" />
@@ -155,7 +131,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.database" />
-        <item itemvalue="Python.Todos" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.geminisus" />
       </list>
@@ -178,8 +153,86 @@
       <option name="presentableId" value="Default" />
       <updated>1719909212772</updated>
       <workItem from="1720090289331" duration="25735000" />
-      <workItem from="1720324744075" duration="2724000" />
-      <workItem from="1720335356624" duration="13520000" />
+    </task>
+    <task id="LOCAL-00001" summary="summary should work now">
+      <option name="closed" value="true" />
+      <created>1720100961116</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1720100961116</updated>
+    </task>
+    <task id="LOCAL-00002" summary="file reformattings">
+      <option name="closed" value="true" />
+      <created>1720101197143</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1720101197143</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Exclusive Relationship (Between Orgs and Teams)">
+      <option name="closed" value="true" />
+      <created>1720103273127</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1720103273127</updated>
+    </task>
+    <task id="LOCAL-00004" summary="get user Role">
+      <option name="closed" value="true" />
+      <created>1720103862265</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1720103862265</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Null Pointer Exception">
+      <option name="closed" value="true" />
+      <created>1720104379740</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1720104379740</updated>
+    </task>
+    <task id="LOCAL-00006" summary="date formatting">
+      <option name="closed" value="true" />
+      <created>1720105232937</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1720105232937</updated>
+    </task>
+    <task id="LOCAL-00007" summary="date formatting again">
+      <option name="closed" value="true" />
+      <created>1720105582621</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1720105582621</updated>
+    </task>
+    <task id="LOCAL-00008" summary="not Kimaya's PR">
+      <option name="closed" value="true" />
+      <created>1720105805542</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1720105805542</updated>
+    </task>
+    <task id="LOCAL-00009" summary="not Kimaya's PR">
+      <option name="closed" value="true" />
+      <created>1720105817946</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1720105817946</updated>
+    </task>
+    <task id="LOCAL-00010" summary="not Kimaya's PR">
+      <option name="closed" value="true" />
+      <created>1720105825253</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1720105825253</updated>
     </task>
     <task id="LOCAL-00011" summary="changes">
       <option name="closed" value="true" />
@@ -301,279 +354,7 @@
       <option name="project" value="LOCAL" />
       <updated>1720189668125</updated>
     </task>
-    <task id="LOCAL-00026" summary="should work">
-      <option name="closed" value="true" />
-      <created>1720246843801</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1720246843801</updated>
-    </task>
-    <task id="LOCAL-00027" summary="should work">
-      <option name="closed" value="true" />
-      <created>1720276455518</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1720276455518</updated>
-    </task>
-    <task id="LOCAL-00028" summary="should work maybe">
-      <option name="closed" value="true" />
-      <created>1720276716895</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1720276716895</updated>
-    </task>
-    <task id="LOCAL-00029" summary="another spelling error">
-      <option name="closed" value="true" />
-      <created>1720277997849</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1720277997849</updated>
-    </task>
-    <task id="LOCAL-00030" summary="meeting generates todo on transcript modification">
-      <option name="closed" value="true" />
-      <created>1720279650243</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1720279650243</updated>
-    </task>
-    <task id="LOCAL-00031" summary="error fixes">
-      <option name="closed" value="true" />
-      <created>1720281054420</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1720281054420</updated>
-    </task>
-    <task id="LOCAL-00032" summary="add teamwise meetings">
-      <option name="closed" value="true" />
-      <created>1720281748125</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1720281748125</updated>
-    </task>
-    <task id="LOCAL-00033" summary="fix latest issue">
-      <option name="closed" value="true" />
-      <created>1720282067110</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1720282067110</updated>
-    </task>
-    <task id="LOCAL-00034" summary="annoying team issue">
-      <option name="closed" value="true" />
-      <created>1720283700273</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1720283700273</updated>
-    </task>
-    <task id="LOCAL-00035" summary="deal with nulls">
-      <option name="closed" value="true" />
-      <created>1720285359189</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1720285359189</updated>
-    </task>
-    <task id="LOCAL-00036" summary="deal with nulls again">
-      <option name="closed" value="true" />
-      <created>1720285929608</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1720285929608</updated>
-    </task>
-    <task id="LOCAL-00037" summary="libsql is horrible">
-      <option name="closed" value="true" />
-      <created>1720287386001</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1720287386001</updated>
-    </task>
-    <task id="LOCAL-00038" summary="libsql is horrible">
-      <option name="closed" value="true" />
-      <created>1720287400861</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1720287400861</updated>
-    </task>
-    <task id="LOCAL-00039" summary="libsql is horrible">
-      <option name="closed" value="true" />
-      <created>1720287441475</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1720287441475</updated>
-    </task>
-    <task id="LOCAL-00040" summary="but i am smart">
-      <option name="closed" value="true" />
-      <created>1720287516330</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1720287516330</updated>
-    </task>
-    <task id="LOCAL-00041" summary="more fixes">
-      <option name="closed" value="true" />
-      <created>1720287890297</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1720287890297</updated>
-    </task>
-    <task id="LOCAL-00042" summary="even more fixes">
-      <option name="closed" value="true" />
-      <created>1720289587888</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1720289587888</updated>
-    </task>
-    <task id="LOCAL-00043" summary="workspace.iml changes">
-      <option name="closed" value="true" />
-      <created>1720294339565</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1720294339565</updated>
-    </task>
-    <task id="LOCAL-00044" summary="f... error.&#10;[I forgot the f in format strings]&#10;and not x is not working if x is None for some reason">
-      <option name="closed" value="true" />
-      <created>1720295408963</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1720295408963</updated>
-    </task>
-    <task id="LOCAL-00045" summary="add null team handling">
-      <option name="closed" value="true" />
-      <created>1720324850920</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1720324850920</updated>
-    </task>
-    <task id="LOCAL-00046" summary="fix noneType for deadline">
-      <option name="closed" value="true" />
-      <created>1720328672421</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1720328672421</updated>
-    </task>
-    <task id="LOCAL-00047" summary="Kimaya timeout fix">
-      <option name="closed" value="true" />
-      <created>1720335974925</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1720335974925</updated>
-    </task>
-    <task id="LOCAL-00048" summary="My bad">
-      <option name="closed" value="true" />
-      <created>1720336774842</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1720336774842</updated>
-    </task>
-    <task id="LOCAL-00049" summary="should work now">
-      <option name="closed" value="true" />
-      <created>1720337835839</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1720337835839</updated>
-    </task>
-    <task id="LOCAL-00050" summary="f">
-      <option name="closed" value="true" />
-      <created>1720337904453</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1720337904453</updated>
-    </task>
-    <task id="LOCAL-00051" summary="null problems">
-      <option name="closed" value="true" />
-      <created>1720338297307</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1720338297307</updated>
-    </task>
-    <task id="LOCAL-00052" summary="deadPointerException">
-      <option name="closed" value="true" />
-      <created>1720338973288</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1720338973288</updated>
-    </task>
-    <task id="LOCAL-00053" summary="dropDownDead">
-      <option name="closed" value="true" />
-      <created>1720340719695</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1720340719695</updated>
-    </task>
-    <task id="LOCAL-00054" summary="impose not  null on completed">
-      <option name="closed" value="true" />
-      <created>1720345565248</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1720345565248</updated>
-    </task>
-    <task id="LOCAL-00055" summary="kimaya transcription time limited">
-      <option name="closed" value="true" />
-      <created>1720345960100</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1720345960100</updated>
-    </task>
-    <task id="LOCAL-00056" summary="...">
-      <option name="closed" value="true" />
-      <created>1720347995942</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1720347995942</updated>
-    </task>
-    <task id="LOCAL-00057" summary="Health point">
-      <option name="closed" value="true" />
-      <created>1720359176011</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1720359176011</updated>
-    </task>
-    <task id="LOCAL-00058" summary="Health point">
-      <option name="closed" value="true" />
-      <created>1720359218363</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1720359218363</updated>
-    </task>
-    <task id="LOCAL-00059" summary="uh....">
-      <option name="closed" value="true" />
-      <created>1720361869963</created>
-      <option name="number" value="00059" />
-      <option name="presentableId" value="LOCAL-00059" />
-      <option name="project" value="LOCAL" />
-      <updated>1720361869963</updated>
-    </task>
-    <option name="localTasksCounter" value="60" />
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -591,38 +372,31 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add teamwise meetings" />
-    <MESSAGE value="fix latest issue" />
-    <MESSAGE value="annoying team issue" />
-    <MESSAGE value="deal with nulls" />
-    <MESSAGE value="deal with nulls again" />
-    <MESSAGE value="libsql is horrible" />
-    <MESSAGE value="but i am smart" />
-    <MESSAGE value="more fixes" />
-    <MESSAGE value="even more fixes" />
-    <MESSAGE value="workspace.iml changes" />
-    <MESSAGE value="f... error.&#10;[I forgot the f in format strings]&#10;and not x is not working if x is None for some reason" />
-    <MESSAGE value="add null team handling" />
-    <MESSAGE value="fix noneType for deadline" />
-    <MESSAGE value="Kimaya timeout fix" />
-    <MESSAGE value="My bad" />
+    <MESSAGE value="summary should work now" />
+    <MESSAGE value="file reformattings" />
+    <MESSAGE value="Exclusive Relationship (Between Orgs and Teams)" />
+    <MESSAGE value="get user Role" />
+    <MESSAGE value="Null Pointer Exception" />
+    <MESSAGE value="date formatting" />
+    <MESSAGE value="date formatting again" />
+    <MESSAGE value="not Kimaya's PR" />
+    <MESSAGE value="changes" />
+    <MESSAGE value="hope it works" />
+    <MESSAGE value="" />
+    <MESSAGE value="latest" />
     <MESSAGE value="should work now" />
-    <MESSAGE value="f" />
-    <MESSAGE value="null problems" />
-    <MESSAGE value="deadPointerException" />
-    <MESSAGE value="dropDownDead" />
-    <MESSAGE value="impose not  null on completed" />
-    <MESSAGE value="kimaya transcription time limited" />
-    <MESSAGE value="..." />
-    <MESSAGE value="Health point" />
-    <MESSAGE value="uh...." />
-    <option name="LAST_COMMIT_MESSAGE" value="uh...." />
+    <MESSAGE value="unpack summary" />
+    <MESSAGE value="Meeting Info" />
+    <MESSAGE value="specific todos" />
+    <MESSAGE value="reformatting" />
+    <MESSAGE value="Meeting todos" />
+    <MESSAGE value="Schema complete" />
+    <MESSAGE value="changed logout to head" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed logout to head" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/meetwise$Todos.coverage" NAME="Todos Coverage Results" MODIFIED="1720350370822" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
-    <SUITE FILE_PATH="coverage/meetwise$database.coverage" NAME="database Coverage Results" MODIFIED="1720357979627" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
-    <SUITE FILE_PATH="coverage/meetwise$app.coverage" NAME="app Coverage Results" MODIFIED="1720196634952" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
+    <SUITE FILE_PATH="coverage/meetwise$database.coverage" NAME="database Coverage Results" MODIFIED="1720191089782" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
     <SUITE FILE_PATH="coverage/meetwise$geminisus.coverage" NAME="geminisus Coverage Results" MODIFIED="1720093329472" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/dummytest" />
-    <SUITE FILE_PATH="coverage/meetwise$main.coverage" NAME="main Coverage Results" MODIFIED="1720277948934" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
+    <SUITE FILE_PATH="coverage/meetwise$main.coverage" NAME="main Coverage Results" MODIFIED="1720189411213" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
   </component>
 </project>
