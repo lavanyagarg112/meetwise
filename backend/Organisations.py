@@ -9,6 +9,7 @@ from OrganisationHelpers import getOrganisationsByID, getOrganisationByName, get
     meetify, getRoleByID, getTRoleByID, getAllUsers, getPendingInvites, getStatus, getTeamStatus
 from UserAccounts import getUserByID
 from audio_transcription import transcribe
+from Errors import AuthenticationError
 from database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, getMeetingsByOrg, \
     makeTeam, teamExists, addUserToTeam, existsOrganisation, makeOrganisation, getOwner, addUserToOrg, \
     getTeamsByOrgStatus
@@ -44,11 +45,13 @@ def getOrganisationReport(UserID: int, OrganisationName: str) -> OrganisationPer
 def getTeamReport(userID: int, teamName: str, organisationName: str) -> TeamPersonalReport:
     organisation = getOrganisationByName(organisationName)
     team: int = getTeamByName(orgId=organisation, teamName=teamName)
+    userRole = getTRoleByID(organisation, team, userID)
+    if not userRole:
+        AuthenticationError("User is not in team")
     admins: [Person] = getTeamStatus(organisation, team,Roles.ADMIN)
     users: [Person] = getTeamStatus(organisation, team,Roles.USER)
     allUsers: [Person] = getAllUsers(organisation, team)
     otherUsers = filter(lambda x: (x not in users) and (x not in admins), allUsers)
-    userRole = getTRoleByID(organisation, team, userID)  #noNameRole
     teamReport = TeamReport(id=team, name=teamName,
                             admins=admins,
                             users=users,
@@ -103,6 +106,8 @@ def createTeam(userId: int, orgteam: OrgTeam):
     org = getOrganisationByName(orgteam.organisation)
     if teamExists(org, orgteam.name) is not None:
         raise HTTPException(status_code=400, detail="Team already exists")
+    if getRoleByID(org,userId) == Roles.USER.value:
+        raise HTTPException(status_code=403, detail="User is not authorized to create team")
     makeTeam(org, orgteam.name)
     id = getTeamByName(org, orgteam.name)
     owner = getOwner(org)[0]
