@@ -253,7 +253,7 @@ async def deleteTodo(todo: TodoEliminate, credentials: Annotated[str, Cookie()] 
 @app.post('/get-meeting-todos')
 async def getMeetingTodos(meeting: MeetingIdentifier, credentials: Annotated[str, Cookie()] = None) -> List[
     TodoDetails]:
-    id = eatCookie(credentials)
+    #id = eatCookie(credentials)
     org = getOrganisationByName(meeting.organisation)
     if not org:
         raise HTTPException(status_code=404, detail=f"Organisation {meeting.organisation} not found.")
@@ -271,7 +271,13 @@ async def getAllUserTodos(organisation: OrganisationName, credentials: Annotated
     todos = getUserOrgTodos(id, org)
     return todos
 
+
 @app.get('/get-user-todos')
 async def getUserTodos(credentials: Annotated[str, Cookie()] = None) -> List[TodoDetails]:
     id = eatCookie(credentials)
     return getAllTodos(id)
+
+
+@app.get('/health')
+async def health():
+    return {}
