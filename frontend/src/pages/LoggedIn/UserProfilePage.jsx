@@ -12,7 +12,7 @@ const UserProfilePage = () => {
     <div>
       {!user ? <div>Please <Link to={`/sign-up`}>Log in</Link> to view this page</div> : (
         <div>
-            User Profile Page - {username}
+            User Profile Page - Coming soon!
         </div>
       )}
       
