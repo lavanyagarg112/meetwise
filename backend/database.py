@@ -701,7 +701,7 @@ def addBulkTodos(meetingId: int, todos: List[Tuple[str, str | None]], org):
     sqlCommand = f'''
               INSERT INTO Org{org}Todo (MEETINGID,DETAILS, DEADLINE)
               VALUES ({meetingId} ,?,?)'''
-    sqlCommandNone = '''
+    sqlCommandNone = f'''
         INSERT INTO Org{org}Todo (MEETINGID, DETAILS) 
         VALUES ({meetingId} , ?)
         '''
