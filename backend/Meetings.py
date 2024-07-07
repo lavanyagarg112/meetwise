@@ -10,8 +10,9 @@ from Todos import replaceTodos
 from database import storeMeetingDetailsTeam, storeMeetingDetailsOrg, getSummary, updateMeetingDetails, \
     getTranscription, getMeetingMetaData, addBulkTodos, addBulkTodosTeam, getTeamById
 
+time = 300  #timeout
 
-time = 300 #timeout
+
 def storeMeeting(meeting: MeetingInput):
     file = meeting.file
     if file.content_type != 'audio/mpeg':
@@ -24,13 +25,16 @@ def storeMeeting(meeting: MeetingInput):
     file = file.file
     length = int(MP3(file).info.length)
     try:
-        transcription = func_timeout(time, transcribe, args=(file))
+        transcription = func_timeout(time, transcribe, (file,))
     except FunctionTimedOut:
-        raise HTTPException(status_code=500,detail="Transcription timed out. Please use a smaller file or try again.")
+        raise HTTPException(status_code=500, detail="Transcription timed out. Please use a smaller file or try again.")
     except:
         raise HTTPException(status_code=500, detail="Transcription failed.")
     meetingMeta = Meeting(transcription)
-    summary = meetingMeta.generate_summary()
+    try:
+        summary = func_timeout(time, meetingMeta.generate_summary)
+    except FunctionTimedOut:
+        summary = "Summary timed out. Please use a smaller file or try again."
     uncommonWords = ",".join(meetingMeta.generate_uncommon_words())
 
     team = None
@@ -50,7 +54,7 @@ def storeMeeting(meeting: MeetingInput):
     if meeting.type == 'team':
         addBulkTodosTeam(id, team, todos, org)
     else:
-        addBulkTodos(id,todos, org)
+        addBulkTodos(id, todos, org)
     todos: List[Task] = meetingMeta.generate_todo()
     unwrap = lambda x: (x.description, x.deadline.strftime('%Y-%m-%d %H:%M:%S') if x.deadline else None)
     todos: List[Tuple[str, str | None]] = list(map(unwrap, todos))
@@ -63,7 +67,10 @@ def updateMeetingTranscription(organisation: str, meetingId: int, transcription:
         raise HTTPException(status_code=404, detail=f"Organisation {organisation} not found.")
 
     meetingMeta = Meeting(transcription)
-    summary = meetingMeta.generate_summary()
+    try:
+        summary = func_timeout(time, meetingMeta.generate_summary)
+    except FunctionTimedOut:
+        summary = "Summary timed out. Please use a smaller file or try again."
     uncommonWords = meetingMeta.generate_uncommon_words()
     updateMeetingDetails(organisation=org, meetingId=meetingId, transcription=transcription, summary=summary,
                          uncommonwords=",".join(uncommonWords))

@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="impose not  null on completed">
+    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="kimaya transcription time limited">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/Meetings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meetings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -154,15 +155,7 @@
       <updated>1719909212772</updated>
       <workItem from="1720090289331" duration="25735000" />
       <workItem from="1720324744075" duration="2724000" />
-      <workItem from="1720335356624" duration="5803000" />
-    </task>
-    <task id="LOCAL-00006" summary="date formatting">
-      <option name="closed" value="true" />
-      <created>1720105232937</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1720105232937</updated>
+      <workItem from="1720335356624" duration="7222000" />
     </task>
     <task id="LOCAL-00007" summary="date formatting again">
       <option name="closed" value="true" />
@@ -548,7 +541,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720345565248</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="kimaya transcription time limited">
+      <option name="closed" value="true" />
+      <created>1720345960100</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1720345960100</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -566,7 +567,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="should work maybe" />
     <MESSAGE value="another spelling error" />
     <MESSAGE value="meeting generates todo on transcript modification" />
     <MESSAGE value="error fixes" />
@@ -591,7 +591,8 @@
     <MESSAGE value="deadPointerException" />
     <MESSAGE value="dropDownDead" />
     <MESSAGE value="impose not  null on completed" />
-    <option name="LAST_COMMIT_MESSAGE" value="impose not  null on completed" />
+    <MESSAGE value="kimaya transcription time limited" />
+    <option name="LAST_COMMIT_MESSAGE" value="kimaya transcription time limited" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/meetwise$database.coverage" NAME="database Coverage Results" MODIFIED="1720338003250" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
