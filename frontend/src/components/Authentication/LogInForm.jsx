@@ -42,9 +42,7 @@ const LogInForm = () => {
 
       if (response.status === 401) {
         setLoginError(data.detail)
-      }
-
-      if (response.ok) {
+      } else if (response.ok) {
         setIsLoggedIn(true);
         setUser(data.user);
         setActiveOrganisation(data.activeOrganisation)
