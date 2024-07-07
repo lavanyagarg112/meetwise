@@ -8,7 +8,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-color);
   }
   
   .todoTitle {
@@ -16,6 +16,7 @@
   }
   
   .todoDate {
-    color: #666;
+    color: var(--secondary-color);
     font-size: 0.9em;
   }
+  
