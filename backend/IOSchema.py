@@ -152,8 +152,8 @@ class TodoDetails(BaseModel):
     id: int
     details: str
     deadline: str
-    assigner: Person
-    assignee: Person
+    assigner: Person = None
+    assignee: Person = None
     isCompleted: bool
 
 

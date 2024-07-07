@@ -66,6 +66,8 @@ def getUserDetailsByEmail(email: str):
 
 
 def getUserDetailsByID(id: int):
+    if not id:
+        return None
     initialise()
     conn.sync()
     with closing(conn.cursor()) as cursor:
