@@ -1,28 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styles from './OrganisationMeetingsList.module.css';
 
-const DUMMY_DATA = [
-  {
-    id: 0,
-    title: 'meeting 1',
-    date: '10-06-2024'
-  },
-  {
-    id: 1,
-    title: 'meeting 2',
-    date: '10-06-2024'
-  },
-  {
-    id: 3,
-    title: 'meeting 3',
-    date: '10-06-2024'
-  }
-];
+import Loading from '../../ui/Loading';
 
 const OrganisationMeetingsList = ({ organisationName, goToMeeting }) => {
   const [meetings, setMeetings] = useState([]);
+  const [loading, setIsLoading] = useState(false)
 
   const getOrganisationMeetings = async () => {
+    setIsLoading(true)
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-organisation-meetings`, {
         method: 'POST',
@@ -46,6 +32,7 @@ const OrganisationMeetingsList = ({ organisationName, goToMeeting }) => {
     } catch (error) {
       console.log('ERROR');
     }
+    setIsLoading(false)
   };
 
   useEffect(() => {
@@ -54,7 +41,7 @@ const OrganisationMeetingsList = ({ organisationName, goToMeeting }) => {
 
   return (
     <div>
-      {meetings.length === 0 ? (
+      {loading ? <Loading /> : meetings.length === 0 ? (
         <p>No meetings available for the organisation.</p>
       ) : (
         meetings.map((meeting) => (

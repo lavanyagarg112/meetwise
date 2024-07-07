@@ -292,25 +292,25 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
       <div className={styles.filterContainer}>
         <Select
           placeholder="Filter by Status"
-          options={[{ value: 'completed', label: 'Completed' }, { value: 'active', label: 'Active' }]}
+          options={[{ value: null, label: 'Filter by Status' }, { value: 'completed', label: 'Completed' }, { value: 'active', label: 'Active' }]}
           onChange={(selectedOption) => setFilterStatus(selectedOption ? selectedOption.value : null)}
           className={styles.filterSelect}
         />
         <Select
           placeholder="Filter by Assignee"
-          options={people.map((person) => ({
+          options={[{ value: null, label: 'Filter by Assignee' }, ...people.map((person) => ({
             value: person.id,
             label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
-          }))}
+          }))]}
           onChange={(selectedOption) => setFilterAssignee(selectedOption ? selectedOption.value : null)}
           className={styles.filterSelect}
         />
         <Select
           placeholder="Filter by Assigner"
-          options={people.map((person) => ({
+          options={[{ value: null, label: 'Filter by Assigner' }, ...people.map((person) => ({
             value: person.id,
             label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
-          }))}
+          }))]}
           onChange={(selectedOption) => setFilterAssigner(selectedOption ? selectedOption.value : null)}
           className={styles.filterSelect}
         />
@@ -322,6 +322,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           value={newTodo.details}
           onChange={(e) => setNewTodo({ ...newTodo, details: e.target.value })}
           className={styles.todoInput}
+          required
         />
         <DatePicker
           selected={newTodo.deadline ? new Date(newTodo.deadline) : null}
@@ -344,8 +345,9 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           }))}
           placeholder="Select Assignee"
           className={styles.todoSelect}
+          required
         />
-        <button onClick={handleAddTodo} className={styles.todoButton}>Add Todo</button>
+        <button onClick={handleAddTodo} className={styles.todoButton} disabled={!newTodo.details || !newTodo.deadline || !newTodo.assignee}>Add Todo</button>
       </div>
       <div className={styles.todosContainer}>
         <div className={styles.todosHeader}>

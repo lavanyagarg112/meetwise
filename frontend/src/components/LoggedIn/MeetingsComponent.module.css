@@ -1,48 +1,47 @@
 /* MeetingsComponent.module.css */
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .title {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .sectionTitle {
-    color: black;
-    margin-bottom: 10px;
-  }
-  
-  .section {
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    background: linear-gradient(135deg, #f6f8fc, #eef2f6);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e0e5eb;
-  }
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
 
-  .blankSection {
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-  
-  .searchContainer {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-  
-  .searchInput {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    width: 300px;
-    font-size: 16px;
-  }
-  
+.title {
+  text-align: center;
+  color: var(--text-color);
+  margin-bottom: 20px;
+}
+
+.sectionTitle {
+  color: var(--black);
+  margin-bottom: 10px;
+}
+
+.section {
+  border-radius: var(--border-radius);
+  padding: 20px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, var(--background-color-light), var(--background-color));
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e5eb;
+}
+
+.blankSection {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.searchContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.searchInput {
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  width: 300px;
+  font-size: 16px;
+}

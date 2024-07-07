@@ -1,60 +1,72 @@
-  
-  /* General styling for the component */
+/* General styling for the component */
 .organisationComponent {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Create button styling */
-  .createButton {
-    background-color: lightgray;
-    color: black;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-    margin-bottom: 20px;
-  }
-  
-  .createButton:hover {
-    background-color: darkgray;
-    color: white;
-  }
-  
-  /* Organisations header styling */
-  .organisationsHeader {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  /* Container for organisation blocks */
-  .organisationContainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px; /* Space between blocks */
-    padding: 16px;
-    /* background-color: #f9f9f9; */
-    /* border-radius: 5px; */
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
-  }
-  
-  /* Styling for the no organisations message */
-  .noOrganisations {
-    font-size: 1rem;
-    color: #777;
-  }
-  
-  .headerContainer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
 
-  .buttonContainer {
-    display: flex;
-    gap: 10px; /* Space between buttons */
-  }
+/* Create button styling */
+.createButton {
+  background-color: var(--light-gray);
+  color: var(--black);
+  padding: 10px 20px;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.createButton:hover {
+  background-color: var(--dark-gray);
+  color: var(--white);
+}
+
+/* Organisations header styling */
+.organisationsHeader {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Container for organisation blocks */
+.organisationContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; /* Space between blocks */
+  padding: 16px;
+  /* background-color: var(--background-color-light); */
+  /* border-radius: var(--border-radius); */
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+}
+
+/* Styling for the no organisations message */
+.noOrganisations {
+  font-size: 1rem;
+  color: #777;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+}
+
+.error {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px;
+  background-color: var(--error-color);
+  color: var(--text-color-light);
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}

@@ -1,0 +1,22 @@
+.todoList {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .todoItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .todoTitle {
+    font-weight: bold;
+  }
+  
+  .todoDate {
+    color: var(--secondary-color);
+    font-size: 0.9em;
+  }
+  

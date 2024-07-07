@@ -122,7 +122,7 @@ async def uploadMeeting(file: UploadFile,
                         credentials: Annotated[str, Cookie()] = None):
     input = MeetingInput(file=file, type=type, meetingName=meetingName, meetingDate=meetingDate, team=team,
                          organisation=organisation)
-    id = eatCookie(credentials)
+    #id = eatCookie(credentials)
     storeMeeting(input)
 
 

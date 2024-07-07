@@ -1,0 +1,43 @@
+.filterContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    gap: 8px;
+  }
+  
+  .filterSelect {
+    flex: 1;
+  }
+  
+  .todosContainer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+  }
+  
+  .todosHeader {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .todoRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+    gap: 8px;
+  }
+  
+  .todoText {
+    flex: 1;
+    margin-right: 8px;
+  }
+  
+  .todoCheckbox {
+    margin-right: 8px;
+  }
+  

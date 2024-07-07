@@ -1,32 +1,31 @@
 .organisationBlock {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 16px;
-    min-width: 150px; /* Fixed width */
-    height: 150px; /* Fixed height */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-  }
-  
-  .organisationBlock:hover {
-    background-color: #e0e0e0;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  .orgName {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
-    text-align: center;
-  }
-  
-  .organisationBlock.activeOrg {
-    /* background-color: #d1ffd6; Light green background */
-    border: 2px solid blue;
-    box-shadow: 0 6px 12px rgba(0, 49, 128, 0.3);
-  }
+  background-color: var(--background-color-light);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  min-width: 150px; /* Fixed width */
+  height: 150px; /* Fixed height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.organisationBlock:hover {
+  background-color: var(--light-gray);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.orgName {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--text-color);
+  text-align: center;
+}
+
+.organisationBlock.activeOrg {
+  border: 2px solid blue; /* Consider adding this color to the root variables if needed */
+  box-shadow: 0 6px 12px rgba(0, 49, 128, 0.3);
+}

@@ -11,6 +11,7 @@ const OrganisationComponent = ({user}) => {
 
   const [organisations, setOrganisations] =useState([])
   const [isFormVisible, setIsFormVisible] = useState(false)
+  const [showExistsPopup, setShowExistsPopup] = useState(false)
 
   const [loading, setLoading] = useState(false)
 
@@ -27,6 +28,10 @@ const OrganisationComponent = ({user}) => {
         }),
         credentials: 'include'
       })
+
+      if (response.status === 400) {
+        setShowExistsPopup(true)
+      }
   
       if (!response.ok) {
         const errorResponse = await response.json()
@@ -92,6 +97,11 @@ const OrganisationComponent = ({user}) => {
           )}
           {organisations.length === 0 && <p className={classes.noOrganisations}>No organisations created / No organisations joined</p>}
           {isFormVisible && <CreateOrganisationForm onClose={() => setIsFormVisible(false)} onCreate={newOrganisation} />}
+        </div>
+      )}
+      {showExistsPopup && (
+        <div className={classes.error}>
+          organisation name already exists in system
         </div>
       )}
     </div>

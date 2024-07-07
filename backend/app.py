@@ -4,26 +4,31 @@ import time
 from audio_transcription import transcribe
 import Meeting
 
-file_path = "backend/testFiles/meetingTest2.mp3"
-file_size = os.path.getsize(file_path)
+
+# file_path = "backend/testFiles/meetingTest2.mp3"
+# file_size = os.path.getsize(file_path)
 
 start = time.time()
-with open(file_path, "rb") as f:
-    mp3_data = f.read()
+# with open(file_path, "rb") as f:
+#     mp3_data = f.read()
 
-file_obj = io.BytesIO(mp3_data)
+# file_obj = io.BytesIO(mp3_data)
+
+file = open("backend/testFiles/transcription.txt")
+
 end_read = time.time()
 
-transcription_text = transcribe(file_obj)
+#transcription_text = transcribe(file_obj)
+transcription_text = file.read()
 end_transcription = time.time()
 
-with open("backend/testFiles/transcription.txt", "w") as t_file:
-    t_file.write(transcription_text)
+# with open("backend/testFiles/transcription.txt", "w") as t_file:
+#     t_file.write(transcription_text)
 
 transcription_size = len(transcription_text)
 
 meeting = Meeting.Meeting(transcription_text)
-print("meeting made")
+
 uncommon_words = meeting.generate_uncommon_words()
 end_uncommon_words = time.time()
 
@@ -36,7 +41,7 @@ end_todo = time.time()
 
 report_content = (
     
-    f"mp3 file size: {file_size / (1024 * 1024):.2f} MB\n"
+    #f"mp3 file size: {file_size / (1024 * 1024):.2f} MB\n"
     f"Transcription size: {int(transcription_size)} characters\n\n"
     f"------------------------------------------------------------------------------------------------------------------------\n"
     f"+ mp3 file read time: {end_read - start:.2f} seconds\n"

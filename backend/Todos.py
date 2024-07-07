@@ -5,13 +5,19 @@ from fastapi import HTTPException
 from IOSchema import TodoInput, TodoUpdate, TodoDetails
 from OrganisationHelpers import getOrganisationByName
 from UserAccounts import getUserByID
-from database import updateTodos, addTodos, getMeetingTodos, getUserTodosOrg, getUserOrgs, getUserTodos
+from Meeting import Task
+from database import updateTodos, addTodos, getMeetingTodos, getUserTodosOrg, getUserOrgs, getUserTodos, \
+    replaceMeetTodos
 
 
 def todoBuilder(row: Tuple) -> TodoDetails:
-    assigner = getUserByID(row[3]).user
-    assignee = getUserByID(row[4]).user
-    return TodoDetails(id=row[0], details=row[1], deadline=row[2].replace('T', ' '), assigner=assigner,
+    assigner = getUserByID(row[3])
+    if assigner:
+        assigner = assigner.user
+    assignee = getUserByID(row[4])
+    if assignee:
+        assignee = assignee.user
+    return TodoDetails(id=row[0], details=row[1], deadline=row[2].replace('T', ' ') if row[2] else None, assigner=assigner,
                        assignee=assignee, isCompleted=row[5])
 
 
@@ -58,8 +64,17 @@ def getAllTodos(userId: int) -> List[TodoDetails]:
         return []
     unwrap = lambda x: x[0]
     details = list(map(unwrap, details))
-    dbDetails = getUserTodos(userId,details)
+    dbDetails = getUserTodos(userId, details)
     if not dbDetails:
         return []
-    dbDetails = list(map(todoBuilder, details))
+    dbDetails = list(map(todoBuilder, dbDetails))
     return dbDetails
+
+
+def replaceTodos(organisation: int, meetingId: int, todos: List[Task]):
+    TaskUnwrapper = lambda row: (row.description, row.deadline.strftime('%Y-%m-%d %H:%M:%S') if row.deadline else None)
+    todos = list(map(TaskUnwrapper, todos))
+    replaceMeetTodos(organisation, meetingId, todos)
+
+
+
