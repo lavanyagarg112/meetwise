@@ -17,7 +17,7 @@ def todoBuilder(row: Tuple) -> TodoDetails:
     assignee = getUserByID(row[4])
     if assignee:
         assignee = assignee.user
-    return TodoDetails(id=row[0], details=row[1], deadline=row[2].replace('T', ' '), assigner=assigner,
+    return TodoDetails(id=row[0], details=row[1], deadline=row[2].replace('T', ' ') if row[2] else None, assigner=assigner,
                        assignee=assignee, isCompleted=row[5])
 
 
