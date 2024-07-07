@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="fix noneType for deadline">
+    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="null problems">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/Meetings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meetings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/audio_transcription.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/audio_transcription.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,22 +155,7 @@
       <updated>1719909212772</updated>
       <workItem from="1720090289331" duration="25735000" />
       <workItem from="1720324744075" duration="2724000" />
-    </task>
-    <task id="LOCAL-00001" summary="summary should work now">
-      <option name="closed" value="true" />
-      <created>1720100961116</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1720100961116</updated>
-    </task>
-    <task id="LOCAL-00002" summary="file reformattings">
-      <option name="closed" value="true" />
-      <created>1720101197143</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1720101197143</updated>
+      <workItem from="1720335356624" duration="3478000" />
     </task>
     <task id="LOCAL-00003" summary="Exclusive Relationship (Between Orgs and Teams)">
       <option name="closed" value="true" />
@@ -526,7 +509,47 @@
       <option name="project" value="LOCAL" />
       <updated>1720328672421</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="Kimaya timeout fix">
+      <option name="closed" value="true" />
+      <created>1720335974925</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1720335974925</updated>
+    </task>
+    <task id="LOCAL-00048" summary="My bad">
+      <option name="closed" value="true" />
+      <created>1720336774842</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1720336774842</updated>
+    </task>
+    <task id="LOCAL-00049" summary="should work now">
+      <option name="closed" value="true" />
+      <created>1720337835839</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1720337835839</updated>
+    </task>
+    <task id="LOCAL-00050" summary="f">
+      <option name="closed" value="true" />
+      <created>1720337904453</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1720337904453</updated>
+    </task>
+    <task id="LOCAL-00051" summary="null problems">
+      <option name="closed" value="true" />
+      <created>1720338297307</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1720338297307</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -544,11 +567,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="unpack summary" />
-    <MESSAGE value="Meeting Info" />
-    <MESSAGE value="specific todos" />
-    <MESSAGE value="reformatting" />
-    <MESSAGE value="Meeting todos" />
     <MESSAGE value="Schema complete" />
     <MESSAGE value="changed logout to head" />
     <MESSAGE value="should work" />
@@ -569,10 +587,15 @@
     <MESSAGE value="f... error.&#10;[I forgot the f in format strings]&#10;and not x is not working if x is None for some reason" />
     <MESSAGE value="add null team handling" />
     <MESSAGE value="fix noneType for deadline" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix noneType for deadline" />
+    <MESSAGE value="Kimaya timeout fix" />
+    <MESSAGE value="My bad" />
+    <MESSAGE value="should work now" />
+    <MESSAGE value="f" />
+    <MESSAGE value="null problems" />
+    <option name="LAST_COMMIT_MESSAGE" value="null problems" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/meetwise$database.coverage" NAME="database Coverage Results" MODIFIED="1720324778038" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
+    <SUITE FILE_PATH="coverage/meetwise$database.coverage" NAME="database Coverage Results" MODIFIED="1720338003250" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
     <SUITE FILE_PATH="coverage/meetwise$app.coverage" NAME="app Coverage Results" MODIFIED="1720196634952" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
     <SUITE FILE_PATH="coverage/meetwise$geminisus.coverage" NAME="geminisus Coverage Results" MODIFIED="1720093329472" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/dummytest" />
     <SUITE FILE_PATH="coverage/meetwise$main.coverage" NAME="main Coverage Results" MODIFIED="1720277948934" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />

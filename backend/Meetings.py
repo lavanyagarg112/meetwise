@@ -1,5 +1,4 @@
 from typing import List, Tuple
-import threading
 from fastapi import HTTPException
 from mutagen.mp3 import MP3
 from IOSchema import MeetingInput, TranscriptionDetails, MeetingDetails
