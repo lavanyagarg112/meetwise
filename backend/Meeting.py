@@ -10,7 +10,7 @@ from groq import Groq
 
 load_dotenv('.env')
 client = Groq(
-    api_key=os.environ["groq_ai_key"]
+    api_key='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' #os.environ["groq_ai_key"]
 )
 
 
@@ -131,6 +131,27 @@ class Meeting:
                     }
                 ],
                 model="llama3-8b-8192",
+            )
+            responses.append(chat_completion.choices[0].message.content)
+
+        combined_response = "".join(responses)
+        return combined_response
+    
+    def _todo_send_prompt_chunks(self, prompt: str, transcription: str, chunk_size: int = 2048):
+        prompt_chunks = [prompt[i:i + chunk_size] for i in range(0, len(prompt), chunk_size)]
+        transcription_chunks = [transcription[i:i + chunk_size] for i in range(0, len(transcription), chunk_size)]
+
+        responses = []
+
+        for prompt_chunk, transcription_chunk in zip(prompt_chunks, transcription_chunks):
+            chat_completion = client.chat.completions.create(
+                messages=[
+                    {
+                        "role": "user",
+                        "content": prompt_chunk + transcription_chunk,
+                    }
+                ],
+                model="mixtral-8x7b-32768",
             )
             responses.append(chat_completion.choices[0].message.content)
 
