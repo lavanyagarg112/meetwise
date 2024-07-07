@@ -99,9 +99,11 @@ def getTeams(name: str, Userid: int, status: Roles | None = None):
 '''
 
 
-def addUser(organisation: str, userId: int, role: str, teamName: str = None) -> Person:
+def addUser(id:int,organisation: str, userId: int, role: str, teamName: str = None) -> Person:
     organisation = getOrganisationByName(organisation)
     teamName = getTeamByName(organisation, teamName)
+    if getRoleByID(organisation,id) == Roles.USER.value and getTRoleByID(organisation,teamName,id) == Roles.USER.value:
+        AuthenticationError("Users cannot add other users to teams.")
     addUserToTeam(organisation, userId, role, teamName, role)
     user = getUserByID(userId).user
     return Person(id=userId, username=user.username, email=user.email, firstName=user.firstName, lastName=user.lastName)

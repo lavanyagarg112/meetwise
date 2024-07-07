@@ -178,12 +178,11 @@ async def getUserRole(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = 
     return {"role": role}
 
 
-#TODO:Security
 @app.post('/add-team-user')
 async def addTeamUser(input: AddUserInput,
                       credentials: Annotated[str, Cookie()] = None) -> Person:
     id = eatCookie(credentials)
-    user: Person = addUser(input.organisation, input.userId, input.role, input.teamName)
+    user: Person = addUser(id,input.organisation, input.userId, input.role, input.teamName)
     return user
 
 
@@ -199,38 +198,34 @@ async def logout(response: Response):
     response.delete_cookie("credentials", httponly=True, secure=True, samesite="none")
 
 
-#TODO:Security
 @app.post('/update-transcription')
 async def updateTranscription(meeting: Transcription,
                               credentials: Annotated[str, Cookie()] = None) -> TranscriptionDetails:
     id = eatCookie(credentials)
-    details = updateMeetingTranscription(meeting.organisation, meeting.meetingid, meeting.transcription)
+    details = updateMeetingTranscription(id, meeting.organisation, meeting.meetingid, meeting.transcription)
     return details
 
 
-#TODO:Security
 @app.post('/get-summary')
 async def getSummary(meeting: MeetingIdentifier, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    summary = getMeetingSummary(meeting.organisation, meeting.meetingid)
+    summary = getMeetingSummary(id, meeting.organisation, meeting.meetingid)
     return {"summary": summary}
 
 
-#TODO:Security
 @app.post('/get-transcription')
 async def getTranscription(meeting: MeetingIdentifier,
                            credentials: Annotated[str, Cookie()] = None) -> TranscriptionDetails:
     id = eatCookie(credentials)
-    details = getMeetingTranscription(meeting.organisation, meeting.meetingid)
+    details = getMeetingTranscription(id, meeting.organisation, meeting.meetingid)
     return details
 
 
-#TODO
 @app.post('/get-meeting-details')
 async def getMeetingDetails(meeting: MeetingIdentifier,
                             credentials: Annotated[str, Cookie()] = None) -> MeetingDetails:
     id = eatCookie(credentials)
-    details = getMeetingInfo(meeting.organisation, meeting.meetingid)
+    details = getMeetingInfo(id, meeting.organisation, meeting.meetingid)
     return details
 
 
