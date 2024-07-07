@@ -38,7 +38,8 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
       }
 
       const data = await response.json();
-      setMeetingTodos(data);
+      setMeetingTodos(data.map((item) => !item.deadline ? {id: item.id, details: item.details, deadline: new Date(), assigner: item.assigner, assignee: item.assignee, isCompleted: item.isCompleted} : item));
+
     } catch (error) {
       console.log('error: ', error);
     }
@@ -222,7 +223,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
 
   const renderTodo = (todo) => {
     const { id, details, deadline, assigner, assignee, isCompleted } = todo;
-    const canEditTodo = user.id === assigner.id || user.id === assignee.id || isAdmin
+    const canEditTodo = (assigner && user.id === assigner.id) || (assignee && user.id === assignee.id) || isAdmin || !assignee || !assigner
 
     {console.log("EDITABLE PEOPLE: ", editablePeople)
      console.log('USER: ', user)
@@ -252,14 +253,21 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
           disabled={!canEditTodo || !isEditing}
           className={styles.todoDatePicker}
         />
-        <input
-          type="text"
-          value={`${assigner.firstName} ${assigner.lastName}`}
-          disabled
-          className={styles.todoInput}
+        <Select
+          value={assigner ? {value: assigner.id, label: `${assigner.firstName} ${assigner.lastName}`} : {value: '', label: ''}}
+          onChange={(selectedOption) => {
+            const selectedPerson = people.find((p) => p.id === selectedOption.value);
+            handleEditTodo({ ...todo, assigner: selectedPerson });
+          }}
+          options={people.map((person) => ({
+            value: person.id,
+            label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
+          }))}
+          isDisabled={!canEditTodo || !isEditing}
+          className={styles.todoSelect}
         />
         <Select
-          value={{ value: assignee.id, label: `${assignee.firstName} ${assignee.lastName} - ${assignee.username} - ${assignee.email}` }}
+          value={assignee ? { value: assignee.id, label: `${assignee.firstName} ${assignee.lastName} - ${assignee.username} - ${assignee.email}` } : {value: '', label: ''}}
           onChange={(selectedOption) => {
             const selectedPerson = people.find((p) => p.id === selectedOption.value);
             handleEditTodo({ ...todo, assignee: selectedPerson });
@@ -273,7 +281,7 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
         />
         
         <div className={styles.todoActions}>
-          <button onClick={!isEditing ? () => setIsEditing(true) :() => handleSaveTodo(todo)} className={styles.todoButton}  disabled={!canEditTodo}>
+          <button onClick={!isEditing ? () => setIsEditing(true) :() => handleSaveTodo(todo)} className={styles.todoButton}  disabled={!canEditTodo ||(isEditing && (!todo.deadline || !todo.assigner || !todo.assignee))}>
             {isEditing ? 'Save' : 'Edit'}
           </button>
           <button onClick={() => handleDeleteTodo(id)} className={styles.todoButton}  disabled={!canEditTodo}>Delete</button>

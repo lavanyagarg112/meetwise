@@ -30,7 +30,7 @@ const Todos = ({ organisation }) => {
       }
 
       const data = await response.json();
-      setTodos(data);
+      setTodos(data.map((item) => !item.deadline ? {id: item.id, details: item.details, deadline: new Date(), assigner: item.assigner, assignee: item.assignee, isCompleted: item.isCompleted} : item));
     } catch (error) {
       console.log('error: ', error);
     }
@@ -94,8 +94,8 @@ const Todos = ({ organisation }) => {
         />
         <span className={styles.todoText}>{details}</span>
         <span className={styles.todoText}>{moment(deadline).format('LLL')}</span>
-        <span className={styles.todoText}>{`${assigner.firstName} ${assigner.lastName}`}</span>
-        <span className={styles.todoText}>{`${assignee.firstName} ${assignee.lastName} - ${assignee.username} - ${assignee.email}`}</span>
+        <span className={styles.todoText}>{assigner ? `${assigner.firstName} ${assigner.lastName}` : ''}</span>
+        <span className={styles.todoText}>{assignee ?`${assignee.firstName} ${assignee.lastName}` : assignee}</span>
       </div>
     );
   };

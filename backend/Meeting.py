@@ -30,13 +30,13 @@ class Task:
             
 
 
-class Task:
-    def __init__(self, description: str, deadline: str = ""):
-        self.description = description
-        self.deadline = parse_deadline(deadline)
+# class Task:
+#     def __init__(self, description: str, deadline: str = ""):
+#         self.description = description
+#         self.deadline = parse_deadline(deadline)
 
-    def __repr__(self):
-        return f"Task(description={self.description}, deadline={self.deadline})"
+#     def __repr__(self):
+#         return f"Task(description={self.description}, deadline={self.deadline})"
 
 
 class Meeting:
@@ -95,6 +95,7 @@ class Meeting:
         return self.summary
 
     def generate_todo(self) -> List[Task]:
+        print('IN GENERATE TODO')
         try :
             prompt = '''
             "You are a to-do generator that outputs in JSON from meeting trasncription that the user will provide in chunks.\n"
@@ -126,8 +127,11 @@ class Meeting:
                 )
                 task_list.append(task)
 
+            print('TASK LIST: ', task_list)
+
             self.todo = task_list
-        except :
+        except e:
+            print('HI IM IN EXCEPT: ', e)
             self.todo = []
         return self.todo
 
