@@ -219,67 +219,108 @@ const MeetingTodos = ({ organisation, meetingid, type, team }) => {
       });
   };
 
-  const RenderTodo = ({todo}) => {
+  const RenderTodo = ({ todo }) => {
     const { id, details, deadline, assigner, assignee, isCompleted } = todo;
-    const canEditTodo = (assigner && user.id === assigner.id) || (assignee && user.id === assignee.id) || isAdmin || !assignee || !assigner
-    const [isEditing, setIsEditing] = useState(false)
-
+    const canEditTodo = (assigner && user.id === assigner.id) || (assignee && user.id === assignee.id) || isAdmin || !assignee || !assigner;
+    const [isEditing, setIsEditing] = useState(false);
+    const [localTodo, setLocalTodo] = useState({ ...todo });
+  
+    useEffect(() => {
+      setLocalTodo({ ...todo });
+    }, [todo]);
+  
+    const handleLocalEditTodo = (updatedFields) => {
+      setLocalTodo((prevTodo) => ({
+        ...prevTodo,
+        ...updatedFields,
+      }));
+    };
+  
+    const handleSave = () => {
+      setIsEditing(false);
+      handleSaveTodo(localTodo);
+    };
+  
     return (
       <div key={id} className={styles.todoRow}>
         <input
           type="checkbox"
-          checked={isCompleted}
-          onChange={(e) => handleEditTodo({ ...todo, isCompleted: e.target.checked })}
+          checked={localTodo.isCompleted}
+          onChange={(e) => handleLocalEditTodo({ isCompleted: e.target.checked })}
           disabled={!canEditTodo || !isEditing}
           className={styles.todoCheckbox}
         />
         <input
           type="text"
-          value={details}
-          onChange={(e) => handleEditTodo({ ...todo, details: e.target.value })}
+          value={localTodo.details}
+          onChange={(e) => handleLocalEditTodo({ details: e.target.value })}
           disabled={!canEditTodo || !isEditing}
           className={styles.todoInput}
         />
         <DatePicker
-          selected={new Date(deadline)}
-          onChange={(date) => handleEditTodo({ ...todo, deadline: date.toISOString() })}
+          selected={new Date(localTodo.deadline)}
+          onChange={(date) => handleLocalEditTodo({ deadline: date.toISOString() })}
           showTimeSelect
           dateFormat="Pp"
           disabled={!canEditTodo || !isEditing}
           className={styles.todoDatePicker}
         />
-        <Select
-          value={assigner ? {value: assigner.id, label: `${assigner.firstName} ${assigner.lastName}`} : {value: '', label: ''}}
+        {localTodo.assigner.id === user.id ? (
+          <Select
+          value={localTodo.assigner ? { value: localTodo.assigner.id, label: `${localTodo.assigner.firstName} ${localTodo.assigner.lastName}` } : { value: '', label: '' }}
           onChange={(selectedOption) => {
             const selectedPerson = people.find((p) => p.id === selectedOption.value);
-            handleEditTodo({ ...todo, assigner: selectedPerson });
+            handleLocalEditTodo({ assigner: selectedPerson });
           }}
-          options={people.map((person) => ({
-            value: person.id,
-            label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
-          }))}
+          // options={people.map((person) => ({
+          //   value: person.id,
+          //   label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`,
+          // }))}
+          options={[{value: user.id, label: `${user.firstName} ${user.lastName} - ${user.username} - ${user.email}`}]}
           isDisabled={!canEditTodo || !isEditing}
           className={styles.todoSelect}
-        />
+          />
+        ) : (
+            <Select
+            value={localTodo.assigner ? { value: localTodo.assigner.id, label: `${localTodo.assigner.firstName} ${localTodo.assigner.lastName}` } : { value: '', label: '' }}
+            onChange={(selectedOption) => {
+              const selectedPerson = people.find((p) => p.id === selectedOption.value);
+              handleLocalEditTodo({ assigner: selectedPerson });
+            }}
+            // options={people.map((person) => ({
+            //   value: person.id,
+            //   label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`,
+            // }))}
+            options={[{value: user.id, label: `${user.firstName} ${user.lastName} - ${user.username} - ${user.email}`},
+            {value: localTodo.assigner.id, label: `${localTodo.assigner.firstName} ${localTodo.assigner.lastName} - ${localTodo.assigner.username} - ${localTodo.assigner.email}` }]}
+            isDisabled={!canEditTodo || !isEditing}
+            className={styles.todoSelect}
+          />
+        )
+        }
         <Select
-          value={assignee ? { value: assignee.id, label: `${assignee.firstName} ${assignee.lastName} - ${assignee.username} - ${assignee.email}` } : {value: '', label: ''}}
+          value={localTodo.assignee ? { value: localTodo.assignee.id, label: `${localTodo.assignee.firstName} ${localTodo.assignee.lastName}` } : { value: '', label: '' }}
           onChange={(selectedOption) => {
             const selectedPerson = people.find((p) => p.id === selectedOption.value);
-            handleEditTodo({ ...todo, assignee: selectedPerson });
+            handleLocalEditTodo({ assignee: selectedPerson });
           }}
           options={people.map((person) => ({
             value: person.id,
-            label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`
+            label: `${person.firstName} ${person.lastName} - ${person.username} - ${person.email}`,
           }))}
           isDisabled={!canEditTodo || !isEditing}
           className={styles.todoSelect}
         />
         
         <div className={styles.todoActions}>
-          <button onClick={!isEditing ? () => setIsEditing(true) : () => {setIsEditing(false); handleSaveTodo(todo);}} className={styles.todoButton}  disabled={!canEditTodo ||(isEditing && (!todo.deadline || !todo.assigner || !todo.assignee))}>
+          <button
+            onClick={!isEditing ? () => setIsEditing(true) : handleSave}
+            className={styles.todoButton}
+            disabled={!canEditTodo || (isEditing && (!localTodo.deadline || !localTodo.assigner || !localTodo.assignee))}
+          >
             {isEditing ? 'Save' : 'Edit'}
           </button>
-          <button onClick={() => handleDeleteTodo(id)} className={styles.todoButton}  disabled={!canEditTodo}>Delete</button>
+          <button onClick={() => handleDeleteTodo(id)} className={styles.todoButton} disabled={!canEditTodo}>Delete</button>
         </div>
       </div>
     );
