@@ -2,8 +2,6 @@
 
 Find our deployed link here - https://meetwise-xb1s.onrender.com/
 
-Sure! Here's a more comprehensive and well-structured README for your project:
-
 ---
 
 # MeetWise
