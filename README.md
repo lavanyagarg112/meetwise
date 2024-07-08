@@ -1,6 +1,6 @@
 # meetwise
 
-Status: In Progress
+Find our deployed link here - https://meetwise-xb1s.onrender.com/
 
 ### Issue:
 - **Unproductive Meetings:** Meetings often lack focus and structure, leading to inefficient use of time and resources.
