@@ -1,6 +1,6 @@
 # meetwise
 
-Find our deployed link here - https://meetwise-xb1s.onrender.com/
+Find the live site here - https://meetwise-xb1s.onrender.com/
 
 ---
 
