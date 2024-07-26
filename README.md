@@ -87,5 +87,7 @@ MeetWise is an innovative online platform designed to revolutionize how meetings
 - **Real-Time Data Processing:** Integrate real-time data processing to provide immediate feedback and analysis during live meetings.
 - **Advanced AI Features:** Incorporate predictive task prioritization and sentiment analysis to enhance meeting insights.
 - **Scalability:** Enhance scalability and performance to handle larger organizations with multiple concurrent meetings.
+- Organise and manage users and meetings, including meeting materials
+- Integration with other platforms and calendars
 
 Do look out for our new features!
