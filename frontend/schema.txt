@@ -7,7 +7,8 @@ data : {
         id: number,
         email: user email,
         username: user username
-        firstName: user first name
+        firstName: user first name,
+        lastName: user last name
     }
 }
 
@@ -30,6 +31,7 @@ data : {
         email: user email,
         username: user username
         firstName: user first name
+        lastName: user last name
     }
     activeOrganisation: name of active organisation
 }
@@ -50,6 +52,7 @@ data : {
         email: user email,
         username: user username
         firstName: user first name
+        lastName: user last name
     }
     activeOrganisation: name of active organisation
 }
@@ -99,39 +102,57 @@ what i want:
 
 data: {
     isPermitted: boolean,
-    userRole: owner/admin/user,
+    userRole: owner/admin/user, FOR ORGANISATION
     organisation: {
         id: number,
         name: organisation name,
         owners: [
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
             },
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
             },
         ],
         admins: [
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
             },
             {
                 id: number,
-                username: string
-            }
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
         ],
         users: [
             {
                 id: number,
-                username: string
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
             },
             {
                 id: number,
-                username: string
-            }
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
         ],
         teams: [
             {
@@ -142,6 +163,18 @@ data: {
                 id: number,
                 name: team name
             }
+        ],
+        pendingInvites: [
+            {
+                id: user id,
+                email: user email,
+                role: user role for organisation
+            },
+            {
+                id: user id,
+                email: user email,
+                role: user role for organisation
+            },
         ]
     }
 }
@@ -161,3 +194,549 @@ what i will send:
 
 important: if organisationName is null that means that the currentActive has to become set as unactive. so none of the organisation
 are actually active at this point
+
+
+/teampage
+POST
+
+(for that user)
+
+what i want:
+
+data: {
+    isPermitted: boolean,
+    userRole: admin/user FOR TEAM
+    team: {
+        id: number,
+        name: team name,
+        admins: [
+            {
+                id: number,
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
+            {
+                id: number,
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
+        ],
+        users: [
+            {
+                id: number,
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
+            {
+                id: number,
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
+        ],
+        otherUsers: [
+            {
+                id: number,
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
+            {
+                id: number,
+                email: user email,
+                username: user username
+                firstName: user first name
+                lastName: user last name
+            },
+        ],
+    }
+}
+
+note: otherUsers are users in organisations but not in team
+
+what i will send
+{
+    name: team name
+    organisation: organisation name
+}
+
+/upload-meeting
+POST
+
+What I will send:
+
+in human readable form this is not it will be:
+
+{
+  "file": "binary data of the file",
+  "type": "organisation" or "team",
+  "organisation": organisation name,
+  "team": team name (which will be null if it is organisation type)
+  "meetingName": "Your Meeting Name",
+  "meetingDate": "dd-mm-yyyy HH:MM" 
+}
+
+in terms of types for backend:
+
+fastapi can import File, UploadFile, Form
+
+file: UploadFile = File(...),
+type: str = Form(...),
+meetingName: str = Form(...),
+meetingDate: str = Form(...)
+
+
+
+/new-team
+POST
+
+(for that user)
+
+what i want:
+
+data: {
+    id: number,
+    name: team name
+}
+
+what i will send: {
+    name: team name,
+    organisation: organisation name
+}
+
+/get-team-meetings
+POST
+
+(for that user)
+
+what i want:
+data: {
+    teams: [
+        {
+            id: number
+            title: meeting name to display on list
+            date: meeting date
+        },
+        {
+            id: number
+            title: meeting name to display on list
+            date: meeting date
+        }
+    ]
+}
+
+what i will send:
+{
+    name: team name
+    organisation: organisation name
+}
+
+/get-organisation-meetings
+POST
+
+(for that user)
+
+what i want:
+data: {
+    organisations: [
+        {
+            id: number
+            title: meeting name to display on list
+            date: meeting date
+        },
+        {
+            id: number
+            title: meeting name to display on list
+            date: meeting date
+        }
+    ]
+}
+
+what i will send:
+{
+    name: organisation name
+}
+
+/get-organisation-teams
+POST
+
+(the teams that user belongs to)
+
+what i want:
+data: {
+    teams: [
+        {
+            id: number
+            name: team name
+        },
+        {
+            id: number
+            name: team name
+        }
+    ]
+}
+
+what i will send:
+{
+    name: organisation name
+}
+
+
+/add-team-user
+POST
+
+what i want:
+data: {
+    user: {
+        id: number,
+        email: user email,
+        username: user username
+        firstName: user first name
+        lastName: user last name
+    }
+}
+
+what i will send:
+{
+    teamName: team name,
+    organisation: organisation name,
+    userId: id of the user to be added,
+    role: role of the user IN THE TEAM
+}
+
+this is basically to add a user to the team. this user will already belong to the organisation
+
+/invite-user
+POST
+
+what i want:
+data: {
+    id: user id,
+    email: user email,
+    role: user role
+}
+
+what i will send: 
+{
+    email: user email,
+    role: user role in the ORGANISATION
+    organisation: organisation name
+
+}
+
+Note: in the backend there should ideally be a table for pending invites
+if user exists already in the system (but not in that organisation): add to the organisation
+if does not exist in system, add to pending invites
+when a user signs up we should check if any email matches anyone in the pending invites section, and add to organisation with the appropriate role accordingly
+
+
+/logout
+GET
+
+what i will send:
+credentials
+
+what u should do:
+burn cookie!
+
+
+/get-admin-teams
+POST
+
+this is basically get-organisation-teams but here out of those organisation teams, u have to return the ones where the current user is the admin
+
+/get-user-role
+POST
+
+what i want:
+{
+    role: user role in the organisation
+}
+
+what ill send:
+{
+    name: organisation name
+}
+
+
+TODOS:
+
+/add-todo
+POST
+
+what i want:
+
+(im guessing this can be ur todo schema cause ill need all todos in this format)
+{
+    id: todo id
+    details:
+    deadline: datetime
+    assigner: Person schema
+    assignee: Person schema
+    isCompleted: boolean
+}
+
+what i will send:
+
+{
+    meetingid:
+    organisation:
+    details:
+    deadline: datetime
+    assigner: Person id
+    assignee: Person id
+    isCompleted: boolean
+}
+
+
+/edit-todo
+POST
+
+what i want:
+
+(im guessing this can be ur todo schema cause ill need all todos in this format)
+{
+    id: todo id
+    details:
+    deadline: datetime
+    assigner: Person schema
+    assignee: Person schema
+    isCompleted: boolean
+}
+
+what i will send:
+
+{
+    meetingid:
+    organisation:
+    todoid
+    details:
+    deadline: datetime
+    assigner: Person id
+    assignee: Person id
+    isCompleted: boolean
+}
+
+
+/delete-todo
+POST
+
+per meeting so ill send meeting id, org and team, todo id
+
+what ill send:
+{
+    meetingid:
+    organisation:
+    todoid:
+}
+
+/get-meeting-todos
+POST
+
+what i want:
+{
+    todos: [
+        {
+            id: todo id
+            details:
+            deadline: datetime
+            assigner: Person id
+            assignee: Person id
+            isCompleted: boolean
+        },
+        {
+            id: todo id
+            details:
+            deadline: datetime
+            assigner: Person id
+            assignee: Person id
+            isCompleted: boolean
+        }
+
+    ]
+}
+
+what ill send:
+{
+    meetingid:
+    organisation:
+}
+
+
+/get-user-todos
+POST
+
+basically get-meeting-todos but where sent user in post request is the assignee or assigner
+
+What I want:
+
+{
+    todos: {
+        assigner: [
+            {
+                id: todo id
+                details:
+                deadline: datetime
+                assigner: Person schema
+                assignee: Person schema
+                isCompleted: boolean
+            },
+            {
+                id: todo id
+                details:
+                deadline: datetime
+                assigner: Person schema
+                assignee: Person schema
+                isCompleted: boolean
+            }
+        ],
+
+        assignee: [
+            {
+                id: todo id
+                details:
+                deadline: datetime
+                assigner: Person schema
+                assignee: Person schema
+                isCompleted: boolean
+            },
+            {
+                id: todo id
+                details:
+                deadline: datetime
+                assigner: Person schema
+                assignee: Person schema
+                isCompleted: boolean
+            }
+        ]
+
+    }
+}
+
+so assigner array is the list of all todos where user is the assinger
+assignee array is the list of all todos where user is the assignee
+
+what ill send:
+{
+    userId: userid
+    meetingid:
+    organisation:
+}
+
+
+/get-all-user-todos
+POST
+
+basically /get-user-todos but for all the meetings in the teams that the CURRENT user can see from sent organisation
+so ill not send you anything. you can use current user id from credentials for this.
+
+what ill send:
+
+{
+    organisation:
+}
+
+
+TRANSCRIPTION:
+
+/get-meeting-details
+POST
+
+I am not 100% sure about this schema yet. pls check with me before implementing
+
+what i want:
+{
+    id: meeting id
+    title: meeting name
+    date: meeting date as text like u do earlier
+    type: "team" or "organisation"
+    team: can be null
+    organisation: the meeting which the organisation is a part of
+    transcriptionGenerated: true or false so that i can decide to show summary or not
+}
+
+what i will send:
+{
+    meetingid: meeting id
+    organisation: the meeting which the organisation is a part of
+}
+
+/get-team-role
+POST
+
+what i want: 
+{
+    role: "admin" or "user"
+}
+
+what ill send:
+{
+    team: teamName
+    organisation: org name
+}
+
+/get-transcription
+POST
+
+what i want:
+
+{
+    type: "ai" or "user"
+    transcription:
+    uncommonWords: ["word1", "word2"]
+}
+
+what i will send:
+
+{
+    meetingid:
+    organisation:
+}
+
+
+
+/update-transcription
+PUT 
+PUT 
+
+what i want:
+{
+    type: "ai" or "user"
+    transcription:
+    uncommonWords: ["word1", "word2"]
+}
+
+
+what i will send:
+
+{
+    meetingid:
+    organisation:
+    transcription: new transcription
+}
+
+
+
+SUMMARY
+
+/get-summary
+POST
+
+what i want:
+{
+    summary:
+}
+
+what i will send:
+{
+    meetingid:
+    organisation:
+}

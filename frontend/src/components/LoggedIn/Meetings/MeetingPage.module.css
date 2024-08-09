@@ -1,0 +1,38 @@
+.meetingPage {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.date {
+  font-size: 18px;
+  color: var(--secondary-color);
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.thissection {
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, var(--background-color-light), var(--background-color));
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color-light);
+}

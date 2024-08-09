@@ -1,0 +1,42 @@
+.meetingList {
+  margin: 20px 0;
+}
+
+.sectionTitle {
+  cursor: pointer;
+  background: var(--background-color-light);
+  padding: 10px;
+  border-radius: var(--border-radius);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.meetingItem {
+  padding: 10px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.meetingDate {
+  font-size: 0.9rem;
+  color: var(--secondary-color);
+}
+
+.viewDetails {
+  color: var(--primary-color);
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.selectMenu {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  min-width: 10px;
+  box-sizing: border-box;
+}

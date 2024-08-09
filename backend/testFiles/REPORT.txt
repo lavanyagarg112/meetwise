@@ -1,0 +1,52 @@
+Transcription size: 87148 characters
+
+------------------------------------------------------------------------------------------------------------------------
+| Transcription time: 0.00 seconds
+| Uncommon words generation time: 0.54 seconds
+| Summary generation time: 0.49 seconds
+| To-do generation time: 0.98 seconds
++ Total time taken: 2.01 seconds
+------------------------------------------------------------------------------------------------------------------------
+
+Uncommon Words List:
+['future proof', 'contrary']
+
+Summary:
+Here is a summary of the meeting in a bulleted list, including key discussion points and decisions:
+
+**Apologies and Attendance**
+
+* Hazel was absent
+* The meeting acknowledged Jim's early departure at 1:30 PM to attend another meeting
+
+**Decisions**
+
+* Apologies were accepted and the meeting proceeded
+
+**Disclosure of Members' Interests**
+
+* No disclosure was required
+
+**Confirmation of Meeting Order**
+
+* No changes to the meeting order were required
+
+**Decisions**
+
+* The meeting order was confirmed
+
+**Confirmation of Minutes from 18 February**
+
+* Andrew Graham raised an issue with his name not being recorded in the minutes
+* The minutes were reviewed and changes will be made to rectify the error
+* Decision: The minutes were received as a corrected record
+
+**Future Agenda Items**
+
+* None mentioned
+
+Note: The meeting transcript is incomplete, so the summary only covers the topics discussed up to the point where the transcript ended.
+
+To-do List:
+[Task(description=Check on businesses with more than 100 employees for support gap, deadline=None), Task(description=Conduct survey to measure full impacts of unemployed tourism staff, deadline=None), Task(description=Prepare major and business events restart campaign, deadline=None), Task(description=Collaborate with local government on shovel-ready tourism projects, deadline=None), Task(description=Continue research on domestic perceptions and major events, deadline=None), Task(description=Share weekly data and insights with Tawahka and contribute to Tawaka economic outlook, deadline=None), Task(description=Launch local campaign to support tourism in the region, deadline=None)]
+

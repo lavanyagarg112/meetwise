@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useAuth } from '../../store/auth-context'
 import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const ActiveOrganisation = () => {
   const { activeOrganisation, user } = useAuth()
@@ -9,12 +10,12 @@ const ActiveOrganisation = () => {
   useEffect(() => {
     if (user && activeOrganisation) {
       console.log('activeOrganisation: ', activeOrganisation)
-      navigate(`/organisation/${activeOrganisation}`)
+      navigate(`/organisations/${activeOrganisation}`)
     }
   }, [user, activeOrganisation, navigate])
 
   if (!user) {
-    return <div>Log in</div>
+    return <div>Please <Link to={`/sign-up`}>Log in</Link> to view this page</div>
   }
 
   if (!activeOrganisation) {

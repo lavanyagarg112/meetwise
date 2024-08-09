@@ -1,3 +1,66 @@
+/* :root {
+  --primary-color: #007bff;
+  --primary-color-hover: #0056b3;
+  --secondary-color: #6c757d;
+  --secondary-color-hover: #5a6268;
+  --background-color: aliceblue;
+  --background-color-light: #f6f8fc;
+  --text-color: #333;
+  --text-color-light: #fff;
+  --text-color-dark: #000;
+  --light-gray: lightgray;
+  --dark-gray: darkgray;
+  --white: #fff;
+  --black: #000;
+  --error-color: rgb(158, 18, 18);
+  --success-color: #4caf50;
+  --border-color: #ddd;
+  --border-radius: 5px;
+  --padding-container: 16px;
+  --font-size-h1: 2em;
+  --font-size-h2: 1.5em;
+  --margin-bottom-h: 0.5em;
+  --margin-bottom-p: 1em;
+  --line-height-p: 1.5;
+  --padding-left-list: 1.5em;
+  --background-color-code: #f5f5f5;
+  --padding-code: 0.2em 0.4em;
+  --padding-pre: 1em;
+  --highlight-nav: #e0e0e0;
+} */
+
+:root {
+  --primary-color: #007bff;
+  --primary-color-hover: #0056b3;
+  --secondary-color: #6c757d;
+  --secondary-color-hover: #5a6268;
+  --background-color: aliceblue;
+  --background-color-light: #f6f8fc;
+  --text-color: #333;
+  --text-color-light: #fff;
+  --text-color-dark: #000;
+  --light-gray: lightgray;
+  --dark-gray: darkgray;
+  --white: #fff;
+  --black: #000;
+  --error-color: rgb(158, 18, 18);
+  --success-color: #4caf50;
+  --border-color: #ddd;
+  --border-radius: 5px;
+  --padding-container: 16px;
+  --font-size-h1: 2em;
+  --font-size-h2: 1.5em;
+  --margin-bottom-h: 0.5em;
+  --margin-bottom-p: 1em;
+  --line-height-p: 1.5;
+  --padding-left-list: 1.5em;
+  --background-color-code: #f5f5f5;
+  --padding-code: 0.2em 0.4em;
+  --padding-pre: 1em;
+  --highlight-nav: #e0e0e0;
+}
+
+/* Other global styles */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,7 +68,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: aliceblue;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 code {

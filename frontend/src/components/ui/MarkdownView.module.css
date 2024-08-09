@@ -1,0 +1,39 @@
+.markdownContainer {
+  padding: var(--padding-container);
+  background-color: var(--background-color-light);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+.markdownContainer h1 {
+  font-size: var(--font-size-h1);
+  margin-bottom: var(--margin-bottom-h);
+}
+
+.markdownContainer h2 {
+  font-size: var(--font-size-h2);
+  margin-bottom: var(--margin-bottom-h);
+}
+
+.markdownContainer p {
+  margin-bottom: var(--margin-bottom-p);
+  line-height: var(--line-height-p);
+}
+
+.markdownContainer ul, .markdownContainer ol {
+  margin-bottom: var(--margin-bottom-p);
+  padding-left: var(--padding-left-list);
+}
+
+.markdownContainer code {
+  background-color: var(--background-color-code);
+  border-radius: var(--border-radius);
+  padding: var(--padding-code);
+}
+
+.markdownContainer pre {
+  background-color: var(--background-color-code);
+  padding: var(--padding-pre);
+  border-radius: var(--border-radius);
+  overflow-x: auto;
+}

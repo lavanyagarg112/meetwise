@@ -3,12 +3,12 @@ import classes from './OrganisationBlock.module.css';
 
 import { useNavigate } from 'react-router-dom';
 
-const TeamBlock = ({team}) => {
+const TeamBlock = ({team, organisationname}) => {
 
     const navigate = useNavigate()
 
     const handleClick = () => {
-        navigate(`/team/${team.name}`)
+        navigate(`/organisations/${organisationname}/${team.name}`)
     }
 
   return (

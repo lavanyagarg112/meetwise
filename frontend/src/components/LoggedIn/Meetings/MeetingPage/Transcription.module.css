@@ -1,0 +1,137 @@
+.transcriptionContainer {
+  margin: 20px;
+}
+
+.editButton {
+  background-color: var(--success-color);
+  color: var(--text-color-light);
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  margin-right: 10px;
+}
+
+.editButton:hover {
+  background-color: #45a049;
+}
+
+.transcriptionContent {
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--background-color-light);
+}
+
+.editContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.textarea {
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  margin-bottom: 10px;
+  width: 100%;
+  height: 200px;
+}
+
+.uncommonWordsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.uncommonWord {
+  background-color: yellow;
+  padding: 2px 4px;
+  margin: 2px;
+  border-radius: var(--border-radius);
+}
+
+.warning {
+  color: var(--error-color);
+  margin-bottom: 10px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cancelButton,
+.submitButton {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+}
+
+.cancelButton {
+  background-color: #f44336;
+  color: var(--text-color-light);
+}
+
+.cancelButton:hover {
+  background-color: #e53935;
+}
+
+.submitButton {
+  background-color: var(--primary-color);
+  color: var(--text-color-light);
+}
+
+.submitButton:hover {
+  background-color: var(--primary-color-hover);
+}
+
+.submitButton:disabled,
+.submitButton.disabledButton {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.textareaWrapper {
+  position: relative;
+  font-family: monospace;
+}
+
+.textarea, .highlightOverlay {
+  width: 100%;
+  min-height: 200px;
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 10px;
+  border: 1px solid #ccc;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  overflow-y: auto;
+}
+
+.textarea {
+  background-color: transparent;
+  resize: vertical;
+  z-index: 1;
+  position: relative;
+}
+
+.highlightOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  color: transparent;
+  background-color: transparent;
+}
+
+.highlightOverlay mark {
+  color: transparent;
+  border-radius: 3px;
+  padding: 0;
+}

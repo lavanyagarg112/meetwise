@@ -1,42 +1,61 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../store/auth-context';
+import styles from './SettingsComponent.module.css';
 
 const SettingsComponent = ({ user }) => {
-  const { setIsLoggedIn, setUser } = useAuth();
+  const { setIsLoggedIn, setUser, setActiveOrganisation } = useAuth();
   const navigate = useNavigate();
 
   const handleOrganisations = () => {
     navigate('/organisations');
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setUser(null); // Clear user state
-    navigate('/'); // Redirect to home
-  };
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/logout`, {
+        method: 'HEAD',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include'
+      })
+      if (response.ok) {
+        setIsLoggedIn(false);
+        setUser(null); // Clear user state
+        setActiveOrganisation(null);
+        navigate('/'); // Redirect to home
+      } else {
+        console.error('Failed to log out');
+      }
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  }
+    
+
 
   return (
-    <div>
-      <h1>Settings</h1>
-      <div>
-        <div>Username: {user.username}</div>
-        <div>Email: {user.email}</div>
-        <div>Display Name: {user.firstName}</div>
-        <div>Bio</div>
+    <div className={styles.settingsContainer}>
+      <h1 className={styles.title}>Settings</h1>
+      <div className={styles.userInfo}>
+        <div className={styles.userInfoItem}>
+          <span className={styles.label}>Username:</span>
+          <span className={styles.value}>{user.username}</span>
+        </div>
+        <div className={styles.userInfoItem}>
+          <span className={styles.label}>Email:</span>
+          <span className={styles.value}>{user.email}</span>
+        </div>
+        <div className={styles.userInfoItem}>
+          <span className={styles.label}>Display Name:</span>
+          <span className={styles.value}>{user.firstName} {user.lastName}</span>
+        </div>
       </div>
-      <div>
-        <div>Update profile</div>
+      <div className={styles.buttons}>
+        <button className={styles.button} onClick={handleOrganisations}>My Organisations</button>
+        <button className={styles.logoutButton} onClick={handleLogout}>Logout</button>
       </div>
-      <div>
-        <div>Organisations created by me</div>
-        <div>organisation 1</div>
-        <div>organisation 2</div>
-      </div>
-
-      <button onClick={handleOrganisations}>See all my organisations</button>
-      <button onClick={handleLogout}>Logout</button>
-      {/* dummy logout. to actually logout need to send request to backend cause need to remove credentials */}
     </div>
   );
 };
