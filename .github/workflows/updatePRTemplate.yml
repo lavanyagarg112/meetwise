@@ -14,7 +14,7 @@ jobs:
 
       - name: Update pullRequestLinks.md
         run: |
-          cat << EOF > pullRequestLinks.md
+          echo << 
           ## Pull Requests to Main
 
   * [New Feature](https://github.com/lavanyagarg112/meetwise/compare/main...${{ github.ref_name }}?template=feature.md)
@@ -22,7 +22,7 @@ jobs:
   * [Documentation](https://github.com/lavanyagarg112/meetwise/compare/main...${{ github.ref_name }}?template=docs.md)
   * [Refactoring](https://github.com/lavanyagarg112/meetwise/compare/main...${{ github.ref_name }}?template=refactor.md)
   * [Chore](https://github.com/lavanyagarg112/meetwise/compare/main...${{ github.ref_name }}?template=chore.md)
-          EOF  
+          > pullRequestLinks.md
           git add pullRequestLinks.md
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
