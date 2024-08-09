@@ -1,0 +1,22 @@
+name: update Pull Request Template Link File on branch creation
+
+on:
+  create:
+    branches:
+      - '*'
+
+jobs:
+  update_pr_file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v3
+
+      - name: Update pullRequestLinks.md
+        run: |
+          echo "# Welcome to the ${{ github.ref_name }} branch!" > pullRequestLinks.md
+          git add pullRequestLinks.md
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update pullRequestLinks.md on branch creation"
+          git push origin ${{ github.ref_name }}
