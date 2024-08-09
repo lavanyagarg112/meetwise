@@ -23,8 +23,7 @@ jobs:
           * [Bug Fix](https://github.com/lavanyagarg112/meetwise/compare/main...${{ github.ref_name }}?template=bug.md)
           * [Documentation](https://github.com/lavanyagarg112/meetwise/compare/main...${{ github.ref_name }}?template=docs.md)
           * [Refactoring](https://github.com/lavanyagarg112/meetwise/compare/main...${{ github.ref_name }}?template=refactor.md)
-          * [Chore](https://github.com/lavanyagarg112/meetwise/compare/main...${{ github.ref_name }}?template=chore.md)"
-          > pullRequestLinks.md
+          * [Chore](https://github.com/lavanyagarg112/meetwise/compare/main...${{ github.ref_name }}?template=chore.md)" > pullRequestLinks.md
           git add pullRequestLinks.md
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
