@@ -1,5 +1,7 @@
 ## Pull Requests to Main
 
-<button onclick="window.location.href='https://github.com/lavanyagarg112/meetwise/compare/main...easyPR?template=feature.md'">
-  Create Feature Pull Request 
-</button>
+  * [Create New Feature Pull Request](https://github.com/lavanyagarg112/meetwise/compare/main...easyPR?template=feature.md)
+  * [Create Bug Fix Pull Request](https://github.com/lavanyagarg112/meetwise/compare/main...easyPR?template=bug.md)
+  * [Create Documentation Pull Request](https://github.com/lavanyagarg112/meetwise/compare/main...easyPR?template=docs.md)
+  * [Create Refactoring Request](https://github.com/lavanyagarg112/meetwise/compare/main...easyPR?template=refactor.md)
+  * [Create Chore Request](https://github.com/lavanyagarg112/meetwise/compare/main...easyPR?template=chore.md)
