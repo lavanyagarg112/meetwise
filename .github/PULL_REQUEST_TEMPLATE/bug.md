@@ -8,9 +8,9 @@ Concisely describe the bug that was fixed and the solution implemented.
 * **Solution:** Briefly explain the approach you took to resolve the issue (e.g., "Added validation to allow '+' characters in email addresses during registration.").
 * **Potential Impact:** Mention any notable changes made or potential side effects this fix might have on other parts of the application (e.g., "This change also updates the email validation logic used in the account settings page."). 
 
-**Linked Issue (Bug):**
+**Related Issue:**
 
-* Closes #[Issue Number]
+ Link to the related issue (if applicable). Use the format `#IssueNumber`
 
 **Testing:**
 
