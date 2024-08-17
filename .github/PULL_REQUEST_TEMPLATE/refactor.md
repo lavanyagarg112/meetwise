@@ -10,7 +10,11 @@ Describe the code that was refactored and the motivation behind the changes.
     * Enhance performance?
     * Reduce code duplication?
     * Prepare for a new feature? 
-* **Impact:** Does this refactoring affect any public APIs, user interfaces, or external dependencies? 
+* **Impact:** Does this refactoring affect any public APIs, user interfaces, or external dependencies?
+
+**Related Issue:**
+
+ Link to the related issue (if applicable). Use the format `#IssueNumber`
 
 **Technical Details (Optional):**
 
