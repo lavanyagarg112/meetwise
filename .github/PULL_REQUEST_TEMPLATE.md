@@ -3,10 +3,11 @@
 **Description:**
 
 * Briefly describe the changes proposed in this pull request.
-* What problem does this PR solve? (e.g., bug fix, new feature, performance improvement)
+
+**Related Issue**
 * If this PR addresses an issue, link the issue here. (e.g., Closes #123)
 
-**How Has This Been Tested?**
+**Testing**
 
 * Describe the testing methodology used to validate these changes.
 * Include details about unit tests, integration tests, manual testing, etc.
