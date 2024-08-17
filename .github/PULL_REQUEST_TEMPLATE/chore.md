@@ -6,6 +6,10 @@
 * What problem does it solve or what improvement does it make?
 * For complex changes, consider providing a before/after example or a diagram.
 
+**Related Issue:**
+
+ Link to the related issue (if applicable). Use the format `#IssueNumber`
+
 **Implementation Details:**
 
 * Summarize the technical implementation details.
@@ -17,9 +21,6 @@
 * Briefly explain how you tested these changes. 
 * If applicable, list any manual testing steps.
 
-**Related Issues/PRs:**
-
-* Link any related issues or pull requests (e.g., "Fixes #123").
 
 **Checklist:**
 
