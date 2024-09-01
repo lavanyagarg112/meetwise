@@ -28,6 +28,16 @@ def initialise():
     conn.sync()  # gets change from db
 
 
+'''
+sets active organisation as name(org id) 
+for user id
+
+:param id : user id 
+:param name: org id
+
+'''
+
+
 def setActiveOrganisation(id: int, name: int | None):
     conn.sync()
     with closing(conn.cursor()) as cursor:
@@ -605,7 +615,7 @@ def updateTodos(todoId: int, organisation: int, meetingId: int, details: str, de
               UPDATE Org{organisation}Todo SET MEETINGID =?,DETAILS =?, DEADLINE =?, ASSIGNER =?, ASSIGNEE =?,
               COMPLETED =?, ISUSER =? WHERE ID = ?'''
     with closing(conn.cursor()) as cursor:
-        cursor.execute(sqlCommand, (meetingId, details, deadline, assigner, assignee, isCompleted,True,todoId))
+        cursor.execute(sqlCommand, (meetingId, details, deadline, assigner, assignee, isCompleted, True, todoId))
         conn.commit()
         conn.sync()
 
@@ -746,4 +756,3 @@ def getTeamById(org: int, teamId: int):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamId,))
         return cursor.fetchone()
-

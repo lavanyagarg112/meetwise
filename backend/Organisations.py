@@ -12,7 +12,7 @@ from audio_transcription import transcribe
 from Errors import AuthenticationError
 from database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, getMeetingsByOrg, \
     makeTeam, teamExists, addUserToTeam, existsOrganisation, makeOrganisation, getOwner, addUserToOrg, \
-    getTeamsByOrgStatus
+    getTeamsByOrgStatus, setActiveOrganisation
 
 
 def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:
@@ -20,6 +20,7 @@ def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:
         raise HTTPException(status_code=400, detail="Organisation already exists")
     id = makeOrganisation(OwnerID, OrganisationName)
     addUserToOrg(orgId=id, userId=OwnerID, role="owner")
+    setActiveOrganisation(OwnerID, id)
     return Organisation(name=OrganisationName, id=id)
 
 
