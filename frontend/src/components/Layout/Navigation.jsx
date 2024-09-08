@@ -56,7 +56,7 @@ const Navigation = () => {
 
         {user && !activeOrganisation && (
           <div className={`${classes.navItem} ${isActive('/myorganisation') ? classes.active : ''}`}>
-            <Link to="/myorganisation" className={classes.text}>My Organisation</Link>
+            <Link to="/myorganisation" className={classes.text}>Organisations</Link>
           </div>
         )
         }
