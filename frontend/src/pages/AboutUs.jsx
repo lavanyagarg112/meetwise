@@ -14,7 +14,6 @@ const AboutUs = () => {
         <li>Lavanya Garg</li>
         <li>Nikhil Sultania</li>
         <li>Kimaya Wanjari</li>
-        <li>Sarthak Wanjari</li>
       </ul>
       
       <hr className={classes.separator} />
