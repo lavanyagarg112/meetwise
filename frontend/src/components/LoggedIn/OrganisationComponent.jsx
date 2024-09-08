@@ -5,6 +5,8 @@ import classes from './OrganisationComponent.module.css'
 import OrganisationBlock from './Organisations/OrganisationBlock'
 import CreateOrganisationForm from './Organisations/CreateOrganisationForm'
 
+import { useAuth } from '../../store/auth-context'
+
 import Loading from '../ui/Loading'
 
 const OrganisationComponent = ({user}) => {
@@ -14,6 +16,7 @@ const OrganisationComponent = ({user}) => {
   const [showExistsPopup, setShowExistsPopup] = useState(false)
 
   const [loading, setLoading] = useState(false)
+  const { setActiveOrganisation } = useAuth()
 
   const newOrganisation = async (organisationName) => {
 
@@ -41,6 +44,7 @@ const OrganisationComponent = ({user}) => {
   
       const data = await response.json()
       setOrganisations([...organisations, data])
+      setActiveOrganisation(data.name)
   
     } catch (error) {
       console.log('ERROR')
