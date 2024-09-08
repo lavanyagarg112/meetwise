@@ -34,7 +34,7 @@ const Navigation = () => {
       </div>
       <nav className={`${classes.navItems} ${menuIsOpen ? classes.show : ''}`}>
         <div className={classes.logo}><Link to="/" className={classes.text}>MeetWise</Link></div>
-        <div className={`${classes.navItem} ${isActive('/') ? classes.active : ''}`}>
+        <div className={`${classes.navItem} ${isActive('/') ? classes.active : ''}`} onClick={() => handleLink("/")}>
           <Link to="/" className={classes.text}>Home</Link>
         </div>
         { !user &&  (<div className={`${classes.navItem} ${isActive('/about') ? classes.active : ''}`} onClick={() => handleLink("/about")}>
