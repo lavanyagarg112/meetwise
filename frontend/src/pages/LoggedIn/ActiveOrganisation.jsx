@@ -11,15 +11,13 @@ const ActiveOrganisation = () => {
     if (user && activeOrganisation) {
       console.log('activeOrganisation: ', activeOrganisation)
       navigate(`/organisations/${activeOrganisation}`)
+    } else if (user) {
+      navigate(`/organisations`)
     }
   }, [user, activeOrganisation, navigate])
 
   if (!user) {
     return <div>Please <Link to={`/sign-up`}>Log in</Link> to view this page</div>
-  }
-
-  if (!activeOrganisation) {
-    return <div>No active organisation found. Go to settings to set active organisation / create new organisation</div>
   }
 
   return null
