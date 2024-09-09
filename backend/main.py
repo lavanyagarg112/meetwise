@@ -4,22 +4,22 @@ from datetime import datetime
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Response, Cookie, UploadFile, Form
 from typing import Annotated, Literal, List
-from IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
+from backend.States.IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
     OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput, AddUserInput, \
     MeetingIdentifier, Transcription, TranscriptionDetails, MeetingDetails, TodoDetails, TodoInput, TodoEliminate, \
     TodoUpdate
 from UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
     setOrganisationActive, eatCookie, bakeCookie, inviteOrAddUser
-from Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, getAllMeetings, \
+from backend.Organisation.Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, getAllMeetings, \
     getTeams, addUser, createTeam
 from fastapi.middleware.cors import CORSMiddleware
 
 from Meetings import storeMeeting, updateMeetingTranscription, getMeetingSummary, getMeetingTranscription, \
     getMeetingInfo
-from Enums import Roles
-from OrganisationHelpers import getRoleByID, getOrganisationByName, getTeamByName, getTRoleByID
+from backend.States.Enums import Roles
+from backend.Organisation.OrganisationHelpers import getRoleByID, getOrganisationByName, getTeamByName, getTRoleByID
 from Todos import updateTodosOrg, addTodosOrg, getMeetTodos, getUserOrgTodos, getAllTodos
-from database import deleteTodos, getUserTodosOrg, getUserOrgs
+from backend.database.database import deleteTodos
 
 app = FastAPI()
 

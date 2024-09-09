@@ -2,14 +2,14 @@ from typing import List, Tuple
 from fastapi import HTTPException
 from func_timeout import func_timeout, FunctionTimedOut
 from mutagen.mp3 import MP3
-from IOSchema import MeetingInput, TranscriptionDetails, MeetingDetails
-from OrganisationHelpers import getOrganisationByName, getTeamByName, getRoleByID, getTRoleByID
+from backend.States.IOSchema import MeetingInput, TranscriptionDetails, MeetingDetails
+from backend.Organisation.OrganisationHelpers import getOrganisationByName, getTeamByName, getRoleByID, getTRoleByID
 from audio_transcription import transcribe
 from Meeting import Meeting, Task
 from Todos import replaceTodos
-from Enums import Roles
-from Errors import AuthenticationError
-from database import storeMeetingDetailsTeam, storeMeetingDetailsOrg, getSummary, updateMeetingDetails, \
+from backend.States.Enums import Roles
+from backend.States.Errors import AuthenticationError
+from backend.database.database import storeMeetingDetailsTeam, storeMeetingDetailsOrg, getSummary, updateMeetingDetails, \
     getTranscription, getMeetingMetaData, addBulkTodos, addBulkTodosTeam, getTeamById
 
 time = 300  #timeout

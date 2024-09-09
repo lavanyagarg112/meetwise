@@ -6,13 +6,13 @@ import jwt
 from fastapi import Cookie, HTTPException, Response
 from jwt import ExpiredSignatureError
 from dotenv import load_dotenv
-from IOSchema import Person, UserSignUp, UserLogIn, UserInfo, Organisation, InviteOutput
+from backend.States.IOSchema import Person, UserSignUp, UserLogIn, UserInfo, Organisation, InviteOutput
 import os
 
-from Errors import CreateUserError, AuthError, AuthenticationError
-from OrganisationHelpers import getOrganisationByID, getOrganisationByName, getOrgs, forceJoin, getRoleByID
-from Enums import Roles
-from database import initialise, setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, getUserDetailsByID, \
+from backend.States.Errors import CreateUserError, AuthError, AuthenticationError
+from backend.Organisation.OrganisationHelpers import getOrganisationByID, getOrganisationByName, getOrgs, forceJoin, getRoleByID
+from backend.States.Enums import Roles
+from backend.database.database import setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, getUserDetailsByID, \
     checkUserEmail, createNewUser, checkUserUsername, checkUserOrg, addUserToOrg, addToPending
 
 load_dotenv('.env')
