@@ -796,3 +796,51 @@ def deleteMeetingDetails(org: int, meetingId: int, preserve: bool = True):
         cursor.execute(sqlCommand, (meetingId,))
         conn.commit()
         conn.sync()
+
+
+def deleteOrganisationByID(org):
+    """
+    Very Dangerous function
+    :param org:
+    :return:
+    """
+    conn.sync()
+    with closing(conn.cursor()) as cursor:
+        sqlCommand = f'''
+                  DROP TABLE Org{org}Emp
+                  '''
+        cursor.execute(sqlCommand)
+        sqlCommand = f'''
+                  DROP TABLE Org{org}Team
+                  '''
+        cursor.execute(sqlCommand)
+        sqlCommand = f'''
+                  DROP TABLE Org{org}
+                  '''
+        cursor.execute(sqlCommand)
+        sqlCommand = f'''
+                  DROP TABLE Org{org}Perm
+                  '''
+        cursor.execute(sqlCommand)
+        sqlCommand = f'''
+                  DROP TABLE OW{org}EMP
+                  '''
+        cursor.execute(sqlCommand)
+        sqlCommand = f'''
+                  DROP TABLE O{org}MAtt
+                  '''
+        cursor.execute(sqlCommand)
+        sqlCommand = f'''
+                  DROP TABLE Org{org}Todo
+                  '''
+        cursor.execute(sqlCommand)
+        sqlCommand = f'''
+                  DELETE FROM UserOrg WHERE ORGANISATION = ?
+                  '''
+        cursor.execute(sqlCommand, (org,))
+        sqlCommand = f'''
+                  DELETE FROM Organisations WHERE ID = ?
+                  '''
+        cursor.execute(sqlCommand, (org,))
+        conn.commit()
+        conn.sync()

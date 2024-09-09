@@ -14,7 +14,7 @@ from backend.States.Errors import AuthenticationError
 from backend.database.database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, \
     getMeetingsByOrg, \
     makeTeam, teamExists, addUserToTeam, existsOrganisation, makeOrganisation, getOwner, addUserToOrg, \
-    getTeamsByOrgStatus, setActiveOrganisation
+    getTeamsByOrgStatus, setActiveOrganisation, deleteOrganisationByID
 
 
 def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:

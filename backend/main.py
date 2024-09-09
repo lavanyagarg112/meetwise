@@ -300,12 +300,14 @@ async def deleteOrg(organisation: OrganisationName, credentials: Annotated[str, 
 @app.delete('/delete-meet')
 async def deleteMeet(meeting: MeetingIdentifier, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    deleteMeeting(meeting.organisation,meeting.meetingid, id)
+    deleteMeeting(meeting.organisation, meeting.meetingid, id)
+
 
 @app.delete('/hard-delete-meet')
 async def hardDeleteMeet(meeting: MeetingIdentifier, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    hardDeleteMeeting(meeting.organisation,meeting.meetingid, id)
+    hardDeleteMeeting(meeting.organisation, meeting.meetingid, id)
+
 
 @app.post('/update-name')
 async def updateName(name: Name, credentials: Annotated[str, Cookie()] = None):
