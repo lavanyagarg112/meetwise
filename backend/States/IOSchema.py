@@ -43,6 +43,14 @@ class Person(BaseModel):
     lastName: str
 
 
+class Name(BaseModel):
+    name: str
+
+
+class Password(BaseModel):
+    password: str
+
+
 class OrganisationName(BaseModel):
     name: str
 
