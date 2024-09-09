@@ -776,3 +776,23 @@ def updatePassWord(userId: int, password: str):
         cursor.execute(sqlCommand, (password, userId))
         conn.commit()
         conn.sync()
+
+
+def deleteMeetingDetails(org: int, meetingId: int, preserve: bool = True):
+    conn.sync()
+    if preserve:
+        sqlCommand = f'''
+                  UPDATE Org{org}Todo SET MeetingID = NULL WHERE MeetingID = ?'''
+    else:
+        sqlCommand = f'''
+                  DELETE FROM Org{org}Todo WHERE MeetingID = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (meetingId,))
+        sqlCommand = f'''
+                  DELETE FROM O{org}MAtt WHERE ID = ?'''
+        cursor.execute(sqlCommand, (meetingId,))
+        sqlCommand = f'''
+              DELETE FROM Org{org} WHERE ID = ?'''
+        cursor.execute(sqlCommand, (meetingId,))
+        conn.commit()
+        conn.sync()

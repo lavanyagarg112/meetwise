@@ -17,7 +17,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from backend.Meeting.Meetings import storeMeeting, updateMeetingTranscription, getMeetingSummary, \
     getMeetingTranscription, \
-    getMeetingInfo
+    getMeetingInfo, deleteMeeting, hardDeleteMeeting
 from backend.States.Enums import Roles
 from backend.Organisation.OrganisationHelpers import getRoleByID, getOrganisationByName, getTeamByName, getTRoleByID
 from backend.Meeting.Todos import updateTodosOrg, addTodosOrg, getMeetTodos, getUserOrgTodos, getAllTodos
@@ -300,8 +300,12 @@ async def deleteOrg(organisation: OrganisationName, credentials: Annotated[str, 
 @app.delete('/delete-meet')
 async def deleteMeet(meeting: MeetingIdentifier, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    deleteMeeting(meeting, id)
+    deleteMeeting(meeting.organisation,meeting.meetingid, id)
 
+@app.delete('/hard-delete-meet')
+async def hardDeleteMeet(meeting: MeetingIdentifier, credentials: Annotated[str, Cookie()] = None):
+    id = eatCookie(credentials)
+    hardDeleteMeeting(meeting.organisation,meeting.meetingid, id)
 
 @app.post('/update-name')
 async def updateName(name: Name, credentials: Annotated[str, Cookie()] = None):

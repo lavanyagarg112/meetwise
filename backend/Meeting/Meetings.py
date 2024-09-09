@@ -10,7 +10,7 @@ from backend.Meeting.Todos import replaceTodos
 from backend.States.Enums import Roles
 from backend.States.Errors import AuthenticationError
 from backend.database.database import storeMeetingDetailsTeam, storeMeetingDetailsOrg, getSummary, updateMeetingDetails, \
-    getTranscription, getMeetingMetaData, addBulkTodos, addBulkTodosTeam, getTeamById
+    getTranscription, getMeetingMetaData, addBulkTodos, addBulkTodosTeam, getTeamById, deleteMeetingDetails
 
 time = 300  #timeout
 
@@ -69,7 +69,32 @@ def storeMeeting(userId: int, meeting: MeetingInput):
     addBulkTodos(id, todos, org)
 
 
-def updateMeetingTranscription(userId:int,organisation: str, meetingId: int, transcription: str) -> TranscriptionDetails:
+def deleteMeeting(organisation: str, meetingId: int, userId: int):
+    org = getOrganisationByName(organisation)
+    if not org:
+        raise HTTPException(status_code=404, detail=f"Organisation {organisation} not found.")
+    role = getRoleByID(org, userId)
+    if (not role) or (role == Roles.USER):
+        AuthenticationError("Only Organisation admins can delete meetings.")
+    #TODO: switch to proper logs
+    print(f"Meeting {meetingId} deleted by User#{userId}")
+    deleteMeetingDetails(org, meetingId, True)
+
+
+def hardDeleteMeeting(organisation: str, meetingId: int, userId: int):
+    org = getOrganisationByName(organisation)
+    if not org:
+        raise HTTPException(status_code=404, detail=f"Organisation {organisation} not found.")
+    role = getRoleByID(org, userId)
+    if (not role) or (role == Roles.USER):
+        AuthenticationError("Only Organisation admins can delete meetings.")
+    #TODO: switch to proper logs
+    print(f"Meeting {meetingId} deleted by User#{userId}")
+    deleteMeetingDetails(org, meetingId, False)
+
+
+def updateMeetingTranscription(userId: int, organisation: str, meetingId: int,
+                               transcription: str) -> TranscriptionDetails:
     org: int = getOrganisationByName(organisation)
     if not org:
         raise HTTPException(status_code=404, detail=f"Organisation {organisation} not found.")
@@ -90,7 +115,7 @@ def updateMeetingTranscription(userId:int,organisation: str, meetingId: int, tra
     return TranscriptionDetails(type=True, transcription=transcription, uncommonWords=uncommonWords)
 
 
-def getMeetingSummary(userId:int, organisation: str, meetingid: int) -> str:
+def getMeetingSummary(userId: int, organisation: str, meetingid: int) -> str:
     org: int = getOrganisationByName(organisation)
     if not org:
         raise HTTPException(status_code=404, detail=f"Organisation {organisation} not found.")
@@ -99,7 +124,7 @@ def getMeetingSummary(userId:int, organisation: str, meetingid: int) -> str:
     return getSummary(org, meetingid)[0]
 
 
-def getMeetingTranscription(userId:int,organisation: str, meetingid: int) -> TranscriptionDetails:
+def getMeetingTranscription(userId: int, organisation: str, meetingid: int) -> TranscriptionDetails:
     org: int = getOrganisationByName(organisation)
     if not org:
         raise HTTPException(status_code=404, detail=f"Organisation {organisation} not found.")
@@ -111,7 +136,7 @@ def getMeetingTranscription(userId:int,organisation: str, meetingid: int) -> Tra
     return TranscriptionDetails(type=details[0], transcription=details[1], uncommonWords=details[2].split(','))
 
 
-def getMeetingInfo(userId:int, organisation: str, meetingid: int) -> MeetingDetails:
+def getMeetingInfo(userId: int, organisation: str, meetingid: int) -> MeetingDetails:
     org = getOrganisationByName(organisation)
     if not org:
         raise HTTPException(status_code=404, detail=f"Organisation {organisation} not found.")
