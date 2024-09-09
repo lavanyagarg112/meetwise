@@ -1,26 +1,27 @@
 import os
 from datetime import datetime
+from typing import Annotated, Literal, List
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Response, Cookie, UploadFile, Form
-from typing import Annotated, Literal, List
-from backend.States.IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
-    OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput, AddUserInput, \
-    MeetingIdentifier, Transcription, TranscriptionDetails, MeetingDetails, TodoDetails, TodoInput, TodoEliminate, \
-    TodoUpdate, Name, Password
-from backend.Profile.UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
-    setOrganisationActive, eatCookie, bakeCookie, inviteOrAddUser, deleteUserByID, updateUsername, updatePassword
-from backend.Organisation.Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, \
-    getAllMeetings, \
-    getTeams, addUser, createTeam, deleteOrganisation
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.Meeting.Meetings import storeMeeting, updateMeetingTranscription, getMeetingSummary, \
     getMeetingTranscription, \
     getMeetingInfo, deleteMeeting, hardDeleteMeeting
-from backend.States.Enums import Roles
-from backend.Organisation.OrganisationHelpers import getRoleByID, getOrganisationByName, getTeamByName, getTRoleByID
 from backend.Meeting.Todos import updateTodosOrg, addTodosOrg, getMeetTodos, getUserOrgTodos, getAllTodos
+from backend.Organisation.OrganisationHelpers import getRoleByID, getOrganisationByName, getTeamByName, getTRoleByID
+from backend.Organisation.Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, \
+    getAllMeetings, \
+    getTeams, addUser, createTeam, deleteOrganisation
+from backend.Profile.Authentication import eatCookie, bakeCookie
+from backend.Profile.UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
+    setOrganisationActive, inviteOrAddUser, deleteUserByID, updateUsername, updatePassword
+from backend.States.Enums import Roles
+from backend.States.IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
+    OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput, AddUserInput, \
+    MeetingIdentifier, Transcription, TranscriptionDetails, MeetingDetails, TodoDetails, TodoInput, TodoEliminate, \
+    TodoUpdate, Name, Password
 from backend.database.database import deleteTodos
 
 app = FastAPI()
