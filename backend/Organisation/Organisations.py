@@ -3,13 +3,16 @@ from typing import List
 from fastapi import HTTPException
 
 from backend.States.Enums import Roles
-from backend.States.IOSchema import Organisation, OrganisationReport, OrganisationPersonalReport, Person, Team, TeamPersonalReport, \
+from backend.States.IOSchema import Organisation, OrganisationReport, OrganisationPersonalReport, Person, Team, \
+    TeamPersonalReport, \
     TeamReport, OrgTeam, Meeting, InviteOutput, MeetingInput
-from backend.Organisation.OrganisationHelpers import getOrganisationsByID, getOrganisationByName, getOrganisationByID, getTeamByName, \
+from backend.Organisation.OrganisationHelpers import getOrganisationsByID, getOrganisationByName, getOrganisationByID, \
+    getTeamByName, \
     meetify, getRoleByID, getTRoleByID, getAllUsers, getPendingInvites, getStatus, getTeamStatus
 from backend.Profile.UserAccounts import getUserByID
 from backend.States.Errors import AuthenticationError
-from backend.database.database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, getMeetingsByOrg, \
+from backend.database.database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, \
+    getMeetingsByOrg, \
     makeTeam, teamExists, addUserToTeam, existsOrganisation, makeOrganisation, getOwner, addUserToOrg, \
     getTeamsByOrgStatus, setActiveOrganisation
 
@@ -21,6 +24,15 @@ def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:
     addUserToOrg(orgId=id, userId=OwnerID, role="owner")
     setActiveOrganisation(OwnerID, id)
     return Organisation(name=OrganisationName, id=id)
+
+
+def deleteOrganisation(name: str, OwnerID: int):
+    id = getOrganisationByName(name)
+    if not id:
+        raise HTTPException(status_code=404, detail="Organisation not found")
+    if getOwner(id)[0] != OwnerID:
+        raise HTTPException(status_code=403, detail="User is not authorised to delete organisation")
+    deleteOrganisationByID(id)
 
 
 def getOrganisationReport(UserID: int, OrganisationName: str) -> OrganisationPersonalReport:
@@ -99,10 +111,11 @@ def getTeams(name: str, Userid: int, status: Roles | None = None):
 '''
 
 
-def addUser(id:int,organisation: str, userId: int, role: str, teamName: str = None) -> Person:
+def addUser(id: int, organisation: str, userId: int, role: str, teamName: str = None) -> Person:
     organisation = getOrganisationByName(organisation)
     teamName = getTeamByName(organisation, teamName)
-    if getRoleByID(organisation,id) == Roles.USER.value and getTRoleByID(organisation,teamName,id) == Roles.USER.value:
+    if getRoleByID(organisation, id) == Roles.USER.value and getTRoleByID(organisation, teamName,
+                                                                          id) == Roles.USER.value:
         AuthenticationError("Users cannot add other users to teams.")
     addUserToTeam(organisation, userId, role, teamName, role)
     user = getUserByID(userId).user

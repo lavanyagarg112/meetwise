@@ -754,3 +754,25 @@ def getTeamById(org: int, teamId: int):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamId,))
         return cursor.fetchone()
+
+
+def updateUserName(userId: int, name: str):
+    conn.sync()
+    sqlCommand = '''
+                    UPDATE USERS SET USERNAME = ? WHERE ID = ?
+                '''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (name, userId))
+        conn.commit()
+        conn.sync()
+
+
+def updatePassWord(userId: int, password: str):
+    conn.sync()
+    sqlCommand = '''
+                    UPDATE USERS SET PASSWORD = ? WHERE ID = ?
+                '''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (password, userId))
+        conn.commit()
+        conn.sync()

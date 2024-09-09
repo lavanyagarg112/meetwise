@@ -9,10 +9,10 @@ from backend.States.IOSchema import UserSignUp, UserLogIn, Organisation, Organis
     MeetingIdentifier, Transcription, TranscriptionDetails, MeetingDetails, TodoDetails, TodoInput, TodoEliminate, \
     TodoUpdate, Name, Password
 from backend.Profile.UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
-    setOrganisationActive, eatCookie, bakeCookie, inviteOrAddUser
+    setOrganisationActive, eatCookie, bakeCookie, inviteOrAddUser, deleteUserByID, updateUsername, updatePassword
 from backend.Organisation.Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, \
     getAllMeetings, \
-    getTeams, addUser, createTeam
+    getTeams, addUser, createTeam, deleteOrganisation
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.Meeting.Meetings import storeMeeting, updateMeetingTranscription, getMeetingSummary, \
@@ -306,10 +306,10 @@ async def deleteMeet(meeting: MeetingIdentifier, credentials: Annotated[str, Coo
 @app.post('/update-name')
 async def updateName(name: Name, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    updateUserame(id, name)
+    updateUsername(id, name.name)
 
 
 @app.post('/update-password')
 async def updateName(password: Password, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    updatePassword(id, password)
+    updatePassword(id, password.password)
