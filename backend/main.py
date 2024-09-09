@@ -8,17 +8,17 @@ from backend.States.IOSchema import UserSignUp, UserLogIn, Organisation, Organis
     OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput, AddUserInput, \
     MeetingIdentifier, Transcription, TranscriptionDetails, MeetingDetails, TodoDetails, TodoInput, TodoEliminate, \
     TodoUpdate
-from UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
+from backend.Profile.UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
     setOrganisationActive, eatCookie, bakeCookie, inviteOrAddUser
 from backend.Organisation.Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, getAllMeetings, \
     getTeams, addUser, createTeam
 from fastapi.middleware.cors import CORSMiddleware
 
-from Meetings import storeMeeting, updateMeetingTranscription, getMeetingSummary, getMeetingTranscription, \
+from backend.Meeting.Meetings import storeMeeting, updateMeetingTranscription, getMeetingSummary, getMeetingTranscription, \
     getMeetingInfo
 from backend.States.Enums import Roles
 from backend.Organisation.OrganisationHelpers import getRoleByID, getOrganisationByName, getTeamByName, getTRoleByID
-from Todos import updateTodosOrg, addTodosOrg, getMeetTodos, getUserOrgTodos, getAllTodos
+from backend.Meeting.Todos import updateTodosOrg, addTodosOrg, getMeetTodos, getUserOrgTodos, getAllTodos
 from backend.database.database import deleteTodos
 
 app = FastAPI()

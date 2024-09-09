@@ -1,7 +1,4 @@
-import io
-import os
 import time
-from audio_transcription import transcribe
 import Meeting
 
 # file_path = "backend/testFiles/meetingTest2.mp3"
@@ -60,3 +57,5 @@ with open("backend/testFiles/REPORT.txt", "w") as report_file:
 
 
 print("Report written to REPORT.txt")
+
+#TODO: DELETE THIS or make into a test

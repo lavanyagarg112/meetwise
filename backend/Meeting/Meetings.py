@@ -4,9 +4,9 @@ from func_timeout import func_timeout, FunctionTimedOut
 from mutagen.mp3 import MP3
 from backend.States.IOSchema import MeetingInput, TranscriptionDetails, MeetingDetails
 from backend.Organisation.OrganisationHelpers import getOrganisationByName, getTeamByName, getRoleByID, getTRoleByID
-from audio_transcription import transcribe
-from Meeting import Meeting, Task
-from Todos import replaceTodos
+from backend.Meeting.Processing.audio_transcription import transcribe
+from backend.Meeting.Processing.Meeting import Meeting, Task
+from backend.Meeting.Todos import replaceTodos
 from backend.States.Enums import Roles
 from backend.States.Errors import AuthenticationError
 from backend.database.database import storeMeetingDetailsTeam, storeMeetingDetailsOrg, getSummary, updateMeetingDetails, \

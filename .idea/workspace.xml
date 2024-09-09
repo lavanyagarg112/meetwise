@@ -4,8 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="uh....">
+    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="Refactor backend code into directories">
+      <change afterPath="$PROJECT_DIR$/backend/Meeting/Processing/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/Meeting/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/Organisation/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/Profile/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/States/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/database/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/meetwise.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/meetwise.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Meeting.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meeting/Processing/Meeting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Meetings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meeting/Meetings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Organisation/OrganisationHelpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Organisation/OrganisationHelpers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Organisation/Organisations.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Organisation/Organisations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/States/IOSchema.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/States/IOSchema.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Todos.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meeting/Todos.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/UserAccounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Profile/UserAccounts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meeting/Processing/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/audio_transcription.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meeting/Processing/audio_transcription.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/testFiles/REPORT.txt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meeting/Processing/testFiles/REPORT.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/testFiles/meetingTest1.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meeting/Processing/testFiles/meetingTest1.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/testFiles/transcription.txt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meeting/Processing/testFiles/transcription.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,29 +59,49 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.Todos.executor&quot;: &quot;Run&quot;,
-    &quot;Python.database.executor&quot;: &quot;Run&quot;,
-    &quot;Python.geminisus.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;allorgtodos&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.Enums.executor": "Run",
+    "Python.Errors.executor": "Run",
+    "Python.IOSchema.executor": "Run",
+    "Python.Todos.executor": "Run",
+    "Python.database.executor": "Run",
+    "Python.geminisus.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "Profile-management",
+    "last_opened_file_path": "/Users/nikhilsultania/Documents/temporary code/meetwise/backend/database",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlite&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
     ]
   }
-}</component>
-  <component name="RunManager" selected="Python.database">
-    <configuration name="Todos" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend/database" />
+      <recent name="$PROJECT_DIR$/backend/Meeting/Processing" />
+      <recent name="$PROJECT_DIR$/backend/Meeting" />
+      <recent name="$PROJECT_DIR$/backend/Organisation" />
+      <recent name="$PROJECT_DIR$/backend/Profile" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend/Profile" />
+      <recent name="$PROJECT_DIR$/backend/Meeting/Processing" />
+      <recent name="$PROJECT_DIR$/backend/Meeting" />
+      <recent name="$PROJECT_DIR$/backend/database" />
+      <recent name="$PROJECT_DIR$/backend/States" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.main">
+    <configuration name="Enums" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="meetwise" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -69,12 +110,58 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/backend" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/backend/States" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/backend/Todos.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/backend/States/Enums.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Errors" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="meetwise" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/backend/States" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/backend/States/Errors.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="IOSchema" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="meetwise" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/backend/States" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/backend/States/IOSchema.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -98,29 +185,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/backend/database/database.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="geminisus" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="meetwise" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/backend/dummytest" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/backend/dummytest/geminisus.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -154,10 +218,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.database" />
-        <item itemvalue="Python.Todos" />
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.geminisus" />
+        <item itemvalue="Python.Errors" />
+        <item itemvalue="Python.Enums" />
+        <item itemvalue="Python.IOSchema" />
+        <item itemvalue="Python.database" />
       </list>
     </recent_temporary>
   </component>
@@ -180,14 +245,6 @@
       <workItem from="1720090289331" duration="25735000" />
       <workItem from="1720324744075" duration="2724000" />
       <workItem from="1720335356624" duration="13520000" />
-    </task>
-    <task id="LOCAL-00011" summary="changes">
-      <option name="closed" value="true" />
-      <created>1720160670473</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1720160670473</updated>
     </task>
     <task id="LOCAL-00012" summary="changes">
       <option name="closed" value="true" />
@@ -573,7 +630,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720361869963</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="Refactor backend code into directories">
+      <option name="closed" value="true" />
+      <created>1725869103046</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1725869103046</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -591,7 +656,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add teamwise meetings" />
     <MESSAGE value="fix latest issue" />
     <MESSAGE value="annoying team issue" />
     <MESSAGE value="deal with nulls" />
@@ -616,13 +680,17 @@
     <MESSAGE value="..." />
     <MESSAGE value="Health point" />
     <MESSAGE value="uh...." />
-    <option name="LAST_COMMIT_MESSAGE" value="uh...." />
+    <MESSAGE value="Refactor backend code into directories" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor backend code into directories" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/meetwise$Errors.coverage" NAME="Errors Coverage Results" MODIFIED="1725869644602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/States" />
     <SUITE FILE_PATH="coverage/meetwise$Todos.coverage" NAME="Todos Coverage Results" MODIFIED="1720350370822" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
     <SUITE FILE_PATH="coverage/meetwise$database.coverage" NAME="database Coverage Results" MODIFIED="1720357979627" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
+    <SUITE FILE_PATH="coverage/meetwise$Enums.coverage" NAME="Enums Coverage Results" MODIFIED="1725869641536" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/States" />
     <SUITE FILE_PATH="coverage/meetwise$app.coverage" NAME="app Coverage Results" MODIFIED="1720196634952" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
+    <SUITE FILE_PATH="coverage/meetwise$IOSchema.coverage" NAME="IOSchema Coverage Results" MODIFIED="1725869632255" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/States" />
     <SUITE FILE_PATH="coverage/meetwise$geminisus.coverage" NAME="geminisus Coverage Results" MODIFIED="1720093329472" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/dummytest" />
-    <SUITE FILE_PATH="coverage/meetwise$main.coverage" NAME="main Coverage Results" MODIFIED="1720277948934" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
+    <SUITE FILE_PATH="coverage/meetwise$main.coverage" NAME="main Coverage Results" MODIFIED="1725870828018" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
   </component>
 </project>

@@ -1,9 +1,9 @@
 from typing import List
 
-from Enums import Roles
-from Errors import AuthenticationError
-from IOSchema import Organisation, Meeting, Person, InviteOutput
-from database import mapOrgNameToID, mapOrgIDToName, mapTeamNameToId, getUserOrgs, getBulkUsersByIds, \
+from backend.States.Enums import Roles
+from backend.States.Errors import AuthenticationError
+from backend.States.IOSchema import Organisation, Meeting, Person, InviteOutput
+from backend.database.database import mapOrgNameToID, mapOrgIDToName, mapTeamNameToId, getUserOrgs, getBulkUsersByIds, \
     getOrgRoleByID, getTeamRoleByID, getAll, \
     getUserDetailsByEmail, getInvites, getInvitesByUser, addUserToOrg, getStatusOrg, getStatusTeam
 

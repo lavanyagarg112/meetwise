@@ -10,7 +10,7 @@ from groq import Groq
 
 
 
-load_dotenv('.env')
+load_dotenv('../../.env')
 client = Groq(
     api_key='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' #os.environ["groq_ai_key"]
 )
