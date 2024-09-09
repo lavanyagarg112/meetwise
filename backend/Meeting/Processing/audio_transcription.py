@@ -5,7 +5,7 @@ import time
 from dotenv import load_dotenv
 from fastapi import HTTPException
 
-load_dotenv('.env')
+load_dotenv('../../.env')
 def upload_to_assemblyai(file_obj, headers):
     upload_url = "https://api.assemblyai.com/v2/upload"
     response = requests.post(upload_url, headers=headers, files={"file": ("audio.mp3", file_obj, "audio/mpeg")})

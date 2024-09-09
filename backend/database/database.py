@@ -1,14 +1,11 @@
 import os
-import profile
 from contextlib import closing
-from datetime import datetime
 from typing import List, Tuple
 
 import libsql_experimental as libsql
 from dotenv import load_dotenv
 
-from Enums import Roles
-from Meeting import Task
+from backend.States.Enums import Roles
 
 conn = None
 
@@ -21,7 +18,7 @@ def initialise():
     global conn
     if conn is not None:
         return
-    load_dotenv('.env')
+    load_dotenv('../.env')
     url = os.environ["TURSO_DATABASE_URL"]
     auth_token = os.environ["TURSO_AUTH_TOKEN"]
     conn = libsql.connect("meetwise.db", sync_url=url, auth_token=auth_token)
@@ -175,6 +172,7 @@ def createNewUser(username: str, email: str, hashed_password: str, firstName: st
         VALUES (?,?,?,?,?)''', (username, email, hashed_password, firstName, lastName))
         conn.commit()
         conn.sync()
+    return cursor.lastrowid()
 
 
 def checkUserUserName(name: str):

@@ -2,15 +2,14 @@ from typing import List
 
 from fastapi import HTTPException
 
-from Enums import Roles
-from IOSchema import Organisation, OrganisationReport, OrganisationPersonalReport, Person, Team, TeamPersonalReport, \
+from backend.States.Enums import Roles
+from backend.States.IOSchema import Organisation, OrganisationReport, OrganisationPersonalReport, Person, Team, TeamPersonalReport, \
     TeamReport, OrgTeam, Meeting, InviteOutput, MeetingInput
-from OrganisationHelpers import getOrganisationsByID, getOrganisationByName, getOrganisationByID, getTeamByName, \
+from backend.Organisation.OrganisationHelpers import getOrganisationsByID, getOrganisationByName, getOrganisationByID, getTeamByName, \
     meetify, getRoleByID, getTRoleByID, getAllUsers, getPendingInvites, getStatus, getTeamStatus
-from UserAccounts import getUserByID
-from audio_transcription import transcribe
-from Errors import AuthenticationError
-from database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, getMeetingsByOrg, \
+from backend.Profile.UserAccounts import getUserByID
+from backend.States.Errors import AuthenticationError
+from backend.database.database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, getMeetingsByOrg, \
     makeTeam, teamExists, addUserToTeam, existsOrganisation, makeOrganisation, getOwner, addUserToOrg, \
     getTeamsByOrgStatus, setActiveOrganisation
 

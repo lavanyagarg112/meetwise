@@ -6,13 +6,15 @@ import jwt
 from fastapi import Cookie, HTTPException, Response
 from jwt import ExpiredSignatureError
 from dotenv import load_dotenv
-from IOSchema import Person, UserSignUp, UserLogIn, UserInfo, Organisation, InviteOutput
+from backend.States.IOSchema import Person, UserSignUp, UserLogIn, UserInfo, Organisation, InviteOutput
 import os
 
-from Errors import CreateUserError, AuthError, AuthenticationError
-from OrganisationHelpers import getOrganisationByID, getOrganisationByName, getOrgs, forceJoin, getRoleByID
-from Enums import Roles
-from database import initialise, setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, getUserDetailsByID, \
+from backend.States.Errors import CreateUserError, AuthError, AuthenticationError
+from backend.Organisation.OrganisationHelpers import getOrganisationByID, getOrganisationByName, getOrgs, forceJoin, \
+    getRoleByID
+from backend.States.Enums import Roles
+from backend.database.database import setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, \
+    getUserDetailsByID, \
     checkUserEmail, createNewUser, checkUserUsername, checkUserOrg, addUserToOrg, addToPending
 
 load_dotenv('.env')
@@ -35,7 +37,7 @@ def getUserDetails(user: UserLogIn) -> [Person, AuthError, str | None]:
     return user, None, getOrganisationByID(details[6])
 
 
-def getUserByID(user: int) -> UserInfo|None:
+def getUserByID(user: int) -> UserInfo | None:
     details = getUserDetailsByID(user)
     if not details:
         return None
@@ -44,16 +46,17 @@ def getUserByID(user: int) -> UserInfo|None:
         activeOrganisation=getOrganisationByID(details[4]))
 
 
-def createUser(user: UserSignUp) -> [UserLogIn, CreateUserError]:
+def createUser(user: UserSignUp) -> [Person, CreateUserError]:
     if checkUserEmail(user.email) is not None:
         return None, CreateUserError.EMAIL_ALREADY_EXISTS
     if checkUserUsername(user.username) is not None:
         return None, CreateUserError.USER_ALREADY_EXISTS
     encode = user.password.encode('utf-8')
     hashed_password = bcrypt.hashpw(encode, bcrypt.gensalt()).decode('utf-8')
-    createNewUser(user.username, user.email, hashed_password, user.firstName, user.lastName)
+    id = createNewUser(user.username, user.email, hashed_password, user.firstName, user.lastName)
     forceJoin(user.email)
-    return UserLogIn(email=user.email, password=user.password), None
+    return Person(id=id, email=user.email, username=user.username, lastName=user.lastName,
+                  firstName=user.firstName), None
 
 
 def getOrganisationsByID(userId: int) -> List[Organisation]:
@@ -64,9 +67,9 @@ def setOrganisationActive(userId: int, name: str):
     setActiveOrganisation(userId, getOrganisationByName(name))
 
 
-def inviteOrAddUser(userId,email, role, organisation) -> InviteOutput:
+def inviteOrAddUser(userId, email, role, organisation) -> InviteOutput:
     organisation = getOrganisationByName(organisation)
-    if getRoleByID(organisation,userId) == Roles.USER.value:
+    if getRoleByID(organisation, userId) == Roles.USER.value:
         AuthenticationError("Only admins can invite users.")
     if checkUserEmail(email):
         userId = getUserDetailsByEmail(email)[0]

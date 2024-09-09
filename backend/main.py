@@ -4,22 +4,24 @@ from datetime import datetime
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Response, Cookie, UploadFile, Form
 from typing import Annotated, Literal, List
-from IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
+from backend.States.IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
     OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput, AddUserInput, \
     MeetingIdentifier, Transcription, TranscriptionDetails, MeetingDetails, TodoDetails, TodoInput, TodoEliminate, \
-    TodoUpdate
-from UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
+    TodoUpdate, Name, Password
+from backend.Profile.UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
     setOrganisationActive, eatCookie, bakeCookie, inviteOrAddUser
-from Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, getAllMeetings, \
+from backend.Organisation.Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, \
+    getAllMeetings, \
     getTeams, addUser, createTeam
 from fastapi.middleware.cors import CORSMiddleware
 
-from Meetings import storeMeeting, updateMeetingTranscription, getMeetingSummary, getMeetingTranscription, \
+from backend.Meeting.Meetings import storeMeeting, updateMeetingTranscription, getMeetingSummary, \
+    getMeetingTranscription, \
     getMeetingInfo
-from Enums import Roles
-from OrganisationHelpers import getRoleByID, getOrganisationByName, getTeamByName, getTRoleByID
-from Todos import updateTodosOrg, addTodosOrg, getMeetTodos, getUserOrgTodos, getAllTodos
-from database import deleteTodos, getUserTodosOrg, getUserOrgs
+from backend.States.Enums import Roles
+from backend.Organisation.OrganisationHelpers import getRoleByID, getOrganisationByName, getTeamByName, getTRoleByID
+from backend.Meeting.Todos import updateTodosOrg, addTodosOrg, getMeetTodos, getUserOrgTodos, getAllTodos
+from backend.database.database import deleteTodos
 
 app = FastAPI()
 
@@ -38,14 +40,13 @@ app.add_middleware(
 @app.post("/sign-up")
 async def signup(user: UserSignUp, response: Response):
     try:
-        userCred, error = createUser(user)
+        userDetails, error = createUser(user)
         # The calls are separated to ensure data is actually written to DB successfully,
         #  after DB testing can merge them into 1 like current implementation
     except:
         raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
     if error is not None:
         raise HTTPException(status_code=400, detail=error.value)
-    userDetails, error, activeOrg = getUserDetails(userCred)
     bakeCookie(userDetails.id, response)
     return {"user": userDetails}
 
@@ -182,7 +183,7 @@ async def getUserRole(orgteam: OrgTeam, credentials: Annotated[str, Cookie()] = 
 async def addTeamUser(input: AddUserInput,
                       credentials: Annotated[str, Cookie()] = None) -> Person:
     id = eatCookie(credentials)
-    user: Person = addUser(id,input.organisation, input.userId, input.role, input.teamName)
+    user: Person = addUser(id, input.organisation, input.userId, input.role, input.teamName)
     return user
 
 
@@ -282,3 +283,33 @@ async def getUserTodos(credentials: Annotated[str, Cookie()] = None) -> List[Tod
 @app.head('/health')
 async def health():
     pass
+
+
+@app.delete('/delete-user')
+async def deleteUser(credentials: Annotated[str, Cookie()] = None):
+    id = eatCookie(credentials)
+    deleteUserByID(id)
+
+
+@app.delete('/delete-org')
+async def deleteOrg(organisation: OrganisationName, credentials: Annotated[str, Cookie()] = None):
+    owner = eatCookie(credentials)
+    deleteOrganisation(organisation.name, owner)
+
+
+@app.delete('/delete-meet')
+async def deleteMeet(meeting: MeetingIdentifier, credentials: Annotated[str, Cookie()] = None):
+    id = eatCookie(credentials)
+    deleteMeeting(meeting, id)
+
+
+@app.post('/update-name')
+async def updateName(name: Name, credentials: Annotated[str, Cookie()] = None):
+    id = eatCookie(credentials)
+    updateUserame(id, name)
+
+
+@app.post('/update-password')
+async def updateName(password: Password, credentials: Annotated[str, Cookie()] = None):
+    id = eatCookie(credentials)
+    updatePassword(id, password)
