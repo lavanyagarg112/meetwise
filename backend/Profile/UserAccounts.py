@@ -16,7 +16,7 @@ from backend.States.Enums import Roles
 from backend.database.database import setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, \
     getUserDetailsByID, \
     checkUserEmail, createNewUser, checkUserUsername, checkUserOrg, addUserToOrg, addToPending, updateUserName, \
-    updatePassWord
+    updatePassWord, deleteUser
 
 
 def getUserDetails(user: UserLogIn) -> [Person, AuthError, str | None]:
@@ -89,7 +89,7 @@ def inviteOrAddUser(userId, email, role, organisation) -> InviteOutput:
 
 
 def deleteUserByID(userId: int):
-    pass
+    deleteUser(userId)
 
 
 

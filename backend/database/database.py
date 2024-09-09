@@ -839,8 +839,27 @@ def deleteOrganisationByID(org):
                   '''
         cursor.execute(sqlCommand, (org,))
         sqlCommand = f'''
+                  DELETE FROM PendingInvites WHERE ORGANISATION = ?
+                  '''
+        cursor.execute(sqlCommand, (org,))
+        sqlCommand = f'''
                   DELETE FROM Organisations WHERE ID = ?
                   '''
         cursor.execute(sqlCommand, (org,))
+        conn.commit()
+        conn.sync()
+
+
+def deleteUser(userID:int):
+    conn.sync()
+    sqlCommand = f'''
+                  DELETE FROM USERS WHERE ID = ?
+                  '''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (userID,))
+        sqlCommand = f'''
+                  DELETE FROM UserOrg WHERE USER = ?
+                  '''
+        cursor.execute(sqlCommand, (userID,))
         conn.commit()
         conn.sync()
