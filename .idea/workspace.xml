@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="update test files too" />
+    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="Optimise createUser to be more efficient" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -222,14 +222,6 @@
       <workItem from="1720090289331" duration="25735000" />
       <workItem from="1720324744075" duration="2724000" />
       <workItem from="1720335356624" duration="13520000" />
-    </task>
-    <task id="LOCAL-00014" summary="hope it works">
-      <option name="closed" value="true" />
-      <created>1720164481768</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1720164481768</updated>
     </task>
     <task id="LOCAL-00015" summary="👍🏻">
       <option name="closed" value="true" />
@@ -615,7 +607,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725871324173</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="Optimise createUser to be more efficient">
+      <option name="closed" value="true" />
+      <created>1725875715404</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1725875715404</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -633,7 +633,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="deal with nulls" />
     <MESSAGE value="deal with nulls again" />
     <MESSAGE value="libsql is horrible" />
     <MESSAGE value="but i am smart" />
@@ -658,7 +657,8 @@
     <MESSAGE value="Refactor backend code into directories" />
     <MESSAGE value="Refactor backend code into directories, adding init pys cause fastapi kept breaking&#10;might break deployment" />
     <MESSAGE value="update test files too" />
-    <option name="LAST_COMMIT_MESSAGE" value="update test files too" />
+    <MESSAGE value="Optimise createUser to be more efficient" />
+    <option name="LAST_COMMIT_MESSAGE" value="Optimise createUser to be more efficient" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/meetwise$Errors.coverage" NAME="Errors Coverage Results" MODIFIED="1725869644602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/States" />
