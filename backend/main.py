@@ -38,14 +38,13 @@ app.add_middleware(
 @app.post("/sign-up")
 async def signup(user: UserSignUp, response: Response):
     try:
-        userCred, error = createUser(user)
+        userDetails, error = createUser(user)
         # The calls are separated to ensure data is actually written to DB successfully,
         #  after DB testing can merge them into 1 like current implementation
     except:
         raise HTTPException(status_code=500, detail="Internal Server Error while logging in.")
     if error is not None:
         raise HTTPException(status_code=400, detail=error.value)
-    userDetails, error, activeOrg = getUserDetails(userCred)
     bakeCookie(userDetails.id, response)
     return {"user": userDetails}
 

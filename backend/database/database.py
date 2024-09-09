@@ -172,6 +172,7 @@ def createNewUser(username: str, email: str, hashed_password: str, firstName: st
         VALUES (?,?,?,?,?)''', (username, email, hashed_password, firstName, lastName))
         conn.commit()
         conn.sync()
+    return cursor.lastrowid()
 
 
 def checkUserUserName(name: str):

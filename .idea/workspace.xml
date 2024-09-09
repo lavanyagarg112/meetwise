@@ -4,30 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="Refactor backend code into directories">
-      <change afterPath="$PROJECT_DIR$/backend/Meeting/Processing/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/Meeting/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/Organisation/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/Profile/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/States/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/database/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/meetwise.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/meetwise.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Meeting.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meeting/Processing/Meeting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Meetings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meeting/Meetings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Organisation/OrganisationHelpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Organisation/OrganisationHelpers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Organisation/Organisations.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Organisation/Organisations.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/States/IOSchema.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/States/IOSchema.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Todos.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meeting/Todos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/UserAccounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Profile/UserAccounts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meeting/Processing/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/audio_transcription.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meeting/Processing/audio_transcription.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/testFiles/REPORT.txt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meeting/Processing/testFiles/REPORT.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/testFiles/meetingTest1.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meeting/Processing/testFiles/meetingTest1.mp3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/testFiles/transcription.txt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Meeting/Processing/testFiles/transcription.txt" afterDir="false" />
-    </list>
+    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="update test files too" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -245,22 +222,6 @@
       <workItem from="1720090289331" duration="25735000" />
       <workItem from="1720324744075" duration="2724000" />
       <workItem from="1720335356624" duration="13520000" />
-    </task>
-    <task id="LOCAL-00012" summary="changes">
-      <option name="closed" value="true" />
-      <created>1720163245368</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1720163245368</updated>
-    </task>
-    <task id="LOCAL-00013" summary="hope it works">
-      <option name="closed" value="true" />
-      <created>1720164012312</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1720164012312</updated>
     </task>
     <task id="LOCAL-00014" summary="hope it works">
       <option name="closed" value="true" />
@@ -638,7 +599,23 @@
       <option name="project" value="LOCAL" />
       <updated>1725869103046</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="Refactor backend code into directories, adding init pys cause fastapi kept breaking&#10;might break deployment">
+      <option name="closed" value="true" />
+      <created>1725871277840</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1725871277840</updated>
+    </task>
+    <task id="LOCAL-00062" summary="update test files too">
+      <option name="closed" value="true" />
+      <created>1725871324173</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1725871324173</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -656,8 +633,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix latest issue" />
-    <MESSAGE value="annoying team issue" />
     <MESSAGE value="deal with nulls" />
     <MESSAGE value="deal with nulls again" />
     <MESSAGE value="libsql is horrible" />
@@ -681,7 +656,9 @@
     <MESSAGE value="Health point" />
     <MESSAGE value="uh...." />
     <MESSAGE value="Refactor backend code into directories" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor backend code into directories" />
+    <MESSAGE value="Refactor backend code into directories, adding init pys cause fastapi kept breaking&#10;might break deployment" />
+    <MESSAGE value="update test files too" />
+    <option name="LAST_COMMIT_MESSAGE" value="update test files too" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/meetwise$Errors.coverage" NAME="Errors Coverage Results" MODIFIED="1725869644602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/States" />
@@ -691,6 +668,6 @@
     <SUITE FILE_PATH="coverage/meetwise$app.coverage" NAME="app Coverage Results" MODIFIED="1720196634952" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
     <SUITE FILE_PATH="coverage/meetwise$IOSchema.coverage" NAME="IOSchema Coverage Results" MODIFIED="1725869632255" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/States" />
     <SUITE FILE_PATH="coverage/meetwise$geminisus.coverage" NAME="geminisus Coverage Results" MODIFIED="1720093329472" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/dummytest" />
-    <SUITE FILE_PATH="coverage/meetwise$main.coverage" NAME="main Coverage Results" MODIFIED="1725870828018" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
+    <SUITE FILE_PATH="coverage/meetwise$main.coverage" NAME="main Coverage Results" MODIFIED="1725871179992" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
   </component>
 </project>
