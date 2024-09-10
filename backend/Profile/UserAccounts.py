@@ -89,6 +89,17 @@ def inviteOrAddUser(userId, email, role, organisation) -> InviteOutput:
 
 
 def deleteUserByID(userId: int):
+    """
+    if owner throw exception
+    else delete his trace
+
+    Delete him from all his organisations
+
+    Delete him from Users table
+
+    :param userId:
+    :return:
+    """
     deleteUser(userId)
 
 

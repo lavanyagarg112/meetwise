@@ -850,16 +850,33 @@ def deleteOrganisationByID(org):
         conn.sync()
 
 
-def deleteUser(userID:int):
+def deleteUser(userID: int):
     conn.sync()
-    sqlCommand = f'''
+    with closing(conn.cursor()) as cursor:
+        sqlCommand = f'''
                   DELETE FROM USERS WHERE ID = ?
                   '''
-    with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (userID,))
-        sqlCommand = f'''
-                  DELETE FROM UserOrg WHERE USER = ?
-                  '''
+        conn.commit()
+        conn.sync()
+
+
+def removeUser(userID: int, org: int):
+    """
+
+    Remove from Org{org}Perm
+    Remove from Org{org}Emp (if only guy in team delete the team)
+    Remove from OW{org}EMP
+    Delink TODOS
+    Remove from O{org}MAtt
+    Remove from UserOrg
+
+    :param userID: user to remove from organisation
+    :param org: Organisation ID to remove user from
+    """
+    conn.sync()
+    with closing(conn.cursor()) as cursor:
+        sqlCommand = f''''''
         cursor.execute(sqlCommand, (userID,))
         conn.commit()
         conn.sync()
