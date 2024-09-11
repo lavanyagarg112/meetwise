@@ -880,3 +880,16 @@ def removeUser(userID: int, org: int):
         cursor.execute(sqlCommand, (userID,))
         conn.commit()
         conn.sync()
+
+
+def inOrg(userId:int, orgId:int):
+    conn.sync()
+    with closing(conn.cursor()) as cursor:
+        sqlCommand = f'''
+        SELECT 1
+        FROM UserOrg 
+        WHERE ID = ? AND ORGANISATION = ?
+        LIMIT 1
+        '''
+        cursor.execute(sqlCommand, (userId, orgId))
+        return cursor.fetchone()

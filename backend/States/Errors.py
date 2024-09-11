@@ -18,10 +18,26 @@ class AuthorityError(enum.Enum):
     ADMIN_ONLY = "Only admins can perform this action"
     OWNER_ONLY = "Only owners can perform this action"
 
+
 '''
 wrapper for throwing HTTP exceptions with status code 401
 '''
 
+"""
+Maybe move methods outside of State package to error handler
+"""
+
 
 def AuthenticationError(detail: str):
     raise HTTPException(status_code=401, detail=detail)
+
+
+def handleError(errorType: enum.Enum, detail: str):
+    """
+    //TODO: handle errors better
+    Deal with errors
+    :param detail:
+    :param errorType:
+    :return:
+    """
+    raise HTTPException(status_code=400, detail=errorType.value + " " + detail)

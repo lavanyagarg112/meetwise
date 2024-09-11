@@ -139,7 +139,7 @@ def createTeam(userId: int, orgteam: OrgTeam):
 def removeUserOrg(userId: int, org: str, remover: int):
     """
     Removes user from the organisation
-    if userId = remover, user just quits the organisation
+    if user is  remover, user just quits the organisation
     :param userId: user to be removed
     :param org: organisation to remove user from
     :param remover: admin removing user
@@ -148,3 +148,6 @@ def removeUserOrg(userId: int, org: str, remover: int):
         #TODO: do proper logging
         print(f"User {userId} has left the organisation {org}")
     pass
+
+    if remover is not removing self and is not admin, raise error
+    if user is not in org , raise error
