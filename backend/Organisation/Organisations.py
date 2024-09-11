@@ -8,7 +8,7 @@ from backend.States.IOSchema import Organisation, OrganisationReport, Organisati
     TeamReport, OrgTeam, Meeting, InviteOutput, MeetingInput
 from backend.Organisation.OrganisationHelpers import getOrganisationsByID, getOrganisationByName, getOrganisationByID, \
     getTeamByName, \
-    meetify, getRoleByID, getTRoleByID, getAllUsers, getPendingInvites, getStatus, getTeamStatus
+    meetify, getRoleByID, getTRoleByID, getAllUsers, getPendingInvites, getStatus, getTeamStatus, isUserInOrg
 from backend.Profile.UserAccounts import getUserByID
 from backend.States.Errors import AuthenticationError
 from backend.database.database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, \
@@ -83,7 +83,7 @@ def getMeetings(userId: int, orgTeam: OrgTeam):
 
 def getAllMeetings(userId: int, orgName: str) -> [Meeting]:
     orgName = getOrganisationByName(orgName)
-    if not getRoleByID(orgName, userId):
+    if not isUserInOrg(userId,orgName):
         AuthenticationError("You can only see your own organisation's meetings")
     meetings = getMeetingsByOrg(orgName)
     return meetify(meetings)
@@ -101,7 +101,7 @@ def getTeamsById(id: int, UserId: int, status: Roles | None = None):
 
 def getTeams(name: str, Userid: int, status: Roles | None = None):
     id = getOrganisationByName(name)
-    if not getRoleByID(id, Userid):
+    if not isUserInOrg(Userid,id):
         AuthenticationError("You can only see your own organisation's teams")
     return getTeamsById(id, Userid, status)
 
