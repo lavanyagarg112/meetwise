@@ -14,7 +14,7 @@ from backend.States.Errors import AuthenticationError
 from backend.database.database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, \
     getMeetingsByOrg, \
     makeTeam, teamExists, addUserToTeam, existsOrganisation, makeOrganisation, getOwner, addUserToOrg, \
-    getTeamsByOrgStatus, setActiveOrganisation, deleteOrganisationByID
+    getTeamsByOrgStatus, setActiveOrganisation, deleteOrganisationByID, removeUser
 
 
 def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:
@@ -83,7 +83,7 @@ def getMeetings(userId: int, orgTeam: OrgTeam):
 
 def getAllMeetings(userId: int, orgName: str) -> [Meeting]:
     orgName = getOrganisationByName(orgName)
-    if not isUserInOrg(userId,orgName):
+    if not isUserInOrg(userId, orgName):
         AuthenticationError("You can only see your own organisation's meetings")
     meetings = getMeetingsByOrg(orgName)
     return meetify(meetings)
@@ -101,7 +101,7 @@ def getTeamsById(id: int, UserId: int, status: Roles | None = None):
 
 def getTeams(name: str, Userid: int, status: Roles | None = None):
     id = getOrganisationByName(name)
-    if not isUserInOrg(Userid,id):
+    if not isUserInOrg(Userid, id):
         AuthenticationError("You can only see your own organisation's teams")
     return getTeamsById(id, Userid, status)
 
@@ -144,17 +144,21 @@ def removeUserOrg(userId: int, org: str, remover: int):
     :param org: organisation to remove user from
     :param remover: admin removing user
     """
-    org = getOrganisationByName(org)
+    org:int = getOrganisationByName(org)
     if not org:
         raise HTTPException(status_code=404, detail="Organisation not found")
 
+    role = (getRoleByID(org, remover))
+    if role is None:
+        raise HTTPException(status_code=404, detail=f"User {remover} not in organisation")
+    if remover != userId and role == Roles.USER:
+        raise HTTPException(status_code=403, detail="User is not authorised to remove user")
     if not isUserInOrg(userId, org):
-        raise HTTPException(status_code=404, detail="User not in organisation")
-    if remover != userId and is not admin, raise error
+        raise HTTPException(status_code=404, detail=f"User {userId} not in organisation")
+
     if userId == remover:
         #TODO: do proper logging
         print(f"User {userId} has left the organisation {org}")
-    pass
-
-
-    if user is not in org , raise error
+    else:
+        print(f"User {userId} has been removed from the organisation {org} by User {remover}")
+    removeUser(userId, org)

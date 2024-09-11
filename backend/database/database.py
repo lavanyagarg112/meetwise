@@ -893,3 +893,16 @@ def inOrg(userId:int, orgId:int):
         '''
         cursor.execute(sqlCommand, (userId, orgId))
         return cursor.fetchone()
+
+
+def isOwner(userId:int):
+    conn.sync()
+    with closing(conn.cursor()) as cursor:
+        sqlCommand = f'''
+        SELECT 1
+        FROM Organisations
+        WHERE Owner = ?
+        LIMIT 1
+        '''
+        cursor.execute(sqlCommand, (userId,))
+        return cursor.fetchone()

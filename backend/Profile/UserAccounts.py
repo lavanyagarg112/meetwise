@@ -16,7 +16,7 @@ from backend.States.Enums import Roles
 from backend.database.database import setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, \
     getUserDetailsByID, \
     checkUserEmail, createNewUser, checkUserUsername, checkUserOrg, addUserToOrg, addToPending, updateUserName, \
-    updatePassWord, deleteUser
+    updatePassWord, deleteUser, isOwner, removeUser
 
 
 def getUserDetails(user: UserLogIn) -> [Person, AuthError, str | None]:
@@ -100,6 +100,12 @@ def deleteUserByID(userId: int):
     :param userId:
     :return:
     """
+    if isOwner(userId):
+        raise HTTPException(status_code=400, detail="Owner cannot be deleted")
+    orgs = getOrganisationsByID(userId)
+    if orgs:
+        for org in orgs:
+            removeUser(userId, org.id)
     deleteUser(userId)
 
 
