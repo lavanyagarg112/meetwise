@@ -11,7 +11,7 @@ from backend.States.IOSchema import Person, UserSignUp, UserLogIn, UserInfo, Org
 
 from backend.States.Errors import CreateUserError, AuthError, AuthenticationError
 from backend.Organisation.OrganisationHelpers import getOrganisationByID, getOrganisationByName, getOrgs, forceJoin, \
-    getRoleByID
+    getRoleByID, removeUserUnchecked
 from backend.States.Enums import Roles
 from backend.database.database import setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, \
     getUserDetailsByID, \
@@ -105,7 +105,7 @@ def deleteUserByID(userId: int):
     orgs = getOrganisationsByID(userId)
     if orgs:
         for org in orgs:
-            removeUser(userId, org.id)
+            removeUserUnchecked(userId, org.id)
     deleteUser(userId)
 
 

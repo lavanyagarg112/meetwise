@@ -5,7 +5,7 @@ from backend.States.Errors import AuthenticationError
 from backend.States.IOSchema import Organisation, Meeting, Person, InviteOutput
 from backend.database.database import mapOrgNameToID, mapOrgIDToName, mapTeamNameToId, getUserOrgs, getBulkUsersByIds, \
     getOrgRoleByID, getTeamRoleByID, getAll, \
-    getUserDetailsByEmail, getInvites, getInvitesByUser, addUserToOrg, getStatusOrg, getStatusTeam, inOrg
+    getUserDetailsByEmail, getInvites, getInvitesByUser, addUserToOrg, getStatusOrg, getStatusTeam, inOrg, removeUser
 
 
 def getOrganisationsByID(orgIds: [int] = None) -> [Organisation]:
@@ -138,3 +138,4 @@ def forceJoin(email: str):
 
 def isUserInOrg(userId: int, orgId: int) -> bool:
     return inOrg(userId, orgId) is not None
+

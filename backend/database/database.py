@@ -864,11 +864,11 @@ def deleteUser(userID: int):
 def removeUser(userID: int, org: int):
     """
 
-    Remove from Org{org}Perm
-    Remove from Org{org}Emp (if only guy in team delete the team)
-    Remove from OW{org}EMP
     Delink TODOS
     Remove from O{org}MAtt
+    Remove from Org{org}Perm
+    Remove from OW{org}EMP
+    Remove from Org{org}Emp (if only guy in team delete the team)
     Remove from UserOrg
 
     :param userID: user to remove from organisation
@@ -876,13 +876,46 @@ def removeUser(userID: int, org: int):
     """
     conn.sync()
     with closing(conn.cursor()) as cursor:
-        sqlCommand = f''''''
+        sqlCommand = f'''
+        UPDATE Org{org}Todo SET ASSIGNEE = NULL WHERE ASSIGNEE = ?
+        '''
         cursor.execute(sqlCommand, (userID,))
+
+        sqlCommand = f'''
+        UPDATE Org{org}Todo SET ASSIGNER = NULL WHERE ASSIGNER = ?
+        '''
+        cursor.execute(sqlCommand, (userID,))
+
+        sqlCommand = f'''
+        DELETE FROM O{org}MAtt WHERE ATTENDEES = ?
+        '''
+        cursor.execute(sqlCommand, (userID,))
+
+        sqlCommand = f'''
+        DELETE FROM Org{org}Perm WHERE ID = ?
+        '''
+        cursor.execute(sqlCommand, (userID,))
+
+        sqlCommand = f'''
+        DELETE FROM OW{org}EMP WHERE ID = ?
+        '''
+        cursor.execute(sqlCommand, (userID,))
+
+        sqlCommand = f'''
+        DELETE FROM Org{org}Emp WHERE ID = ?
+        '''
+        cursor.execute(sqlCommand, (userID,))
+
+        sqlCommand = f'''
+        DELETE FROM UserOrg WHERE ID = ? AND ORGANISATION = ?
+        '''
+        cursor.execute(sqlCommand, (userID, org))
+
         conn.commit()
         conn.sync()
 
 
-def inOrg(userId:int, orgId:int):
+def inOrg(userId: int, orgId: int):
     conn.sync()
     with closing(conn.cursor()) as cursor:
         sqlCommand = f'''
@@ -895,7 +928,7 @@ def inOrg(userId:int, orgId:int):
         return cursor.fetchone()
 
 
-def isOwner(userId:int):
+def isOwner(userId: int):
     conn.sync()
     with closing(conn.cursor()) as cursor:
         sqlCommand = f'''
@@ -906,3 +939,40 @@ def isOwner(userId:int):
         '''
         cursor.execute(sqlCommand, (userId,))
         return cursor.fetchone()
+
+
+def removeTeamUser(userId: int, org: int, team: int):
+    """
+    Removes user from the team
+
+    Deletes team if current user is only member
+    :param userId:
+    :param org:
+    :param team:
+    :return:
+    """
+    conn.sync()
+    with closing(conn.cursor()) as cursor:
+        sqlCommand = f'''
+        UPDATE Org{org}Emp 
+        SET TEAM = NULL 
+        WHERE ID = ? AND TEAM = ?
+        '''
+        cursor.execute(sqlCommand, (userId, team))
+
+        sqlCommand = f'''
+        SELECT 1 
+        FROM Org{org}Emp 
+        WHERE TEAM = ?
+        LIMIT 1
+        '''
+        cursor.execute(sqlCommand, (team,))
+        ans = cursor.fetchone()
+        if not ans:
+            sqlCommand = f'''
+            DELETE FROM Org{org}Team 
+            WHERE ID = ?
+            '''
+            cursor.execute(sqlCommand, (team,))
+        conn.commit()
+        conn.sync()

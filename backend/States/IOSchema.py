@@ -171,4 +171,8 @@ class TodoEliminate(BaseModel):
 
 
 class OrgUser(OrganisationName):
-    id: int # user ID
+    id: int  # user ID
+
+
+class TeamUser(OrgTeam):
+    id: int  # user ID

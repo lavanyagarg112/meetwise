@@ -14,7 +14,7 @@ from backend.States.Errors import AuthenticationError
 from backend.database.database import mapOrgIDToName, mapOrgNameToID, getUserOrgs, getTeamsByOrg, getMeetingsByTeam, \
     getMeetingsByOrg, \
     makeTeam, teamExists, addUserToTeam, existsOrganisation, makeOrganisation, getOwner, addUserToOrg, \
-    getTeamsByOrgStatus, setActiveOrganisation, deleteOrganisationByID, removeUser
+    getTeamsByOrgStatus, setActiveOrganisation, deleteOrganisationByID, removeUser, removeTeamUser
 
 
 def createOrganisation(OrganisationName: str, OwnerID: int) -> Organisation:
@@ -136,6 +136,20 @@ def createTeam(userId: int, orgteam: OrgTeam):
     return id
 
 
+def removeUserUnchecked(userId, org):
+    """
+    Private method,
+    only to be called internally,
+    does not do error checking
+    :param userId:
+    :param org:
+    """
+    teams = getTeamsById(org, userId)
+    for team in teams:
+        removeTeamUser(userId, org, team.id)
+    removeUser(userId, org)
+
+
 def removeUserOrg(userId: int, org: str, remover: int):
     """
     Removes user from the organisation
@@ -144,7 +158,7 @@ def removeUserOrg(userId: int, org: str, remover: int):
     :param org: organisation to remove user from
     :param remover: admin removing user
     """
-    org:int = getOrganisationByName(org)
+    org: int = getOrganisationByName(org)
     if not org:
         raise HTTPException(status_code=404, detail="Organisation not found")
 
@@ -161,4 +175,36 @@ def removeUserOrg(userId: int, org: str, remover: int):
         print(f"User {userId} has left the organisation {org}")
     else:
         print(f"User {userId} has been removed from the organisation {org} by User {remover}")
-    removeUser(userId, org)
+    removeUserUnchecked(userId, org)
+
+
+def removeUserTeam(userId: int, orgteam: OrgTeam, remover: int):
+    """
+    Removes user from the organisation
+    if user is  remover, user just quits the organisation
+    :param orgteam: pair of team and its org to remove user from
+    :param userId: user to be removed
+    :param remover: admin removing user
+    """
+    org: int = getOrganisationByName(orgteam.organisation)
+    if not org:
+        raise HTTPException(status_code=404, detail="Organisation not found")
+
+    role = (getRoleByID(org, remover))
+    if role is None:
+        raise HTTPException(status_code=404, detail=f"User {remover} not in organisation")
+    if remover != userId and role == Roles.USER:
+        raise HTTPException(status_code=403, detail="User is not authorised to remove user")
+    if not isUserInOrg(userId, org):
+        raise HTTPException(status_code=404, detail=f"User {userId} not in organisation")
+
+    team: int = getTeamByName(org, orgteam.name)
+    if not team:
+        raise HTTPException(status_code=404, detail="Team not found")
+    #TODO:check for team membership
+    if userId == remover:
+        #TODO: do proper logging
+        print(f"User {userId} has left the team {orgteam.name} in organisation {org}")
+    else:
+        print(f"User {userId} has been removed from the team {orgteam.name} in organisation {org} by User {remover}")
+    removeTeamUser(userId, org, team)

@@ -13,7 +13,7 @@ from backend.Meeting.Todos import updateTodosOrg, addTodosOrg, getMeetTodos, get
 from backend.Organisation.OrganisationHelpers import getRoleByID, getOrganisationByName, getTeamByName, getTRoleByID
 from backend.Organisation.Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, \
     getAllMeetings, \
-    getTeams, addUser, createTeam, deleteOrganisation, removeUserOrg
+    getTeams, addUser, createTeam, deleteOrganisation, removeUserOrg, removeUserTeam
 from backend.Profile.Authentication import eatCookie, bakeCookie
 from backend.Profile.UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
     setOrganisationActive, inviteOrAddUser, deleteUserByID, updateUsername, updatePassword
@@ -21,7 +21,7 @@ from backend.States.Enums import Roles
 from backend.States.IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
     OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput, AddUserInput, \
     MeetingIdentifier, Transcription, TranscriptionDetails, MeetingDetails, TodoDetails, TodoInput, TodoEliminate, \
-    TodoUpdate, Name, Password, OrgUser
+    TodoUpdate, Name, Password, OrgUser, TeamUser
 from backend.database.database import deleteTodos
 
 app = FastAPI()
@@ -326,3 +326,9 @@ async def updateName(password: Password, credentials: Annotated[str, Cookie()] =
 async def removeUser(user: OrgUser, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
     removeUserOrg(user.id, user.name, id)
+
+
+@app.delete('/remove-user-team')
+async def removeUser(user: TeamUser, credentials: Annotated[str, Cookie()] = None):
+    id = eatCookie(credentials)
+    removeUserTeam(user.id, OrgTeam(name=user.name, organisation=user.organisation), id)
