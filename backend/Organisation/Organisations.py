@@ -134,3 +134,17 @@ def createTeam(userId: int, orgteam: OrgTeam):
     addUserToTeam(org, owner, Roles.ADMIN.value, id, Roles.ADMIN.value)
     addUserToTeam(org, userId, Roles.ADMIN.value, id, Roles.ADMIN.value)
     return id
+
+
+def removeUserOrg(userId: int, org: str, remover: int):
+    """
+    Removes user from the organisation
+    if userId = remover, user just quits the organisation
+    :param userId: user to be removed
+    :param org: organisation to remove user from
+    :param remover: admin removing user
+    """
+    if userId == remover:
+        #TODO: do proper logging
+        print(f"User {userId} has left the organisation {org}")
+    pass

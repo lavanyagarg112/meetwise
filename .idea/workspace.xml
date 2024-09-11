@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="delete org deletes invites now">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Profile/UserAccounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Profile/UserAccounts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/database.py" afterDir="false" />
-    </list>
+    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="Add plan for delete user" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -194,15 +190,7 @@
       <workItem from="1720090289331" duration="25735000" />
       <workItem from="1720324744075" duration="2724000" />
       <workItem from="1720335356624" duration="13520000" />
-      <workItem from="1725949337770" duration="1067000" />
-    </task>
-    <task id="LOCAL-00012" summary="changes">
-      <option name="closed" value="true" />
-      <created>1720163245368</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1720163245368</updated>
+      <workItem from="1725949337770" duration="1211000" />
     </task>
     <task id="LOCAL-00013" summary="hope it works">
       <option name="closed" value="true" />
@@ -588,7 +576,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725900608777</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="Add plan for delete user">
+      <option name="closed" value="true" />
+      <created>1725950491495</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1725950491495</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -606,7 +602,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix latest issue" />
     <MESSAGE value="annoying team issue" />
     <MESSAGE value="deal with nulls" />
     <MESSAGE value="deal with nulls again" />
@@ -631,7 +626,8 @@
     <MESSAGE value="Health point" />
     <MESSAGE value="uh...." />
     <MESSAGE value="delete org deletes invites now" />
-    <option name="LAST_COMMIT_MESSAGE" value="delete org deletes invites now" />
+    <MESSAGE value="Add plan for delete user" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add plan for delete user" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/meetwise$Errors.coverage" NAME="Errors Coverage Results" MODIFIED="1725869644602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/States" />
