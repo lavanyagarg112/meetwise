@@ -19,6 +19,17 @@ class AuthorityError(enum.Enum):
     OWNER_ONLY = "Only owners can perform this action"
 
 
+#TODO: see which not found errors are relevant
+class NotFoundError(enum.Enum):
+    ORGANISATION = "Organisation not found"
+    TEAM = "Team not found"
+    USER = "User not found"
+    MEETING = "Meeting not found"
+    INVITE = "Invite not found"
+    TEAM_ROLE = "Team role not found"
+    ORG_ROLE = "Organisation role not found"
+
+
 '''
 wrapper for throwing HTTP exceptions with status code 401
 '''

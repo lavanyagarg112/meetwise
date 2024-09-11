@@ -144,10 +144,17 @@ def removeUserOrg(userId: int, org: str, remover: int):
     :param org: organisation to remove user from
     :param remover: admin removing user
     """
+    org = getOrganisationByName(org)
+    if not org:
+        raise HTTPException(status_code=404, detail="Organisation not found")
+
+    if not isUserInOrg(userId, org):
+        raise HTTPException(status_code=404, detail="User not in organisation")
+    if remover != userId and is not admin, raise error
     if userId == remover:
         #TODO: do proper logging
         print(f"User {userId} has left the organisation {org}")
     pass
 
-    if remover is not removing self and is not admin, raise error
+
     if user is not in org , raise error
