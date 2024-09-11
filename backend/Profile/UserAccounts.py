@@ -5,13 +5,14 @@ import bcrypt
 
 from fastapi import HTTPException
 
+from backend.Organisation.OrganisationHelpers import removeUserUnchecked
 from backend.Profile.Authentication import encrypt
 from backend.States.IOSchema import Person, UserSignUp, UserLogIn, UserInfo, Organisation, InviteOutput
 
 
 from backend.States.Errors import CreateUserError, AuthError, AuthenticationError
 from backend.Organisation.OrganisationHelpers import getOrganisationByID, getOrganisationByName, getOrgs, forceJoin, \
-    getRoleByID, removeUserUnchecked
+    getRoleByID
 from backend.States.Enums import Roles
 from backend.database.database import setActiveOrganisation, getUserDetailsByName, getUserDetailsByEmail, \
     getUserDetailsByID, \

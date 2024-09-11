@@ -11,9 +11,10 @@ from backend.Meeting.Meetings import storeMeeting, updateMeetingTranscription, g
     getMeetingInfo, deleteMeeting, hardDeleteMeeting
 from backend.Meeting.Todos import updateTodosOrg, addTodosOrg, getMeetTodos, getUserOrgTodos, getAllTodos
 from backend.Organisation.OrganisationHelpers import getRoleByID, getOrganisationByName, getTeamByName, getTRoleByID
-from backend.Organisation.Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, \
+from backend.Organisation.Organisations import createOrganisation, getOrganisationReport, getMeetings, \
     getAllMeetings, \
-    getTeams, addUser, createTeam, deleteOrganisation, removeUserOrg, removeUserTeam
+    addUser, deleteOrganisation, removeUserOrg
+from backend.Organisation.Team import getTeamReport, getTeams, removeUserTeam
 from backend.Profile.Authentication import eatCookie, bakeCookie
 from backend.Profile.UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
     setOrganisationActive, inviteOrAddUser, deleteUserByID, updateUsername, updatePassword
