@@ -13,6 +13,11 @@ class CreateUserError(enum.Enum):
     EMAIL_ALREADY_EXISTS = "Email already exists"
 
 
+class AuthorityError(enum.Enum):
+    NOT_AUTHORISED = "User is not authorised to perform this action"
+    ADMIN_ONLY = "Only admins can perform this action"
+    OWNER_ONLY = "Only owners can perform this action"
+
 '''
 wrapper for throwing HTTP exceptions with status code 401
 '''
