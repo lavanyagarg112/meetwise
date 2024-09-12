@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="Add plan for delete user" />
+    <list default="true" id="93cb2838-c652-42d4-b95b-af02b854415b" name="Changes" comment="refactor code to remove circular imports">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,23 +22,23 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="Profile-management" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Timenikhil"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Timenikhil&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/lavanyagarg112/meetwise",
-    "accountId": "f48669f2-8ebb-40ec-ad95-8b674dde5487"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/lavanyagarg112/meetwise&quot;,
+    &quot;accountId&quot;: &quot;f48669f2-8ebb-40ec-ad95-8b674dde5487&quot;
   }
-}]]></component>
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -48,27 +50,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.Todos.executor&quot;: &quot;Run&quot;,
-    &quot;Python.database.executor&quot;: &quot;Run&quot;,
-    &quot;Python.geminisus.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Profile-management&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.Todos.executor": "Run",
+    "Python.database.executor": "Run",
+    "Python.geminisus.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "#130 on Profile-management",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlite&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Python.database">
     <configuration name="Todos" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="meetwise" />
@@ -191,70 +193,8 @@
       <workItem from="1720324744075" duration="2724000" />
       <workItem from="1720335356624" duration="13520000" />
       <workItem from="1725949337770" duration="1211000" />
-    </task>
-    <task id="LOCAL-00013" summary="hope it works">
-      <option name="closed" value="true" />
-      <created>1720164012312</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1720164012312</updated>
-    </task>
-    <task id="LOCAL-00014" summary="hope it works">
-      <option name="closed" value="true" />
-      <created>1720164481768</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1720164481768</updated>
-    </task>
-    <task id="LOCAL-00015" summary="👍🏻">
-      <option name="closed" value="true" />
-      <created>1720164859722</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1720164859722</updated>
-    </task>
-    <task id="LOCAL-00016" summary="latest">
-      <option name="closed" value="true" />
-      <created>1720165076850</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1720165076850</updated>
-    </task>
-    <task id="LOCAL-00017" summary="should work now">
-      <option name="closed" value="true" />
-      <created>1720166234252</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1720166234252</updated>
-    </task>
-    <task id="LOCAL-00018" summary="unpack summary">
-      <option name="closed" value="true" />
-      <created>1720167491644</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1720167491644</updated>
-    </task>
-    <task id="LOCAL-00019" summary="unpack summary">
-      <option name="closed" value="true" />
-      <created>1720167599047</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1720167599047</updated>
-    </task>
-    <task id="LOCAL-00020" summary="Meeting Info">
-      <option name="closed" value="true" />
-      <created>1720178704201</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1720178704201</updated>
+      <workItem from="1726018740647" duration="12400000" />
+      <workItem from="1726128046073" duration="647000" />
     </task>
     <task id="LOCAL-00021" summary="specific todos">
       <option name="closed" value="true" />
@@ -584,7 +524,71 @@
       <option name="project" value="LOCAL" />
       <updated>1725950491495</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="Add plan for logging&#10;Add bit to user">
+      <option name="closed" value="true" />
+      <created>1726027557753</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1726027557753</updated>
+    </task>
+    <task id="LOCAL-00063" summary="improve error">
+      <option name="closed" value="true" />
+      <created>1726027836437</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1726027836437</updated>
+    </task>
+    <task id="LOCAL-00064" summary="add inOrg to optimise organisation membership">
+      <option name="closed" value="true" />
+      <created>1726028906986</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1726028906986</updated>
+    </task>
+    <task id="LOCAL-00065" summary="add calls to isUserInOrg">
+      <option name="closed" value="true" />
+      <created>1726030230177</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1726030230177</updated>
+    </task>
+    <task id="LOCAL-00066" summary="improve Error Handling">
+      <option name="closed" value="true" />
+      <created>1726030782649</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1726030782649</updated>
+    </task>
+    <task id="LOCAL-00067" summary="implement delete user">
+      <option name="closed" value="true" />
+      <created>1726067623621</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1726067623621</updated>
+    </task>
+    <task id="LOCAL-00068" summary="all should work now">
+      <option name="closed" value="true" />
+      <created>1726070225187</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1726070225187</updated>
+    </task>
+    <task id="LOCAL-00069" summary="refactor code to remove circular imports">
+      <option name="closed" value="true" />
+      <created>1726070934589</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1726070934589</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -602,14 +606,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="annoying team issue" />
-    <MESSAGE value="deal with nulls" />
-    <MESSAGE value="deal with nulls again" />
-    <MESSAGE value="libsql is horrible" />
-    <MESSAGE value="but i am smart" />
-    <MESSAGE value="more fixes" />
-    <MESSAGE value="even more fixes" />
-    <MESSAGE value="workspace.iml changes" />
     <MESSAGE value="f... error.&#10;[I forgot the f in format strings]&#10;and not x is not working if x is None for some reason" />
     <MESSAGE value="add null team handling" />
     <MESSAGE value="fix noneType for deadline" />
@@ -627,7 +623,15 @@
     <MESSAGE value="uh...." />
     <MESSAGE value="delete org deletes invites now" />
     <MESSAGE value="Add plan for delete user" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add plan for delete user" />
+    <MESSAGE value="Add plan for logging&#10;Add bit to user" />
+    <MESSAGE value="improve error" />
+    <MESSAGE value="add inOrg to optimise organisation membership" />
+    <MESSAGE value="add calls to isUserInOrg" />
+    <MESSAGE value="improve Error Handling" />
+    <MESSAGE value="implement delete user" />
+    <MESSAGE value="all should work now" />
+    <MESSAGE value="refactor code to remove circular imports" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor code to remove circular imports" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/meetwise$Errors.coverage" NAME="Errors Coverage Results" MODIFIED="1725869644602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/States" />
