@@ -1,26 +1,28 @@
 import os
 from datetime import datetime
+from typing import Annotated, Literal, List
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Response, Cookie, UploadFile, Form
-from typing import Annotated, Literal, List
-from backend.States.IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
-    OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput, AddUserInput, \
-    MeetingIdentifier, Transcription, TranscriptionDetails, MeetingDetails, TodoDetails, TodoInput, TodoEliminate, \
-    TodoUpdate, Name, Password
-from backend.Profile.UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
-    setOrganisationActive, eatCookie, bakeCookie, inviteOrAddUser
-from backend.Organisation.Organisations import createOrganisation, getOrganisationReport, getTeamReport, getMeetings, \
-    getAllMeetings, \
-    getTeams, addUser, createTeam
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.Meeting.Meetings import storeMeeting, updateMeetingTranscription, getMeetingSummary, \
     getMeetingTranscription, \
-    getMeetingInfo
-from backend.States.Enums import Roles
-from backend.Organisation.OrganisationHelpers import getRoleByID, getOrganisationByName, getTeamByName, getTRoleByID
+    getMeetingInfo, deleteMeeting, hardDeleteMeeting
 from backend.Meeting.Todos import updateTodosOrg, addTodosOrg, getMeetTodos, getUserOrgTodos, getAllTodos
+from backend.Organisation.OrganisationHelpers import getRoleByID, getOrganisationByName, getTeamByName, getTRoleByID
+from backend.Organisation.Organisations import createOrganisation, getOrganisationReport, getMeetings, \
+    getAllMeetings, \
+    addUser, deleteOrganisation, removeUserOrg
+from backend.Organisation.Team import getTeamReport, getTeams, removeUserTeam
+from backend.Profile.Authentication import eatCookie, bakeCookie
+from backend.Profile.UserAccounts import createUser, getUserDetails, getUserByID, getOrganisationsByID, \
+    setOrganisationActive, inviteOrAddUser, deleteUserByID, updateUsername, updatePassword
+from backend.States.Enums import Roles
+from backend.States.IOSchema import UserSignUp, UserLogIn, Organisation, OrganisationPersonalReport, OrganisationName, \
+    OrganisationNameOptional, OrgTeam, TeamPersonalReport, Team, Person, InviteInput, MeetingInput, AddUserInput, \
+    MeetingIdentifier, Transcription, TranscriptionDetails, MeetingDetails, TodoDetails, TodoInput, TodoEliminate, \
+    TodoUpdate, Name, Password, OrgUser, TeamUser
 from backend.database.database import deleteTodos
 
 app = FastAPI()
@@ -300,16 +302,34 @@ async def deleteOrg(organisation: OrganisationName, credentials: Annotated[str, 
 @app.delete('/delete-meet')
 async def deleteMeet(meeting: MeetingIdentifier, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    deleteMeeting(meeting, id)
+    deleteMeeting(meeting.organisation, meeting.meetingid, id)
+
+
+@app.delete('/hard-delete-meet')
+async def hardDeleteMeet(meeting: MeetingIdentifier, credentials: Annotated[str, Cookie()] = None):
+    id = eatCookie(credentials)
+    hardDeleteMeeting(meeting.organisation, meeting.meetingid, id)
 
 
 @app.post('/update-name')
 async def updateName(name: Name, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    updateUserame(id, name)
+    updateUsername(id, name.name)
 
 
 @app.post('/update-password')
 async def updateName(password: Password, credentials: Annotated[str, Cookie()] = None):
     id = eatCookie(credentials)
-    updatePassword(id, password)
+    updatePassword(id, password.password)
+
+
+@app.delete('/remove-user')
+async def removeUser(user: OrgUser, credentials: Annotated[str, Cookie()] = None):
+    id = eatCookie(credentials)
+    removeUserOrg(user.id, user.name, id)
+
+
+@app.delete('/remove-user-team')
+async def removeUser(user: TeamUser, credentials: Annotated[str, Cookie()] = None):
+    id = eatCookie(credentials)
+    removeUserTeam(user.id, OrgTeam(name=user.name, organisation=user.organisation), id)

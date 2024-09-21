@@ -1,11 +1,13 @@
 from typing import List
 
+from backend.Organisation.TeamHelpers import getTeamsById
 from backend.States.Enums import Roles
 from backend.States.Errors import AuthenticationError
 from backend.States.IOSchema import Organisation, Meeting, Person, InviteOutput
 from backend.database.database import mapOrgNameToID, mapOrgIDToName, mapTeamNameToId, getUserOrgs, getBulkUsersByIds, \
     getOrgRoleByID, getTeamRoleByID, getAll, \
-    getUserDetailsByEmail, getInvites, getInvitesByUser, addUserToOrg, getStatusOrg, getStatusTeam
+    getUserDetailsByEmail, getInvites, getInvitesByUser, addUserToOrg, getStatusOrg, getStatusTeam, inOrg, removeUser, \
+    removeTeamUser
 
 
 def getOrganisationsByID(orgIds: [int] = None) -> [Organisation]:
@@ -63,7 +65,7 @@ def getTeamByName(orgId: int, teamName: str = None) -> int | None:
 
 
 def meetify(meetings: [Meeting]):
-    mapper = lambda row: Meeting(id=row[0], title=row[1], date=row[2].replace('T', ' '),)
+    mapper = lambda row: Meeting(id=row[0], title=row[1], date=row[2].replace('T', ' '), )
     meetings = list(map(mapper, meetings))
     return meetings
 
@@ -134,3 +136,21 @@ def forceJoin(email: str):
         return []
     mapper = lambda row: addUserToOrg(orgId=row[0], userId=id, role=row[1])
     details = list(map(mapper, details))
+
+
+def isUserInOrg(userId: int, orgId: int) -> bool:
+    return inOrg(userId, orgId) is not None
+
+
+def removeUserUnchecked(userId, org):
+    """
+    Private method,
+    only to be called internally,
+    does not do error checking
+    :param userId:
+    :param org:
+    """
+    teams = getTeamsById(org, userId)
+    for team in teams:
+        removeTeamUser(userId, org, team.id)
+    removeUser(userId, org)

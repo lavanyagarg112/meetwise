@@ -754,3 +754,225 @@ def getTeamById(org: int, teamId: int):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sqlCommand, (teamId,))
         return cursor.fetchone()
+
+
+def updateUserName(userId: int, name: str):
+    conn.sync()
+    sqlCommand = '''
+                    UPDATE USERS SET USERNAME = ? WHERE ID = ?
+                '''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (name, userId))
+        conn.commit()
+        conn.sync()
+
+
+def updatePassWord(userId: int, password: str):
+    conn.sync()
+    sqlCommand = '''
+                    UPDATE USERS SET PASSWORD = ? WHERE ID = ?
+                '''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (password, userId))
+        conn.commit()
+        conn.sync()
+
+
+def deleteMeetingDetails(org: int, meetingId: int, preserve: bool = True):
+    conn.sync()
+    if preserve:
+        sqlCommand = f'''
+                  UPDATE Org{org}Todo SET MeetingID = NULL WHERE MeetingID = ?'''
+    else:
+        sqlCommand = f'''
+                  DELETE FROM Org{org}Todo WHERE MeetingID = ?'''
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(sqlCommand, (meetingId,))
+        sqlCommand = f'''
+                  DELETE FROM O{org}MAtt WHERE ID = ?'''
+        cursor.execute(sqlCommand, (meetingId,))
+        sqlCommand = f'''
+              DELETE FROM Org{org} WHERE ID = ?'''
+        cursor.execute(sqlCommand, (meetingId,))
+        conn.commit()
+        conn.sync()
+
+
+def deleteOrganisationByID(org):
+    """
+    Very Dangerous function
+    :param org:
+    :return:
+    """
+    conn.sync()
+    with closing(conn.cursor()) as cursor:
+        sqlCommand = f'''
+                  DROP TABLE Org{org}Emp
+                  '''
+        cursor.execute(sqlCommand)
+        sqlCommand = f'''
+                  DROP TABLE Org{org}Team
+                  '''
+        cursor.execute(sqlCommand)
+        sqlCommand = f'''
+                  DROP TABLE Org{org}
+                  '''
+        cursor.execute(sqlCommand)
+        sqlCommand = f'''
+                  DROP TABLE Org{org}Perm
+                  '''
+        cursor.execute(sqlCommand)
+        sqlCommand = f'''
+                  DROP TABLE OW{org}EMP
+                  '''
+        cursor.execute(sqlCommand)
+        sqlCommand = f'''
+                  DROP TABLE O{org}MAtt
+                  '''
+        cursor.execute(sqlCommand)
+        sqlCommand = f'''
+                  DROP TABLE Org{org}Todo
+                  '''
+        cursor.execute(sqlCommand)
+        sqlCommand = f'''
+                  DELETE FROM UserOrg WHERE ORGANISATION = ?
+                  '''
+        cursor.execute(sqlCommand, (org,))
+        sqlCommand = f'''
+                  DELETE FROM PendingInvites WHERE ORGANISATION = ?
+                  '''
+        cursor.execute(sqlCommand, (org,))
+        sqlCommand = f'''
+                  DELETE FROM Organisations WHERE ID = ?
+                  '''
+        cursor.execute(sqlCommand, (org,))
+        conn.commit()
+        conn.sync()
+
+
+def deleteUser(userID: int):
+    conn.sync()
+    with closing(conn.cursor()) as cursor:
+        sqlCommand = f'''
+                  DELETE FROM USERS WHERE ID = ?
+                  '''
+        cursor.execute(sqlCommand, (userID,))
+        conn.commit()
+        conn.sync()
+
+
+def removeUser(userID: int, org: int):
+    """
+
+    Delink TODOS
+    Remove from O{org}MAtt
+    Remove from Org{org}Perm
+    Remove from OW{org}EMP
+    Remove from Org{org}Emp (if only guy in team delete the team)
+    Remove from UserOrg
+
+    :param userID: user to remove from organisation
+    :param org: Organisation ID to remove user from
+    """
+    conn.sync()
+    with closing(conn.cursor()) as cursor:
+        sqlCommand = f'''
+        UPDATE Org{org}Todo SET ASSIGNEE = NULL WHERE ASSIGNEE = ?
+        '''
+        cursor.execute(sqlCommand, (userID,))
+
+        sqlCommand = f'''
+        UPDATE Org{org}Todo SET ASSIGNER = NULL WHERE ASSIGNER = ?
+        '''
+        cursor.execute(sqlCommand, (userID,))
+
+        sqlCommand = f'''
+        DELETE FROM O{org}MAtt WHERE ATTENDEES = ?
+        '''
+        cursor.execute(sqlCommand, (userID,))
+
+        sqlCommand = f'''
+        DELETE FROM Org{org}Perm WHERE ID = ?
+        '''
+        cursor.execute(sqlCommand, (userID,))
+
+        sqlCommand = f'''
+        DELETE FROM OW{org}EMP WHERE ID = ?
+        '''
+        cursor.execute(sqlCommand, (userID,))
+
+        sqlCommand = f'''
+        DELETE FROM Org{org}Emp WHERE ID = ?
+        '''
+        cursor.execute(sqlCommand, (userID,))
+
+        sqlCommand = f'''
+        DELETE FROM UserOrg WHERE ID = ? AND ORGANISATION = ?
+        '''
+        cursor.execute(sqlCommand, (userID, org))
+
+        conn.commit()
+        conn.sync()
+
+
+def inOrg(userId: int, orgId: int):
+    conn.sync()
+    with closing(conn.cursor()) as cursor:
+        sqlCommand = f'''
+        SELECT 1
+        FROM UserOrg 
+        WHERE ID = ? AND ORGANISATION = ?
+        LIMIT 1
+        '''
+        cursor.execute(sqlCommand, (userId, orgId))
+        return cursor.fetchone()
+
+
+def isOwner(userId: int):
+    conn.sync()
+    with closing(conn.cursor()) as cursor:
+        sqlCommand = f'''
+        SELECT 1
+        FROM Organisations
+        WHERE Owner = ?
+        LIMIT 1
+        '''
+        cursor.execute(sqlCommand, (userId,))
+        return cursor.fetchone()
+
+
+def removeTeamUser(userId: int, org: int, team: int):
+    """
+    Removes user from the team
+
+    Deletes team if current user is only member
+    :param userId:
+    :param org:
+    :param team:
+    :return:
+    """
+    conn.sync()
+    with closing(conn.cursor()) as cursor:
+        sqlCommand = f'''
+        UPDATE Org{org}Emp 
+        SET TEAM = NULL 
+        WHERE ID = ? AND TEAM = ?
+        '''
+        cursor.execute(sqlCommand, (userId, team))
+
+        sqlCommand = f'''
+        SELECT 1 
+        FROM Org{org}Emp 
+        WHERE TEAM = ?
+        LIMIT 1
+        '''
+        cursor.execute(sqlCommand, (team,))
+        ans = cursor.fetchone()
+        if not ans:
+            sqlCommand = f'''
+            DELETE FROM Org{org}Team 
+            WHERE ID = ?
+            '''
+            cursor.execute(sqlCommand, (team,))
+        conn.commit()
+        conn.sync()

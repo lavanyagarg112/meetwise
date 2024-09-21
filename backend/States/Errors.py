@@ -13,10 +13,42 @@ class CreateUserError(enum.Enum):
     EMAIL_ALREADY_EXISTS = "Email already exists"
 
 
+class AuthorityError(enum.Enum):
+    NOT_AUTHORISED = "User is not authorised to perform this action"
+    ADMIN_ONLY = "Only admins can perform this action"
+    OWNER_ONLY = "Only owners can perform this action"
+
+
+#TODO: see which not found errors are relevant
+class NotFoundError(enum.Enum):
+    ORGANISATION = "Organisation not found"
+    TEAM = "Team not found"
+    USER = "User not found"
+    MEETING = "Meeting not found"
+    INVITE = "Invite not found"
+    TEAM_ROLE = "Team role not found"
+    ORG_ROLE = "Organisation role not found"
+
+
 '''
 wrapper for throwing HTTP exceptions with status code 401
 '''
 
+"""
+Maybe move methods outside of State package to error handler
+"""
+
 
 def AuthenticationError(detail: str):
     raise HTTPException(status_code=401, detail=detail)
+
+
+def handleError(errorType: enum.Enum, detail: str):
+    """
+    //TODO: handle errors better
+    Deal with errors
+    :param detail:
+    :param errorType:
+    :return:
+    """
+    raise HTTPException(status_code=400, detail=errorType.value + " " + detail)

@@ -168,3 +168,11 @@ class TodoDetails(BaseModel):
 class TodoEliminate(BaseModel):
     organisation: str
     todoid: int
+
+
+class OrgUser(OrganisationName):
+    id: int  # user ID
+
+
+class TeamUser(OrgTeam):
+    id: int  # user ID
