@@ -1,6 +1,6 @@
 # meetwise
 
-Find the live site here - https://meetwise-xb1s.onrender.com/ (Currently not available. Undergoing some changes)
+Find the live site here - https://meetwise-xb1s.onrender.com/
 
 ---
 
