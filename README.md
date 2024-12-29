@@ -2,6 +2,8 @@
 
 Find the live site here - https://meetwise-xb1s.onrender.com/
 
+Note: The live site may be down/ take a few minutes to work due to server inactivity.
+
 ---
 
 # MeetWise
